@@ -1,0 +1,134 @@
+#!/usr/bin/python
+
+# ansible_cmd
+#
+# Generate host overview (configuration management database) from ansible fact
+# gathering output.
+#
+# Usage:
+#
+#   $ ansible -m setup --tree out all
+#   $ ansible-cmdb out > cmdb.html
+# 
+
+import optparse
+import sys, os
+import shlex
+import re
+import json, mako
+from mako.template import Template
+import pprint
+
+class Ansible(object):
+    def __init__(self, fact_dirs, hosts_file=None):
+        self.fact_dirs = fact_dirs
+        self.hosts_file = hosts_file
+        self.hosts = {}
+        for fact_dir in self.fact_dirs:
+            self.parse_fact_dir(fact_dir)
+        if self.hosts_file:
+            self.parse_hosts(self.hosts_file)
+
+    def parse_fact_dir(self, fact_dir):
+        """
+        Walk through a directory of JSON files and extract information from
+        them. This is used for both the Ansible fact gathering (setup module)
+        output and custom variables.
+        """
+        flist = []
+        for (dirpath, dirnames, filenames) in os.walk(fact_dir):
+            flist.extend(filenames)
+            break
+
+        for fname in flist:
+            hostname = fname
+
+            fd = open(os.path.join(fact_dir, fname), 'r')
+            s = fd.readlines()
+            fd.close()
+            try:
+                x = json.loads(''.join(s))
+                self.update_host(hostname, x)
+                self.update_host(hostname, {'name': hostname})
+            except ValueError, e:
+                # Ignore non-JSON files (and bonus errors)
+                sys.stderr.write("Error parsing: %s: %s\n" % (fname, e))
+
+    def parse_hosts(self, hosts_file):
+        """
+        Parse an ansible hosts file and extract information about each host
+        from it, including custom variables.
+        """
+        cur_group = []
+        for line in file(options.inventory, 'r'):
+            line = line.strip()
+            if line.startswith('#') or not line:
+                # Ignore comments and empty lines
+                continue
+            elif line.startswith('['):
+                # Store current group we're in
+                m = re.match("\[(.*)\]", line)
+                cur_group = m.groups()[0]
+            else:
+                hostname, key_values = self._parse_hosts_line(line)
+                self.update_host(hostname, key_values)
+                self.update_host(hostname, {'groups': cur_group})
+
+    def _parse_hosts_line(self, line):
+        """
+        Parse a line with a host definition from an Ansible hosts definition
+        file. Split up the line using shell-like syntax and extract the
+        hostname and variables.
+        """
+        tokens = shlex.split(line.strip())
+        hostname = tokens.pop(0)
+        key_values = {}
+        for token in tokens:
+            if token == '#':
+                # End parsing if we encounter a comment, which lasts
+                # until the end of the line.
+                break
+            else:
+                k, v = token.split('=', 1)
+                key = k.strip()
+                key_values[key] = v.strip()
+
+        return (hostname, {'hostvars': key_values})
+
+    def update_host(self, hostname, key_values):
+        """
+        Update a hosts information. This is called by various collectors such
+        as the ansible setup module output and the hosts parser to add
+        informatio to a host. It does some deep inspection to make sure nested
+        information can be updated.
+        """
+        host_info = self.hosts.get(hostname, {})
+        groups = host_info.get('groups', [])
+        if 'groups' in key_values:
+            groups.append(key_values.pop('groups'))
+        hostvars = host_info.get('hostvars', {})
+        if 'hostvars' in key_values:
+            hostvars.update(key_values['hostvars'])
+        host_info.update(key_values)
+        host_info['groups'] = groups
+        host_info['hostvars'] = hostvars
+        self.hosts[hostname] = host_info
+
+
+parser = optparse.OptionParser()
+parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
+parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
+parser.add_option("-i", "--inventory", dest="inventory", action="store", default='hosts', help="Inventory hosts file to read extra info from")
+(options, args) = parser.parse_args()
+
+if len(args) < 1:
+    parser.print_usage()
+    sys.stderr.write("The <dir> argument is mandatory\n")
+    sys.exit(1)
+
+ansible = Ansible(args, options.inventory)
+
+# Render a template with the gathered host info
+tpl_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), '%s.tpl' % (options.template))
+mytemplate = Template(filename=tpl_path)
+print(mytemplate.render(hosts=ansible.hosts))
