@@ -1,0 +1,13 @@
+Package: ansible-cmdb
+Version: %%VERSION%%
+Maintainer: Ferry Boender <ferry.boender@gmail.com>
+Section: utils
+Priority: optional
+Architecture: all
+Depends: 
+Description: Generate host overview from Ansible 'setup' module output
+ ansible-cmdb takes the output of Ansible's 'setup' module output (fact
+ gathering) and transforms it into an host information overview. It supports
+ supplementing gathered information with your own information. It can also scan
+ the ansible 'hosts' file to get groups and variables to be included in the
+ host information overview.
