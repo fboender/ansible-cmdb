@@ -35,7 +35,8 @@ ansible-cmdb offers multiple templates. You can choose your template with the
 	./ansible-cmdb -t tpl_custom out/ > overview.html
 
 The 'html_fancy' template is the default. It can be easily extended by copying
-it and modifying the `cols` definition at the top.
+it and modifying the `cols` definition at the top. It should be served over
+HTTP, as it uses CDN Jquery libs.
 
 ### Inventory scanning
 
