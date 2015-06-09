@@ -160,9 +160,14 @@ Display columns:
 <tbody>
   % for hostname, host in hosts.items():
     <tr>
-      % for col in cols:
-        <td>${col["func"](host)}</td>
-      % endfor
+      % if 'ansible_facts' not in host:
+        <td>${col_name(host)}</td>
+        <td colspan="${len(hosts)-1}">No host information read</td>
+      % else:
+        % for col in cols:
+          <td>${col["func"](host)}</td>
+        % endfor
+      % endif
     </tr>
 % endfor
 </tbody>
@@ -170,7 +175,11 @@ Display columns:
 
 <h1>Hosts</h1>
 % for hostname, host in hosts.items():
-  <a name="${host['name']}"><h2 id="${host['name']}">${host['name']}</h2></a>
+  % if 'ansible_facts' not in host:
+    <a name="${host['name']}"><h2 id="${host['name']}">${host['name']}</h2></a>
+    <p>No host information collected</p>
+  % else:
+    <a name="${host['name']}"><h2 id="${host['name']}">${host['name']}</h2></a>
     <h3>General</h3>
     <table>
       <tr><th>Node name</th><td>${host['ansible_facts']['ansible_nodename']}</td></tr>
@@ -257,6 +266,7 @@ Display columns:
         </td>
       </tr>
     </table>
+  % endif
 % endfor
 
 <script>
