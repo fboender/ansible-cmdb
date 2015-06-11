@@ -131,4 +131,4 @@ ansible = Ansible(args, options.inventory)
 # Render a template with the gathered host info
 tpl_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), '%s.tpl' % (options.template))
 mytemplate = Template(filename=tpl_path)
-print(mytemplate.render(hosts=ansible.hosts))
+sys.stdout.write(mytemplate.render(hosts=ansible.hosts))
