@@ -43,7 +43,7 @@ cols = [
   ${host['ansible_facts']['ansible_architecture']} / ${host['ansible_facts']['ansible_userspace_architecture']}
 </%def>
 <%def name="col_mem(host)">
-  ${'%0.1fg' % ((host['ansible_facts']['ansible_memtotal_mb'] / 1000.0))}
+  ${'%0.0fg' % ((host['ansible_facts']['ansible_memtotal_mb'] / 1000.0))}
 </%def>
 <%def name="col_cpus(host)">
   ${host['ansible_facts']['ansible_processor_count']}
