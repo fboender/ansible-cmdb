@@ -1,0 +1,8 @@
+[virt]
+debian.dev.local dtap=dev
+centos.dev.local dtap=dev
+
+[prod]
+eek.electricmonk.nl dtap=prod
+zoltar.electricmonk.nl dtap=prod
+jib.electricmonk.nl

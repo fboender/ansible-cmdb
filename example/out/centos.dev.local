@@ -1,0 +1,263 @@
+{
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "192.168.56.8"
+        ], 
+        "ansible_all_ipv6_addresses": [
+            "fe80::a00:27ff:fe7b:c9a5"
+        ], 
+        "ansible_architecture": "x86_64", 
+        "ansible_bios_date": "12/01/2006", 
+        "ansible_bios_version": "VirtualBox", 
+        "ansible_cmdline": {
+            "KEYBOARDTYPE": "pc", 
+            "KEYTABLE": "us", 
+            "LANG": "en_US.UTF-8", 
+            "SYSFONT": "latarcyrheb-sun16", 
+            "quiet": true, 
+            "rd_LVM_LV": "vg_centos/lv_root", 
+            "rd_NO_DM": true, 
+            "rd_NO_LUKS": true, 
+            "rd_NO_MD": true, 
+            "rhgb": true, 
+            "ro": true, 
+            "root": "/dev/mapper/vg_centos-lv_root"
+        }, 
+        "ansible_date_time": {
+            "date": "2015-06-13", 
+            "day": "13", 
+            "epoch": "1434208650", 
+            "hour": "17", 
+            "iso8601": "2015-06-13T15:17:30Z", 
+            "iso8601_micro": "2015-06-13T15:17:30.230542Z", 
+            "minute": "17", 
+            "month": "06", 
+            "second": "30", 
+            "time": "17:17:30", 
+            "tz": "CEST", 
+            "tz_offset": "+0200", 
+            "weekday": "Saturday", 
+            "year": "2015"
+        }, 
+        "ansible_default_ipv4": {
+            "address": "192.168.56.8", 
+            "alias": "eth0", 
+            "gateway": "192.168.56.1", 
+            "interface": "eth0", 
+            "macaddress": "08:00:27:7b:c9:a5", 
+            "mtu": 1500, 
+            "netmask": "255.255.255.0", 
+            "network": "192.168.56.0", 
+            "type": "ether"
+        }, 
+        "ansible_default_ipv6": {}, 
+        "ansible_devices": {
+            "sda": {
+                "holders": [], 
+                "host": "", 
+                "model": "VBOX HARDDISK", 
+                "partitions": {
+                    "sda1": {
+                        "sectors": "1024000", 
+                        "sectorsize": 512, 
+                        "size": "500.00 MB", 
+                        "start": "2048"
+                    }, 
+                    "sda2": {
+                        "sectors": "66082816", 
+                        "sectorsize": 512, 
+                        "size": "31.51 GB", 
+                        "start": "1026048"
+                    }
+                }, 
+                "removable": "0", 
+                "rotational": "1", 
+                "scheduler_mode": "cfq", 
+                "sectors": "67108864", 
+                "sectorsize": "512", 
+                "size": "32.00 GB", 
+                "support_discard": "0", 
+                "vendor": "ATA"
+            }, 
+            "sr0": {
+                "holders": [], 
+                "host": "", 
+                "model": "CD-ROM", 
+                "partitions": {}, 
+                "removable": "1", 
+                "rotational": "1", 
+                "scheduler_mode": "cfq", 
+                "sectors": "2097151", 
+                "sectorsize": "512", 
+                "size": "1024.00 MB", 
+                "support_discard": "0", 
+                "vendor": "VBOX"
+            }, 
+            "sr1": {
+                "holders": [], 
+                "host": "", 
+                "model": "CD-ROM", 
+                "partitions": {}, 
+                "removable": "1", 
+                "rotational": "1", 
+                "scheduler_mode": "cfq", 
+                "sectors": "2097151", 
+                "sectorsize": "512", 
+                "size": "1024.00 MB", 
+                "support_discard": "0", 
+                "vendor": "VBOX"
+            }
+        }, 
+        "ansible_distribution": "CentOS", 
+        "ansible_distribution_major_version": "6", 
+        "ansible_distribution_release": "Final", 
+        "ansible_distribution_version": "6.6", 
+        "ansible_domain": "local", 
+        "ansible_env": {
+            "G_BROKEN_FILENAMES": "1", 
+            "HOME": "/home/fboender", 
+            "LANG": "en_US.UTF-8", 
+            "LC_CTYPE": "en_US.UTF-8", 
+            "LESSOPEN": "||/usr/bin/lesspipe.sh %s", 
+            "LOGNAME": "fboender", 
+            "MAIL": "/var/mail/fboender", 
+            "PATH": "/usr/local/bin:/bin:/usr/bin", 
+            "PWD": "/home/fboender", 
+            "SELINUX_LEVEL_REQUESTED": "", 
+            "SELINUX_ROLE_REQUESTED": "", 
+            "SELINUX_USE_CURRENT_RANGE": "", 
+            "SHELL": "/bin/bash", 
+            "SHLVL": "2", 
+            "SSH_CLIENT": "192.168.56.1 33755 22", 
+            "SSH_CONNECTION": "192.168.56.1 33755 192.168.56.8 22", 
+            "SSH_TTY": "/dev/pts/0", 
+            "TERM": "xterm-256color", 
+            "USER": "fboender", 
+            "_": "/usr/bin/python"
+        }, 
+        "ansible_eth0": {
+            "active": true, 
+            "device": "eth0", 
+            "ipv4": {
+                "address": "192.168.56.8", 
+                "netmask": "255.255.255.0", 
+                "network": "192.168.56.0"
+            }, 
+            "ipv6": [
+                {
+                    "address": "fe80::a00:27ff:fe7b:c9a5", 
+                    "prefix": "64", 
+                    "scope": "link"
+                }
+            ], 
+            "macaddress": "08:00:27:7b:c9:a5", 
+            "module": "e1000", 
+            "mtu": 1500, 
+            "promisc": false, 
+            "type": "ether"
+        }, 
+        "ansible_fips": false, 
+        "ansible_form_factor": "Other", 
+        "ansible_fqdn": "centos.local", 
+        "ansible_hostname": "centos", 
+        "ansible_interfaces": [
+            "lo", 
+            "eth0"
+        ], 
+        "ansible_kernel": "2.6.32-504.el6.x86_64", 
+        "ansible_lo": {
+            "active": true, 
+            "device": "lo", 
+            "ipv4": {
+                "address": "127.0.0.1", 
+                "netmask": "255.0.0.0", 
+                "network": "127.0.0.0"
+            }, 
+            "ipv6": [
+                {
+                    "address": "::1", 
+                    "prefix": "128", 
+                    "scope": "host"
+                }
+            ], 
+            "mtu": 65536, 
+            "promisc": false, 
+            "type": "loopback"
+        }, 
+        "ansible_machine": "x86_64", 
+        "ansible_memfree_mb": 819, 
+        "ansible_memory_mb": {
+            "nocache": {
+                "free": 899, 
+                "used": 97
+            }, 
+            "real": {
+                "free": 819, 
+                "total": 996, 
+                "used": 177
+            }, 
+            "swap": {
+                "cached": 0, 
+                "free": 2015, 
+                "total": 2015, 
+                "used": 0
+            }
+        }, 
+        "ansible_memtotal_mb": 996, 
+        "ansible_mounts": [
+            {
+                "device": "/dev/mapper/vg_centos-lv_root", 
+                "fstype": "ext4", 
+                "mount": "/", 
+                "options": "rw", 
+                "size_available": 28830801920, 
+                "size_total": 31084978176, 
+                "uuid": ""
+            }, 
+            {
+                "device": "/dev/sda1", 
+                "fstype": "ext4", 
+                "mount": "/boot", 
+                "options": "rw", 
+                "size_available": 447083520, 
+                "size_total": 499355648, 
+                "uuid": ""
+            }
+        ], 
+        "ansible_nodename": "centos.local", 
+        "ansible_os_family": "RedHat", 
+        "ansible_pkg_mgr": "yum", 
+        "ansible_processor": [
+            "GenuineIntel", 
+            "Intel(R) Core(TM) i7-4712HQ CPU @ 2.30GHz"
+        ], 
+        "ansible_processor_cores": 1, 
+        "ansible_processor_count": 1, 
+        "ansible_processor_threads_per_core": 1, 
+        "ansible_processor_vcpus": 1, 
+        "ansible_product_name": "VirtualBox", 
+        "ansible_product_serial": "NA", 
+        "ansible_product_uuid": "NA", 
+        "ansible_product_version": "1.2", 
+        "ansible_python_version": "2.6.6", 
+        "ansible_selinux": false, 
+        "ansible_ssh_host_key_dsa_public": "AAAAB3NzaC1kc3MAAACBAM8ihL8qA+r3qDcfDWMsUPH5MSzL6exdLnT7G/Pud0w4LzCa1vIhw1S5dPxDCdloWoXIAgLGSbNS9NGsE2tvOkbiItIBtZc1nyQccjClfkhWOhf+/VVPyCZWGWKw66s7S8rafTLK2R1cjwM6EZetKhc0Olp544V3BrtwtQyaxLiLAAAAFQCU9FFBsFViGXJocwJXT04Q/VihSQAAAIEAnX1Tnz26qn4oPq5gUQhUpkbY2eE2pQ34iDFaGYjJ72/rGYY39msM5L5uRsa6h7+LVvV8XiNbAlvw56N77li44GVxOPlXRuWlyhDm/IqO0USF1EMTC/Molxm9tfOrEhCs4ERrjALDCHmjdo5EGJZsGQwL2xczD7XYQIA5XKSRueIAAACAQSvMKoOqCFYID8HAmA3xjpTFiSLJwBryTzj1ogNe0QjMjfujV3Yxy7n5R22D1TQTzd7Off0CZtjoCQrQbhCpDZwUYR6vFDm7aN4nkfVneMX42FM7Lnbh3xT2j0HWd21htu3GvERoSLfq5GpjdxhQn3D57XyaImukN97UxS9uk5E=", 
+        "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAABIwAAAQEAuguU0vtrmuw1Af9Jh3M4NGjaHc6xWwgFQAqp5GYJAIGECp9ZQHNfeo0XTnldElNfIgn3EGV1FyXOxG+OVLuhevR8oB9BHy/nKFBiVXRBDd2rvSUCNVN1OQOnX4duQ3er1G4+g7MsvddUtQyBkhcryygwPLu3gFQM49rpTCqwTeaxUugIKa8XeOZOBZicS88BBqhE9cwkaebQJtYldexxgXVLgeguNMqJyd9vuK8CsXDfomP6I4Vh9g99cEQDnSxK9roMOZ+C1wFGbNUe5YqnBfVqq1LUR/nKfnuSWZqrP01qpeFaasyr7o/0g9ibpJWk8yonLlLtB8Ilmq/WQHUIoQ==", 
+        "ansible_swapfree_mb": 2015, 
+        "ansible_swaptotal_mb": 2015, 
+        "ansible_system": "Linux", 
+        "ansible_system_vendor": "innotek GmbH", 
+        "ansible_user_dir": "/home/fboender", 
+        "ansible_user_gecos": "", 
+        "ansible_user_gid": 500, 
+        "ansible_user_id": "fboender", 
+        "ansible_user_shell": "/bin/bash", 
+        "ansible_user_uid": 500, 
+        "ansible_userspace_architecture": "x86_64", 
+        "ansible_userspace_bits": "64", 
+        "ansible_virtualization_role": "guest", 
+        "ansible_virtualization_type": "virtualbox", 
+        "module_setup": true
+    }, 
+    "changed": false
+}

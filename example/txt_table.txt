@@ -1,0 +1,8 @@
+Name                    OS             IP             Arch           Mem  CPUsVirt              Disk avail  
+----------------------  -------------  -------------  -------------  ---  -  ----------------  ----------  
+centos.dev.local        CentOS 6.6     192.168.56.8   x86_64/x86_64  1g   1  virtualbox/guest  27g         
+eek.electricmonk.nl     Ubuntu 14.04   192.168.0.10   i386/i386      3g   1  kvm/host          277g, 955g  
+zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  x86_64/x86_64  4g   2  VMware/guest      27g         
+jib.electricmonk.nl     Linuxmint 17   192.168.0.3    x86_64/x86_64  16g  1  kvm/host          400g, 400g  
+debian.dev.local        Debian 6.0.10  192.168.56.2   x86_64/x86_64  0g   1  virtualbox/guest  84g         
+
