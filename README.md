@@ -12,6 +12,24 @@ with custom data.
 
 [HTML example](https://rawgit.com/fboender/ansible-cmdb/master/example/cmdb.html) output.
 
+Installation
+------------
+
+Get the package for your distribution from the [Releases page](https://github.com/fboender/ansible-cmdb/releases)
+
+For **Debian / Ubuntu** systems:
+
+    sudo dpkg -i ansible-cmdb**.deb
+
+For **Redhat / Centos** systems:
+
+    sudo yum -i -i ansible-cmdb**.rpm
+
+For **Other** systems:
+
+    tar -vxzf ansible-cmdb*.tar.gz
+    cd ansible-cmdb*
+    sudo make install
 
 Usage
 -----
@@ -26,7 +44,7 @@ First, generate Ansible output for your hosts:
 Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
 overview page:
 
-	./ansible_cmdb out/ > overview.html
+	ansible_cmdb out/ > overview.html
 
 
 ### Templates
@@ -34,7 +52,7 @@ overview page:
 ansible-cmdb offers multiple templates. You can choose your template with the
 `-t` or `--template` argument:
 
-	./ansible-cmdb -t tpl_custom out/ > overview.html
+	ansible-cmdb -t tpl_custom out/ > overview.html
 
 The 'html_fancy' template is the default. It can be easily extended by copying
 it and modifying the `cols` definition at the top. It should be served over
@@ -137,7 +155,7 @@ Your custom variables will be put in the root of the host information dictionary
 
 ### Full usage
 
-	Usage: ./ansible-cmd [option] > output.html
+	Usage: ansible-cmd [option] > output.html
 	
 	Options:
 	  -h, --help            show this help message and exit
