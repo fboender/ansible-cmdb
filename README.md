@@ -19,11 +19,11 @@ Get the package for your distribution from the [Releases page](https://github.co
 
 For **Debian / Ubuntu** systems:
 
-    sudo dpkg -i ansible-cmdb**.deb
+    sudo dpkg -i ansible-cmdb*.deb
 
 For **Redhat / Centos** systems:
 
-    sudo yum -i -i ansible-cmdb**.rpm
+    sudo yum -i -i ansible-cmdb*.rpm
 
 For **Other** systems:
 
