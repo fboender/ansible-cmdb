@@ -1,7 +1,8 @@
+<%
 ##
 ## Column definitions
 ##
-<%
+import datetime
 cols = [
   {"title": "Name", "func": col_name, "visible": True},
   {"title": "DTAP", "func": col_dtap, "visible": True},
@@ -126,6 +127,7 @@ cols = [
     .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; }
     .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     .error { color: #FF0000; }
+    #generated { font-size: x-small; }
   </style>
   <!-- DataTables assets -->
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
@@ -134,6 +136,8 @@ cols = [
 </head>
 <body>
 <h1>Host Overview</h1>
+<p id="generated">Generated: ${datetime.datetime.now().strftime('%c')}</p>
+<div id="columns">
 Display columns:
 % for col in cols:
   <%
@@ -143,6 +147,7 @@ Display columns:
   %>
   <a href="" class="col-toggle col-${visible}" data-column="${loop.index}">${col['title']}</a>
 % endfor
+</div>
 
 <table id="host_overview" class="demo display dataTable compact">
 <thead>
