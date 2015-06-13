@@ -10,6 +10,8 @@ static HTML overview page containing system configuration information.
 It supports multiple templates and extending information gathered by Ansible
 with custom data.
 
+[HTML example](https://rawgit.com/fboender/ansible-cmdb/master/example/cmdb.html) output.
+
 
 Usage
 -----
