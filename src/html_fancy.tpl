@@ -181,6 +181,9 @@ Display columns:
   % if 'ansible_facts' not in host:
     <a name="${host['name']}"><h2 id="${host['name']}">${host['name']}</h2></a>
     <p>No host information collected</p>
+    % if 'msg' in host:
+      <p class="error">${host['msg']}</p>
+    % endif
   % else:
     <a name="${host['name']}"><h2 id="${host['name']}">${host['name']}</h2></a>
     <h3>General</h3>
