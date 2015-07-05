@@ -127,6 +127,7 @@ cols = [
     .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; }
     .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     .error { color: #FF0000; }
+    td.error a { color: #FF0000; }
     #generated { font-size: x-small; }
   </style>
   <!-- DataTables assets -->
@@ -161,8 +162,10 @@ Display columns:
   % for hostname, host in hosts.items():
     <tr>
       % if 'ansible_facts' not in host:
-        <td>${col_name(host)}</td>
-        <td colspan="${len(hosts)-1}">No host information read</td>
+        <td class="error">${col_name(host)}</td>
+        % for cnt in range(len(cols) - 1):
+            <td>&nbsp;</td>
+        % endfor
       % else:
         % for col in cols:
           <td>${col["func"](host)}</td>
