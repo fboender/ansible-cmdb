@@ -18,21 +18,28 @@ cols = [
 col_longest = {}
 for hostname, host in hosts.items():
 	for col in cols:
-		field_value = col['field'](host)
-		if len(field_value) > col_longest.get(col['title'], 0):
-			col_longest[col['title']] = len(field_value)
+		try:
+			field_value = col['field'](host)
+			if len(field_value) > col_longest.get(col['title'], 0):
+				col_longest[col['title']] = len(field_value)
+		except KeyError:
+			pass
 
 # Print out headers
 for col in cols:
 	sys.stdout.write(col['title'].ljust(col_longest[col['title']] + col_space))
 sys.stdout.write('\n')
+
 for col in cols:
 	sys.stdout.write('-' * col_longest[col['title']] + (' ' * col_space))
 sys.stdout.write('\n')
 
 # Print out columns
 for hostname, host in hosts.items():
-	for col in cols:
-		sys.stdout.write(col['field'](host).ljust(col_longest[col['title']]) + (' ' * col_space))
+	if 'ansible_facts' not in host:
+		sys.stdout.write('{}: No info collected'.format(hostname))
+	else:
+		for col in cols:
+			sys.stdout.write(col['field'](host).ljust(col_longest[col['title']]) + (' ' * col_space))
 	sys.stdout.write('\n')
 %>
