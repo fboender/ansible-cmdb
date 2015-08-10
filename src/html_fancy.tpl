@@ -248,7 +248,11 @@ Display columns:
                 <tr>
                   <th>${iface}</th>
                   <td>
-                    ${r_dict(host['ansible_facts']['ansible_%s' % (iface)])}
+                    % try:
+                      ${r_dict(host['ansible_facts']['ansible_%s' % (iface)])}
+                    % except KeyError:
+                      No information available
+                    % endtry
                   </td>
                 </tr>
               % endfor
