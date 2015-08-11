@@ -1,0 +1,13 @@
+v1.2   2015-08-11
+
+- Fancy template: Don't fail if network interface information is not available.
+- Fancy template: Don't show Disk usage bar for disks smaller than 1mb.
+
+v1.1   2015-07-05
+
+- Fancy template: Don't barf on hosts with missing information
+- Txt table template: Don't barf on hosts with missing information
+
+v1.0   2015-06-13
+
+- Initial release
