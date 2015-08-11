@@ -180,7 +180,8 @@
             "lo", 
             "vboxnet0", 
             "vboxnet1", 
-            "wlan0"
+            "wlan0",
+            "ovs-system"
         ], 
         "ansible_kernel": "3.16.1-031601-generic", 
         "ansible_lo": {
@@ -225,13 +226,13 @@
         "ansible_memtotal_mb": 15951, 
         "ansible_mounts": [
             {
-                "device": "/dev/sda7", 
-                "fstype": "ext4", 
-                "mount": "/", 
-                "options": "rw,errors=remount-ro", 
-                "size_available": 420194226176, 
-                "size_total": 612248961024, 
-                "uuid": ""
+              "device": "/opt/xensource/packages/iso/XenCenter.iso",
+              "fstype": "iso9660",
+              "mount": "/var/xen/xc-install",
+              "options": "ro,loop=/dev/loop0",
+              "size_available": 0,
+              "size_total": 0,
+              "uuid": "NA"
             }, 
             {
                 "device": "/dev/sda1", 
