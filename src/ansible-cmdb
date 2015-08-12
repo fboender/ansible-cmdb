@@ -130,5 +130,9 @@ ansible = Ansible(args, options.inventory)
 
 # Render a template with the gathered host info
 tpl_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), '%s.tpl' % (options.template))
+if not os.path.isfile(tpl_path):
+    sys.stderr.write("Template not found: {0}\n".format(tpl_path))
+    sys.exit(1)
+
 mytemplate = Template(filename=tpl_path)
 sys.stdout.write(mytemplate.render(hosts=ansible.hosts))
