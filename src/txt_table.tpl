@@ -4,14 +4,14 @@ import sys
 col_space = 2
 
 cols = [
-  {"title": "Name", "field": lambda h: h['name']},
-  {"title": "OS", "field": lambda h: h['ansible_facts']['ansible_distribution'] + ' ' + h['ansible_facts']['ansible_distribution_version']},
-  {"title": "IP", "field": lambda h: host['ansible_facts']['ansible_default_ipv4']['address']},
-  {"title": "Arch", "field": lambda h: host['ansible_facts']['ansible_architecture'] + '/' + host['ansible_facts']['ansible_userspace_architecture']},
-  {"title": "Mem", "field": lambda h: '%0.0fg' % (host['ansible_facts']['ansible_memtotal_mb'] / 1000.0)},
-  {"title": "CPUs", "field": lambda h: str(host['ansible_facts']['ansible_processor_count'])},
-  {"title": "Virt", "field": lambda h: host['ansible_facts']['ansible_virtualization_type'] + '/' + host['ansible_facts']['ansible_virtualization_role']},
-  {"title": "Disk avail", "field": lambda h: ', '.join([str(i['size_available']/1048576000) + 'g' for i in host['ansible_facts']['ansible_mounts'] if i['size_available']/1048576000 > 1])},
+  {"title": "Name", "field": lambda h: h.get('name', '')},
+  {"title": "OS", "field": lambda h: h['ansible_facts'].get('ansible_distribution', '') + ' ' + h['ansible_facts'].get('ansible_distribution_version', '')},
+  {"title": "IP", "field": lambda h: host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')},
+  {"title": "Arch", "field": lambda h: host['ansible_facts'].get('ansible_architecture', 'Unk') + '/' + host['ansible_facts'].get('ansible_userspace_architecture', 'Unk')},
+  {"title": "Mem", "field": lambda h: '%0.0fg' % (host['ansible_facts'].get('ansible_memtotal_mb', 0) / 1000.0)},
+  {"title": "CPUs", "field": lambda h: str(host['ansible_facts'].get('ansible_processor_count', 0))},
+  {"title": "Virt", "field": lambda h: host['ansible_facts'].get('ansible_virtualization_type', 'Unk') + '/' + host['ansible_facts'].get('ansible_virtualization_role', 'Unk')},
+  {"title": "Disk avail", "field": lambda h: ', '.join([str(i['size_available']/1048576000) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_available']/1048576000 > 1])},
 ]
 
 # Find longest value in a column
