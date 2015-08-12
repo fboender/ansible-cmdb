@@ -47,7 +47,7 @@ cols = [
   ${'%0.0fg' % ((host['ansible_facts'].get('ansible_memtotal_mb', 0) / 1000.0))}
 </%def>
 <%def name="col_cpus(host)">
-  ${host['ansible_facts'].get('ansible_processor_count')}
+  ${host['ansible_facts'].get('ansible_processor_count', 0)}
 </%def>
 <%def name="col_main_ip(host)">
   ${host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')}
