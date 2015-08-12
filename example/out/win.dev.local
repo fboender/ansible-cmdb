@@ -1,0 +1,35 @@
+{
+    "ansible_facts": {
+        "ansible_architecture": "x86_64", 
+        "ansible_distribution": "Windows", 
+        "ansible_distribution_major_version": "2012", 
+        "ansible_distribution_release": "server", 
+        "ansible_distribution_version": "2012", 
+        "ansible_domain": "win-dev.local", 
+        "ansible_form_factor": "VPS", 
+        "ansible_fqdn": "win.dev.local", 
+        "ansible_hostname": "win-dev", 
+        "ansible_memtotal_mb": 4096, 
+        "ansible_memfree_mb": 4096, 
+        "ansible_nodename": "win-dev", 
+        "ansible_os_family": "Windows", 
+        "ansible_virtualization_role": "guest", 
+        "ansible_virtualization_type": "VMware",
+        "ansible_default_ipv4": {
+            "address": "10.0.0.3", 
+            "interface": "eth0"
+        },
+        "ansible_all_ipv4_addresses": [
+            "10.0.0.3"
+        ],
+        "ansible_userspace_architecture": "x86_64", 
+        "ansible_userspace_bits": "64",
+        "ansible_mounts": [
+        ],
+        "ansible_system_vendor": "VMware, Inc.",
+        "ansible_product_name": "VMware Virtual Platform",
+        "ansible_product_serial": "NA",
+        "ansible_machine": "x86_64"
+    }, 
+    "changed": false
+}
