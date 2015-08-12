@@ -33,6 +33,7 @@
     .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; }
     .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     .error { color: #FF0000; }
+    td.error a { color: #FF0000; }
     #generated { font-size: x-small; }
   </style>
   <!-- DataTables assets -->
@@ -42,7 +43,7 @@
 </head>
 <body>
 <h1>Host Overview</h1>
-<p id="generated">Generated: Sat Jun 13 17:32:21 2015</p>
+<p id="generated">Generated: Wed Aug 12 10:09:36 2015</p>
 <div id="columns">
 Display columns:
   
@@ -103,188 +104,6 @@ Display columns:
 <tbody>
     <tr>
           <td>
-  <a href="#centos.dev.local">centos.dev.local</a>
-</td>
-          <td>
-  dev
-</td>
-          <td>
-  virt
-</td>
-          <td>
-  centos.local
-</td>
-          <td>
-  CentOS 6.6
-</td>
-          <td>
-  192.168.56.8
-</td>
-          <td>
-  192.168.56.8
-</td>
-          <td>
-  x86_64 / x86_64
-</td>
-          <td>
-  1g
-</td>
-          <td>
-  1
-</td>
-          <td>
-  virtualbox / guest
-</td>
-          <td>
-  29g
-</td>
-          <td>
-  27g
-</td>
-          <td>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:7.2516578369"></span>
-      </span> /
-    </div>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:10.4679156448"></span>
-      </span> /boot
-    </div>
-</td>
-          <td>
-  
-</td>
-          <td>
-  
-</td>
-    </tr>
-    <tr>
-          <td>
-  <a href="#eek.electricmonk.nl">eek.electricmonk.nl</a>
-</td>
-          <td>
-  prod
-</td>
-          <td>
-  prod
-</td>
-          <td>
-  eek.electricmonk.nl
-</td>
-          <td>
-  Ubuntu 14.04
-</td>
-          <td>
-  192.168.0.10
-</td>
-          <td>
-  192.168.0.10
-</td>
-          <td>
-  i386 / i386
-</td>
-          <td>
-  3g
-</td>
-          <td>
-  1
-</td>
-          <td>
-  kvm / host
-</td>
-          <td>
-  297g, 3755g
-</td>
-          <td>
-  277g, 955g
-</td>
-          <td>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:6.67187495932"></span>
-      </span> /
-    </div>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:74.5674243765"></span>
-      </span> /storage
-    </div>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:41.5033170234"></span>
-      </span> /boot
-    </div>
-</td>
-          <td>
-  
-</td>
-          <td>
-  
-</td>
-    </tr>
-    <tr>
-          <td>
-  <a href="#zoltar.electricmonk.nl">zoltar.electricmonk.nl</a>
-</td>
-          <td>
-  prod
-</td>
-          <td>
-  prod
-</td>
-          <td>
-  zoltar-new.melkfl.es
-</td>
-          <td>
-  Ubuntu 14.04
-</td>
-          <td>
-  194.187.79.11
-</td>
-          <td>
-  194.187.79.11
-</td>
-          <td>
-  x86_64 / x86_64
-</td>
-          <td>
-  4g
-</td>
-          <td>
-  2
-</td>
-          <td>
-  VMware / guest
-</td>
-          <td>
-  124g
-</td>
-          <td>
-  27g
-</td>
-          <td>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:77.9225585062"></span>
-      </span> /
-    </div>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:60.5896120711"></span>
-      </span> /boot
-    </div>
-</td>
-          <td>
-  
-</td>
-          <td>
-  
-</td>
-    </tr>
-    <tr>
-          <td>
   <a href="#jib.electricmonk.nl">jib.electricmonk.nl</a>
 </td>
           <td>
@@ -318,27 +137,17 @@ Display columns:
   kvm / host
 </td>
           <td>
-  583g, 583g
+  583g
 </td>
           <td>
-  400g, 400g
+  400g
 </td>
           <td>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:31.3687318516"></span>
-      </span> /
-    </div>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:5.84756174395"></span>
-      </span> /boot/efi
-    </div>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:31.3687318516"></span>
-      </span> /home/fboender
-    </div>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:31.3687318516px"></span>
+        </span> /home/fboender
+      </div>
 </td>
           <td>
   
@@ -388,16 +197,227 @@ Display columns:
   84g
 </td>
           <td>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:14.9545197756"></span>
-      </span> /
-    </div>
-    <div class="bar">
-      <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:12.136403206"></span>
-      </span> /boot
-    </div>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:14.9545197756px"></span>
+        </span> /
+      </div>
+</td>
+          <td>
+  
+</td>
+          <td>
+  
+</td>
+    </tr>
+    <tr>
+          <td>
+  <a href="#zoltar.electricmonk.nl">zoltar.electricmonk.nl</a>
+</td>
+          <td>
+  prod
+</td>
+          <td>
+  prod
+</td>
+          <td>
+  zoltar-new.melkfl.es
+</td>
+          <td>
+  Ubuntu 14.04
+</td>
+          <td>
+  194.187.79.11
+</td>
+          <td>
+  194.187.79.11
+</td>
+          <td>
+  x86_64 / x86_64
+</td>
+          <td>
+  4g
+</td>
+          <td>
+  2
+</td>
+          <td>
+  VMware / guest
+</td>
+          <td>
+  124g
+</td>
+          <td>
+  27g
+</td>
+          <td>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:77.9225585062px"></span>
+        </span> /
+      </div>
+</td>
+          <td>
+  
+</td>
+          <td>
+  
+</td>
+    </tr>
+    <tr>
+          <td>
+  <a href="#centos.dev.local">centos.dev.local</a>
+</td>
+          <td>
+  dev
+</td>
+          <td>
+  virt
+</td>
+          <td>
+  centos.local
+</td>
+          <td>
+  CentOS 6.6
+</td>
+          <td>
+  192.168.56.8
+</td>
+          <td>
+  192.168.56.8
+</td>
+          <td>
+  x86_64 / x86_64
+</td>
+          <td>
+  1g
+</td>
+          <td>
+  1
+</td>
+          <td>
+  virtualbox / guest
+</td>
+          <td>
+  29g
+</td>
+          <td>
+  27g
+</td>
+          <td>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:7.2516578369px"></span>
+        </span> /
+      </div>
+</td>
+          <td>
+  
+</td>
+          <td>
+  
+</td>
+    </tr>
+    <tr>
+          <td>
+  <a href="#win.dev.local">win.dev.local</a>
+</td>
+          <td>
+  
+</td>
+          <td>
+  
+</td>
+          <td>
+  win.dev.local
+</td>
+          <td>
+  Windows 2012
+</td>
+          <td>
+  10.0.0.3
+</td>
+          <td>
+  10.0.0.3
+</td>
+          <td>
+  x86_64 / x86_64
+</td>
+          <td>
+  4g
+</td>
+          <td>
+  0
+</td>
+          <td>
+  VMware / guest
+</td>
+          <td>
+  
+</td>
+          <td>
+  
+</td>
+          <td>
+</td>
+          <td>
+  
+</td>
+          <td>
+  
+</td>
+    </tr>
+    <tr>
+          <td>
+  <a href="#eek.electricmonk.nl">eek.electricmonk.nl</a>
+</td>
+          <td>
+  prod
+</td>
+          <td>
+  prod
+</td>
+          <td>
+  eek.electricmonk.nl
+</td>
+          <td>
+  Ubuntu 14.04
+</td>
+          <td>
+  192.168.0.10
+</td>
+          <td>
+  192.168.0.10
+</td>
+          <td>
+  i386 / i386
+</td>
+          <td>
+  3g
+</td>
+          <td>
+  1
+</td>
+          <td>
+  kvm / host
+</td>
+          <td>
+  297g, 3755g
+</td>
+          <td>
+  277g, 955g
+</td>
+          <td>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:6.67187495932px"></span>
+        </span> /
+      </div>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:74.5674243765px"></span>
+        </span> /storage
+      </div>
 </td>
           <td>
   
@@ -410,10 +430,1007 @@ Display columns:
 </table>
 
 <h1>Hosts</h1>
-    <a name="centos.dev.local"><h2 id="centos.dev.local">centos.dev.local</h2></a>
+    <a name="jib.electricmonk.nl"><h2 id="jib.electricmonk.nl">jib.electricmonk.nl</h2></a>
     <h3>General</h3>
     <table>
-      <tr><th>Node name</th><td>centos.local</td></tr>
+      <tr><th>Node name</th><td>jib</td></tr>
+      <tr><th>Form factor</th><td>Portable</td></tr>
+      <tr><th>Virtualisation role</th><td>host</td></tr>
+      <tr><th>Virtualisation type</th><td>kvm</td></tr>
+    </table>
+
+    <h3>Custom variables</h3>
+    <table>
+    </table>
+
+    <h3>Hardware</h3>
+    <table>
+      <tr><th>Vendor</th><td>Dell Inc.</td></tr>
+      <tr><th>Product name</th><td>XPS 15 9530</td></tr>
+      <tr><th>Product serial</th><td>NA</td></tr>
+      <tr><th>Architecture</th><td>x86_64</td></tr>
+      <tr><th>Machine</th><td>x86_64</td></tr>
+      <tr><th>Processor count</th><td>1</td></tr>
+      <tr><th>Processor cores</th><td>4</td></tr>
+      <tr><th>Processor threads per core</th><td>2</td></tr>
+      <tr><th>Processor virtual CPUs</th><td>8</td></tr>
+      <tr><th>Mem total mb</th><td>15951</td></tr>
+      <tr><th>Mem free mb</th><td>2000</td></tr>
+      <tr><th>Swap total mb</th><td>0</td></tr>
+      <tr><th>Swap free mb</th><td>0</td></tr>
+    </table>
+
+    <h3>Operating System</h3>
+    <table>
+      <tr><th>System</th><td>Linux</td></tr>
+      <tr><th>OS Family</th><td>Linuxmint</td></tr>
+      <tr><th>Distribution</th><td>Linuxmint</td></tr>
+      <tr><th>Distribution version</th><td>17</td></tr>
+      <tr><th>Distribution release</th><td>qiana</td></tr>
+      <tr><th>Kernel</th><td>3.16.1-031601-generic</td></tr>
+      <tr><th>Userspace bits</th><td>64</td></tr>
+      <tr><th>Userspace_architecture</th><td>x86_64</td></tr>
+      <tr><th>Date time</th><td>2015-06-13T15:17:29Z</td></tr>
+      <tr><th>Locale / Encoding</th><td>en_US.UTF-8</td></tr>
+      <tr><th>SELinux?</th><td>False</td></tr>
+      <tr><th>Package manager</th><td>apt</td></tr>
+    </table>
+
+    <h3>Network</h3>
+    <table>
+      <tr><th>Hostname</th><td>jib</td></tr>
+      <tr><th>Domain</th><td></td></tr>
+      <tr><th>FQDN</th><td>jib</td></tr>
+      <tr><th>All IPv4</th><td>192.168.0.3<br>192.168.56.1</td></tr>
+      <tr>
+        <th>Interfaces</th>
+        <td>
+          <table>
+                <tr>
+                  <th>vboxnet2</th>
+                  <td>
+                      
+  <table>
+      <tr>
+        <th>macaddress</th>
+        <td>
+          0a:00:27:00:00:02
+        </td>
+      </tr>
+      <tr>
+        <th>mtu</th>
+        <td>
+          1500
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          vboxnet2
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          ether
+        </td>
+      </tr>
+  </table>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>lo</th>
+                  <td>
+                      
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          65536
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
+        </td>
+      </tr>
+  </table>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>vboxnet0</th>
+                  <td>
+                      
+  <table>
+      <tr>
+        <th>macaddress</th>
+        <td>
+          0a:00:27:00:00:00
+        </td>
+      </tr>
+      <tr>
+        <th>mtu</th>
+        <td>
+          1500
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          vboxnet0
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.255.255.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          192.168.56.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          192.168.56.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          ether
+        </td>
+      </tr>
+  </table>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>vboxnet1</th>
+                  <td>
+                      
+  <table>
+      <tr>
+        <th>macaddress</th>
+        <td>
+          0a:00:27:00:00:01
+        </td>
+      </tr>
+      <tr>
+        <th>mtu</th>
+        <td>
+          1500
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          vboxnet1
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          ether
+        </td>
+      </tr>
+  </table>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>wlan0</th>
+                  <td>
+                      
+  <table>
+      <tr>
+        <th>macaddress</th>
+        <td>
+          e8:2a:ea:62:a0:bb
+        </td>
+      </tr>
+      <tr>
+        <th>module</th>
+        <td>
+          iwlwifi
+        </td>
+      </tr>
+      <tr>
+        <th>mtu</th>
+        <td>
+          1500
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          wlan0
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.255.255.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          192.168.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          192.168.0.3
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          ether
+        </td>
+      </tr>
+  </table>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>ovs-system</th>
+                  <td>
+                                            No information available
+                  </td>
+                </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <h3>Storage</h3>
+    <table>
+      <tr>
+        <th>Devices</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>sda</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>scheduler_mode</th>
+        <td>
+          deadline
+        </td>
+      </tr>
+      <tr>
+        <th>rotational</th>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <th>vendor</th>
+        <td>
+          ATA
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          1953525168
+        </td>
+      </tr>
+      <tr>
+        <th>host</th>
+        <td>
+          RAID bus controller: Intel Corporation 82801 Mobile SATA Controller [RAID mode] (rev 05)
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          4096
+        </td>
+      </tr>
+      <tr>
+        <th>removable</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>support_discard</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>model</th>
+        <td>
+          TOSHIBA MQ02ABF1
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          7.28 TB
+        </td>
+      </tr>
+      <tr>
+        <th>holders</th>
+        <td>
+          
+
+        </td>
+      </tr>
+      <tr>
+        <th>partitions</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>sda6</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          1934036992
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          19477255
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          9.29 GB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda7</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          705236992
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          1215129600
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          579.42 GB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          1370112
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          4194304
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          2.00 GB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda5</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          5564416
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          699672576
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          333.63 GB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda2</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          1026048
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          81920
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          40.00 MB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda3</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          1107968
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          262144
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          128.00 MB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda1</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          2048
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          1024000
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          500.00 MB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda8</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          1920366592
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          13670400
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          6.52 GB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sdb</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>scheduler_mode</th>
+        <td>
+          deadline
+        </td>
+      </tr>
+      <tr>
+        <th>rotational</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>vendor</th>
+        <td>
+          ATA
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          62533296
+        </td>
+      </tr>
+      <tr>
+        <th>host</th>
+        <td>
+          RAID bus controller: Intel Corporation 82801 Mobile SATA Controller [RAID mode] (rev 05)
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>removable</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>support_discard</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>model</th>
+        <td>
+          LITEONIT LMS-32L
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          29.82 GB
+        </td>
+      </tr>
+      <tr>
+        <th>holders</th>
+        <td>
+          
+
+        </td>
+      </tr>
+      <tr>
+        <th>partitions</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>sdb1</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          2048
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          16809984
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          8.02 GB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>Mounts</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>uuid</th>
+        <td>
+          NA
+        </td>
+      </tr>
+      <tr>
+        <th>size_total</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>mount</th>
+        <td>
+          /var/xen/xc-install
+        </td>
+      </tr>
+      <tr>
+        <th>size_available</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>fstype</th>
+        <td>
+          iso9660
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          /opt/xensource/packages/iso/XenCenter.iso
+        </td>
+      </tr>
+      <tr>
+        <th>options</th>
+        <td>
+          ro,loop=/dev/loop0
+        </td>
+      </tr>
+  </table>
+
+      
+  <table>
+      <tr>
+        <th>uuid</th>
+        <td>
+          
+        </td>
+      </tr>
+      <tr>
+        <th>size_total</th>
+        <td>
+          520093696
+        </td>
+      </tr>
+      <tr>
+        <th>mount</th>
+        <td>
+          /boot/efi
+        </td>
+      </tr>
+      <tr>
+        <th>size_available</th>
+        <td>
+          489680896
+        </td>
+      </tr>
+      <tr>
+        <th>fstype</th>
+        <td>
+          vfat
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          /dev/sda1
+        </td>
+      </tr>
+      <tr>
+        <th>options</th>
+        <td>
+          rw
+        </td>
+      </tr>
+  </table>
+
+      
+  <table>
+      <tr>
+        <th>uuid</th>
+        <td>
+          NA
+        </td>
+      </tr>
+      <tr>
+        <th>size_total</th>
+        <td>
+          612248961024
+        </td>
+      </tr>
+      <tr>
+        <th>mount</th>
+        <td>
+          /home/fboender
+        </td>
+      </tr>
+      <tr>
+        <th>size_available</th>
+        <td>
+          420194226176
+        </td>
+      </tr>
+      <tr>
+        <th>fstype</th>
+        <td>
+          ecryptfs
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          /home/fboender/.Private
+        </td>
+      </tr>
+      <tr>
+        <th>options</th>
+        <td>
+          ecryptfs_check_dev_ruid,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs,ecryptfs_sig=0e85e342c1be1478,ecryptfs_fnek_sig=912316d9976d93b1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+    </table>
+    <a name="debian.dev.local"><h2 id="debian.dev.local">debian.dev.local</h2></a>
+    <h3>General</h3>
+    <table>
+      <tr><th>Node name</th><td>dev.local</td></tr>
       <tr><th>Form factor</th><td>Other</td></tr>
       <tr><th>Virtualisation role</th><td>guest</td></tr>
       <tr><th>Virtualisation type</th><td>virtualbox</td></tr>
@@ -435,34 +1452,34 @@ Display columns:
       <tr><th>Processor cores</th><td>1</td></tr>
       <tr><th>Processor threads per core</th><td>1</td></tr>
       <tr><th>Processor virtual CPUs</th><td>1</td></tr>
-      <tr><th>Mem total mb</th><td>996</td></tr>
-      <tr><th>Mem free mb</th><td>819</td></tr>
-      <tr><th>Swap total mb</th><td>2015</td></tr>
-      <tr><th>Swap free mb</th><td>2015</td></tr>
+      <tr><th>Mem total mb</th><td>496</td></tr>
+      <tr><th>Mem free mb</th><td>25</td></tr>
+      <tr><th>Swap total mb</th><td>727</td></tr>
+      <tr><th>Swap free mb</th><td>727</td></tr>
     </table>
 
     <h3>Operating System</h3>
     <table>
       <tr><th>System</th><td>Linux</td></tr>
-      <tr><th>OS Family</th><td>RedHat</td></tr>
-      <tr><th>Distribution</th><td>CentOS</td></tr>
-      <tr><th>Distribution version</th><td>6.6</td></tr>
-      <tr><th>Distribution release</th><td>Final</td></tr>
-      <tr><th>Kernel</th><td>2.6.32-504.el6.x86_64</td></tr>
+      <tr><th>OS Family</th><td>Debian</td></tr>
+      <tr><th>Distribution</th><td>Debian</td></tr>
+      <tr><th>Distribution version</th><td>6.0.10</td></tr>
+      <tr><th>Distribution release</th><td>NA</td></tr>
+      <tr><th>Kernel</th><td>2.6.32-5-amd64</td></tr>
       <tr><th>Userspace bits</th><td>64</td></tr>
       <tr><th>Userspace_architecture</th><td>x86_64</td></tr>
-      <tr><th>Date time</th><td>2015-06-13T15:17:30Z</td></tr>
-      <tr><th>Locale / Encoding</th><td>Unknown</td></tr>
+      <tr><th>Date time</th><td>2015-06-13T15:17:01Z</td></tr>
+      <tr><th>Locale / Encoding</th><td>en_US.UTF-8</td></tr>
       <tr><th>SELinux?</th><td>False</td></tr>
-      <tr><th>Package manager</th><td>yum</td></tr>
+      <tr><th>Package manager</th><td>apt</td></tr>
     </table>
 
     <h3>Network</h3>
     <table>
-      <tr><th>Hostname</th><td>centos</td></tr>
-      <tr><th>Domain</th><td>local</td></tr>
-      <tr><th>FQDN</th><td>centos.local</td></tr>
-      <tr><th>All IPv4</th><td>192.168.56.8</td></tr>
+      <tr><th>Hostname</th><td>dev</td></tr>
+      <tr><th>Domain</th><td></td></tr>
+      <tr><th>FQDN</th><td>localhost</td></tr>
+      <tr><th>All IPv4</th><td>192.168.56.2</td></tr>
       <tr>
         <th>Interfaces</th>
         <td>
@@ -470,12 +1487,12 @@ Display columns:
                 <tr>
                   <th>lo</th>
                   <td>
-                    
+                      
   <table>
       <tr>
         <th>mtu</th>
         <td>
-          65536
+          16436
         </td>
       </tr>
       <tr>
@@ -565,18 +1582,18 @@ Display columns:
                 <tr>
                   <th>eth0</th>
                   <td>
-                    
+                      
   <table>
       <tr>
         <th>macaddress</th>
         <td>
-          08:00:27:7b:c9:a5
+          08:00:27:f9:98:a7
         </td>
       </tr>
       <tr>
         <th>module</th>
         <td>
-          e1000
+          pcnet32
         </td>
       </tr>
       <tr>
@@ -617,7 +1634,7 @@ Display columns:
       <tr>
         <th>address</th>
         <td>
-          192.168.56.8
+          192.168.56.2
         </td>
       </tr>
   </table>
@@ -645,7 +1662,7 @@ Display columns:
       <tr>
         <th>address</th>
         <td>
-          fe80::a00:27ff:fe7b:c9a5
+          fe80::a00:27ff:fef9:98a7
         </td>
       </tr>
   </table>
@@ -713,7 +1730,7 @@ Display columns:
       <tr>
         <th>host</th>
         <td>
-          
+          IDE interface: Intel Corporation 82371AB/EB/MB PIIX4 IDE (rev 01)
         </td>
       </tr>
       <tr>
@@ -731,92 +1748,7 @@ Display columns:
       <tr>
         <th>support_discard</th>
         <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>model</th>
-        <td>
-          CD-ROM
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          1024.00 MB
-        </td>
-      </tr>
-      <tr>
-        <th>holders</th>
-        <td>
-          
-
-        </td>
-      </tr>
-      <tr>
-        <th>partitions</th>
-        <td>
-          
-  <table>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sr1</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>scheduler_mode</th>
-        <td>
-          cfq
-        </td>
-      </tr>
-      <tr>
-        <th>rotational</th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>vendor</th>
-        <td>
-          VBOX
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          2097151
-        </td>
-      </tr>
-      <tr>
-        <th>host</th>
-        <td>
-          
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>removable</th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>support_discard</th>
-        <td>
-          0
+          None
         </td>
       </tr>
       <tr>
@@ -877,13 +1809,13 @@ Display columns:
       <tr>
         <th>sectors</th>
         <td>
-          67108864
+          209715200
         </td>
       </tr>
       <tr>
         <th>host</th>
         <td>
-          
+          SATA controller: Intel Corporation 82801HBM/HEM (ICH8M/ICH8M-E) SATA AHCI Controller (rev 02)
         </td>
       </tr>
       <tr>
@@ -901,7 +1833,7 @@ Display columns:
       <tr>
         <th>support_discard</th>
         <td>
-          0
+          None
         </td>
       </tr>
       <tr>
@@ -913,533 +1845,7 @@ Display columns:
       <tr>
         <th>size</th>
         <td>
-          32.00 GB
-        </td>
-      </tr>
-      <tr>
-        <th>holders</th>
-        <td>
-          
-
-        </td>
-      </tr>
-      <tr>
-        <th>partitions</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>sda2</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          1026048
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          66082816
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          31.51 GB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda1</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          2048
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          1024000
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          500.00 MB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>Mounts</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>uuid</th>
-        <td>
-          
-        </td>
-      </tr>
-      <tr>
-        <th>size_total</th>
-        <td>
-          31084978176
-        </td>
-      </tr>
-      <tr>
-        <th>mount</th>
-        <td>
-          /
-        </td>
-      </tr>
-      <tr>
-        <th>size_available</th>
-        <td>
-          28830801920
-        </td>
-      </tr>
-      <tr>
-        <th>fstype</th>
-        <td>
-          ext4
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          /dev/mapper/vg_centos-lv_root
-        </td>
-      </tr>
-      <tr>
-        <th>options</th>
-        <td>
-          rw
-        </td>
-      </tr>
-  </table>
-
-      
-  <table>
-      <tr>
-        <th>uuid</th>
-        <td>
-          
-        </td>
-      </tr>
-      <tr>
-        <th>size_total</th>
-        <td>
-          499355648
-        </td>
-      </tr>
-      <tr>
-        <th>mount</th>
-        <td>
-          /boot
-        </td>
-      </tr>
-      <tr>
-        <th>size_available</th>
-        <td>
-          447083520
-        </td>
-      </tr>
-      <tr>
-        <th>fstype</th>
-        <td>
-          ext4
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          /dev/sda1
-        </td>
-      </tr>
-      <tr>
-        <th>options</th>
-        <td>
-          rw
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-    </table>
-    <a name="eek.electricmonk.nl"><h2 id="eek.electricmonk.nl">eek.electricmonk.nl</h2></a>
-    <h3>General</h3>
-    <table>
-      <tr><th>Node name</th><td>eek</td></tr>
-      <tr><th>Form factor</th><td>Desktop</td></tr>
-      <tr><th>Virtualisation role</th><td>host</td></tr>
-      <tr><th>Virtualisation type</th><td>kvm</td></tr>
-    </table>
-
-    <h3>Custom variables</h3>
-    <table>
-          <tr><th>dtap</th><td>prod</td></tr>
-    </table>
-
-    <h3>Hardware</h3>
-    <table>
-      <tr><th>Vendor</th><td>HP-Pavilion</td></tr>
-      <tr><th>Product name</th><td>WL239AA-ABH s5330nl</td></tr>
-      <tr><th>Product serial</th><td>NA</td></tr>
-      <tr><th>Architecture</th><td>i386</td></tr>
-      <tr><th>Machine</th><td>i686</td></tr>
-      <tr><th>Processor count</th><td>1</td></tr>
-      <tr><th>Processor cores</th><td>2</td></tr>
-      <tr><th>Processor threads per core</th><td>1</td></tr>
-      <tr><th>Processor virtual CPUs</th><td>2</td></tr>
-      <tr><th>Mem total mb</th><td>2995</td></tr>
-      <tr><th>Mem free mb</th><td>245</td></tr>
-      <tr><th>Swap total mb</th><td>3035</td></tr>
-      <tr><th>Swap free mb</th><td>2902</td></tr>
-    </table>
-
-    <h3>Operating System</h3>
-    <table>
-      <tr><th>System</th><td>Linux</td></tr>
-      <tr><th>OS Family</th><td>Debian</td></tr>
-      <tr><th>Distribution</th><td>Ubuntu</td></tr>
-      <tr><th>Distribution version</th><td>14.04</td></tr>
-      <tr><th>Distribution release</th><td>trusty</td></tr>
-      <tr><th>Kernel</th><td>3.13.0-44-generic</td></tr>
-      <tr><th>Userspace bits</th><td>32</td></tr>
-      <tr><th>Userspace_architecture</th><td>i386</td></tr>
-      <tr><th>Date time</th><td>2015-06-13T15:16:50Z</td></tr>
-      <tr><th>Locale / Encoding</th><td>en_US.UTF-8</td></tr>
-      <tr><th>SELinux?</th><td>False</td></tr>
-      <tr><th>Package manager</th><td>apt</td></tr>
-    </table>
-
-    <h3>Network</h3>
-    <table>
-      <tr><th>Hostname</th><td>eek</td></tr>
-      <tr><th>Domain</th><td>electricmonk.nl</td></tr>
-      <tr><th>FQDN</th><td>eek.electricmonk.nl</td></tr>
-      <tr><th>All IPv4</th><td>192.168.0.10</td></tr>
-      <tr>
-        <th>Interfaces</th>
-        <td>
-          <table>
-                <tr>
-                  <th>lo</th>
-                  <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          65536
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                  </td>
-                </tr>
-                <tr>
-                  <th>eth0</th>
-                  <td>
-                    
-  <table>
-      <tr>
-        <th>macaddress</th>
-        <td>
-          e0:cb:4e:a7:4b:56
-        </td>
-      </tr>
-      <tr>
-        <th>module</th>
-        <td>
-          r8169
-        </td>
-      </tr>
-      <tr>
-        <th>mtu</th>
-        <td>
-          1500
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          eth0
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.255.255.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          192.168.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          192.168.0.10
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          link
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          64
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          fe80::e2cb:4eff:fea7:4b56
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          ether
-        </td>
-      </tr>
-  </table>
-
-                  </td>
-                </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-
-    <h3>Storage</h3>
-    <table>
-      <tr>
-        <th>Devices</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>sda</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>scheduler_mode</th>
-        <td>
-          deadline
-        </td>
-      </tr>
-      <tr>
-        <th>rotational</th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>vendor</th>
-        <td>
-          ATA
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          625142448
-        </td>
-      </tr>
-      <tr>
-        <th>host</th>
-        <td>
-          IDE interface: Intel Corporation NM10/ICH7 Family SATA Controller [IDE mode] (rev 01)
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>removable</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>support_discard</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>model</th>
-        <td>
-          ST3320418AS
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          298.09 GB
+          100.00 GB
         </td>
       </tr>
       <tr>
@@ -1474,13 +1880,13 @@ Display columns:
       <tr>
         <th>sectors</th>
         <td>
-          624640000
+          209211392
         </td>
       </tr>
       <tr>
         <th>size</th>
         <td>
-          297.85 GB
+          99.76 GB
         </td>
       </tr>
   </table>
@@ -1561,176 +1967,6 @@ Display columns:
 
         </td>
       </tr>
-      <tr>
-        <th>sdb</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>scheduler_mode</th>
-        <td>
-          deadline
-        </td>
-      </tr>
-      <tr>
-        <th>rotational</th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>vendor</th>
-        <td>
-          ATA
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          7814037168
-        </td>
-      </tr>
-      <tr>
-        <th>host</th>
-        <td>
-          IDE interface: Intel Corporation NM10/ICH7 Family SATA Controller [IDE mode] (rev 01)
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          4096
-        </td>
-      </tr>
-      <tr>
-        <th>removable</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>support_discard</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>model</th>
-        <td>
-          ST4000DM000-1F21
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          29.11 TB
-        </td>
-      </tr>
-      <tr>
-        <th>holders</th>
-        <td>
-          
-
-        </td>
-      </tr>
-      <tr>
-        <th>partitions</th>
-        <td>
-          
-  <table>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sdc</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>scheduler_mode</th>
-        <td>
-          deadline
-        </td>
-      </tr>
-      <tr>
-        <th>rotational</th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>vendor</th>
-        <td>
-          Multi
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>host</th>
-        <td>
-          USB controller: Intel Corporation NM10/ICH7 Family USB2 EHCI Controller (rev 01)
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>removable</th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>support_discard</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>model</th>
-        <td>
-          Flash Reader
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          0.00 Bytes
-        </td>
-      </tr>
-      <tr>
-        <th>holders</th>
-        <td>
-          
-
-        </td>
-      </tr>
-      <tr>
-        <th>partitions</th>
-        <td>
-          
-  <table>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
   </table>
 
         </td>
@@ -1744,13 +1980,13 @@ Display columns:
       <tr>
         <th>uuid</th>
         <td>
-          
+          NA
         </td>
       </tr>
       <tr>
         <th>size_total</th>
         <td>
-          311513391104
+          104680742912
         </td>
       </tr>
       <tr>
@@ -1762,19 +1998,19 @@ Display columns:
       <tr>
         <th>size_available</th>
         <td>
-          290729607168
+          89026240512
         </td>
       </tr>
       <tr>
         <th>fstype</th>
         <td>
-          ext4
+          ext3
         </td>
       </tr>
       <tr>
         <th>device</th>
         <td>
-          /dev/mapper/live-root
+          /dev/mapper/debian-root
         </td>
       </tr>
       <tr>
@@ -1790,53 +2026,7 @@ Display columns:
       <tr>
         <th>uuid</th>
         <td>
-          
-        </td>
-      </tr>
-      <tr>
-        <th>size_total</th>
-        <td>
-          3937873526784
-        </td>
-      </tr>
-      <tr>
-        <th>mount</th>
-        <td>
-          /storage
-        </td>
-      </tr>
-      <tr>
-        <th>size_available</th>
-        <td>
-          1001502662656
-        </td>
-      </tr>
-      <tr>
-        <th>fstype</th>
-        <td>
-          ext4
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          /dev/sdb
-        </td>
-      </tr>
-      <tr>
-        <th>options</th>
-        <td>
-          rw,errors=remount-ro
-        </td>
-      </tr>
-  </table>
-
-      
-  <table>
-      <tr>
-        <th>uuid</th>
-        <td>
-          
+          NA
         </td>
       </tr>
       <tr>
@@ -1854,7 +2044,7 @@ Display columns:
       <tr>
         <th>size_available</th>
         <td>
-          139682816
+          209807360
         </td>
       </tr>
       <tr>
@@ -1941,7 +2131,7 @@ Display columns:
                 <tr>
                   <th>lo</th>
                   <td>
-                    
+                      
   <table>
       <tr>
         <th>mtu</th>
@@ -2036,7 +2226,7 @@ Display columns:
                 <tr>
                   <th>eth0</th>
                   <td>
-                    
+                      
   <table>
       <tr>
         <th>macaddress</th>
@@ -2643,1001 +2833,10 @@ Display columns:
         </td>
       </tr>
     </table>
-    <a name="jib.electricmonk.nl"><h2 id="jib.electricmonk.nl">jib.electricmonk.nl</h2></a>
+    <a name="centos.dev.local"><h2 id="centos.dev.local">centos.dev.local</h2></a>
     <h3>General</h3>
     <table>
-      <tr><th>Node name</th><td>jib</td></tr>
-      <tr><th>Form factor</th><td>Portable</td></tr>
-      <tr><th>Virtualisation role</th><td>host</td></tr>
-      <tr><th>Virtualisation type</th><td>kvm</td></tr>
-    </table>
-
-    <h3>Custom variables</h3>
-    <table>
-    </table>
-
-    <h3>Hardware</h3>
-    <table>
-      <tr><th>Vendor</th><td>Dell Inc.</td></tr>
-      <tr><th>Product name</th><td>XPS 15 9530</td></tr>
-      <tr><th>Product serial</th><td>NA</td></tr>
-      <tr><th>Architecture</th><td>x86_64</td></tr>
-      <tr><th>Machine</th><td>x86_64</td></tr>
-      <tr><th>Processor count</th><td>1</td></tr>
-      <tr><th>Processor cores</th><td>4</td></tr>
-      <tr><th>Processor threads per core</th><td>2</td></tr>
-      <tr><th>Processor virtual CPUs</th><td>8</td></tr>
-      <tr><th>Mem total mb</th><td>15951</td></tr>
-      <tr><th>Mem free mb</th><td>2000</td></tr>
-      <tr><th>Swap total mb</th><td>0</td></tr>
-      <tr><th>Swap free mb</th><td>0</td></tr>
-    </table>
-
-    <h3>Operating System</h3>
-    <table>
-      <tr><th>System</th><td>Linux</td></tr>
-      <tr><th>OS Family</th><td>Linuxmint</td></tr>
-      <tr><th>Distribution</th><td>Linuxmint</td></tr>
-      <tr><th>Distribution version</th><td>17</td></tr>
-      <tr><th>Distribution release</th><td>qiana</td></tr>
-      <tr><th>Kernel</th><td>3.16.1-031601-generic</td></tr>
-      <tr><th>Userspace bits</th><td>64</td></tr>
-      <tr><th>Userspace_architecture</th><td>x86_64</td></tr>
-      <tr><th>Date time</th><td>2015-06-13T15:17:29Z</td></tr>
-      <tr><th>Locale / Encoding</th><td>en_US.UTF-8</td></tr>
-      <tr><th>SELinux?</th><td>False</td></tr>
-      <tr><th>Package manager</th><td>apt</td></tr>
-    </table>
-
-    <h3>Network</h3>
-    <table>
-      <tr><th>Hostname</th><td>jib</td></tr>
-      <tr><th>Domain</th><td></td></tr>
-      <tr><th>FQDN</th><td>jib</td></tr>
-      <tr><th>All IPv4</th><td>192.168.0.3<br>192.168.56.1</td></tr>
-      <tr>
-        <th>Interfaces</th>
-        <td>
-          <table>
-                <tr>
-                  <th>vboxnet2</th>
-                  <td>
-                    
-  <table>
-      <tr>
-        <th>macaddress</th>
-        <td>
-          0a:00:27:00:00:02
-        </td>
-      </tr>
-      <tr>
-        <th>mtu</th>
-        <td>
-          1500
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          vboxnet2
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          ether
-        </td>
-      </tr>
-  </table>
-
-                  </td>
-                </tr>
-                <tr>
-                  <th>lo</th>
-                  <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          65536
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                  </td>
-                </tr>
-                <tr>
-                  <th>vboxnet0</th>
-                  <td>
-                    
-  <table>
-      <tr>
-        <th>macaddress</th>
-        <td>
-          0a:00:27:00:00:00
-        </td>
-      </tr>
-      <tr>
-        <th>mtu</th>
-        <td>
-          1500
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          vboxnet0
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.255.255.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          192.168.56.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          192.168.56.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          ether
-        </td>
-      </tr>
-  </table>
-
-                  </td>
-                </tr>
-                <tr>
-                  <th>vboxnet1</th>
-                  <td>
-                    
-  <table>
-      <tr>
-        <th>macaddress</th>
-        <td>
-          0a:00:27:00:00:01
-        </td>
-      </tr>
-      <tr>
-        <th>mtu</th>
-        <td>
-          1500
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          vboxnet1
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          ether
-        </td>
-      </tr>
-  </table>
-
-                  </td>
-                </tr>
-                <tr>
-                  <th>wlan0</th>
-                  <td>
-                    
-  <table>
-      <tr>
-        <th>macaddress</th>
-        <td>
-          e8:2a:ea:62:a0:bb
-        </td>
-      </tr>
-      <tr>
-        <th>module</th>
-        <td>
-          iwlwifi
-        </td>
-      </tr>
-      <tr>
-        <th>mtu</th>
-        <td>
-          1500
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          wlan0
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.255.255.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          192.168.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          192.168.0.3
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          ether
-        </td>
-      </tr>
-  </table>
-
-                  </td>
-                </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-
-    <h3>Storage</h3>
-    <table>
-      <tr>
-        <th>Devices</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>sda</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>scheduler_mode</th>
-        <td>
-          deadline
-        </td>
-      </tr>
-      <tr>
-        <th>rotational</th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>vendor</th>
-        <td>
-          ATA
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          1953525168
-        </td>
-      </tr>
-      <tr>
-        <th>host</th>
-        <td>
-          RAID bus controller: Intel Corporation 82801 Mobile SATA Controller [RAID mode] (rev 05)
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          4096
-        </td>
-      </tr>
-      <tr>
-        <th>removable</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>support_discard</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>model</th>
-        <td>
-          TOSHIBA MQ02ABF1
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          7.28 TB
-        </td>
-      </tr>
-      <tr>
-        <th>holders</th>
-        <td>
-          
-
-        </td>
-      </tr>
-      <tr>
-        <th>partitions</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>sda6</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          1934036992
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          19477255
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          9.29 GB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda7</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          705236992
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          1215129600
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          579.42 GB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          1370112
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          4194304
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          2.00 GB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda5</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          5564416
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          699672576
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          333.63 GB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda2</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          1026048
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          81920
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          40.00 MB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda3</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          1107968
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          262144
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          128.00 MB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda1</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          2048
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          1024000
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          500.00 MB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sda8</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          1920366592
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          13670400
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          6.52 GB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>sdb</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>scheduler_mode</th>
-        <td>
-          deadline
-        </td>
-      </tr>
-      <tr>
-        <th>rotational</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>vendor</th>
-        <td>
-          ATA
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          62533296
-        </td>
-      </tr>
-      <tr>
-        <th>host</th>
-        <td>
-          RAID bus controller: Intel Corporation 82801 Mobile SATA Controller [RAID mode] (rev 05)
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>removable</th>
-        <td>
-          0
-        </td>
-      </tr>
-      <tr>
-        <th>support_discard</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>model</th>
-        <td>
-          LITEONIT LMS-32L
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          29.82 GB
-        </td>
-      </tr>
-      <tr>
-        <th>holders</th>
-        <td>
-          
-
-        </td>
-      </tr>
-      <tr>
-        <th>partitions</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>sdb1</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>start</th>
-        <td>
-          2048
-        </td>
-      </tr>
-      <tr>
-        <th>sectorsize</th>
-        <td>
-          512
-        </td>
-      </tr>
-      <tr>
-        <th>sectors</th>
-        <td>
-          16809984
-        </td>
-      </tr>
-      <tr>
-        <th>size</th>
-        <td>
-          8.02 GB
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>Mounts</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>uuid</th>
-        <td>
-          
-        </td>
-      </tr>
-      <tr>
-        <th>size_total</th>
-        <td>
-          612248961024
-        </td>
-      </tr>
-      <tr>
-        <th>mount</th>
-        <td>
-          /
-        </td>
-      </tr>
-      <tr>
-        <th>size_available</th>
-        <td>
-          420194226176
-        </td>
-      </tr>
-      <tr>
-        <th>fstype</th>
-        <td>
-          ext4
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          /dev/sda7
-        </td>
-      </tr>
-      <tr>
-        <th>options</th>
-        <td>
-          rw,errors=remount-ro
-        </td>
-      </tr>
-  </table>
-
-      
-  <table>
-      <tr>
-        <th>uuid</th>
-        <td>
-          
-        </td>
-      </tr>
-      <tr>
-        <th>size_total</th>
-        <td>
-          520093696
-        </td>
-      </tr>
-      <tr>
-        <th>mount</th>
-        <td>
-          /boot/efi
-        </td>
-      </tr>
-      <tr>
-        <th>size_available</th>
-        <td>
-          489680896
-        </td>
-      </tr>
-      <tr>
-        <th>fstype</th>
-        <td>
-          vfat
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          /dev/sda1
-        </td>
-      </tr>
-      <tr>
-        <th>options</th>
-        <td>
-          rw
-        </td>
-      </tr>
-  </table>
-
-      
-  <table>
-      <tr>
-        <th>uuid</th>
-        <td>
-          NA
-        </td>
-      </tr>
-      <tr>
-        <th>size_total</th>
-        <td>
-          612248961024
-        </td>
-      </tr>
-      <tr>
-        <th>mount</th>
-        <td>
-          /home/fboender
-        </td>
-      </tr>
-      <tr>
-        <th>size_available</th>
-        <td>
-          420194226176
-        </td>
-      </tr>
-      <tr>
-        <th>fstype</th>
-        <td>
-          ecryptfs
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          /home/fboender/.Private
-        </td>
-      </tr>
-      <tr>
-        <th>options</th>
-        <td>
-          ecryptfs_check_dev_ruid,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs,ecryptfs_sig=0e85e342c1be1478,ecryptfs_fnek_sig=912316d9976d93b1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-    </table>
-    <a name="debian.dev.local"><h2 id="debian.dev.local">debian.dev.local</h2></a>
-    <h3>General</h3>
-    <table>
-      <tr><th>Node name</th><td>dev.local</td></tr>
+      <tr><th>Node name</th><td>centos.local</td></tr>
       <tr><th>Form factor</th><td>Other</td></tr>
       <tr><th>Virtualisation role</th><td>guest</td></tr>
       <tr><th>Virtualisation type</th><td>virtualbox</td></tr>
@@ -3659,34 +2858,34 @@ Display columns:
       <tr><th>Processor cores</th><td>1</td></tr>
       <tr><th>Processor threads per core</th><td>1</td></tr>
       <tr><th>Processor virtual CPUs</th><td>1</td></tr>
-      <tr><th>Mem total mb</th><td>496</td></tr>
-      <tr><th>Mem free mb</th><td>25</td></tr>
-      <tr><th>Swap total mb</th><td>727</td></tr>
-      <tr><th>Swap free mb</th><td>727</td></tr>
+      <tr><th>Mem total mb</th><td>996</td></tr>
+      <tr><th>Mem free mb</th><td>819</td></tr>
+      <tr><th>Swap total mb</th><td>2015</td></tr>
+      <tr><th>Swap free mb</th><td>2015</td></tr>
     </table>
 
     <h3>Operating System</h3>
     <table>
       <tr><th>System</th><td>Linux</td></tr>
-      <tr><th>OS Family</th><td>Debian</td></tr>
-      <tr><th>Distribution</th><td>Debian</td></tr>
-      <tr><th>Distribution version</th><td>6.0.10</td></tr>
-      <tr><th>Distribution release</th><td>NA</td></tr>
-      <tr><th>Kernel</th><td>2.6.32-5-amd64</td></tr>
+      <tr><th>OS Family</th><td>RedHat</td></tr>
+      <tr><th>Distribution</th><td>CentOS</td></tr>
+      <tr><th>Distribution version</th><td>6.6</td></tr>
+      <tr><th>Distribution release</th><td>Final</td></tr>
+      <tr><th>Kernel</th><td>2.6.32-504.el6.x86_64</td></tr>
       <tr><th>Userspace bits</th><td>64</td></tr>
       <tr><th>Userspace_architecture</th><td>x86_64</td></tr>
-      <tr><th>Date time</th><td>2015-06-13T15:17:01Z</td></tr>
-      <tr><th>Locale / Encoding</th><td>en_US.UTF-8</td></tr>
+      <tr><th>Date time</th><td>2015-06-13T15:17:30Z</td></tr>
+      <tr><th>Locale / Encoding</th><td>Unknown</td></tr>
       <tr><th>SELinux?</th><td>False</td></tr>
-      <tr><th>Package manager</th><td>apt</td></tr>
+      <tr><th>Package manager</th><td>yum</td></tr>
     </table>
 
     <h3>Network</h3>
     <table>
-      <tr><th>Hostname</th><td>dev</td></tr>
-      <tr><th>Domain</th><td></td></tr>
-      <tr><th>FQDN</th><td>localhost</td></tr>
-      <tr><th>All IPv4</th><td>192.168.56.2</td></tr>
+      <tr><th>Hostname</th><td>centos</td></tr>
+      <tr><th>Domain</th><td>local</td></tr>
+      <tr><th>FQDN</th><td>centos.local</td></tr>
+      <tr><th>All IPv4</th><td>192.168.56.8</td></tr>
       <tr>
         <th>Interfaces</th>
         <td>
@@ -3694,12 +2893,12 @@ Display columns:
                 <tr>
                   <th>lo</th>
                   <td>
-                    
+                      
   <table>
       <tr>
         <th>mtu</th>
         <td>
-          16436
+          65536
         </td>
       </tr>
       <tr>
@@ -3789,18 +2988,18 @@ Display columns:
                 <tr>
                   <th>eth0</th>
                   <td>
-                    
+                      
   <table>
       <tr>
         <th>macaddress</th>
         <td>
-          08:00:27:f9:98:a7
+          08:00:27:7b:c9:a5
         </td>
       </tr>
       <tr>
         <th>module</th>
         <td>
-          pcnet32
+          e1000
         </td>
       </tr>
       <tr>
@@ -3841,7 +3040,7 @@ Display columns:
       <tr>
         <th>address</th>
         <td>
-          192.168.56.2
+          192.168.56.8
         </td>
       </tr>
   </table>
@@ -3869,7 +3068,7 @@ Display columns:
       <tr>
         <th>address</th>
         <td>
-          fe80::a00:27ff:fef9:98a7
+          fe80::a00:27ff:fe7b:c9a5
         </td>
       </tr>
   </table>
@@ -3937,7 +3136,7 @@ Display columns:
       <tr>
         <th>host</th>
         <td>
-          IDE interface: Intel Corporation 82371AB/EB/MB PIIX4 IDE (rev 01)
+          
         </td>
       </tr>
       <tr>
@@ -3955,7 +3154,92 @@ Display columns:
       <tr>
         <th>support_discard</th>
         <td>
-          None
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>model</th>
+        <td>
+          CD-ROM
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          1024.00 MB
+        </td>
+      </tr>
+      <tr>
+        <th>holders</th>
+        <td>
+          
+
+        </td>
+      </tr>
+      <tr>
+        <th>partitions</th>
+        <td>
+          
+  <table>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sr1</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>scheduler_mode</th>
+        <td>
+          cfq
+        </td>
+      </tr>
+      <tr>
+        <th>rotational</th>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <th>vendor</th>
+        <td>
+          VBOX
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          2097151
+        </td>
+      </tr>
+      <tr>
+        <th>host</th>
+        <td>
+          
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>removable</th>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <th>support_discard</th>
+        <td>
+          0
         </td>
       </tr>
       <tr>
@@ -4016,13 +3300,13 @@ Display columns:
       <tr>
         <th>sectors</th>
         <td>
-          209715200
+          67108864
         </td>
       </tr>
       <tr>
         <th>host</th>
         <td>
-          SATA controller: Intel Corporation 82801HBM/HEM (ICH8M/ICH8M-E) SATA AHCI Controller (rev 02)
+          
         </td>
       </tr>
       <tr>
@@ -4040,7 +3324,7 @@ Display columns:
       <tr>
         <th>support_discard</th>
         <td>
-          None
+          0
         </td>
       </tr>
       <tr>
@@ -4052,7 +3336,613 @@ Display columns:
       <tr>
         <th>size</th>
         <td>
-          100.00 GB
+          32.00 GB
+        </td>
+      </tr>
+      <tr>
+        <th>holders</th>
+        <td>
+          
+
+        </td>
+      </tr>
+      <tr>
+        <th>partitions</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>sda2</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          1026048
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          66082816
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          31.51 GB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sda1</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>start</th>
+        <td>
+          2048
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          1024000
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          500.00 MB
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>Mounts</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>uuid</th>
+        <td>
+          
+        </td>
+      </tr>
+      <tr>
+        <th>size_total</th>
+        <td>
+          31084978176
+        </td>
+      </tr>
+      <tr>
+        <th>mount</th>
+        <td>
+          /
+        </td>
+      </tr>
+      <tr>
+        <th>size_available</th>
+        <td>
+          28830801920
+        </td>
+      </tr>
+      <tr>
+        <th>fstype</th>
+        <td>
+          ext4
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          /dev/mapper/vg_centos-lv_root
+        </td>
+      </tr>
+      <tr>
+        <th>options</th>
+        <td>
+          rw
+        </td>
+      </tr>
+  </table>
+
+      
+  <table>
+      <tr>
+        <th>uuid</th>
+        <td>
+          
+        </td>
+      </tr>
+      <tr>
+        <th>size_total</th>
+        <td>
+          499355648
+        </td>
+      </tr>
+      <tr>
+        <th>mount</th>
+        <td>
+          /boot
+        </td>
+      </tr>
+      <tr>
+        <th>size_available</th>
+        <td>
+          447083520
+        </td>
+      </tr>
+      <tr>
+        <th>fstype</th>
+        <td>
+          ext4
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          /dev/sda1
+        </td>
+      </tr>
+      <tr>
+        <th>options</th>
+        <td>
+          rw
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+    </table>
+    <a name="win.dev.local"><h2 id="win.dev.local">win.dev.local</h2></a>
+    <h3>General</h3>
+    <table>
+      <tr><th>Node name</th><td>win-dev</td></tr>
+      <tr><th>Form factor</th><td>VPS</td></tr>
+      <tr><th>Virtualisation role</th><td>guest</td></tr>
+      <tr><th>Virtualisation type</th><td>VMware</td></tr>
+    </table>
+
+    <h3>Custom variables</h3>
+    <table>
+    </table>
+
+    <h3>Hardware</h3>
+    <table>
+      <tr><th>Vendor</th><td>VMware, Inc.</td></tr>
+      <tr><th>Product name</th><td>VMware Virtual Platform</td></tr>
+      <tr><th>Product serial</th><td>NA</td></tr>
+      <tr><th>Architecture</th><td>x86_64</td></tr>
+      <tr><th>Machine</th><td>x86_64</td></tr>
+      <tr><th>Processor count</th><td></td></tr>
+      <tr><th>Processor cores</th><td></td></tr>
+      <tr><th>Processor threads per core</th><td></td></tr>
+      <tr><th>Processor virtual CPUs</th><td></td></tr>
+      <tr><th>Mem total mb</th><td>4096</td></tr>
+      <tr><th>Mem free mb</th><td>4096</td></tr>
+      <tr><th>Swap total mb</th><td></td></tr>
+      <tr><th>Swap free mb</th><td></td></tr>
+    </table>
+
+    <h3>Operating System</h3>
+    <table>
+      <tr><th>System</th><td></td></tr>
+      <tr><th>OS Family</th><td>Windows</td></tr>
+      <tr><th>Distribution</th><td>Windows</td></tr>
+      <tr><th>Distribution version</th><td>2012</td></tr>
+      <tr><th>Distribution release</th><td>server</td></tr>
+      <tr><th>Kernel</th><td></td></tr>
+      <tr><th>Userspace bits</th><td>64</td></tr>
+      <tr><th>Userspace_architecture</th><td>x86_64</td></tr>
+      <tr><th>Date time</th><td></td></tr>
+      <tr><th>Locale / Encoding</th><td>Unknown</td></tr>
+      <tr><th>SELinux?</th><td></td></tr>
+      <tr><th>Package manager</th><td></td></tr>
+    </table>
+
+    <h3>Network</h3>
+    <table>
+      <tr><th>Hostname</th><td>win-dev</td></tr>
+      <tr><th>Domain</th><td>win-dev.local</td></tr>
+      <tr><th>FQDN</th><td>win.dev.local</td></tr>
+      <tr><th>All IPv4</th><td>10.0.0.3</td></tr>
+      <tr>
+        <th>Interfaces</th>
+        <td>
+          <table>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <h3>Storage</h3>
+    <table>
+      <tr>
+        <th>Devices</th>
+        <td>
+          
+  <table>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>Mounts</th>
+        <td>
+          
+
+        </td>
+      </tr>
+    </table>
+    <a name="eek.electricmonk.nl"><h2 id="eek.electricmonk.nl">eek.electricmonk.nl</h2></a>
+    <h3>General</h3>
+    <table>
+      <tr><th>Node name</th><td>eek</td></tr>
+      <tr><th>Form factor</th><td>Desktop</td></tr>
+      <tr><th>Virtualisation role</th><td>host</td></tr>
+      <tr><th>Virtualisation type</th><td>kvm</td></tr>
+    </table>
+
+    <h3>Custom variables</h3>
+    <table>
+          <tr><th>dtap</th><td>prod</td></tr>
+    </table>
+
+    <h3>Hardware</h3>
+    <table>
+      <tr><th>Vendor</th><td>HP-Pavilion</td></tr>
+      <tr><th>Product name</th><td>WL239AA-ABH s5330nl</td></tr>
+      <tr><th>Product serial</th><td>NA</td></tr>
+      <tr><th>Architecture</th><td>i386</td></tr>
+      <tr><th>Machine</th><td>i686</td></tr>
+      <tr><th>Processor count</th><td>1</td></tr>
+      <tr><th>Processor cores</th><td>2</td></tr>
+      <tr><th>Processor threads per core</th><td>1</td></tr>
+      <tr><th>Processor virtual CPUs</th><td>2</td></tr>
+      <tr><th>Mem total mb</th><td>2995</td></tr>
+      <tr><th>Mem free mb</th><td>245</td></tr>
+      <tr><th>Swap total mb</th><td>3035</td></tr>
+      <tr><th>Swap free mb</th><td>2902</td></tr>
+    </table>
+
+    <h3>Operating System</h3>
+    <table>
+      <tr><th>System</th><td>Linux</td></tr>
+      <tr><th>OS Family</th><td>Debian</td></tr>
+      <tr><th>Distribution</th><td>Ubuntu</td></tr>
+      <tr><th>Distribution version</th><td>14.04</td></tr>
+      <tr><th>Distribution release</th><td>trusty</td></tr>
+      <tr><th>Kernel</th><td>3.13.0-44-generic</td></tr>
+      <tr><th>Userspace bits</th><td>32</td></tr>
+      <tr><th>Userspace_architecture</th><td>i386</td></tr>
+      <tr><th>Date time</th><td>2015-06-13T15:16:50Z</td></tr>
+      <tr><th>Locale / Encoding</th><td>en_US.UTF-8</td></tr>
+      <tr><th>SELinux?</th><td>False</td></tr>
+      <tr><th>Package manager</th><td>apt</td></tr>
+    </table>
+
+    <h3>Network</h3>
+    <table>
+      <tr><th>Hostname</th><td>eek</td></tr>
+      <tr><th>Domain</th><td>electricmonk.nl</td></tr>
+      <tr><th>FQDN</th><td>eek.electricmonk.nl</td></tr>
+      <tr><th>All IPv4</th><td>192.168.0.10</td></tr>
+      <tr>
+        <th>Interfaces</th>
+        <td>
+          <table>
+                <tr>
+                  <th>lo</th>
+                  <td>
+                      
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          65536
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
+        </td>
+      </tr>
+  </table>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>eth0</th>
+                  <td>
+                      
+  <table>
+      <tr>
+        <th>macaddress</th>
+        <td>
+          e0:cb:4e:a7:4b:56
+        </td>
+      </tr>
+      <tr>
+        <th>module</th>
+        <td>
+          r8169
+        </td>
+      </tr>
+      <tr>
+        <th>mtu</th>
+        <td>
+          1500
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          eth0
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.255.255.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          192.168.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          192.168.0.10
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          link
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          64
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          fe80::e2cb:4eff:fea7:4b56
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          ether
+        </td>
+      </tr>
+  </table>
+
+                  </td>
+                </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <h3>Storage</h3>
+    <table>
+      <tr>
+        <th>Devices</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>sda</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>scheduler_mode</th>
+        <td>
+          deadline
+        </td>
+      </tr>
+      <tr>
+        <th>rotational</th>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <th>vendor</th>
+        <td>
+          ATA
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          625142448
+        </td>
+      </tr>
+      <tr>
+        <th>host</th>
+        <td>
+          IDE interface: Intel Corporation NM10/ICH7 Family SATA Controller [IDE mode] (rev 01)
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>removable</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>support_discard</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>model</th>
+        <td>
+          ST3320418AS
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          298.09 GB
         </td>
       </tr>
       <tr>
@@ -4087,13 +3977,13 @@ Display columns:
       <tr>
         <th>sectors</th>
         <td>
-          209211392
+          624640000
         </td>
       </tr>
       <tr>
         <th>size</th>
         <td>
-          99.76 GB
+          297.85 GB
         </td>
       </tr>
   </table>
@@ -4174,6 +4064,176 @@ Display columns:
 
         </td>
       </tr>
+      <tr>
+        <th>sdb</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>scheduler_mode</th>
+        <td>
+          deadline
+        </td>
+      </tr>
+      <tr>
+        <th>rotational</th>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <th>vendor</th>
+        <td>
+          ATA
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          7814037168
+        </td>
+      </tr>
+      <tr>
+        <th>host</th>
+        <td>
+          IDE interface: Intel Corporation NM10/ICH7 Family SATA Controller [IDE mode] (rev 01)
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          4096
+        </td>
+      </tr>
+      <tr>
+        <th>removable</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>support_discard</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>model</th>
+        <td>
+          ST4000DM000-1F21
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          29.11 TB
+        </td>
+      </tr>
+      <tr>
+        <th>holders</th>
+        <td>
+          
+
+        </td>
+      </tr>
+      <tr>
+        <th>partitions</th>
+        <td>
+          
+  <table>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>sdc</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>scheduler_mode</th>
+        <td>
+          deadline
+        </td>
+      </tr>
+      <tr>
+        <th>rotational</th>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <th>vendor</th>
+        <td>
+          Multi
+        </td>
+      </tr>
+      <tr>
+        <th>sectors</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>host</th>
+        <td>
+          USB controller: Intel Corporation NM10/ICH7 Family USB2 EHCI Controller (rev 01)
+        </td>
+      </tr>
+      <tr>
+        <th>sectorsize</th>
+        <td>
+          512
+        </td>
+      </tr>
+      <tr>
+        <th>removable</th>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <th>support_discard</th>
+        <td>
+          0
+        </td>
+      </tr>
+      <tr>
+        <th>model</th>
+        <td>
+          Flash Reader
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>
+          0.00 Bytes
+        </td>
+      </tr>
+      <tr>
+        <th>holders</th>
+        <td>
+          
+
+        </td>
+      </tr>
+      <tr>
+        <th>partitions</th>
+        <td>
+          
+  <table>
+  </table>
+
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
   </table>
 
         </td>
@@ -4187,13 +4247,13 @@ Display columns:
       <tr>
         <th>uuid</th>
         <td>
-          NA
+          
         </td>
       </tr>
       <tr>
         <th>size_total</th>
         <td>
-          104680742912
+          311513391104
         </td>
       </tr>
       <tr>
@@ -4205,19 +4265,19 @@ Display columns:
       <tr>
         <th>size_available</th>
         <td>
-          89026240512
+          290729607168
         </td>
       </tr>
       <tr>
         <th>fstype</th>
         <td>
-          ext3
+          ext4
         </td>
       </tr>
       <tr>
         <th>device</th>
         <td>
-          /dev/mapper/debian-root
+          /dev/mapper/live-root
         </td>
       </tr>
       <tr>
@@ -4233,7 +4293,53 @@ Display columns:
       <tr>
         <th>uuid</th>
         <td>
-          NA
+          
+        </td>
+      </tr>
+      <tr>
+        <th>size_total</th>
+        <td>
+          3937873526784
+        </td>
+      </tr>
+      <tr>
+        <th>mount</th>
+        <td>
+          /storage
+        </td>
+      </tr>
+      <tr>
+        <th>size_available</th>
+        <td>
+          1001502662656
+        </td>
+      </tr>
+      <tr>
+        <th>fstype</th>
+        <td>
+          ext4
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          /dev/sdb
+        </td>
+      </tr>
+      <tr>
+        <th>options</th>
+        <td>
+          rw,errors=remount-ro
+        </td>
+      </tr>
+  </table>
+
+      
+  <table>
+      <tr>
+        <th>uuid</th>
+        <td>
+          
         </td>
       </tr>
       <tr>
@@ -4251,7 +4357,7 @@ Display columns:
       <tr>
         <th>size_available</th>
         <td>
-          209807360
+          139682816
         </td>
       </tr>
       <tr>
