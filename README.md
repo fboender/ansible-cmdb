@@ -67,6 +67,14 @@ The 'html_fancy' template is the default. It can be easily extended by copying
 it and modifying the `cols` definition at the top. It should be served over
 HTTP, as it uses CDN Jquery libs.
 
+Ansible-cmdb currently provides the following templates out of the box:
+
+* `html_fancy`: A fancy HTML page that used JQuery and DataTables to give you a
+  searchable, sortable table overview of all hosts with detailed information
+  just a click away.
+* `txt_table`: A quick text table summary of the available hosts with some
+  minimal information.
+
 ### Inventory scanning
 
 Ansible-cmdb can read your inventory file (`hosts`, by default) and extract
