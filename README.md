@@ -44,7 +44,7 @@ First, generate Ansible output for your hosts:
 Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
 overview page:
 
-	ansible_cmdb out/ > overview.html
+	ansible-cmdb out/ > overview.html
 
 
 ### Templates
@@ -135,7 +135,7 @@ You can create an additional directory with custom information:
 
 Specify both directories when generating the output:
 
-	./ansible_cmdb out/ out_cust/ > overview.html
+	./ansible-cmdb out/ out_cust/ > overview.html
 
 Your custom variables will be put in the root of the host information dictionary:
 
