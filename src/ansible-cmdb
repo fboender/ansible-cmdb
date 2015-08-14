@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # ansible_cmd
 #
@@ -50,7 +50,7 @@ class Ansible(object):
                 x = json.loads(''.join(s))
                 self.update_host(hostname, x)
                 self.update_host(hostname, {'name': hostname})
-            except ValueError, e:
+            except ValueError as e:
                 # Ignore non-JSON files (and bonus errors)
                 sys.stderr.write("Error parsing: %s: %s\n" % (fname, e))
 
