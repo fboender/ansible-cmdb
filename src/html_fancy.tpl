@@ -59,10 +59,10 @@ cols = [
   ${host['ansible_facts'].get('ansible_virtualization_type', '')} / ${host['ansible_facts'].get('ansible_virtualization_role', '')}
 </%def>
 <%def name="col_disk_total(host)">
-  ${', '.join([str(i['size_total']/1048576000) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_total']/1048576000 > 1])}
+  ${', '.join([str(round(i['size_total']/1048576000.0, 2)) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_total']/1048576000.0 > 1])}
 </%def>
 <%def name="col_disk_avail(host)">
-  ${', '.join([str(i['size_available']/1048576000) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_available']/1048576000 > 1])}
+  ${', '.join([str(round(i['size_available']/1048576000.0,2)) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_available']/1048576000.0 > 1])}
 </%def>
 <%def name="col_disk_usage(host)">
   % for i in host['ansible_facts'].get('ansible_mounts', []):
