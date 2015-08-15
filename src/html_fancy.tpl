@@ -15,8 +15,6 @@ cols = [
   {"title": "Mem", "func": col_mem, "visible": True},
   {"title": "CPUs", "func": col_cpus, "visible": False},
   {"title": "Virt", "func": col_virt, "visible": False},
-  {"title": "Disk total", "func": col_disk_total, "visible": False},
-  {"title": "Disk avail", "func": col_disk_avail, "visible": True},
   {"title": "Disk usage", "func": col_disk_usage, "visible": False},
   {"title": "Comment", "func": col_comment, "visible": True},
   {"title": "Ext ID", "func": col_ext_id, "visible": True},
@@ -58,19 +56,13 @@ cols = [
 <%def name="col_virt(host)">
   ${host['ansible_facts'].get('ansible_virtualization_type', '')} / ${host['ansible_facts'].get('ansible_virtualization_role', '')}
 </%def>
-<%def name="col_disk_total(host)">
-  ${', '.join([str(round(i['size_total']/1048576000.0, 2)) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_total']/1048576000.0 > 1])}
-</%def>
-<%def name="col_disk_avail(host)">
-  ${', '.join([str(round(i['size_available']/1048576000.0,2)) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_available']/1048576000.0 > 1])}
-</%def>
 <%def name="col_disk_usage(host)">
   % for i in host['ansible_facts'].get('ansible_mounts', []):
     % if i['size_total']/1048576000 > 1:
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
-        </span> ${i['mount']}
+        </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1048576000.0, 2)}g / ${round(i['size_total'] / 1048576000.0, 2)}g)</span>
       </div>
     % endif
   % endfor
@@ -126,11 +118,12 @@ cols = [
     a { text-decoration: none; }
     a.col-visible { color: #000000; font-weight: bold; margin-right: 12px; }
     a.col-invisible { color: #909090; font-weight: normal; margin-right: 12px; }
-    .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; }
+    .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
     .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     .error { color: #FF0000; }
     td.error a { color: #FF0000; }
     #generated { font-size: x-small; }
+    #disk_usage_detail { font-size: small; }
   </style>
   <!-- DataTables assets -->
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
