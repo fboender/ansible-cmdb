@@ -58,7 +58,7 @@ cols = [
 </%def>
 <%def name="col_disk_usage(host)">
   % for i in host['ansible_facts'].get('ansible_mounts', []):
-    % if i['size_total']/1048576000 > 1:
+    % if i['size_total'] > 1:
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>

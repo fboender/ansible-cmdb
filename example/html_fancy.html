@@ -15,8 +15,6 @@
 
 
 
-
-
 <html>
 <head>
   <title>Ansible overview</title>
@@ -30,11 +28,12 @@
     a { text-decoration: none; }
     a.col-visible { color: #000000; font-weight: bold; margin-right: 12px; }
     a.col-invisible { color: #909090; font-weight: normal; margin-right: 12px; }
-    .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; }
+    .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
     .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     .error { color: #FF0000; }
     td.error a { color: #FF0000; }
     #generated { font-size: x-small; }
+    #disk_usage_detail { font-size: small; }
   </style>
   <!-- DataTables assets -->
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
@@ -43,7 +42,7 @@
 </head>
 <body>
 <h1>Host Overview</h1>
-<p id="generated">Generated: Wed Aug 12 10:09:36 2015</p>
+<p id="generated">Generated: Sat Aug 15 10:12:55 2015</p>
 <div id="columns">
 Display columns:
   
@@ -69,15 +68,11 @@ Display columns:
   
   <a href="" class="col-toggle col-invisible" data-column="10">Virt</a>
   
-  <a href="" class="col-toggle col-invisible" data-column="11">Disk total</a>
+  <a href="" class="col-toggle col-invisible" data-column="11">Disk usage</a>
   
-  <a href="" class="col-toggle col-visible" data-column="12">Disk avail</a>
+  <a href="" class="col-toggle col-visible" data-column="12">Comment</a>
   
-  <a href="" class="col-toggle col-invisible" data-column="13">Disk usage</a>
-  
-  <a href="" class="col-toggle col-visible" data-column="14">Comment</a>
-  
-  <a href="" class="col-toggle col-visible" data-column="15">Ext ID</a>
+  <a href="" class="col-toggle col-visible" data-column="13">Ext ID</a>
 </div>
 
 <table id="host_overview" class="demo display dataTable compact">
@@ -94,8 +89,6 @@ Display columns:
       <th>Mem</th>
       <th>CPUs</th>
       <th>Virt</th>
-      <th>Disk total</th>
-      <th>Disk avail</th>
       <th>Disk usage</th>
       <th>Comment</th>
       <th>Ext ID</th>
@@ -110,7 +103,7 @@ Display columns:
   
 </td>
           <td>
-  prod
+  
 </td>
           <td>
   jib
@@ -137,16 +130,15 @@ Display columns:
   kvm / host
 </td>
           <td>
-  583g
-</td>
-          <td>
-  400g
-</td>
-          <td>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:5.84756174395px"></span>
+        </span> /boot/efi <span id="disk_usage_detail">(0.03g / 0.5g)</span>
+      </div>
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:31.3687318516px"></span>
-        </span> /home/fboender
+        </span> /home/fboender <span id="disk_usage_detail">(183.16g / 583.89g)</span>
       </div>
 </td>
           <td>
@@ -161,10 +153,10 @@ Display columns:
   <a href="#debian.dev.local">debian.dev.local</a>
 </td>
           <td>
-  dev
+  
 </td>
           <td>
-  virt
+  
 </td>
           <td>
   localhost
@@ -191,16 +183,15 @@ Display columns:
   virtualbox / guest
 </td>
           <td>
-  99g
-</td>
-          <td>
-  84g
-</td>
-          <td>
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:14.9545197756px"></span>
-        </span> /
+        </span> / <span id="disk_usage_detail">(14.93g / 99.83g)</span>
+      </div>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:12.136403206px"></span>
+        </span> /boot <span id="disk_usage_detail">(0.03g / 0.23g)</span>
       </div>
 </td>
           <td>
@@ -215,10 +206,10 @@ Display columns:
   <a href="#zoltar.electricmonk.nl">zoltar.electricmonk.nl</a>
 </td>
           <td>
-  prod
+  
 </td>
           <td>
-  prod
+  
 </td>
           <td>
   zoltar-new.melkfl.es
@@ -245,16 +236,15 @@ Display columns:
   VMware / guest
 </td>
           <td>
-  124g
-</td>
-          <td>
-  27g
-</td>
-          <td>
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:77.9225585062px"></span>
-        </span> /
+        </span> / <span id="disk_usage_detail">(97.1g / 124.61g)</span>
+      </div>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:60.5896120711px"></span>
+        </span> /boot <span id="disk_usage_detail">(0.14g / 0.24g)</span>
       </div>
 </td>
           <td>
@@ -269,10 +259,10 @@ Display columns:
   <a href="#centos.dev.local">centos.dev.local</a>
 </td>
           <td>
-  dev
+  
 </td>
           <td>
-  virt
+  
 </td>
           <td>
   centos.local
@@ -299,16 +289,15 @@ Display columns:
   virtualbox / guest
 </td>
           <td>
-  29g
-</td>
-          <td>
-  27g
-</td>
-          <td>
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:7.2516578369px"></span>
-        </span> /
+        </span> / <span id="disk_usage_detail">(2.15g / 29.64g)</span>
+      </div>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:10.4679156448px"></span>
+        </span> /boot <span id="disk_usage_detail">(0.05g / 0.48g)</span>
       </div>
 </td>
           <td>
@@ -353,12 +342,6 @@ Display columns:
   VMware / guest
 </td>
           <td>
-  
-</td>
-          <td>
-  
-</td>
-          <td>
 </td>
           <td>
   
@@ -372,10 +355,10 @@ Display columns:
   <a href="#eek.electricmonk.nl">eek.electricmonk.nl</a>
 </td>
           <td>
-  prod
+  
 </td>
           <td>
-  prod
+  
 </td>
           <td>
   eek.electricmonk.nl
@@ -402,21 +385,20 @@ Display columns:
   kvm / host
 </td>
           <td>
-  297g, 3755g
-</td>
-          <td>
-  277g, 955g
-</td>
-          <td>
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:6.67187495932px"></span>
-        </span> /
+        </span> / <span id="disk_usage_detail">(19.82g / 297.08g)</span>
       </div>
       <div class="bar">
         <span class="prog_bar_full" style="width:100px">
           <span class="prog_bar_used" style="width:74.5674243765px"></span>
-        </span> /storage
+        </span> /storage <span id="disk_usage_detail">(2800.34g / 3755.45g)</span>
+      </div>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:41.5033170234px"></span>
+        </span> /boot <span id="disk_usage_detail">(0.09g / 0.23g)</span>
       </div>
 </td>
           <td>
@@ -1438,7 +1420,6 @@ Display columns:
 
     <h3>Custom variables</h3>
     <table>
-          <tr><th>dtap</th><td>dev</td></tr>
     </table>
 
     <h3>Hardware</h3>
@@ -2082,7 +2063,6 @@ Display columns:
 
     <h3>Custom variables</h3>
     <table>
-          <tr><th>dtap</th><td>prod</td></tr>
     </table>
 
     <h3>Hardware</h3>
@@ -2844,7 +2824,6 @@ Display columns:
 
     <h3>Custom variables</h3>
     <table>
-          <tr><th>dtap</th><td>dev</td></tr>
     </table>
 
     <h3>Hardware</h3>
@@ -3620,7 +3599,6 @@ Display columns:
 
     <h3>Custom variables</h3>
     <table>
-          <tr><th>dtap</th><td>prod</td></tr>
     </table>
 
     <h3>Hardware</h3>
@@ -4403,9 +4381,7 @@ $(document).ready( function () {
         { "targets": [10], "visible": false },
         { "targets": [11], "visible": false },
         { "targets": [12], "visible": true },
-        { "targets": [13], "visible": false },
-        { "targets": [14], "visible": true },
-        { "targets": [15], "visible": true },
+        { "targets": [13], "visible": true },
     ]
   });
 
