@@ -23,7 +23,7 @@ For **Debian / Ubuntu** systems:
 
 For **Redhat / Centos** systems:
 
-    sudo yum -i -i ansible-cmdb*.rpm
+    sudo yum install ansible-cmdb*.rpm
 
 For **Other** systems:
 
