@@ -1,3 +1,17 @@
+v1.3   2015-08-16
+
+- Generated RPM now installs on operating systems with strict Yum (Fedora 22,
+  Amazon AMI).
+- The default templates (html_fancy, txt_table) no longer crash on missing
+  information.
+- Python3 compatibility. (by Sven Schliesing).
+- Disk total and available columns have been deprecated in favour of adding the
+  information to the Disk Usage columns. (by Sven Schliesing).
+- No longer ignore disks smaller than 1Gb, but still ignore disks of total size
+  0.
+- Minor fixes in the documentation (by Sebastian Gumprich, et al).
+- Better error reporting.
+
 v1.2   2015-08-11
 
 - Fancy template: Don't fail if network interface information is not available.
