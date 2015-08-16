@@ -18,7 +18,7 @@ release: release_src release_deb release_rpm
 doc:
 	markdown_py README.md > README.html
 
-release_src: doc
+release_src: clean doc
 	@echo "Making release for version $(REL_VERSION)"
 
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
@@ -32,6 +32,7 @@ release_src: doc
 	cp -r lib/* $(PROG)-$(REL_VERSION)/
 	cp LICENSE $(PROG)-$(REL_VERSION)/
 	cp README.md $(PROG)-$(REL_VERSION)/
+	cp CHANGELOG.txt $(PROG)-$(REL_VERSION)/
 	cp contrib/release_Makefile $(PROG)-$(REL_VERSION)/Makefile
 
 	# Bump version numbers
@@ -41,7 +42,7 @@ release_src: doc
 	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -vczf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
-release_deb: doc
+release_deb: clean doc
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
 
 	# Cleanup
@@ -76,11 +77,4 @@ release_rpm: release_deb
 	alien -r $(PROG)-$(REL_VERSION).deb
 
 clean:
-	rm -rf *.tar.gz
-	rm -rf *.zip
-	rm -rf *.deb
-	rm -rf rel_deb
-	rm -rf $(PROG)-*
-	rm -rf README.html
-	find ./ -name "*.log" -delete
-	find ./ -name "*.pyc" -delete
+	git clean -d -x -f
