@@ -1,7 +1,7 @@
 {
     "ansible_facts": {
         "ansible_all_ipv4_addresses": [
-            "192.168.56.2"
+            "192.168.58.3"
         ], 
         "ansible_all_ipv6_addresses": [
             "fe80::a00:27ff:fef9:98a7"
@@ -32,14 +32,14 @@
             "year": "2015"
         }, 
         "ansible_default_ipv4": {
-            "address": "192.168.56.2", 
+            "address": "192.168.58.3", 
             "alias": "eth0", 
-            "gateway": "192.168.56.1", 
+            "gateway": "192.168.58.1", 
             "interface": "eth0", 
             "macaddress": "08:00:27:f9:98:a7", 
             "mtu": 1500, 
             "netmask": "255.255.255.0", 
-            "network": "192.168.56.0", 
+            "network": "192.168.58.0", 
             "type": "ether"
         }, 
         "ansible_default_ipv6": {}, 
@@ -113,8 +113,8 @@
             "PWD": "/home/fboender", 
             "SHELL": "/bin/bash", 
             "SHLVL": "1", 
-            "SSH_CLIENT": "192.168.56.1 48074 22", 
-            "SSH_CONNECTION": "192.168.56.1 48074 192.168.56.2 22", 
+            "SSH_CLIENT": "192.168.58.1 48074 22", 
+            "SSH_CONNECTION": "192.168.58.1 48074 192.168.58.3 22", 
             "SSH_TTY": "/dev/pts/1", 
             "TERM": "xterm-256color", 
             "TNS_ADMIN": "/usr/local/lib/instantclient_10_2/network/admin/", 
@@ -125,9 +125,9 @@
             "active": true, 
             "device": "eth0", 
             "ipv4": {
-                "address": "192.168.56.2", 
+                "address": "192.168.58.3", 
                 "netmask": "255.255.255.0", 
-                "network": "192.168.56.0"
+                "network": "192.168.58.0"
             }, 
             "ipv6": [
                 {
@@ -197,15 +197,15 @@
                 "used": 0
             }
         }, 
-        "ansible_memtotal_mb": 1496, 
+        "ansible_memtotal_mb": 496, 
         "ansible_mounts": [
             {
                 "device": "/dev/mapper/debian-root", 
                 "fstype": "ext3", 
                 "mount": "/", 
                 "options": "rw,errors=remount-ro", 
-                "size_available": 189026240512, 
-                "size_total": 304680742912, 
+                "size_available": 89026240512, 
+                "size_total": 104680742912, 
                 "uuid": "NA"
             }, 
             {
@@ -218,7 +218,7 @@
                 "uuid": "NA"
             }
         ], 
-        "ansible_nodename": "dev.local", 
+        "ansible_nodename": "db03.dev.local", 
         "ansible_os_family": "Debian", 
         "ansible_pkg_mgr": "apt", 
         "ansible_processor": [

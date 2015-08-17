@@ -6,3 +6,6 @@ centos.dev.local dtap=dev
 eek.electricmonk.nl dtap=prod
 zoltar.electricmonk.nl dtap=prod
 jib.electricmonk.nl
+
+[db]
+db[01:03].dev.local dtap=dev
