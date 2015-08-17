@@ -87,4 +87,4 @@ release_rpm: release_deb
 
 
 clean:
-	git clean -d -x -f
+	git clean -i -d -x -f
