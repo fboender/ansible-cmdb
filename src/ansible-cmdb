@@ -103,7 +103,8 @@ class Ansible(object):
         Expand a host definition (e.g. "foo[001:010].bar.com") into seperate
         hostnames. Supports zero-padding, numbered ranges and alphabetical
         ranges. Multiple patterns in a host defnition are also supported.
-        Returns a list of the fully expanded hostnames.
+        Returns a list of the fully expanded hostnames. Ports are also removed
+        from hostnames as a bonus (e.g. "foo.bar.com:8022" -> "foo.bar.com")
         """
         hosts_todo = [hostdef]
         hosts_done = []
@@ -146,7 +147,8 @@ class Ansible(object):
                     else:
                         hosts_done.append(new_host)
 
-        return hosts_done
+        # Strip port numbers off and return
+        return [host_name.split(':')[0] for host_name in hosts_done]
 
     def update_host(self, hostname, key_values):
         """
