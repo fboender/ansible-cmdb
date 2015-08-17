@@ -1,11 +1,24 @@
-[virt]
+[dev]
 debian.dev.local dtap=dev
 centos.dev.local dtap=dev
 
-[prod]
-eek.electricmonk.nl dtap=prod
-zoltar.electricmonk.nl dtap=prod
-jib.electricmonk.nl
-
 [db]
-db[01:03].dev.local dtap=dev
+db[01:03].prod.local dtap=prod
+
+[prod]
+eek.electricmonk.nl
+zoltar.electricmonk.nl comment="Load balancer"
+jib.electricmonk.nl comment="Workstation"
+
+[prod:children]
+db
+
+[prod:vars]
+dtap=prod
+
+[virtual]
+debian.dev.local
+centos.dev.local
+
+[uat]
+app.uat.local dtap=uat

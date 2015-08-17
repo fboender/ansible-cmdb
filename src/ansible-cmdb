@@ -17,7 +17,6 @@ import shlex
 import re
 import json, mako
 from mako.template import Template
-import pprint
 
 class Ansible(object):
     def __init__(self, fact_dirs, hosts_file=None):
@@ -58,33 +57,129 @@ class Ansible(object):
         """
         Parse an ansible hosts file and extract information about each host
         from it, including custom variables. Supports hostname expansions (e.g.
-        foo[01:10].bar.com).
+        foo[01:10].bar.com), var groups and children groups.
         """
-        cur_group = []
+        cur_group_type = None
+        cur_group = None
+        raw_groups = {
+            'normal': {},
+            'vars': {},
+            'children': {},
+        }
+
+        # Go through the file line by line and map every line to the group they
+        # belong to. There are three groups: normal, vars and children.
         for line in file(options.inventory, 'r'):
             line = line.strip()
-            if line.startswith('#') or not line:
-                # Ignore comments and empty lines
+
+            if line.lstrip().startswith('#') or not line:
+                # Line is empty or is a comment. Ignore it.
                 continue
             elif line.startswith('['):
-                # Store current group we're in
-                m = re.match("\[(.*)\]", line)
-                cur_group = m.groups()[0]
+                # Line contains a group definition. Set the current group type
+                # and name.
+                cur_group_type, cur_group_name = self._parse_group_line(line)
             else:
-                hostname, key_values = self._parse_hosts_line(line)
+                raw_groups[cur_group_type].setdefault(cur_group_name, []).append(line)
+
+        # Construct the dictionary of 'normal' (non-vars and non-children) groups and
+        # their associated hosts.
+        normal_groups = {}
+        for group_name, lines in raw_groups['normal'].items():
+            for line in lines:
+                hostname, key_values = self._parse_group_normal_line(line)
+                expanded_hostnames = self._expand_hostdef(hostname)
+                for hostname in expanded_hostnames:
+                    normal_groups.setdefault(group_name, []).append(hostname)
+
+        # Children groups are groups that contain other groups. For each
+        # :children group, add the group name to all the groups it contains and
+        # set the variables on each line to every host in the group the line
+        # gives.
+        #
+        # e.g.: [prod:children]
+        #       app comment="application servers"
+        #       db comment="database servers"
+        # would add the 'prod' group to each host in the 'app' group and 'db'
+        # group. It would also set the comment 'application servers' on each
+        # host in the 'app' group and the 'database server' comment on each
+        # host in the 'db' group.
+        for group_name, lines in raw_groups['children'].items():
+            for line in lines:
+                apply_group_name, key_values = self._parse_group_normal_line(line)
+                for hostname in normal_groups[apply_group_name]:
+                    self.update_host(hostname, key_values)
+                    self.update_host(hostname, {'groups': group_name})
+
+        # Var groups allow you to set variables on all the hosts in a gorup.
+        # e.g.: [prod:vars]
+        #       dtap=prod
+        # would set the 'dtap' variable to 'prod' for each host in the 'prod'
+        # group.
+        for group_name, lines in raw_groups['vars'].items():
+            for line in lines:
+                key_values = self._parse_group_vars_line(line)
+                for hostname in normal_groups[group_name]:
+                    self.update_host(hostname, {'hostvars': key_values})
+
+        # Finally handle the normal group variables. This is done last so it
+        # overrides the other methods of setting variables. We also add the
+        # group name to each host.
+        for group_name, lines in raw_groups['normal'].items():
+            for line in lines:
+                hostname, key_values = self._parse_group_normal_line(line)
                 expanded_hostnames = self._expand_hostdef(hostname)
                 for hostname in expanded_hostnames:
                     self.update_host(hostname, key_values)
-                    self.update_host(hostname, {'groups': cur_group})
+                    self.update_host(hostname, {'groups': group_name})
+                    normal_groups.setdefault(group_name, []).append(hostname)
 
-    def _parse_hosts_line(self, line):
+    def _parse_group_line(self, line):
         """
-        Parse a line with a host definition from an Ansible hosts definition
-        file. Split up the line using shell-like syntax and extract the
-        hostname and variables.
+        Parse a line containing a group definition:
+        e.g.:
+          [prod]
+        or
+          [prod:children]
+        Returns a tuple: (group_type, group_name), where group_type is in the
+        set ('normal', 'children', 'vars')
+        """
+        m = re.match("\[(.*)\]", line)
+        group_def = m.groups()[0]
+        if ':' in group_def:
+            group_name, group_type = group_def.split(':')
+        else:
+            group_name = group_def
+            group_type = 'normal'
+
+        return (group_type, group_name)
+
+    def _parse_group_normal_line(self, line):
+        """
+        Parse a line in a group of type 'normal' Split up the line using
+        shell-like syntax and extract the hostname and variables.
         """
         tokens = shlex.split(line.strip())
         hostname = tokens.pop(0)
+        key_values = self._parse_vars(tokens)
+        return (hostname, {'hostvars': key_values})
+
+    def _parse_group_vars_line(self, line):
+        """
+        Parse a line in a group of type 'vars'.
+        """
+        tokens = shlex.split(line.strip())
+        key_values = self._parse_vars(tokens)
+        return key_values
+
+    def _parse_vars(self, tokens):
+        """
+        Given an iterable of tokens, returns variables and their values as a
+        dictionary.
+
+        ['dtap=prod', 'comment=some comment'] =>
+            {'dtap': 'prod', 'comment': 'some comment'}
+        """
         key_values = {}
         for token in tokens:
             if token == '#':
@@ -95,8 +190,7 @@ class Ansible(object):
                 k, v = token.split('=', 1)
                 key = k.strip()
                 key_values[key] = v.strip()
-
-        return (hostname, {'hostvars': key_values})
+        return key_values
 
     def _expand_hostdef(self, hostdef):
         """
