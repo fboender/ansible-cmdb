@@ -49,7 +49,7 @@ overview page:
 The default template is `html_fancy`, which required Jquery and a JQuery
 library. It can therefor not be opened in your browser using `file:///`, but
 must be served over http or https. You can do so reasonbly easy using Python's
-built-in webserver, which will serve files to from the directory it is started
+built-in webserver, which will serve files  from the directory it is started
 in:
 
     $ python -m SimpleHTTPServer 
