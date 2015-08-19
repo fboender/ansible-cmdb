@@ -67,9 +67,20 @@ class Ansible(object):
             'children': {},
         }
 
+        # Read all the available hosts information into hosts_contents.
+        hosts_contents = []
+        if os.path.isdir(hosts_file):
+            for fname in os.listdir(hosts_file):
+                path = os.path.join(hosts_file, fname)
+                hosts_contents += file(path, 'r').readlines()
+        else:
+            hosts_contents = file(hosts_file, 'r').readlines()
+
+        print hosts_contents
+
         # Go through the file line by line and map every line to the group they
         # belong to. There are three groups: normal, vars and children.
-        for line in file(options.inventory, 'r'):
+        for line in hosts_contents:
             line = line.strip()
 
             if line.lstrip().startswith('#') or not line:
