@@ -76,8 +76,6 @@ class Ansible(object):
         else:
             hosts_contents = file(hosts_file, 'r').readlines()
 
-        print hosts_contents
-
         # Go through the file line by line and map every line to the group they
         # belong to. There are three groups: normal, vars and children.
         for line in hosts_contents:
