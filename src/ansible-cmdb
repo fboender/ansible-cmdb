@@ -59,9 +59,10 @@ class Ansible(object):
         from it, including custom variables. Supports hostname expansions (e.g.
         foo[01:10].bar.com), var groups and children groups.
         """
-        cur_group_type = None
-        cur_group = None
+        cur_group_type = 'nogroup'
+        cur_group_name = 'ignore'
         raw_groups = {
+            'nogroup': {},
             'normal': {},
             'vars': {},
             'children': {},
