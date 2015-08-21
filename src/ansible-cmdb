@@ -47,6 +47,10 @@ class Ansible(object):
             fd.close()
             try:
                 x = json.loads(''.join(s))
+                # for compatibility with fact_caching=jsonfile
+                # which omits the "ansible_facts" parent key added by the setup module
+                if not x.has_key('ansible_facts'):
+                    x = json.loads('{ "ansible_facts": ' + ''.join(s) + ' }')
                 self.update_host(hostname, x)
                 self.update_host(hostname, {'name': hostname})
             except ValueError as e:
