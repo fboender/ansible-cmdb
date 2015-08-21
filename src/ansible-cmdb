@@ -77,9 +77,11 @@ class Ansible(object):
         if os.path.isdir(hosts_file):
             for fname in os.listdir(hosts_file):
                 path = os.path.join(hosts_file, fname)
-                hosts_contents += open(path, 'r').readlines()
+                with open(path, 'r') as f:
+                    hosts_contents += f.readlines()
         else:
-            hosts_contents = open(hosts_file, 'r').readlines()
+            with open(hosts_file, 'r') as f:
+                hosts_contents = f.readlines()
 
         # Go through the file line by line and map every line to the group they
         # belong to. There are three groups: normal, vars and children.
