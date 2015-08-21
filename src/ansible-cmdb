@@ -49,7 +49,7 @@ class Ansible(object):
                 x = json.loads(''.join(s))
                 # for compatibility with fact_caching=jsonfile
                 # which omits the "ansible_facts" parent key added by the setup module
-                if not x.has_key('ansible_facts'):
+                if not 'ansible_facts' in x:
                     x = json.loads('{ "ansible_facts": ' + ''.join(s) + ' }')
                 self.update_host(hostname, x)
                 self.update_host(hostname, {'name': hostname})
@@ -77,9 +77,9 @@ class Ansible(object):
         if os.path.isdir(hosts_file):
             for fname in os.listdir(hosts_file):
                 path = os.path.join(hosts_file, fname)
-                hosts_contents += file(path, 'r').readlines()
+                hosts_contents += open(path, 'r').readlines()
         else:
-            hosts_contents = file(hosts_file, 'r').readlines()
+            hosts_contents = open(hosts_file, 'r').readlines()
 
         # Go through the file line by line and map every line to the group they
         # belong to. There are three groups: normal, vars and children.
