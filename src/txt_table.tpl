@@ -8,7 +8,7 @@ cols = [
   {"title": "OS", "field": lambda h: h['ansible_facts'].get('ansible_distribution', '') + ' ' + h['ansible_facts'].get('ansible_distribution_version', '')},
   {"title": "IP", "field": lambda h: host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')},
   {"title": "Arch", "field": lambda h: host['ansible_facts'].get('ansible_architecture', 'Unk') + '/' + host['ansible_facts'].get('ansible_userspace_architecture', 'Unk')},
-  {"title": "Mem", "field": lambda h: '%0.0fg' % (host['ansible_facts'].get('ansible_memtotal_mb', 0) / 1000.0)},
+  {"title": "Mem", "field": lambda h: '%0.0fg' % (int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1000.0)},
   {"title": "CPUs", "field": lambda h: str(host['ansible_facts'].get('ansible_processor_count', 0))},
   {"title": "Virt", "field": lambda h: host['ansible_facts'].get('ansible_virtualization_type', 'Unk') + '/' + host['ansible_facts'].get('ansible_virtualization_role', 'Unk')},
   {"title": "Disk avail", "field": lambda h: ', '.join([str(i['size_available']/1048576000) + 'g' for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_available'] > 1])},
