@@ -52,6 +52,19 @@ over HTTP or HTTPS. If you wish to view it locally, you can instruct the
 template to use local javascript resources. The *Templates* section has
 information on how to do that.
 
+### Full usage
+
+    Usage: ../src/ansible-cmdb [option] <dir> > output.html
+
+    Options:
+      -h, --help            show this help message and exit
+      -t TEMPLATE, --template=TEMPLATE
+                            Template to use. Default is 'html_fancy'
+      -i INVENTORY, --inventory=INVENTORY
+                            Inventory hosts file to read extra info from
+      -p PARAMS, --params=PARAMS
+                            Params to send to template
+
 ### Inventory scanning
 
 Ansible-cmdb can read your inventory file (`hosts`, by default) and extract
@@ -177,15 +190,3 @@ Your custom variables will be put in the root of the host information dictionary
         ],
         "name": "ad6.flusso.nl"
     }
-
-
-### Full usage
-
-	Usage: ansible-cmd [option] > output.html
-	
-	Options:
-	  -h, --help            show this help message and exit
-	  -t TEMPLATE, --template=TEMPLATE
-	                        Template to use
-	  -i INVENTORY, --inventory=INVENTORY
-	                        Inventory hosts file to read extra info from
