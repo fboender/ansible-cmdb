@@ -52,31 +52,6 @@ over HTTP or HTTPS. If you wish to view it locally, you can instruct the
 template to use local javascript resources. The *Templates* section has
 information on how to do that.
 
-### Templates
-
-ansible-cmdb offers multiple templates. You can choose your template with the
-`-t` or `--template` argument:
-
-	ansible-cmdb -t tpl_custom out/ > overview.html
-
-The 'html_fancy' template is the default. It can be easily extended by copying
-it and modifying the `cols` definition at the top. It should be served over
-HTTP, as it uses CDN Jquery libs.
-
-Ansible-cmdb currently provides the following templates out of the box:
-
-* `html_fancy`: A fancy HTML page that used JQuery and DataTables to give you a
-  searchable, sortable table overview of all hosts with detailed information
-  just a click away.
-
-  It takes a parameter `local_js` which, if set, will load resources from the
-  local disk instead of over the network. To enable it, call ansible-cmdb with:
-
-      ansible-cmdb -t html_fancy -p local_js=1 out > overview.html
-
-* `txt_table`: A quick text table summary of the available hosts with some
-  minimal information.
-
 ### Inventory scanning
 
 Ansible-cmdb can read your inventory file (`hosts`, by default) and extract
@@ -89,7 +64,8 @@ useful information from it such as:
 
 
 Reading the hosts inventory file is done using the `-i` switch to ansible-cmdb.
-It takes a single parameter: your hosts file. For example:
+It takes a single parameter: your hosts file or directory containing your hosts
+files. For example:
 
     $ ansible-cmdb -i ./hosts out/ > cmdb.html
 
@@ -125,6 +101,31 @@ be required by for communicating with Foo company about hosting.
 
 See http://docs.ansible.com/intro_inventory.html#host-variables for more
 information on host variables.
+
+### Templates
+
+ansible-cmdb offers multiple templates. You can choose your template with the
+`-t` or `--template` argument:
+
+	ansible-cmdb -t tpl_custom out/ > overview.html
+
+The 'html_fancy' template is the default. It can be easily extended by copying
+it and modifying the `cols` definition at the top. It should be served over
+HTTP, as it uses CDN Jquery libs (unless you specify the `local_js` parameter).
+
+Ansible-cmdb currently provides the following templates out of the box:
+
+* `html_fancy`: A fancy HTML page that used JQuery and DataTables to give you a
+  searchable, sortable table overview of all hosts with detailed information
+  just a click away.
+
+  It takes a parameter `local_js` which, if set, will load resources from the
+  local disk instead of over the network. To enable it, call ansible-cmdb with:
+
+      ansible-cmdb -t html_fancy -p local_js=1 out > overview.html
+
+* `txt_table`: A quick text table summary of the available hosts with some
+  minimal information.
 
 ### Extending
 
