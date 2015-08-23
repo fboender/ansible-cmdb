@@ -1,0 +1,42 @@
+centos.dev.local dtap=dev
+
+[dev]
+debian.dev.local dtap=dev
+
+[db]
+db[01:03].prod.local dtap=prod
+
+[prod]
+eek.electricmonk.nl
+zoltar.electricmonk.nl comment="Load balancer"
+jib.electricmonk.nl comment="Workstation" foo="baz"
+
+[prod:children]
+db
+
+[prod:vars]
+dtap=prod
+from='vars'
+
+[virtual]
+debian.dev.local
+centos.dev.local
+
+[virtual:vars]
+type="virtual"
+
+[uat]
+app.uat.local dtap=uat
+
+[supersuper]
+some.super.host
+
+[supersuper:children]
+super foo="bar"
+
+[supersuper:vars]
+test="heyo"
+
+[super:children]
+prod
+

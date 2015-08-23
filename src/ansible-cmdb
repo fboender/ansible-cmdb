@@ -18,147 +18,105 @@ import re
 import json, mako
 from mako.template import Template
 
-class Ansible(object):
-    def __init__(self, fact_dirs, hosts_file=None):
-        self.fact_dirs = fact_dirs
-        self.hosts_file = hosts_file
+
+class AnsibleHostsParser(object):
+    """
+    Parse Ansible hosts inventory contents and generate a dictionary of hosts
+    (self.hosts) with the information. Each host will have all the groups that
+    it belongs to (including parent groups) and all the variables defined for
+    it (including variables from parent groups and 'vars' groups).
+    """
+    def __init__(self, hosts_contents):
+        self.hosts_contents = hosts_contents
+
+        # Get a list of host, children and vars sections in the hosts file
+        self.sections = self.parse_hosts_contents(hosts_contents)
+
+        # Initialize each unique host found in the hosts file
         self.hosts = {}
-        for fact_dir in self.fact_dirs:
-            self.parse_fact_dir(fact_dir)
-        if self.hosts_file is not None:
-            self.parse_hosts(self.hosts_file)
+        for hostname in self.get_distinct_hostnames():
+            self.hosts[hostname] = {
+                'groups': set(),
+                'hostvars': {}
+            }
 
-    def parse_fact_dir(self, fact_dir):
-        """
-        Walk through a directory of JSON files and extract information from
-        them. This is used for both the Ansible fact gathering (setup module)
-        output and custom variables.
-        """
-        flist = []
-        for (dirpath, dirnames, filenames) in os.walk(fact_dir):
-            flist.extend(filenames)
-            break
+        # Go through the different types of sections and apply each section to
+        # the hosts it covers. 'Applying a section' means adding the group name
+        # and variables defined in the section to each host the section covers.
+        for section in filter(lambda s: s['type'] == 'children', self.sections):
+            self.apply_section(section, self.hosts)
+        for section in filter(lambda s: s['type'] == 'vars', self.sections):
+            self.apply_section(section, self.hosts)
+        for section in filter(lambda s: s['type'] == 'hosts', self.sections):
+            self.apply_section(section, self.hosts)
 
-        for fname in flist:
-            hostname = fname
-
-            fd = open(os.path.join(fact_dir, fname), 'r')
-            s = fd.readlines()
-            fd.close()
-            try:
-                x = json.loads(''.join(s))
-                # for compatibility with fact_caching=jsonfile
-                # which omits the "ansible_facts" parent key added by the setup module
-                if not 'ansible_facts' in x:
-                    x = json.loads('{ "ansible_facts": ' + ''.join(s) + ' }')
-                self.update_host(hostname, x)
-                self.update_host(hostname, {'name': hostname})
-            except ValueError as e:
-                # Ignore non-JSON files (and bonus errors)
-                sys.stderr.write("Error parsing: %s: %s\n" % (fname, e))
-
-    def parse_hosts(self, hosts_file):
+    def parse_hosts_contents(self, hosts_contents):
         """
-        Parse an ansible hosts file and extract information about each host
-        from it, including custom variables. Supports hostname expansions (e.g.
-        foo[01:10].bar.com), var groups and children groups.
+        Parse the inventory contents. This returns a list of sections found in
+        the inventory, which can then be used to figure out which hosts belong
+        to which groups and such. Each section has a name, a type ('hosts',
+        'children', 'vars') and a list of entries for that section. Entries
+        consist of a hostname and the variables. For 'vars' sections, the
+        hostname is None.
+
+        For example:
+            [production:children]
+            frontend  purpose="web"
+            db        purpose="db"
+        Returns:
+            {
+                'name': 'production',
+                'type': 'children',
+                'entries': [
+                    {'name': 'frontend', 'hostvars': {'purpose': 'web'}},
+                    {'name': 'db', 'hostvars': {'purpose': 'db'}},
+                ]
+            }
         """
-        cur_group_type = 'nogroup'
-        cur_group_name = 'ignore'
-        raw_groups = {
-            'nogroup': {},
-            'normal': {},
-            'vars': {},
-            'children': {},
+        sections = []
+        cur_section = {
+            'type': 'hosts',
+            'name': None,
+            'entries': []
         }
 
-        # Read all the available hosts information into hosts_contents.
-        hosts_contents = []
-        if os.path.isdir(hosts_file):
-            for fname in os.listdir(hosts_file):
-                path = os.path.join(hosts_file, fname)
-                with open(path, 'r') as f:
-                    hosts_contents += f.readlines()
-        else:
-            with open(hosts_file, 'r') as f:
-                hosts_contents = f.readlines()
-
-        # Go through the file line by line and map every line to the group they
-        # belong to. There are three groups: normal, vars and children.
         for line in hosts_contents:
             line = line.strip()
-
-            if line.lstrip().startswith('#') or not line:
-                # Line is empty or is a comment. Ignore it.
+            if line.startswith('#') or not line:
                 continue
             elif line.startswith('['):
-                # Line contains a group definition. Set the current group type
-                # and name.
-                cur_group_type, cur_group_name = self._parse_group_line(line)
+                sections.append(cur_section)
+                section_type, name = self.parse_line_section(line)
+                cur_section = {
+                    'type': section_type,
+                    'name': name,
+                    'entries': []
+                }
             else:
-                raw_groups[cur_group_type].setdefault(cur_group_name, []).append(line)
+                name, vars = self.parse_line_entry(line, cur_section['type'])
+                entry = {
+                    'name': name,
+                    'hostvars': vars
+                }
+                cur_section['entries'].append(entry)
+        sections.append(cur_section)
+        return sections
 
-        # Construct the dictionary of 'normal' (non-vars and non-children) groups and
-        # their associated hosts.
-        normal_groups = {}
-        for group_name, lines in raw_groups['normal'].items():
-            for line in lines:
-                hostname, key_values = self._parse_group_normal_line(line)
-                expanded_hostnames = self._expand_hostdef(hostname)
-                for hostname in expanded_hostnames:
-                    normal_groups.setdefault(group_name, []).append(hostname)
-
-        # Children groups are groups that contain other groups. For each
-        # :children group, add the group name to all the groups it contains and
-        # set the variables on each line to every host in the group the line
-        # gives.
-        #
-        # e.g.: [prod:children]
-        #       app comment="application servers"
-        #       db comment="database servers"
-        # would add the 'prod' group to each host in the 'app' group and 'db'
-        # group. It would also set the comment 'application servers' on each
-        # host in the 'app' group and the 'database server' comment on each
-        # host in the 'db' group.
-        for group_name, lines in raw_groups['children'].items():
-            for line in lines:
-                apply_group_name, key_values = self._parse_group_normal_line(line)
-                for hostname in normal_groups[apply_group_name]:
-                    self.update_host(hostname, key_values)
-                    self.update_host(hostname, {'groups': group_name})
-
-        # Var groups allow you to set variables on all the hosts in a gorup.
-        # e.g.: [prod:vars]
-        #       dtap=prod
-        # would set the 'dtap' variable to 'prod' for each host in the 'prod'
-        # group.
-        for group_name, lines in raw_groups['vars'].items():
-            for line in lines:
-                key_values = self._parse_group_vars_line(line)
-                for hostname in normal_groups[group_name]:
-                    self.update_host(hostname, {'hostvars': key_values})
-
-        # Finally handle the normal group variables. This is done last so it
-        # overrides the other methods of setting variables. We also add the
-        # group name to each host.
-        for group_name, lines in raw_groups['normal'].items():
-            for line in lines:
-                hostname, key_values = self._parse_group_normal_line(line)
-                expanded_hostnames = self._expand_hostdef(hostname)
-                for hostname in expanded_hostnames:
-                    self.update_host(hostname, key_values)
-                    self.update_host(hostname, {'groups': group_name})
-                    normal_groups.setdefault(group_name, []).append(hostname)
-
-    def _parse_group_line(self, line):
+    def parse_line_section(self, line):
         """
-        Parse a line containing a group definition:
-        e.g.:
-          [prod]
-        or
-          [prod:children]
-        Returns a tuple: (group_type, group_name), where group_type is in the
-        set ('normal', 'children', 'vars')
+        Parse a line containing a group definition. Returns a tuple:
+        (group_type, group_name), where group_type is in the set ('hosts',
+        'children', 'vars').
+
+        For example:
+            [prod]
+        Returns:
+            ('hosts', 'prod')
+
+        For example:
+            [prod:children]
+        Returns:
+            ('children', 'prod')
         """
         m = re.match("\[(.*)\]", line)
         group_def = m.groups()[0]
@@ -166,34 +124,36 @@ class Ansible(object):
             group_name, group_type = group_def.split(':')
         else:
             group_name = group_def
-            group_type = 'normal'
+            group_type = 'hosts'
 
         return (group_type, group_name)
 
-    def _parse_group_normal_line(self, line):
+    def parse_line_entry(self, line, type):
         """
-        Parse a line in a group of type 'normal' Split up the line using
-        shell-like syntax and extract the hostname and variables.
+        Parse a section entry line into its components. In case of a 'vars'
+        section, the first field will be None.
+
+        For example:
+            [production:children]
+            frontend  purpose="web"
+        Returns:
+            ('frontend', {'purpose': 'web'})
         """
         tokens = shlex.split(line.strip())
-        hostname = tokens.pop(0)
-        key_values = self._parse_vars(tokens)
-        return (hostname, {'hostvars': key_values})
+        name = None
+        if type != 'vars':
+            name = tokens.pop(0)
+        key_values = self.parse_vars(tokens)
+        return (name, key_values)
 
-    def _parse_group_vars_line(self, line):
-        """
-        Parse a line in a group of type 'vars'.
-        """
-        tokens = shlex.split(line.strip())
-        key_values = self._parse_vars(tokens)
-        return key_values
-
-    def _parse_vars(self, tokens):
+    def parse_vars(self, tokens):
         """
         Given an iterable of tokens, returns variables and their values as a
         dictionary.
 
-        ['dtap=prod', 'comment=some comment'] =>
+        For example:
+            ['dtap=prod', 'comment=some comment']
+        Returns:
             {'dtap': 'prod', 'comment': 'some comment'}
         """
         key_values = {}
@@ -208,7 +168,96 @@ class Ansible(object):
                 key_values[key] = v.strip()
         return key_values
 
-    def _expand_hostdef(self, hostdef):
+    def get_distinct_hostnames(self):
+        """
+        Return a set of distinct hostnames found in the entire inventory.
+        """
+        hostnames = []
+        for section in self.sections:
+            hostnames.extend(self.group_get_hostnames(section['name']))
+        return set(hostnames)
+
+    def apply_section(self, section, hosts):
+        """
+        Recursively find all the hosts that belong in or under a section and
+        add the section's group name and variables to every host.
+        """
+        # Add the current group name to each host that this section covers.
+        if section['name'] is not None:
+            for hostname in self.group_get_hostnames(section['name']):
+                hosts[hostname]['groups'].add(section['name'])
+
+        # Apply variables
+        func_map = {
+            "hosts": self.apply_section_hosts,
+            "children": self.apply_section_children,
+            "vars": self.apply_section_vars,
+        }
+        func = func_map[section['type']]
+        func(section, hosts)
+
+    def apply_section_hosts(self, section, hosts):
+        """
+        Add the variables for each entry in a 'hosts' section to the hosts
+        belonging to that entry.
+        """
+        for entry in section['entries']:
+            for hostname in self.expand_hostdef(entry['name']):
+                host = hosts[hostname]
+                for var_key, var_val in entry['hostvars'].items():
+                    host['hostvars'][var_key] = var_val
+
+    def apply_section_children(self, section, hosts):
+        """
+        Add the variables for each entry in a 'children' section to the hosts
+        belonging to that entry.
+        """
+        for entry in section['entries']:
+            for hostname in self.group_get_hostnames(entry['name']):
+                host = hosts[hostname]
+                for var_key, var_val in entry['hostvars'].items():
+                    host['hostvars'][var_key] = var_val
+
+    def apply_section_vars(self, section, hosts):
+        """
+        Apply the variables in a 'vars' section to each host belonging to the
+        group the section refers to.
+        """
+        for hostname in self.group_get_hostnames(section['name']):
+            host = hosts[hostname]
+            for entry in section['entries']:
+                for var_key, var_val in entry['hostvars'].items():
+                    host['hostvars'][var_key] = var_val
+
+    def group_get_hostnames(self, group_name):
+        """
+        Recursively fetch a list of each unique hostname that belongs in or
+        under the group. This includes hosts in children groups.
+        """
+        hostnames = []
+
+        hosts_section = self.get_section(group_name, 'hosts')
+        if hosts_section:
+            for entry in hosts_section['entries']:
+                hostnames.extend(self.expand_hostdef(entry['name']))
+
+        children_section = self.get_section(group_name, 'children')
+        if children_section:
+            for entry in children_section['entries']:
+                hostnames.extend(self.group_get_hostnames(entry['name']))
+
+        return hostnames
+
+    def get_section(self, name, type):
+        """
+        Find and return a section with `name` and `type`
+        """
+        for section in self.sections:
+            if section['name'] == name and section['type'] == type:
+                return section
+        return None
+
+    def expand_hostdef(self, hostdef):
         """
         Expand a host definition (e.g. "foo[001:010].bar.com") into seperate
         hostnames. Supports zero-padding, numbered ranges and alphabetical
@@ -260,6 +309,64 @@ class Ansible(object):
         # Strip port numbers off and return
         return [host_name.split(':')[0] for host_name in hosts_done]
 
+
+class Ansible(object):
+    def __init__(self, fact_dirs, hosts_path=None):
+        self.fact_dirs = fact_dirs
+        self.hosts_path = hosts_path
+        self.hosts = {}
+        for fact_dir in self.fact_dirs:
+            self.parse_fact_dir(fact_dir)
+        if self.hosts_path is not None:
+            self.parse_hosts_inventory(self.hosts_path)
+
+    def parse_hosts_inventory(self, hosts_path):
+        """
+        Read all the available hosts inventory information into one big list
+        and parse it.
+        """
+        hosts_contents = []
+        if os.path.isdir(hosts_path):
+            for fname in os.listdir(hosts_path):
+                path = os.path.join(hosts_path, fname)
+                hosts_contents += open(path, 'r').readlines()
+        else:
+            hosts_contents = open(hosts_path, 'r').readlines()
+
+        # Parse inventory and apply it to the hosts
+        hosts_parser = AnsibleHostsParser(hosts_contents)
+        for hostname, key_values in hosts_parser.hosts.items():
+            self.update_host(hostname, key_values)
+
+    def parse_fact_dir(self, fact_dir):
+        """
+        Walk through a directory of JSON files and extract information from
+        them. This is used for both the Ansible fact gathering (setup module)
+        output and custom variables.
+        """
+        flist = []
+        for (dirpath, dirnames, filenames) in os.walk(fact_dir):
+            flist.extend(filenames)
+            break
+
+        for fname in flist:
+            hostname = fname
+
+            fd = open(os.path.join(fact_dir, fname), 'r')
+            s = fd.readlines()
+            fd.close()
+            try:
+                x = json.loads(''.join(s))
+                # for compatibility with fact_caching=jsonfile
+                # which omits the "ansible_facts" parent key added by the setup module
+                if not 'ansible_facts' in x:
+                    x = json.loads('{ "ansible_facts": ' + ''.join(s) + ' }')
+                self.update_host(hostname, x)
+                self.update_host(hostname, {'name': hostname})
+            except ValueError as e:
+                # Ignore non-JSON files (and bonus errors)
+                sys.stderr.write("Error parsing: %s: %s\n" % (fname, e))
+
     def update_host(self, hostname, key_values):
         """
         Update a hosts information. This is called by various collectors such
@@ -268,9 +375,9 @@ class Ansible(object):
         information can be updated.
         """
         host_info = self.hosts.get(hostname, {'name': hostname})
-        groups = host_info.get('groups', [])
+        groups = host_info.get('groups', set())
         if 'groups' in key_values:
-            groups.append(key_values.pop('groups'))
+            groups.update(key_values.pop('groups'))
         hostvars = host_info.get('hostvars', {})
         if 'hostvars' in key_values:
             hostvars.update(key_values['hostvars'])
