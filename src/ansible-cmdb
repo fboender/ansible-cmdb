@@ -329,9 +329,11 @@ class Ansible(object):
         if os.path.isdir(hosts_path):
             for fname in os.listdir(hosts_path):
                 path = os.path.join(hosts_path, fname)
-                hosts_contents += open(path, 'r').readlines()
+                with open(path, 'r') as f:
+                    hosts_contents += f.readlines()
         else:
-            hosts_contents = open(hosts_path, 'r').readlines()
+            with open(hosts_path, 'r') as f:
+                hosts_contents = f.readlines()
 
         # Parse inventory and apply it to the hosts
         hosts_parser = AnsibleHostsParser(hosts_contents)
