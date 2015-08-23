@@ -25,3 +25,15 @@ python2 ../src/ansible-cmdb -t txt_table -i hosts_complicated out > txt_table_co
 # Python v3
 python3 ../src/ansible-cmdb -i hosts_complicated out > html_fancy_complicated.html
 python3 ../src/ansible-cmdb -t txt_table -i hosts_complicated out > txt_table_complicated.txt
+
+##
+## Directory of hosts files
+##
+
+# Python v2
+python2 ../src/ansible-cmdb -i hostsdir out > html_fancy_hostsdir.html
+python2 ../src/ansible-cmdb -t txt_table -i hostsdir out > txt_table_hostsdir.txt
+
+# Python v3
+python3 ../src/ansible-cmdb -i hostsdir out > html_fancy_hostsdir.html
+python3 ../src/ansible-cmdb -t txt_table -i hostsdir out > txt_table_hostsdir.txt

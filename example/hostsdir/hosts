@@ -1,0 +1,12 @@
+[dev]
+debian.dev.local dtap=dev
+centos.dev.local dtap=dev
+
+[db]
+db[01:03].prod.local dtap=prod
+
+[prod]
+eek.electricmonk.nl
+zoltar.electricmonk.nl comment="Load balancer"
+jib.electricmonk.nl comment="Workstation"
+

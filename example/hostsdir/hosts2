@@ -1,0 +1,12 @@
+[prod:children]
+db
+
+[prod:vars]
+dtap=prod
+
+[virtual]
+debian.dev.local
+centos.dev.local
+
+[uat]
+app.uat.local dtap=uat
