@@ -55,7 +55,7 @@ information on how to do that.
 ### Full usage
 
     Usage: ../src/ansible-cmdb [option] <dir> > output.html
-
+    
     Options:
       -h, --help            show this help message and exit
       -t TEMPLATE, --template=TEMPLATE
@@ -139,6 +139,11 @@ Ansible-cmdb currently provides the following templates out of the box:
 
 * `txt_table`: A quick text table summary of the available hosts with some
   minimal information.
+
+You can create your own template or extend an existing one by copying it and
+refering to the full path to the template when using the `-t` option:
+
+    $ ansible-cmdb -t /home/fboender/my_template out/ > my_template.html
 
 ### Extending
 
