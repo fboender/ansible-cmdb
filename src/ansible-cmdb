@@ -401,8 +401,14 @@ if len(args) < 1:
     sys.stderr.write("The <dir> argument is mandatory\n")
     sys.exit(1)
 
+# Find out our installation prefix
+bin_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+lib_dir = os.path.realpath(os.path.join(bin_dir, '..', 'lib', 'ansible-cmdb'))
+
 # Handle template params
-params = {}
+params = {
+    'lib_dir': lib_dir,
+}
 if options.params:
     try:
         for param in options.params.split(','):

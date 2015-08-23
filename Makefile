@@ -4,15 +4,6 @@ PROG=ansible-cmdb
 fake:
 	# NOOP
 
-install:
-	mkdir -p /usr/local/lib/${PROG}
-	cp -a src/* /usr/local/lib/${PROG}/
-	ln -s /usr/local/lib/${PROG}/ansible-cmdb /usr/local/bin/ansible-cmdb
-
-uninstall:
-	rm -rf /usr/local/lib/${PROG}
-	rm /usr/local/bin/ansible-cmdb
-
 release: release_src release_deb release_rpm
 
 doc:
@@ -28,8 +19,10 @@ release_src: clean doc
 
 	# Prepare source
 	mkdir $(PROG)-$(REL_VERSION)
+	mkdir $(PROG)-$(REL_VERSION)/lib
 	cp -r src/* $(PROG)-$(REL_VERSION)/
-	cp -r lib/* $(PROG)-$(REL_VERSION)/
+	cp -r lib/mako $(PROG)-$(REL_VERSION)/
+	cp -r lib/ansible-cmdb/* $(PROG)-$(REL_VERSION)/
 	cp LICENSE $(PROG)-$(REL_VERSION)/
 	cp README.md $(PROG)-$(REL_VERSION)/
 	cp CHANGELOG.txt $(PROG)-$(REL_VERSION)/
@@ -50,6 +43,7 @@ release_deb: clean doc
 
 	mkdir -p rel_deb/usr/bin
 	mkdir -p rel_deb/usr/lib/${PROG}
+	mkdir -p rel_deb/usr/lib/${PROG}/mako
 	mkdir -p rel_deb/usr/share/doc/$(PROG)
 	mkdir -p rel_deb/usr/share/man/man1
 
@@ -59,7 +53,8 @@ release_deb: clean doc
 	cp README.html rel_deb/usr/share/doc/$(PROG)/
 	cp CHANGELOG.txt rel_deb/usr/share/doc/$(PROG)/
 	cp -r src/* rel_deb/usr/lib/${PROG}/
-	cp -r lib/* rel_deb/usr/lib/${PROG}/
+	cp -r lib/mako rel_deb/usr/lib/${PROG}/
+	cp -r lib/ansible-cmdb/* rel_deb/usr/lib/${PROG}/
 	ln -s /usr/lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -ar contrib/debian/DEBIAN rel_deb/
 

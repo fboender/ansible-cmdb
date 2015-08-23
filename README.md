@@ -46,15 +46,11 @@ overview page:
 
 	ansible-cmdb out/ > overview.html
 
-The default template is `html_fancy`, which required Jquery and a JQuery
-library. It can therefor not be opened in your browser using `file:///`, but
-must be served over http or https. You can do so reasonbly easy using Python's
-built-in webserver, which will serve files  from the directory it is started
-in:
-
-    $ python -m SimpleHTTPServer 
-    Serving HTTP on 0.0.0.0 port 8000 ...
-    $ xdg-open http://localhost:8000/overview.html
+The default template is `html_fancy`, which uses Jquery. By default it can
+therefor not be opened in your browser using `file:///`, but must be served
+over HTTP or HTTPS. If you wish to view it locally, you can instruct the
+template to use local javascript resources. The *Templates* section has
+information on how to do that.
 
 ### Templates
 
@@ -72,6 +68,12 @@ Ansible-cmdb currently provides the following templates out of the box:
 * `html_fancy`: A fancy HTML page that used JQuery and DataTables to give you a
   searchable, sortable table overview of all hosts with detailed information
   just a click away.
+
+  It takes a parameter `local_js` which, if set, will load resources from the
+  local disk instead of over the network. To enable it, call ansible-cmdb with:
+
+      ansible-cmdb -t html_fancy -p local_js=1 out > overview.html
+
 * `txt_table`: A quick text table summary of the available hosts with some
   minimal information.
 

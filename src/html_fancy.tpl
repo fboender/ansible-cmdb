@@ -126,9 +126,16 @@ cols = [
     #disk_usage_detail { font-size: small; }
   </style>
   <!-- DataTables assets -->
-  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
-  <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
+  % if local_js is UNDEFINED:
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
+  % else:
+    <link rel="stylesheet" type="text/css" href="file://${lib_dir}/static/js/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="file://${lib_dir}/static/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="file://${lib_dir}/static/js/jquery.dataTables.js"></script>
+  % endif
+  
 </head>
 <body>
 <h1>Host Overview</h1>
