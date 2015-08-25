@@ -306,6 +306,8 @@ $(document).ready( function () {
     var newClass = ['col-invisible','col-visible'][Number(column.visible())];
     console.log(e.target.className = 'col-toggle ' + newClass);
   });
+
+  $('#host_overview_filter label input').focus();
 } );
 </script>
 
