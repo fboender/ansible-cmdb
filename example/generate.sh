@@ -37,3 +37,13 @@ python2 ../src/ansible-cmdb -t txt_table -i hostsdir out > txt_table_hostsdir.tx
 # Python v3
 python3 ../src/ansible-cmdb -i hostsdir out > html_fancy_hostsdir.html
 python3 ../src/ansible-cmdb -t txt_table -i hostsdir out > txt_table_hostsdir.txt
+
+##
+## Local resource usage of html_fancy tmeplate
+##
+
+# Python v2
+python2 ../src/ansible-cmdb -i hosts -p local_js=1 out > html_fancy_local.html
+
+# Python v3
+python3 ../src/ansible-cmdb -i hosts local_js=1 out > html_fancy_local.html
