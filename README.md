@@ -195,3 +195,12 @@ Your custom variables will be put in the root of the host information dictionary
         ],
         "name": "ad6.flusso.nl"
     }
+
+Infrequently Asked Questions
+----------------------------
+
+### Solaris machines have no disk information
+
+Ansible currently does not include disk size information for Solaris hosts. As
+such, we can't include it in the output of Ansible-cmdb. See issue #24 for more
+information.
