@@ -19,7 +19,6 @@ release_src: clean doc
 
 	# Prepare source
 	mkdir $(PROG)-$(REL_VERSION)
-	mkdir $(PROG)-$(REL_VERSION)/lib
 	cp -r src/* $(PROG)-$(REL_VERSION)/
 	cp -r lib/mako $(PROG)-$(REL_VERSION)/
 	cp -r lib/ansible-cmdb/* $(PROG)-$(REL_VERSION)/
