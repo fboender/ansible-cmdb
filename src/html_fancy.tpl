@@ -58,12 +58,19 @@ cols = [
 </%def>
 <%def name="col_disk_usage(host)">
   % for i in host['ansible_facts'].get('ansible_mounts', []):
-    % if i['size_total'] > 1:
-      <div class="bar">
-        <span class="prog_bar_full" style="width:100px">
-          <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
-        </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1048576000.0, 2)}g / ${round(i['size_total'] / 1048576000.0, 2)}g)</span>
-      </div>
+    % if 'size_total' in i:  # Solaris hosts have no size_total
+      % if i['size_total'] > 1:
+        <div class="bar">
+          <span class="prog_bar_full" style="width:100px">
+            <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
+          </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1048576000.0, 2)}g / ${round(i['size_total'] / 1048576000.0, 2)}g)</span>
+        </div>
+      % endif
+    % else:
+      n/a
+      <%
+      break  # Don't list any more disks since no 'size_total' is available.
+      %>
     % endif
   % endfor
 </%def>

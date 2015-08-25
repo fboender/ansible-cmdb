@@ -11,7 +11,7 @@ cols = [
   {"title": "Mem", "field": lambda h: '%0.0fg' % (int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1000.0)},
   {"title": "CPUs", "field": lambda h: str(host['ansible_facts'].get('ansible_processor_count', 0))},
   {"title": "Virt", "field": lambda h: host['ansible_facts'].get('ansible_virtualization_type', 'Unk') + '/' + host['ansible_facts'].get('ansible_virtualization_role', 'Unk')},
-  {"title": "Disk avail", "field": lambda h: ', '.join(['{:0.1f}g'.format(i['size_available']/1048576000) for i in host['ansible_facts'].get('ansible_mounts', []) if i['size_available'] > 1])},
+  {"title": "Disk avail", "field": lambda h: ', '.join(['{:0.1f}g'.format(i['size_available']/1048576000) for i in host['ansible_facts'].get('ansible_mounts', []) if 'size_available' in i and i['size_available'] > 1])},
 ]
 
 # Find longest value in a column
