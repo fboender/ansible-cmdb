@@ -1,3 +1,5 @@
+v1.4    2015-08-26
+
 - Support for host inventory patterns (e.g. foo[01:04].bar.com)
 - Support for 'vars' and 'children' groups.
 - Support passing a directory to the `-i` param, in which case all the files in
@@ -6,7 +8,9 @@
   view the hosts overview in your browser using file://. See README.md for info
   on how to enable it (hint: `ansible-cmdb -p local_js=1`).
 - Add compatibility with fact_caching=jsonfile fact dirs (Rowin Andruscavage).
+- The search box in the html_fancy template is now automatically focussed.
 - Show memory to one decimal to avoid "0g" in low-mem hosts.
+- Templates can now receive parameters via the -p option.
 - Strip ports from hostnames scanned from the host inventory file.
 - Various fixes in the documentation.
 - Fixes for Solaris output (memory and disk).
