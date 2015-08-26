@@ -31,26 +31,6 @@ For **Other** systems:
     cd ansible-cmdb*
     sudo make install
 
-Build packages and source-ball
-------------------------------
-
-To build Debian, RedHat and source-packages for ansible-cmdb you'll need a Debian based operating system 
-and you'll have to install the following dependencies:
-
-- git
-- make
-- python-markdown
-- zip
-- fakeroot
-- alien
-
-You can then build the packages with
-```
-make release REL_VERSION=$VERSION
-```
-where `$VERSION` is a (arbitrary) version number.
-
-
 Usage
 -----
 
@@ -224,3 +204,28 @@ Infrequently Asked Questions
 Ansible currently does not include disk size information for Solaris hosts. As
 such, we can't include it in the output of Ansible-cmdb. See issue #24 for more
 information.
+
+
+Development
+-----------
+
+### Build packages and source-ball
+
+To build Debian, RedHat and source-packages for ansible-cmdb you'll need a Debian based operating system 
+and you'll have to install the following dependencies:
+
+- git
+- make
+- python-markdown
+- zip
+- fakeroot
+- alien
+
+You can then build the packages with
+```
+make release REL_VERSION=$VERSION
+```
+where `$VERSION` is a (arbitrary) version number.
+
+
+
