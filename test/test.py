@@ -90,7 +90,7 @@ class FactCacheTestCase(unittest.TestCase):
         groups = ansible.hosts['debian.dev.local']['groups']
         ansible_facts = ansible.hosts['debian.dev.local']['ansible_facts']
         self.assertIn('dev', groups)
-        self.assertEquals(host_vars['dtap'], 'dev')
+        self.assertEqual(host_vars['dtap'], 'dev')
         self.assertIn('ansible_env', ansible_facts)
 
 if __name__ == '__main__':
