@@ -415,47 +415,48 @@ class Ansible(object):
         self.hosts[hostname] = host_info
 
 
-parser = optparse.OptionParser()
-parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
-parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
-parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory hosts file to read extra info from")
-parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
-parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
-parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
-(options, args) = parser.parse_args()
+if __name__ == "__main__":
+    parser = optparse.OptionParser()
+    parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
+    parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
+    parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory hosts file to read extra info from")
+    parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
+    parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
+    parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
+    (options, args) = parser.parse_args()
 
-if len(args) < 1:
-    parser.print_usage()
-    sys.stderr.write("The <dir> argument is mandatory\n")
-    sys.exit(1)
-
-# Find out our installation prefix
-bin_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-lib_dir = os.path.realpath(os.path.join(bin_dir, '..', 'lib', 'ansible-cmdb'))
-
-# Handle template params
-params = {
-    'lib_dir': lib_dir,
-}
-if options.params:
-    try:
-        for param in options.params.split(','):
-            param_key, param_value = param.split('=', 1)
-            params[param_key] = param_value
-    except ValueError as e:
-        sys.stdout.write("Invalid params specified. Should be in format: <key=value>[,<key=value>..]\n")
+    if len(args) < 1:
+        parser.print_usage()
+        sys.stderr.write("The <dir> argument is mandatory\n")
         sys.exit(1)
-    if options.debug:
-        sys.stderr.write("Params\n" + 60 * '-' + '\n')
-        pprint.pprint(params, stream=sys.stderr)
 
-ansible = Ansible(args, options.inventory, options.fact_cache, debug=options.debug)
+    # Find out our installation prefix
+    bin_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+    lib_dir = os.path.realpath(os.path.join(bin_dir, '..', 'lib', 'ansible-cmdb'))
 
-# Render a template with the gathered host info
-tpl_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), '%s.tpl' % (options.template))
-if not os.path.isfile(tpl_path):
-    sys.stderr.write("Template not found: {0}\n".format(tpl_path))
-    sys.exit(1)
+    # Handle template params
+    params = {
+        'lib_dir': lib_dir,
+    }
+    if options.params:
+        try:
+            for param in options.params.split(','):
+                param_key, param_value = param.split('=', 1)
+                params[param_key] = param_value
+        except ValueError as e:
+            sys.stdout.write("Invalid params specified. Should be in format: <key=value>[,<key=value>..]\n")
+            sys.exit(1)
+        if options.debug:
+            sys.stderr.write("Params\n" + 60 * '-' + '\n')
+            pprint.pprint(params, stream=sys.stderr)
 
-mytemplate = Template(filename=tpl_path)
-sys.stdout.write(mytemplate.render(hosts=ansible.hosts, **params))
+    ansible = Ansible(args, options.inventory, options.fact_cache, debug=options.debug)
+
+    # Render a template with the gathered host info
+    tpl_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), '%s.tpl' % (options.template))
+    if not os.path.isfile(tpl_path):
+        sys.stderr.write("Template not found: {0}\n".format(tpl_path))
+        sys.exit(1)
+
+    mytemplate = Template(filename=tpl_path)
+    sys.stdout.write(mytemplate.render(hosts=ansible.hosts, **params))
