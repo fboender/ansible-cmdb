@@ -77,5 +77,20 @@ class HostParseTestCase(unittest.TestCase):
         ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
         self.assertIn('web02.dev.local', ansible.hosts)
 
+class FactCacheTestCase(unittest.TestCase):
+    """
+    Test that we properly read fact-cached output dirs.
+    """
+    def testFactCache(self):
+        fact_dirs = ['f_factcache/out']
+        inventory = 'f_factcache/hosts'
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventory, fact_cache=True)
+        host_vars = ansible.hosts['debian.dev.local']['hostvars']
+        groups = ansible.hosts['debian.dev.local']['groups']
+        ansible_facts = ansible.hosts['debian.dev.local']['ansible_facts']
+        self.assertIn('dev', groups)
+        self.assertEquals(host_vars['dtap'], 'dev')
+        self.assertIn('ansible_env', ansible_facts)
+
 if __name__ == '__main__':
     unittest.main(exit=False)
