@@ -1,0 +1,11 @@
+{
+    "ansible_facts": {
+        "ansible_env": {
+            "EDITOR": "nano"
+        }
+    },
+    "software": [
+        "Apache2",
+        "MySQL5.5"
+    ]
+}

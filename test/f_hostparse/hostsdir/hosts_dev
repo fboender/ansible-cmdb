@@ -1,0 +1,8 @@
+[dev_local]
+db.dev.local
+
+[dev:children]
+dev_local
+
+[dev:vars]
+dtap=dev

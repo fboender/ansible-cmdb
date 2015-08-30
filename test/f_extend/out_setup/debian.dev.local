@@ -1,0 +1,8 @@
+{
+    "ansible_facts": {
+        "ansible_env": {
+            "EDITOR": "vim"
+        }
+    }, 
+    "changed": false
+}
