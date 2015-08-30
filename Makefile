@@ -8,7 +8,8 @@ test:
 	cd test && ./test.sh
 
 release_clean:
-	@if [ -z "$(git status --porcelain)" ]; then echo "Repo not clean. Not building"; exit 1; fi
+	echo "**$(shell git status --porcelain)**";
+	@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
 
 release: release_src release_deb release_rpm
 
