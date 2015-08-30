@@ -1,6 +1,7 @@
 import sys
 import unittest
 import imp
+import os
 
 sys.path.insert(0, '../lib')
 ansiblecmdb = imp.load_source('ansiblecmdb', '../src/ansible-cmdb')
@@ -94,3 +95,5 @@ class FactCacheTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(exit=False)
+
+    os.unlink('../src/ansible-cmdbc') # FIXME: Where is this coming from? Our weird import I assume.
