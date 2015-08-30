@@ -17,6 +17,7 @@ import shlex
 import re
 import json, mako
 import copy
+import pprint
 from mako.template import Template
 
 
@@ -339,15 +340,19 @@ class AnsibleHostsParser(object):
 
 
 class Ansible(object):
-    def __init__(self, fact_dirs, hosts_path=None, fact_cache=False):
+    def __init__(self, fact_dirs, hosts_path=None, fact_cache=False, debug=False):
         self.fact_dirs = fact_dirs
         self.hosts_path = hosts_path
         self.fact_cache = fact_cache # fact dirs are fact-caches
+        self.debug = debug
         self.hosts = {}
         for fact_dir in self.fact_dirs:
             self.parse_fact_dir(fact_dir, self.fact_cache)
         if self.hosts_path is not None:
             self.parse_hosts_inventory(self.hosts_path)
+        if self.debug:
+            sys.stderr.write("Hosts\n" + 60 * '-' + '\n')
+            pprint.pprint(self.hosts, stream=sys.stderr)
 
     def parse_hosts_inventory(self, hosts_path):
         """
@@ -416,6 +421,7 @@ parser.add_option("-t", "--template", dest="template", action="store", default='
 parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory hosts file to read extra info from")
 parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
 parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
+parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
 (options, args) = parser.parse_args()
 
 if len(args) < 1:
@@ -439,8 +445,11 @@ if options.params:
     except ValueError as e:
         sys.stdout.write("Invalid params specified. Should be in format: <key=value>[,<key=value>..]\n")
         sys.exit(1)
+    if options.debug:
+        sys.stderr.write("Params\n" + 60 * '-' + '\n')
+        pprint.pprint(params, stream=sys.stderr)
 
-ansible = Ansible(args, options.inventory, options.fact_cache)
+ansible = Ansible(args, options.inventory, options.fact_cache, debug=options.debug)
 
 # Render a template with the gathered host info
 tpl_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), '%s.tpl' % (options.template))
