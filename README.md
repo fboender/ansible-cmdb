@@ -86,7 +86,8 @@ files. For example:
 The ''html_fancy'' template uses four extra fields:
 
 - `groups`: A list of Ansible groups the host belongs too
-- `dtap`: Whether a host is a development, test, acceptance or production system.
+- `dtap`: Whether a host is a development, test, acceptance or production
+   system.
 - `comment`: A comment for the host.
 - `ext_id`: An external unique identifier for the host.
 
@@ -202,7 +203,8 @@ Specify both directories when generating the output:
 
 	./ansible-cmdb out/ out_cust/ > overview.html
 
-Your custom variables will be put in the root of the host information dictionary:
+Your custom variables will be put in the root of the host information
+dictionary:
 
     "test.megacorp.com": {
         "ansible_facts": {
@@ -238,8 +240,9 @@ Development
 
 ### Build packages and source-ball
 
-To build Debian, RedHat and source-packages for ansible-cmdb you'll need a Debian based operating system 
-and you'll have to install the following dependencies:
+To build Debian, RedHat and source-packages for ansible-cmdb you'll need a
+Debian based operating system and you'll have to install the following
+dependencies:
 
 - git
 - make
