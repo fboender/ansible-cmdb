@@ -295,7 +295,14 @@ dependencies:
 - alien
 
 You can then build the packages with
-```
-make release REL_VERSION=$VERSION
-```
+
+    make release REL_VERSION=$VERSION
+
 where `$VERSION` is a (arbitrary) version number.
+
+In order to build releases, your repository will have to be completely clean:
+everything must be commited and there must be no untracked files. If you want
+to build a test release, you can temporary stash your untracked changes:
+
+    git stash -u
+
