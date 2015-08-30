@@ -7,7 +7,8 @@ v1.4    2015-08-26
 - Support for the use of local jquery files instead of via a CDN. Allows you to
   view the hosts overview in your browser using file://. See README.md for info
   on how to enable it (hint: `ansible-cmdb -p local_js=1`).
-- Add compatibility with fact_caching=jsonfile fact dirs (Rowin Andruscavage).
+- Add -f/--fact-caching flag for compatibility with fact_caching=jsonfile fact
+  dirs (Rowin Andruscavage).
 - The search box in the html_fancy template is now automatically focussed.
 - Show memory to one decimal to avoid "0g" in low-mem hosts.
 - Templates can now receive parameters via the -p option.
