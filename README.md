@@ -62,6 +62,7 @@ information on how to do that.
                             Template to use. Default is 'html_fancy'
       -i INVENTORY, --inventory=INVENTORY
                             Inventory hosts file to read extra info from
+      -f, --fact-cache      <dir> contains fact-cache files
       -p PARAMS, --params=PARAMS
                             Params to send to template
 
@@ -80,7 +81,7 @@ Reading the hosts inventory file is done using the `-i` switch to ansible-cmdb.
 It takes a single parameter: your hosts file or directory containing your hosts
 files. For example:
 
-    $ ansible-cmdb -i ./hosts out/ > cmdb.html
+    $ ansible-cmdb -i ./hosts out/ > overview.html
 
 The ''html_fancy'' template uses four extra fields:
 
@@ -145,6 +146,26 @@ refering to the full path to the template when using the `-t` option:
 
     $ ansible-cmdb -t /home/fboender/my_template out/ > my_template.html
 
+### Fact caching
+
+Ansible can cache facts from hosts when running playbooks. This is configured
+like:
+
+    [defaults]
+    fact_caching=jsonfile
+    fact_caching_connection = /path/to/facts/dir
+
+You can use these cached facts as facts directories with ansible-cmdb by
+specifying the `-f` (`--fact-cache`) option:
+
+    $ ansible-cmdb -f /path/to/facts/dir > overview.html
+
+Please note that the `--fact-cache` option will apply to *all* fact directories
+you specify. This means you can't mix fact-cache fact directories and normal
+`setup` fact directories. Also, if you wish to manually extend facts (see the
+`Extending` chapter), you must ommit the `ansible_facts` key and put items in
+the root of the JSON.
+
 ### Extending
 
 You can specify multiple directories that need to be scanned for output. This
@@ -195,6 +216,12 @@ Your custom variables will be put in the root of the host information dictionary
         ],
         "name": "ad6.flusso.nl"
     }
+
+If you're using the `--fact-cache` option, you must ommit the `ansible_facts`
+key and put items in the root of the JSON. This also means that you can only
+extend native ansible facts and not information read from the `hosts` file by
+ansible-cmdb.
+
 
 Infrequently Asked Questions
 ----------------------------

@@ -47,3 +47,13 @@ python2 ../src/ansible-cmdb -i hosts -p local_js=1 out > html_fancy_local.html
 
 # Python v3
 python3 ../src/ansible-cmdb -i hosts local_js=1 out > html_fancy_local.html
+
+##
+## Use fact-cache output
+##
+
+# Python v2
+python2 ../src/ansible-cmdb -f out_factcache > html_fancy_factcache.html
+
+# Python v3
+python3 ../src/ansible-cmdb -f out_factcache > html_fancy_factcache.html

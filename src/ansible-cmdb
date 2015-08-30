@@ -311,12 +311,13 @@ class AnsibleHostsParser(object):
 
 
 class Ansible(object):
-    def __init__(self, fact_dirs, hosts_path=None):
+    def __init__(self, fact_dirs, hosts_path=None, fact_cache=False):
         self.fact_dirs = fact_dirs
         self.hosts_path = hosts_path
+        self.fact_cache = fact_cache # fact dirs are fact-caches
         self.hosts = {}
         for fact_dir in self.fact_dirs:
-            self.parse_fact_dir(fact_dir)
+            self.parse_fact_dir(fact_dir, self.fact_cache)
         if self.hosts_path is not None:
             self.parse_hosts_inventory(self.hosts_path)
 
@@ -340,7 +341,7 @@ class Ansible(object):
         for hostname, key_values in hosts_parser.hosts.items():
             self.update_host(hostname, key_values)
 
-    def parse_fact_dir(self, fact_dir):
+    def parse_fact_dir(self, fact_dir, fact_cache=False):
         """
         Walk through a directory of JSON files and extract information from
         them. This is used for both the Ansible fact gathering (setup module)
@@ -361,7 +362,7 @@ class Ansible(object):
                 x = json.loads(''.join(s))
                 # for compatibility with fact_caching=jsonfile
                 # which omits the "ansible_facts" parent key added by the setup module
-                if not 'ansible_facts' in x:
+                if fact_cache:
                     x = json.loads('{ "ansible_facts": ' + ''.join(s) + ' }')
                 self.update_host(hostname, x)
                 self.update_host(hostname, {'name': hostname})
@@ -393,6 +394,7 @@ parser = optparse.OptionParser()
 parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
 parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
 parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory hosts file to read extra info from")
+parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
 parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
 (options, args) = parser.parse_args()
 
@@ -418,7 +420,7 @@ if options.params:
         sys.stdout.write("Invalid params specified. Should be in format: <key=value>[,<key=value>..]\n")
         sys.exit(1)
 
-ansible = Ansible(args, options.inventory)
+ansible = Ansible(args, options.inventory, options.fact_cache)
 
 # Render a template with the gathered host info
 tpl_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), '%s.tpl' % (options.template))
