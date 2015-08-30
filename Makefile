@@ -4,12 +4,15 @@ PROG=ansible-cmdb
 fake:
 	# NOOP
 
+release_clean:
+	@if [ -z "$(git status --porcelain)" ]; then echo "Repo not clean. Not building"; exit 1; fi
+
 release: release_src release_deb release_rpm
 
 doc:
 	markdown_py README.md > README.html
 
-release_src: clean doc
+release_src: release_clean doc
 	@echo "Making release for version $(REL_VERSION)"
 
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
@@ -34,7 +37,7 @@ release_src: clean doc
 	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -vczf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
-release_deb: clean doc
+release_deb: release_clean doc
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
 
 	# Cleanup
@@ -68,7 +71,7 @@ release_deb: clean doc
 	rm -rf rel_deb
 	rm -rf $(PROG)-$(REL_VERSION)
 
-release_rpm: release_deb
+release_rpm: release_clean release_deb
 	alien -r -g $(PROG)-$(REL_VERSION).deb
 	sed -i '\:%dir "/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
 	sed -i '\:%dir "/usr/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
