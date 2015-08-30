@@ -16,7 +16,35 @@ import sys, os
 import shlex
 import re
 import json, mako
+import copy
 from mako.template import Template
+
+
+def deepupdate(target, src):
+    """Deep update target dict with src
+    For each k,v in src: if k doesn't exist in target, it is deep copied from
+    src to target. Otherwise, if v is a list, target[k] is extended with
+    src[k]. If v is a dict, recursively deep-update it.
+
+    Examples:
+    >>> t = {'name': 'Ferry', 'hobbies': ['programming', 'sci-fi']}
+    >>> deepupdate(t, {'hobbies': ['gaming']})
+    >>> print t
+    {'name': 'Ferry', 'hobbies': ['programming', 'sci-fi', 'gaming']}
+    """
+    for k, v in src.items():
+        if type(v) == list:
+            if not k in target:
+                target[k] = copy.deepcopy(v)
+            else:
+                target[k].extend(v)
+        elif type(v) == dict:
+            if not k in target:
+                target[k] = copy.deepcopy(v)
+            else:
+                deepupdate(target[k], v)
+        else:
+            target[k] = copy.copy(v)
 
 
 class AnsibleHostsParser(object):
@@ -377,16 +405,8 @@ class Ansible(object):
         informatio to a host. It does some deep inspection to make sure nested
         information can be updated.
         """
-        host_info = self.hosts.get(hostname, {'name': hostname})
-        groups = host_info.get('groups', set())
-        if 'groups' in key_values:
-            groups.update(key_values.pop('groups'))
-        hostvars = host_info.get('hostvars', {})
-        if 'hostvars' in key_values:
-            hostvars.update(key_values['hostvars'])
-        host_info.update(key_values)
-        host_info['groups'] = groups
-        host_info['hostvars'] = hostvars
+        host_info = self.hosts.get(hostname, {'name': hostname, 'hostvars': {}})
+        deepupdate(host_info, key_values)
         self.hosts[hostname] = host_info
 
 
