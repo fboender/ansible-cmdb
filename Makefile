@@ -84,4 +84,10 @@ release_rpm: release_clean release_deb
 
 
 clean:
-	git clean -i -d -x -f
+	rm -f *.rpm
+	rm -f *.deb
+	rm -f *.tar.gz
+	rm -f *.zip
+	rm -f README.html
+	find ./ -name "*.pyc" -delete
+	find ./ -name "__pycache__" -type d -delete
