@@ -1,8 +1,11 @@
-.PHONY: doc 
+.PHONY: doc test
 PROG=ansible-cmdb
 
 fake:
 	# NOOP
+
+test:
+	cd test && ./test.sh
 
 release_clean:
 	@if [ -z "$(git status --porcelain)" ]; then echo "Repo not clean. Not building"; exit 1; fi
