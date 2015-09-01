@@ -46,11 +46,7 @@ overview page:
 
 	ansible-cmdb out/ > overview.html
 
-The default template is `html_fancy`, which uses Jquery. By default it can
-therefor not be opened in your browser using `file:///`, but must be served
-over HTTP or HTTPS. If you wish to view it locally, you can instruct the
-template to use local javascript resources. The *Templates* section has
-information on how to do that.
+The default template is `html_fancy`, which uses Jquery. 
 
 ### Full usage
 
