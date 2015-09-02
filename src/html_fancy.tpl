@@ -116,181 +116,345 @@ cols = [
 <head>
   <title>Ansible overview</title>
   <style type="text/css">
-    body { font-family: sans-serif; }
-    h1,h3 { color: #005AC9; }
-    h2 { color: #000000; }
-    th { text-align: left; vertical-align: top; color: #606060; }
-    td { vertical-align: top; color: #707070; }
-    .hide { display: none; }
+    /* reset.css */
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video { 
+      margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section { display: block; }
+    body { line-height: 1; }
+    ol, ul { list-style: none; }
+    blockquote, q { quotes: none; }
+    blockquote:before, blockquote:after,
+    q:before, q:after { content: ''; content: none; }
+    table { border-collapse: collapse; border-spacing: 0; }
+
+    /* ansible-cmdb */
+    *, body {
+      font-family: sans-serif; font-weight: lighter;
+    }
     a { text-decoration: none; }
-    a.col-visible { color: #000000; font-weight: bold; margin-right: 12px; }
-    a.col-invisible { color: #909090; font-weight: normal; margin-right: 12px; }
+    header {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      background-color: #0071b8;
+      overflow: auto;
+      color: #E0E0E0;
+      padding: 15px;
+      z-index: 1000;
+    }
+    header h1 {
+      font-size: x-large;
+      float: left;
+      line-height: 32px;
+      font-weight: bold;
+    }
+    header #generated {
+      float: right;
+      line-height: 32px;
+      font-size: small;
+    }
+    #generated .datetime {
+      font-weight: bold;
+      margin-left: 12px;
+    }
+    #col_toggles {
+      margin: 32px;
+      margin-top: 100px;
+    }
+    h2 {
+      display: block;
+      margin-bottom: 32px;
+      color: #606060;
+    }
+    #col_toggle_buttons {
+      margin-left: 32px;
+      font-weight: normal;
+      line-height: 40px;
+    }
+    #col_toggles a {
+      line-height: 40px;
+    }
+    #col_toggles a {
+      display: inline-block;
+      background-color: #009688;
+      line-height: 32px;
+      padding: 0px 15px 0px 15px;
+      margin-right: 6px;
+      font-size: small;
+      box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.35);
+      color: #FFFFFF;
+    }
+    #col_toggles a.col-invisible{
+      background-color: #B0B0B0;
+      box-shadow: 0 0px 0px 0;
+    }
+
+    #host_overview {
+      margin: 32px;
+    }
+    #jquery_sucks{
+      margin-left: 32px;
+    }
+    #host_overview table {
+      width: 100%;
+      clear: both;
+    }
+    #host_overview th, #host_overview td {
+      font-size: small;
+      padding: 8px 12px 8px 12px;
+    }
+    #host_overview thead th {
+      text-align: left;
+      color: #707070;
+      font-size: x-small;
+      font-weight: bold;
+    }
+    #host_overview tr {
+      border-bottom: 1px solid #F0F0F0;
+    }
+    #host_overview tr:hover {
+      background-color: #F0F0F0;
+    }
+    #host_overview tbody td {
+      color: #000000;
+    }
+    #host_overview tbody a {
+      text-decoration: none;
+      color: #005c9d;
+    }
+    #host_overview_tbl_filter {
+      float: right;
+      font-size: small;
+      color: #808080;
+    }
+    #host_overview_tbl_filter label input {
+      margin-left: 12px;
+    }
+    #host_overview_tbl_info {
+      font-size: x-small;
+      margin-top: 16px;
+      color: #C0C0C0;
+    }
+    .bar {
+      clear: both;
+    }
     .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
     .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
+
+    #hosts {
+      margin-left: 32px;
+      margin-bottom: 120px;
+    }
+    #hosts h3 {
+      margin-top: 128px;
+      padding-bottom: 16px;
+      font-size: xx-large;
+      border-bottom: 1px solid #D0D0D0;
+    }
+    #hosts h4 {
+      font-size: large;
+      font-weight: bold;
+      color: #404040;
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+    #hosts th {
+      text-align: left;
+      color: #909090;
+    }
+    #hosts td {
+      padding-left: 16px;
+      color: #303030;
+      padding-bottom: 10px;
+    }
     .error { color: #FF0000; }
     td.error a { color: #FF0000; }
-    #generated { font-size: x-small; }
     #disk_usage_detail { font-size: small; }
   </style>
   <!-- DataTables assets -->
   % if local_js is UNDEFINED:
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
   % else:
-    <link rel="stylesheet" type="text/css" href="file://${lib_dir}/static/js/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="file://${lib_dir}/static/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" charset="utf8" src="file://${lib_dir}/static/js/jquery.dataTables.js"></script>
   % endif
-  
 </head>
 <body>
-<h1>Host Overview</h1>
-<p id="generated">Generated: ${datetime.datetime.now().strftime('%c')}</p>
-<div id="columns">
-Display columns:
-% for col in cols:
-  <%
-    visible = "visible"
-    if col['visible'] is False:
-      visible = "invisible"
-  %>
-  <a href="" class="col-toggle col-${visible}" data-column="${loop.index}">${col['title']}</a>
-% endfor
+
+<header>
+  <h1>Host Overview</h1>
+  <span id="generated">Generated on <span class="datetime">${datetime.datetime.now().strftime('%c')}</span></span>
+</header>
+
+<div id="col_toggles">
+  <h2>Shown columns</h2>
+  <div id="col_toggle_buttons">
+    % for col in cols:
+      <%
+        visible = "visible"
+        if col['visible'] is False:
+          visible = "invisible"
+      %>
+      <a href="" class="col-toggle col-${visible}" data-column="${loop.index}">${col['title']}</a>
+    % endfor
+  </div>
 </div>
 
-<table id="host_overview" class="demo display dataTable compact">
-<thead>
-  <tr>
-    % for col in cols:
-      <th>${col['title']}</th>
-    % endfor
-  </tr>
-</thead>
-<tbody>
-  % for hostname, host in hosts.items():
-    <tr>
-      % if 'ansible_facts' not in host:
-        <td class="error">${col_name(host)}</td>
-        % for cnt in range(len(cols) - 1):
-            <td>&nbsp;</td>
-        % endfor
-      % else:
+<div id="host_overview">
+  <h2>Host overview</h2>
+  <div id="jquery_sucks">
+    <table id="host_overview_tbl" class="demo display dataTable compact">
+    <thead>
+      <tr>
         % for col in cols:
-          <td>${col["func"](host)}</td>
+          <th>${col['title']}</th>
         % endfor
+      </tr>
+    </thead>
+    <tbody>
+      % for hostname, host in hosts.items():
+        <tr>
+          % if 'ansible_facts' not in host:
+            <td class="error">${col_name(host)}</td>
+            % for cnt in range(len(cols) - 1):
+                <td>&nbsp;</td>
+            % endfor
+          % else:
+            % for col in cols:
+              <td>${col["func"](host)}</td>
+            % endfor
+          % endif
+        </tr>
+    % endfor
+    </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="hosts">
+  % for hostname, host in hosts.items():
+    % if 'ansible_facts' not in host:
+      <a name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
+      <p>No host information collected</p>
+      % if 'msg' in host:
+        <p class="error">${host['msg']}</p>
       % endif
-    </tr>
-% endfor
-</tbody>
-</table>
+    % else:
+      <a name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
+      <h4>General</h4>
+      <table>
+        <tr><th>Node name</th><td>${host['ansible_facts'].get('ansible_nodename', '')}</td></tr>
+        <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
+        <tr><th>Virtualisation role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
+        <tr><th>Virtualisation type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
+      </table>
 
-<h1>Hosts</h1>
-% for hostname, host in hosts.items():
-  % if 'ansible_facts' not in host:
-    <a name="${host['name']}"><h2 id="${host['name']}">${host['name']}</h2></a>
-    <p>No host information collected</p>
-    % if 'msg' in host:
-      <p class="error">${host['msg']}</p>
+      <h4>Custom variables</h4>
+      <table>
+          % for var_name, var_value in host['hostvars'].items():
+            <tr><th>${var_name}</th><td>${var_value}</td></tr>
+          % endfor
+      </table>
+
+      <h4>Hardware</h4>
+      <table>
+        <tr><th>Vendor</th><td>${host['ansible_facts'].get('ansible_system_vendor', '')}</td></tr>
+        <tr><th>Product name</th><td>${host['ansible_facts'].get('ansible_product_name', '')}</td></tr>
+        <tr><th>Product serial</th><td>${host['ansible_facts'].get('ansible_product_serial', '')}</td></tr>
+        <tr><th>Architecture</th><td>${host['ansible_facts'].get('ansible_architecture', '')}</td></tr>
+        <tr><th>Machine</th><td>${host['ansible_facts'].get('ansible_machine', '')}</td></tr>
+        <tr><th>Processor count</th><td>${host['ansible_facts'].get('ansible_processor_count', '')}</td></tr>
+        <tr><th>Processor cores</th><td>${host['ansible_facts'].get('ansible_processor_cores', '')}</td></tr>
+        <tr><th>Processor threads per core</th><td>${host['ansible_facts'].get('ansible_processor_threads_per_core', '')}</td></tr>
+        <tr><th>Processor virtual CPUs</th><td>${host['ansible_facts'].get('ansible_processor_vcpus', '')}</td></tr>
+        <tr><th>Mem total mb</th><td>${host['ansible_facts'].get('ansible_memtotal_mb', '')}</td></tr>
+        <tr><th>Mem free mb</th><td>${host['ansible_facts'].get('ansible_memfree_mb', '')}</td></tr>
+        <tr><th>Swap total mb</th><td>${host['ansible_facts'].get('ansible_swaptotal_mb', '')}</td></tr>
+        <tr><th>Swap free mb</th><td>${host['ansible_facts'].get('ansible_swapfree_mb', '')}</td></tr>
+      </table>
+
+      <h4>Operating System</h4>
+      <table>
+        <tr><th>System</th><td>${host['ansible_facts'].get('ansible_system', '')}</td></tr>
+        <tr><th>OS Family</th><td>${host['ansible_facts'].get('ansible_os_family', '')}</td></tr>
+        <tr><th>Distribution</th><td>${host['ansible_facts'].get('ansible_distribution', '')}</td></tr>
+        <tr><th>Distribution version</th><td>${host['ansible_facts'].get('ansible_distribution_version', '')}</td></tr>
+        <tr><th>Distribution release</th><td>${host['ansible_facts'].get('ansible_distribution_release', '')}</td></tr>
+        <tr><th>Kernel</th><td>${host['ansible_facts'].get('ansible_kernel', '')}</td></tr>
+        <tr><th>Userspace bits</th><td>${host['ansible_facts'].get('ansible_userspace_bits', '')}</td></tr>
+        <tr><th>Userspace_architecture</th><td>${host['ansible_facts'].get('ansible_userspace_architecture', '')}</td></tr>
+        <tr><th>Date time</th><td>${host['ansible_facts'].get('ansible_date_time', {}).get('iso8601', '')}</td></tr>
+        <tr><th>Locale / Encoding</th><td>${host['ansible_facts'].get('ansible_env', {}).get('LC_ALL', 'Unknown')}</td></tr>
+        <tr><th>SELinux?</th><td>${host['ansible_facts'].get('ansible_selinux', '')}</td></tr>
+        <tr><th>Package manager</th><td>${host['ansible_facts'].get('ansible_pkg_mgr', '')}</td></tr>
+      </table>
+
+      <h4>Network</h4>
+      <table>
+        <tr><th>Hostname</th><td>${host['ansible_facts'].get('ansible_hostname', '')}</td></tr>
+        <tr><th>Domain</th><td>${host['ansible_facts'].get('ansible_domain', '')}</td></tr>
+        <tr><th>FQDN</th><td>${host['ansible_facts'].get('ansible_fqdn', '')}</td></tr>
+        <tr><th>All IPv4</th><td>${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}</td></tr>
+        <tr>
+          <th>Interfaces</th>
+          <td>
+            <table>
+                % for iface in host['ansible_facts'].get('ansible_interfaces', []):
+                  <tr>
+                    <th>${iface}</th>
+                    <td>
+                      % try:
+                        ${r_dict(host['ansible_facts']['ansible_%s' % (iface)])}
+                      % except KeyError:
+                        No information available
+                      % endtry
+                    </td>
+                  </tr>
+                % endfor
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <h4>Storage</h4>
+      <table>
+        <tr>
+          <th>Devices</th>
+          <td>
+            ${r_dict(host['ansible_facts'].get('ansible_devices', {}))}
+          </td>
+        </tr>
+        <tr>
+          <th>Mounts</th>
+          <td>
+            ${r_list(host['ansible_facts'].get('ansible_mounts', []))}
+          </td>
+        </tr>
+      </table>
     % endif
-  % else:
-    <a name="${host['name']}"><h2 id="${host['name']}">${host['name']}</h2></a>
-    <h3>General</h3>
-    <table>
-      <tr><th>Node name</th><td>${host['ansible_facts'].get('ansible_nodename', '')}</td></tr>
-      <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
-      <tr><th>Virtualisation role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
-      <tr><th>Virtualisation type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
-    </table>
-
-    <h3>Custom variables</h3>
-    <table>
-        % for var_name, var_value in host['hostvars'].items():
-          <tr><th>${var_name}</th><td>${var_value}</td></tr>
-        % endfor
-    </table>
-
-    <h3>Hardware</h3>
-    <table>
-      <tr><th>Vendor</th><td>${host['ansible_facts'].get('ansible_system_vendor', '')}</td></tr>
-      <tr><th>Product name</th><td>${host['ansible_facts'].get('ansible_product_name', '')}</td></tr>
-      <tr><th>Product serial</th><td>${host['ansible_facts'].get('ansible_product_serial', '')}</td></tr>
-      <tr><th>Architecture</th><td>${host['ansible_facts'].get('ansible_architecture', '')}</td></tr>
-      <tr><th>Machine</th><td>${host['ansible_facts'].get('ansible_machine', '')}</td></tr>
-      <tr><th>Processor count</th><td>${host['ansible_facts'].get('ansible_processor_count', '')}</td></tr>
-      <tr><th>Processor cores</th><td>${host['ansible_facts'].get('ansible_processor_cores', '')}</td></tr>
-      <tr><th>Processor threads per core</th><td>${host['ansible_facts'].get('ansible_processor_threads_per_core', '')}</td></tr>
-      <tr><th>Processor virtual CPUs</th><td>${host['ansible_facts'].get('ansible_processor_vcpus', '')}</td></tr>
-      <tr><th>Mem total mb</th><td>${host['ansible_facts'].get('ansible_memtotal_mb', '')}</td></tr>
-      <tr><th>Mem free mb</th><td>${host['ansible_facts'].get('ansible_memfree_mb', '')}</td></tr>
-      <tr><th>Swap total mb</th><td>${host['ansible_facts'].get('ansible_swaptotal_mb', '')}</td></tr>
-      <tr><th>Swap free mb</th><td>${host['ansible_facts'].get('ansible_swapfree_mb', '')}</td></tr>
-    </table>
-
-    <h3>Operating System</h3>
-    <table>
-      <tr><th>System</th><td>${host['ansible_facts'].get('ansible_system', '')}</td></tr>
-      <tr><th>OS Family</th><td>${host['ansible_facts'].get('ansible_os_family', '')}</td></tr>
-      <tr><th>Distribution</th><td>${host['ansible_facts'].get('ansible_distribution', '')}</td></tr>
-      <tr><th>Distribution version</th><td>${host['ansible_facts'].get('ansible_distribution_version', '')}</td></tr>
-      <tr><th>Distribution release</th><td>${host['ansible_facts'].get('ansible_distribution_release', '')}</td></tr>
-      <tr><th>Kernel</th><td>${host['ansible_facts'].get('ansible_kernel', '')}</td></tr>
-      <tr><th>Userspace bits</th><td>${host['ansible_facts'].get('ansible_userspace_bits', '')}</td></tr>
-      <tr><th>Userspace_architecture</th><td>${host['ansible_facts'].get('ansible_userspace_architecture', '')}</td></tr>
-      <tr><th>Date time</th><td>${host['ansible_facts'].get('ansible_date_time', {}).get('iso8601', '')}</td></tr>
-      <tr><th>Locale / Encoding</th><td>${host['ansible_facts'].get('ansible_env', {}).get('LC_ALL', 'Unknown')}</td></tr>
-      <tr><th>SELinux?</th><td>${host['ansible_facts'].get('ansible_selinux', '')}</td></tr>
-      <tr><th>Package manager</th><td>${host['ansible_facts'].get('ansible_pkg_mgr', '')}</td></tr>
-    </table>
-
-    <h3>Network</h3>
-    <table>
-      <tr><th>Hostname</th><td>${host['ansible_facts'].get('ansible_hostname', '')}</td></tr>
-      <tr><th>Domain</th><td>${host['ansible_facts'].get('ansible_domain', '')}</td></tr>
-      <tr><th>FQDN</th><td>${host['ansible_facts'].get('ansible_fqdn', '')}</td></tr>
-      <tr><th>All IPv4</th><td>${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}</td></tr>
-      <tr>
-        <th>Interfaces</th>
-        <td>
-          <table>
-              % for iface in host['ansible_facts'].get('ansible_interfaces', []):
-                <tr>
-                  <th>${iface}</th>
-                  <td>
-                    % try:
-                      ${r_dict(host['ansible_facts']['ansible_%s' % (iface)])}
-                    % except KeyError:
-                      No information available
-                    % endtry
-                  </td>
-                </tr>
-              % endfor
-          </table>
-        </td>
-      </tr>
-    </table>
-
-    <h3>Storage</h3>
-    <table>
-      <tr>
-        <th>Devices</th>
-        <td>
-          ${r_dict(host['ansible_facts'].get('ansible_devices', {}))}
-        </td>
-      </tr>
-      <tr>
-        <th>Mounts</th>
-        <td>
-          ${r_list(host['ansible_facts'].get('ansible_mounts', []))}
-        </td>
-      </tr>
-    </table>
-  % endif
-% endfor
+  % endfor
+</div>
 
 <script>
 $(document).ready( function () {
-  var table = $('#host_overview').DataTable({
+  var table = $('#host_overview_tbl').DataTable({
     paging: false,
     columnDefs: [
       % for col in cols:
