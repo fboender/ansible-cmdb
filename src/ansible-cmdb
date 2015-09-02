@@ -416,7 +416,7 @@ class Ansible(object):
 
 
 if __name__ == "__main__":
-    parser = optparse.OptionParser()
+    parser = optparse.OptionParser(version="%prog %%MASTER%%")
     parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
     parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
     parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory hosts file to read extra info from")
@@ -437,6 +437,7 @@ if __name__ == "__main__":
     # Handle template params
     params = {
         'lib_dir': lib_dir,
+        'version': '%%MASTER%%',
     }
     if options.params:
         try:

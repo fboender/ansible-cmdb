@@ -53,6 +53,7 @@ The default template is `html_fancy`, which uses Jquery.
     Usage: ../src/ansible-cmdb [option] <dir> > output.html
     
     Options:
+      --version             show program's version number and exit
       -h, --help            show this help message and exit
       -t TEMPLATE, --template=TEMPLATE
                             Template to use. Default is 'html_fancy'

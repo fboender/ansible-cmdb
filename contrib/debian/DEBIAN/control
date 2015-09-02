@@ -1,5 +1,5 @@
 Package: ansible-cmdb
-Version: %%VERSION%%
+Version: %%MASTER%%
 Maintainer: Ferry Boender <ferry.boender@gmail.com>
 Section: utils
 Priority: optional

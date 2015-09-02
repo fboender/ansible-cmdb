@@ -8,7 +8,6 @@ test:
 	cd test && ./test.sh
 
 release_clean:
-	echo "**$(shell git status --porcelain)**";
 	@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
 
 release: release_src release_deb release_rpm
@@ -35,7 +34,7 @@ release_src: release_clean doc
 	cp contrib/release_Makefile $(PROG)-$(REL_VERSION)/Makefile
 
 	# Bump version numbers
-	find $(PROG)-$(REL_VERSION)/ -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/$(REL_VERSION)/g" 
+	find $(PROG)-$(REL_VERSION)/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$(REL_VERSION)/g" 
 
 	# Create archives
 	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
@@ -65,7 +64,7 @@ release_deb: release_clean doc
 	cp -ar contrib/debian/DEBIAN rel_deb/
 
 	# Bump version numbers
-	find rel_deb/ -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/$(REL_VERSION)/g" 
+	find rel_deb/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$(REL_VERSION)/g" 
 
 	# Create debian pacakge
 	fakeroot dpkg-deb --build rel_deb > /dev/null
