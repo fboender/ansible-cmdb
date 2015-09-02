@@ -277,6 +277,7 @@ cols = [
     #hosts th {
       text-align: left;
       color: #909090;
+      padding-bottom: 10px;
     }
     #hosts td {
       padding-left: 16px;
