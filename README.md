@@ -121,13 +121,11 @@ ansible-cmdb offers multiple templates. You can choose your template with the
 
 	ansible-cmdb -t tpl_custom out/ > overview.html
 
-The 'html_fancy' template is the default. It can be easily extended by copying
-it and modifying the `cols` definition at the top. It should be served over
-HTTP, as it uses CDN Jquery libs (unless you specify the `local_js` parameter).
+The 'html_fancy' template is the default.  
 
 Ansible-cmdb currently provides the following templates out of the box:
 
-* `html_fancy`: A fancy HTML page that used JQuery and DataTables to give you a
+* `html_fancy`: A fancy HTML page that uses JQuery and DataTables to give you a
   searchable, sortable table overview of all hosts with detailed information
   just a click away.
 
@@ -135,6 +133,9 @@ Ansible-cmdb currently provides the following templates out of the box:
   local disk instead of over the network. To enable it, call ansible-cmdb with:
 
       ansible-cmdb -t html_fancy -p local_js=1 out > overview.html
+
+  It can be easily extended by copying it and modifying the `cols` definition
+  at the top.
 
 * `txt_table`: A quick text table summary of the available hosts with some
   minimal information.
@@ -167,9 +168,8 @@ the root of the JSON.
 ### Extending
 
 You can specify multiple directories that need to be scanned for output. This
-lets you add more custom information by creating a directory that looks like
-the output of Ansible's 'setup' module, but contains fake entries with your own
-information.
+lets you add more custom information to existing hosts or even completely new
+hosts.
 
 For example, if your normal ansible `setup` output contains:
 
@@ -177,6 +177,7 @@ For example, if your normal ansible `setup` output contains:
 	db1.dev.megacorp.com
 	db2.dev.megacorp.com
 	test.megacorp.com
+    
     $ cat out/test.megacorp.com
     {
         "ansible_facts": {
