@@ -38,13 +38,13 @@ Usage
 
 First, generate Ansible output for your hosts:
 
-	mkdir out
-	ansible -m setup --tree out/ all
+    mkdir out
+    ansible -m setup --tree out/ all
 
 Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
 overview page:
 
-	ansible-cmdb out/ > overview.html
+    ansible-cmdb out/ > overview.html
 
 The default template is `html_fancy`, which uses Jquery. 
 
@@ -90,21 +90,21 @@ The ''html_fancy'' template uses four extra fields:
 
 For example, lets say we have the following `hosts` file:
 
-	[cust.megacorp]
-	db1.dev.megacorp.com   dtap=dev  comment="Old database server"
-	db2.dev.megacorp.com   dtap=dev  comment="New database server"
-	test.megacorp.com      dtap=test 
-	acc.megacorp.com       dtap=acc  comment="24/7 support"
-	megacorp.com           dtap=prod comment="Hosting by Foo" ext_id="SRV_10029"
-	
-	[os.redhat]
-	megacorp.com
-	acc.megacorp.com
-	test.megacorp.com
-	db2.dev.megacorp.com
-	
-	[os.debian]
-	db1.dev.megacorp.com
+    [cust.megacorp]
+    db1.dev.megacorp.com   dtap=dev  comment="Old database server"
+    db2.dev.megacorp.com   dtap=dev  comment="New database server"
+    test.megacorp.com      dtap=test 
+    acc.megacorp.com       dtap=acc  comment="24/7 support"
+    megacorp.com           dtap=prod comment="Hosting by Foo" ext_id="SRV_10029"
+    
+    [os.redhat]
+    megacorp.com
+    acc.megacorp.com
+    test.megacorp.com
+    db2.dev.megacorp.com
+    
+    [os.debian]
+    db1.dev.megacorp.com
 
 The host `acc.megacorp.com` will have groups 'cust.megacorp' and 'os.redhat',
 will have a comment saying it has 24/7 support and will be marked as a `acc`
@@ -119,7 +119,7 @@ information on host variables.
 ansible-cmdb offers multiple templates. You can choose your template with the
 `-t` or `--template` argument:
 
-	ansible-cmdb -t tpl_custom out/ > overview.html
+    ansible-cmdb -t tpl_custom out/ > overview.html
 
 The 'html_fancy' template is the default.  
 
@@ -174,9 +174,9 @@ hosts.
 For example, if your normal ansible `setup` output contains:
 
     $ ls out/
-	db1.dev.megacorp.com
-	db2.dev.megacorp.com
-	test.megacorp.com
+    db1.dev.megacorp.com
+    db2.dev.megacorp.com
+    test.megacorp.com
     
     $ cat out/test.megacorp.com
     {
@@ -199,7 +199,7 @@ You can create an additional directory with custom information:
 
 Specify both directories when generating the output:
 
-	./ansible-cmdb out/ out_cust/ > overview.html
+    ./ansible-cmdb out/ out_cust/ > overview.html
 
 Your custom variables will be put in the root of the host information
 dictionary:
