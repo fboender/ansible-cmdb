@@ -20,6 +20,7 @@ cols = [
   {"title": "Ext ID", "func": col_ext_id, "visible": True},
 ]
 %>
+
 ##
 ## Column functions
 ##
@@ -80,6 +81,7 @@ cols = [
 <%def name="col_ext_id(host)">
   ${host['hostvars'].get('ext_id', '')}
 </%def>
+
 ##
 ## Helper functions for dumping python datastructures
 ##
@@ -112,6 +114,10 @@ cols = [
     % endfor
   </table>
 </%def>
+
+##
+## HTML
+##
 <html>
 <head>
   <title>Ansible overview</title>
@@ -254,7 +260,16 @@ cols = [
     .bar {
       clear: both;
     }
-    .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
+    .prog_bar_full {
+      float: left;
+      display: block;
+      height: 12px;
+      border: 1px solid #000000;
+      padding: 1px;
+      margin-right: 4px;
+      color: white;
+      text-align: center;
+    }
     .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
 
     #hosts {
@@ -288,23 +303,23 @@ cols = [
     td.error a { color: #FF0000; }
     #disk_usage_detail { font-size: small; }
     footer {
-        display: block;
-        position: fixed;
-        bottom: 0px;
-        right: 0px;
-        left: 0px;
-        background-color: #d5d5d5;
-        overflow: auto;
-        color: #505050;
-        padding: 4px;
-        font-size: x-small;
-        text-align: right;
-        padding-right: 8px;
+      display: block;
+      position: fixed;
+      bottom: 0px;
+      right: 0px;
+      left: 0px;
+      background-color: #d5d5d5;
+      overflow: auto;
+      color: #505050;
+      padding: 4px;
+      font-size: x-small;
+      text-align: right;
+      padding-right: 8px;
     }
     footer a {
-        font-weight: bold;
-        text-decoration: none;
-        color: #202020;
+      font-weight: bold;
+      text-decoration: none;
+      color: #202020;
     }
   </style>
   <!-- DataTables assets -->
