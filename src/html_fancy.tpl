@@ -512,6 +512,25 @@ $(document).ready( function () {
     console.log(e.target.className = 'col-toggle ' + newClass);
   });
 
+  // Show host name in header bar when scrolling
+  $( window ).scroll(function() {
+    var scrollTop = $(window).scrollTop();
+    var curElem = false;
+    $( "#hosts h3" ).each(function( index ) {
+      var el = $(this);
+      if ((el.offset().top - 128) <= scrollTop) {
+        curElem = el;
+      } else {
+        return false;
+      }
+    });
+    if (curElem) {
+      $("header h1").text(curElem.text());
+    } else {
+      $("header h1").text("Host Overview");
+    };
+  });
+
   // Focus the input field
   $('#host_overview_filter label input').focus();
 } );
