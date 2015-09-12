@@ -493,6 +493,7 @@ cols = [
 
 <script>
 $(document).ready( function () {
+  // Initialize the DataTables jQuery plugin on the host overview table
   var table = $('#host_overview_tbl').DataTable({
     paging: false,
     columnDefs: [
@@ -502,6 +503,7 @@ $(document).ready( function () {
     ]
   });
 
+  // Show and hide columns on button clicks
   $('a.col-toggle').on('click', function(e) {
     e.preventDefault();
     var column = table.column( $(this).attr('data-column') );
@@ -510,6 +512,7 @@ $(document).ready( function () {
     console.log(e.target.className = 'col-toggle ' + newClass);
   });
 
+  // Focus the input field
   $('#host_overview_filter label input').focus();
 } );
 </script>
