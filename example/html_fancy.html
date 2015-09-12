@@ -218,7 +218,7 @@
 
 <header>
   <h1>Host Overview</h1>
-  <span id="generated">Generated on <span class="datetime">Wed Sep  2 12:11:16 2015</span></span>
+  <span id="generated">Generated on <span class="datetime">Fri Sep  4 13:03:32 2015</span></span>
 </header>
 
 <div id="col_toggles">
@@ -283,10 +283,10 @@
   <a href="#jib.electricmonk.nl">jib.electricmonk.nl</a>
 </td>
               <td>
-  prod
+  
 </td>
               <td>
-  prod
+  
 </td>
               <td>
   jib
@@ -325,7 +325,7 @@
         </div>
 </td>
               <td>
-  Workstation
+  
 </td>
               <td>
   
@@ -336,10 +336,10 @@
   <a href="#app.uat.local">app.uat.local</a>
 </td>
               <td>
-  uat
+  
 </td>
               <td>
-  uat
+  
 </td>
               <td>
   localhost
@@ -389,10 +389,10 @@
   <a href="#eek.electricmonk.nl">eek.electricmonk.nl</a>
 </td>
               <td>
-  prod
+  
 </td>
               <td>
-  prod
+  
 </td>
               <td>
   eek.electricmonk.nl
@@ -447,10 +447,10 @@
   <a href="#db01.prod.local">db01.prod.local</a>
 </td>
               <td>
-  prod
+  
 </td>
               <td>
-  prod<br>db
+  
 </td>
               <td>
   localhost
@@ -500,10 +500,10 @@
   <a href="#debian.dev.local">debian.dev.local</a>
 </td>
               <td>
-  dev
+  
 </td>
               <td>
-  dev<br>virtual
+  
 </td>
               <td>
   localhost
@@ -553,10 +553,10 @@
   <a href="#db02.prod.local">db02.prod.local</a>
 </td>
               <td>
-  prod
+  
 </td>
               <td>
-  prod<br>db
+  
 </td>
               <td>
   localhost
@@ -606,10 +606,10 @@
   <a href="#centos.dev.local">centos.dev.local</a>
 </td>
               <td>
-  dev
+  
 </td>
               <td>
-  dev<br>virtual
+  
 </td>
               <td>
   centos.local
@@ -702,10 +702,10 @@
   <a href="#db03.prod.local">db03.prod.local</a>
 </td>
               <td>
-  prod
+  
 </td>
               <td>
-  prod<br>db
+  
 </td>
               <td>
   localhost
@@ -755,10 +755,10 @@
   <a href="#zoltar.electricmonk.nl">zoltar.electricmonk.nl</a>
 </td>
               <td>
-  prod
+  
 </td>
               <td>
-  prod
+  
 </td>
               <td>
   zoltar-new.melkfl.es
@@ -797,7 +797,7 @@
         </div>
 </td>
               <td>
-  Load balancer
+  
 </td>
               <td>
   
@@ -820,8 +820,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>comment</th><td>Workstation</td></tr>
-            <tr><th>dtap</th><td>prod</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -1819,7 +1817,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>dtap</th><td>uat</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -2463,7 +2460,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>dtap</th><td>prod</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -3238,7 +3234,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>dtap</th><td>prod</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -3882,7 +3877,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>dtap</th><td>dev</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -4526,7 +4520,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>dtap</th><td>prod</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -5170,7 +5163,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>dtap</th><td>dev</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -5946,7 +5938,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>dtap</th><td>prod</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -6590,8 +6581,6 @@
 
       <h4>Custom variables</h4>
       <table>
-            <tr><th>comment</th><td>Load balancer</td></tr>
-            <tr><th>dtap</th><td>prod</td></tr>
       </table>
 
       <h4>Hardware</h4>
@@ -7350,6 +7339,7 @@
 
 <script>
 $(document).ready( function () {
+  // Initialize the DataTables
   var table = $('#host_overview_tbl').DataTable({
     paging: false,
     columnDefs: [
@@ -7370,14 +7360,35 @@ $(document).ready( function () {
     ]
   });
 
+  // Show and hide columns on button clicks
   $('a.col-toggle').on('click', function(e) {
     e.preventDefault();
     var column = table.column( $(this).attr('data-column') );
     column.visible( ! column.visible() );
     var newClass = ['col-invisible','col-visible'][Number(column.visible())];
-    console.log(e.target.className = 'col-toggle ' + newClass);
+    e.target.className = 'col-toggle ' + newClass;
   });
 
+  // Show host name in header bar
+  $( window ).scroll(function() {
+    var scrollTop = $(window).scrollTop();
+    var curElem = false;
+    $( "#hosts h3" ).each(function( index ) {
+      var el = $(this);
+      if ((el.offset().top - 128) <= scrollTop) {
+        curElem = el;
+      } else {
+        return false;
+      }
+    });
+    if (curElem) {
+      $("header h1").text(curElem.text());
+    } else {
+      $("header h1").text("Host Overview");
+    };
+  });
+
+  // Focus the input field
   $('#host_overview_filter label input').focus();
 } );
 </script>
