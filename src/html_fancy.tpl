@@ -509,7 +509,7 @@ $(document).ready( function () {
     var column = table.column( $(this).attr('data-column') );
     column.visible( ! column.visible() );
     var newClass = ['col-invisible','col-visible'][Number(column.visible())];
-    console.log(e.target.className = 'col-toggle ' + newClass);
+    e.target.className = 'col-toggle ' + newClass;
   });
 
   // Show host name in header bar when scrolling
