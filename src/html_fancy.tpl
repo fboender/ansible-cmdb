@@ -300,7 +300,9 @@ cols = [
       padding-bottom: 10px;
     }
     .error { color: #FF0000; }
-    td.error a { color: #FF0000; }
+    #host_overview tbody td.error a {
+        color: #FF0000;
+    }
     #disk_usage_detail { font-size: small; }
     footer {
       display: block;
