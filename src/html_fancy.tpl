@@ -175,6 +175,15 @@ cols = [
       line-height: 32px;
       font-size: small;
     }
+    header #top {
+        display: none;
+    }
+    header #top a {
+        line-height: 32px;
+        margin-left: 64px;
+        color: #FFFFFF;
+        border-bottom: 1px solid #909090;
+    }
     #generated .datetime {
       font-weight: bold;
       margin-left: 12px;
@@ -337,6 +346,7 @@ cols = [
 
 <header>
   <h1>Host Overview</h1>
+  <span id="top"><a href="#">Back to top</a></span>
   <span id="generated">Generated on <span class="datetime">${datetime.datetime.now().strftime('%c')}</span></span>
 </header>
 
@@ -528,8 +538,10 @@ $(document).ready( function () {
     });
     if (curElem) {
       $("header h1").text(curElem.text());
+      $('#top').show();
     } else {
       $("header h1").text("Host Overview");
+      $('#top').hide();
     };
   });
 
