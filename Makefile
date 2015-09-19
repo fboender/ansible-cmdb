@@ -1,4 +1,4 @@
-.PHONY: doc test
+.PHONY: doc test example
 PROG=ansible-cmdb
 
 fake:
@@ -6,6 +6,9 @@ fake:
 
 test:
 	cd test && ./test.sh
+
+example:
+	example/generate.sh
 
 release_clean:
 	@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
