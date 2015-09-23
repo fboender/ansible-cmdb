@@ -295,50 +295,53 @@ class AnsibleHostsParser(object):
         Returns a list of the fully expanded hostnames. Ports are also removed
         from hostnames as a bonus (e.g. "foo.bar.com:8022" -> "foo.bar.com")
         """
-        hosts_todo = [hostdef]
-        hosts_done = []
+        try:
+            hosts_todo = [hostdef]
+            hosts_done = []
 
-        # Keep going through the todo list of hosts until they no longer have a
-        # pattern in them. We only handle the first pattern found in the host for
-        # each iteration of the while loop. If more patterns are present, the
-        # partially expanded host(s) gets added back to the todo list.
-        while hosts_todo:
-            host = hosts_todo.pop(0)
-            if not '[' in host:
-                hosts_done.append(host)
-                continue
+            # Keep going through the todo list of hosts until they no longer have a
+            # pattern in them. We only handle the first pattern found in the host for
+            # each iteration of the while loop. If more patterns are present, the
+            # partially expanded host(s) gets added back to the todo list.
+            while hosts_todo:
+                host = hosts_todo.pop(0)
+                if not '[' in host:
+                    hosts_done.append(host)
+                    continue
 
-            # Extract the head, first pattern and tail. E.g. foo[0:3].bar.com ->
-            # head="foo", pattern="0:3", tail=".bar.com"
-            head, rest = host.split('[', 1)
-            pattern, tail = rest.split(']', 1)
-            start, end = pattern.split(':')
-            fill = False
-            if start.startswith('0') and len(start) > 0:
-                fill = len(start)
+                # Extract the head, first pattern and tail. E.g. foo[0:3].bar.com ->
+                # head="foo", pattern="0:3", tail=".bar.com"
+                head, rest = host.split('[', 1)
+                pattern, tail = rest.split(']', 1)
+                start, end = pattern.split(':')
+                fill = False
+                if start.startswith('0') and len(start) > 0:
+                    fill = len(start)
 
-            try:
-                for i in range(int(start), int(end) + 1):
-                    if fill:
-                        range_nr = str(i).zfill(fill)
-                    else:
-                        range_nr = i
-                    new_host = '{0}{1}{2}'.format(head, range_nr, tail)
-                    if '[' in new_host:
-                        hosts_todo.append(new_host)
-                    else:
-                        hosts_done.append(new_host)
-            except ValueError:
-                for i in range(ord(start), ord(end) + 1):
-                    new_host = '{0}{1}{2}'.format(head, chr(i), tail)
-                    if '[' in new_host:
-                        hosts_todo.append(new_host)
-                    else:
-                        hosts_done.append(new_host)
+                try:
+                    for i in range(int(start), int(end) + 1):
+                        if fill:
+                            range_nr = str(i).zfill(fill)
+                        else:
+                            range_nr = i
+                        new_host = '{0}{1}{2}'.format(head, range_nr, tail)
+                        if '[' in new_host:
+                            hosts_todo.append(new_host)
+                        else:
+                            hosts_done.append(new_host)
+                except ValueError:
+                    for i in range(ord(start), ord(end) + 1):
+                        new_host = '{0}{1}{2}'.format(head, chr(i), tail)
+                        if '[' in new_host:
+                            hosts_todo.append(new_host)
+                        else:
+                            hosts_done.append(new_host)
 
-        # Strip port numbers off and return
-        return [host_name.split(':')[0] for host_name in hosts_done]
-
+            # Strip port numbers off and return
+            return [host_name.split(':')[0] for host_name in hosts_done]
+        except Exception, e:
+            sys.stderr.write("Couldn't parse host definition '{}': {}\n".format(hostdef, e))
+            return []
 
 class Ansible(object):
     def __init__(self, fact_dirs, hosts_path=None, fact_cache=False, debug=False):
