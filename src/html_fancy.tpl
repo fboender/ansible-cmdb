@@ -118,6 +118,12 @@ cols = [
 ##
 ## HTML
 ##
+<%
+  if local_js is UNDEFINED:
+    res_url = "https://cdn.datatables.net/1.10.2/"
+  else:
+    res_url = "file://" + lib_dir + "/static/"
+%>
 <html>
 <head>
   <title>Ansible overview</title>
@@ -239,6 +245,16 @@ cols = [
       color: #707070;
       font-size: x-small;
       font-weight: bold;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-position: center right;
+      background-image: url("${res_url}/images/sort_both.png");
+    }
+    #host_overview thead th.sorting_desc {
+      background-image: url("${res_url}/images/sort_desc.png");
+    }
+    #host_overview thead th.sorting_asc {
+      background-image: url("${res_url}/images/sort_asc.png");
     }
     #host_overview tr {
       border-bottom: 1px solid #F0F0F0;
@@ -336,11 +352,10 @@ cols = [
   <!-- DataTables assets -->
   % if local_js is UNDEFINED:
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
   % else:
     <script type="text/javascript" charset="utf8" src="file://${lib_dir}/static/js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="file://${lib_dir}/static/js/jquery.dataTables.js"></script>
   % endif
+  <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery.dataTables.js"></script>
 </head>
 <body>
 
