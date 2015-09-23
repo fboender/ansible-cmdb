@@ -75,12 +75,13 @@ useful information from it such as:
   used in playbooks. They are scanned by ansible-cmdb and get added to a hosts
   discovered facts under the 'hostvars' section.
 
-
 Reading the hosts inventory file is done using the `-i` switch to ansible-cmdb.
 It takes a single parameter: your hosts file or directory containing your hosts
 files. For example:
 
     $ ansible-cmdb -i ./hosts out/ > overview.html
+
+If a `host_vars` dir exists at that location, it will also be read.
 
 The ''html_fancy'' template uses four extra fields:
 
