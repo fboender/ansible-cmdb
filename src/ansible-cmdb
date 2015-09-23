@@ -15,9 +15,10 @@ import optparse
 import sys, os
 import shlex
 import re
-import json, mako
+import json
 import copy
 import pprint
+import mako
 from mako.template import Template
 
 
@@ -376,19 +377,30 @@ class Ansible(object):
             self.update_host(hostname, key_values)
 
     def	parse_hostvar_dir(self, hosts_path):
-	import yaml
-        path=os.path.join(os.path.dirname(hosts_path), 'host_vars')
+        """
+        Parse host_vars dir, if it exists. This requires the yaml module, which
+        is imported on-demand, since it's not a default module.
+        """
+        path = os.path.join(os.path.dirname(hosts_path), 'host_vars')
+        if not os.path.exists(path):
+            return
+
+        try:
+            import yaml
+        except ImportError as e:
+            import yaml3 as yaml
+
         flist = []
-	for (dirpath, dirnames, filenames) in os.walk(path):
-	    flist.extend(filenames)
-	    break
-		
-	for fname in flist:
-	    fd = open(os.path.join(path, fname), 'r')
-	    invars = yaml.load(fd)
-            fd.close()
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            flist.extend(filenames)
+            break
+
+        for fname in flist:
+            f = open(os.path.join(path, fname), 'r')
+            invars = yaml.load(f)
+            f.close()
             self.update_host(fname, {'hostvars': invars})
-      
+
     def parse_fact_dir(self, fact_dir, fact_cache=False):
         """
         Walk through a directory of JSON files and extract information from
