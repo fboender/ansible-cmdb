@@ -4,8 +4,8 @@ Ansible Configuration Management Database
 About
 -----
 
-This script takes the output of Ansible's `setup` module and converts it into a
-static HTML overview page containing system configuration information.
+Ansible-cmdb takes the output of Ansible's fact gathering and converts it into
+a static HTML overview page containing system configuration information.
 
 It supports multiple templates and extending information gathered by Ansible
 with custom data.
