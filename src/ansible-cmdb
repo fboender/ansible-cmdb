@@ -339,7 +339,7 @@ class AnsibleHostsParser(object):
 
             # Strip port numbers off and return
             return [host_name.split(':')[0] for host_name in hosts_done]
-        except Exception, e:
+        except Exception as e:
             sys.stderr.write("Couldn't parse host definition '{}': {}\n".format(hostdef, e))
             return []
 
