@@ -312,3 +312,20 @@ to build a test release, you can temporary stash your untracked changes:
 
     git stash -u
 
+### Contributions
+
+If you wish to contribute code, please consider the following:
+
+* Thank you for even considering contributing. I'm quite newby-friendly, so
+  don't hesitate to ask any help! 
+* Code should be reasonably PEP8-like. I'm not too strict on this.
+* One logical change per merge request.
+* By putting in a merge request or putting code in comments, you autoamtically
+  grant me permission to include this code in ansible-cmdb under the license
+  (MIT) that ansible-cmdb uses.
+* Please don't be disappointed or angry if your contributions end up unused.
+  It's not that they aren't appreciated, but I can be somewhat strict when it
+  comes to code quality, feature-creep, etc.
+
+When in doubt, just open a pull-request and post a comment on what you're
+unclear of, and we'll figure it out.
