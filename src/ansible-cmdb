@@ -368,6 +368,8 @@ class Ansible(object):
         if os.path.isdir(hosts_path):
             for fname in os.listdir(hosts_path):
                 path = os.path.join(hosts_path, fname)
+                if os.path.isdir(path):
+                    continue
                 with open(path, 'r') as f:
                     hosts_contents += f.readlines()
         else:
