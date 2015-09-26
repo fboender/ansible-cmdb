@@ -58,27 +58,32 @@ class AnsibleHostsParser(object):
     """
     def __init__(self, hosts_contents):
         self.hosts_contents = hosts_contents
+        self.hosts = {}
 
         # Get a list of host, children and vars sections in the hosts file
-        self.sections = self.parse_hosts_contents(hosts_contents)
+        try:
+            self.sections = self.parse_hosts_contents(hosts_contents)
 
-        # Initialize each unique host found in the hosts file
-        self.hosts = {}
-        for hostname in self.get_distinct_hostnames():
-            self.hosts[hostname] = {
-                'groups': set(),
-                'hostvars': {}
-            }
+            # Initialize each unique host found in the hosts file
+            for hostname in self.get_distinct_hostnames():
+                self.hosts[hostname] = {
+                    'groups': set(),
+                    'hostvars': {}
+                }
 
-        # Go through the different types of sections and apply each section to
-        # the hosts it covers. 'Applying a section' means adding the group name
-        # and variables defined in the section to each host the section covers.
-        for section in filter(lambda s: s['type'] == 'children', self.sections):
-            self.apply_section(section, self.hosts)
-        for section in filter(lambda s: s['type'] == 'vars', self.sections):
-            self.apply_section(section, self.hosts)
-        for section in filter(lambda s: s['type'] == 'hosts', self.sections):
-            self.apply_section(section, self.hosts)
+            # Go through the different types of sections and apply each section to
+            # the hosts it covers. 'Applying a section' means adding the group name
+            # and variables defined in the section to each host the section covers.
+            for section in filter(lambda s: s['type'] == 'children', self.sections):
+                self.apply_section(section, self.hosts)
+            for section in filter(lambda s: s['type'] == 'vars', self.sections):
+                self.apply_section(section, self.hosts)
+            for section in filter(lambda s: s['type'] == 'hosts', self.sections):
+                self.apply_section(section, self.hosts)
+        except ValueError as e:
+            sys.stderr.write("Error while parsing hosts contents: '{}'\n"
+                             "Invalid hosts file?\n".format(str(e)))
+
 
     def parse_hosts_contents(self, hosts_contents):
         """
