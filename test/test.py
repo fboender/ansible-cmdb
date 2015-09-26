@@ -93,6 +93,20 @@ class FactCacheTestCase(unittest.TestCase):
         self.assertEqual(host_vars['dtap'], 'dev')
         self.assertIn('ansible_env', ansible_facts)
 
+class DynInvTestCase(unittest.TestCase):
+    """
+    Test dynamic inventory execution and parsing
+    """
+    def testParse(self):
+        fact_dirs = ['f_hostparse/out'] # Reuse f_hostparse
+        inventory = 'f_dyninv/dyninv.py'
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        self.assertIn('host5.example.com', ansible.hosts)
+        host_vars = ansible.hosts['host5.example.com']['hostvars']
+        groups = ansible.hosts['host5.example.com']['groups']
+        self.assertEqual(host_vars['b'], False)
+        self.assertIn("atlanta", groups)
+
 if __name__ == '__main__':
     unittest.main(exit=False)
 

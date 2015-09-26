@@ -17,8 +17,10 @@ import shlex
 import re
 import json
 import copy
-import pprint
+import stat
+import subprocess
 import mako
+import pprint
 from mako.template import Template
 
 
@@ -348,6 +350,69 @@ class AnsibleHostsParser(object):
             sys.stderr.write("Couldn't parse host definition '{}': {}\n".format(hostdef, e))
             return []
 
+
+class AnsibleDynInvParser(object):
+    """
+    Parse output of a dyanmic inventory script.
+    """
+    def __init__(self, dynvinv_contents):
+        self.dynvinv_contents = dynvinv_contents
+        self.hosts = {}
+        self.dynvinv_json = json.loads(self.dynvinv_contents)
+
+        for k, v in self.dynvinv_json.items():
+            if k.startswith('_meta'):
+                # Meta member contains hostvars
+                self._parse_meta(v)
+            elif k.startswith('_'):
+                # Some unknown private member we don't support
+                pass
+            elif k == "all":
+                # The 'all' group is not interesting for ansible-cmdb
+                pass
+            else:
+                # Group definition
+                self._parse_group(k, v)
+
+    def _get_host(self, hostname):
+        """
+        Get an existing host or otherwise initialize a new empty one.
+        """
+        if not hostname in self.hosts:
+            self.hosts[hostname] = {
+                'groups': set(),
+                'hostvars': {}
+            }
+        return self.hosts[hostname]
+
+    def _parse_group(self, group_name, group):
+        """
+        Parse a group definition from a dynamic inventory. These are top-level
+        elements which are not '_meta(data)'.
+        """
+        if type(group) == dict:
+            # Group member with hosts and variable definitions.
+            for hostname in group.get('hosts', []):
+                self._get_host(hostname)['groups'].add(group_name)
+            for var_key, var_val in group.get('vars', {}).items():
+                self._get_host(hostname)['hostvars'][var_key] = var_val
+        elif type(group) == list:
+            # List of hostnames for this group
+            for hostname in group:
+                self._get_host(hostname)['groups'].add(group_name)
+        else:
+            sys.stderr.write("Invalid element found in dynamic "
+                             "inventory output: {}".format(type(group)))
+
+    def _parse_meta(self, meta):
+        """
+        Parse the _meta element from a dynamic host inventory output.
+        """
+        for hostname, hostvars in meta.get('hostvars', {}).items():
+            for var_key, var_val in hostvars.items():
+                self._get_host(hostname)['hostvars'][var_key] = var_val
+
+
 class Ansible(object):
     def __init__(self, fact_dirs, hosts_path=None, fact_cache=False, debug=False):
         self.fact_dirs = fact_dirs
@@ -358,7 +423,13 @@ class Ansible(object):
         for fact_dir in self.fact_dirs:
             self.parse_fact_dir(fact_dir, self.fact_cache)
         if self.hosts_path is not None:
-            self.parse_hosts_inventory(self.hosts_path)
+            if os.path.isfile(self.hosts_path) and \
+               stat.S_IXUSR & os.stat(self.hosts_path)[stat.ST_MODE]:
+                # Dynamic inventory script
+                self.parse_dyn_inventory(self.hosts_path)
+            else:
+                # Static inventory hosts file
+                self.parse_hosts_inventory(self.hosts_path)
             self.parse_hostvar_dir(self.hosts_path)
         if self.debug:
             sys.stderr.write("Hosts\n" + 60 * '-' + '\n')
@@ -439,6 +510,30 @@ class Ansible(object):
             except ValueError as e:
                 # Ignore non-JSON files (and bonus errors)
                 sys.stderr.write("Error parsing: %s: %s\n" % (fname, e))
+
+    def parse_dyn_inventory(self, script):
+        """
+        Execute a dynamic inventory script and parse the results.
+        """
+        try:
+            proc = subprocess.Popen(script,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    close_fds=True)
+            stdout, stderr = proc.communicate(input)
+            if proc.returncode != 0:
+                sys.stderr.write("Dynamic inventory script '{}' returned "
+                                 "exitcode {}\n".format(script,
+                                                       proc.returncode))
+                for line in stderr:
+                    sys.stderr.write(line)
+
+            dyninv_parser = AnsibleDynInvParser(stdout.decode('utf8'))
+            for hostname, key_values in dyninv_parser.hosts.items():
+                self.update_host(hostname, key_values)
+        except OSError as err:
+            sys.stderr.write("Exception while executing dynamic inventory script '{}':\n\n".format(script))
+            sys.stderr.write(str(err) + '\n')
 
     def update_host(self, hostname, key_values):
         """

@@ -67,17 +67,19 @@ The default template is `html_fancy`, which uses Jquery.
 
 ### Inventory scanning
 
-Ansible-cmdb can read your inventory file (`hosts`, by default) and extract
-useful information from it such as:
+Ansible-cmdb can read your inventory file (`hosts`, by default), inventory
+directory or dynamic inventory and extract useful information from it such as:
 
 - All the groups a host belongs to.
 - Host variables. These are optional key/value pairs for each host which can be
   used in playbooks. They are scanned by ansible-cmdb and get added to a hosts
   discovered facts under the 'hostvars' section.
 
-Reading the hosts inventory file is done using the `-i` switch to ansible-cmdb.
-It takes a single parameter: your hosts file or directory containing your hosts
-files. For example:
+Reading the inventory is done using the `-i` switch to ansible-cmdb.  It takes
+a single parameter: your hosts file, directory containing your hosts files or
+path to your dynamic inventory script.
+
+For example:
 
     $ ansible-cmdb -i ./hosts out/ > overview.html
 
@@ -116,6 +118,9 @@ be required by for communicating with Foo company about hosting.
 
 See http://docs.ansible.com/intro_inventory.html#host-variables for more
 information on host variables.
+
+Any variables set for your hosts will become available in the html_fancy
+template under the "Custom variables" heading.
 
 ### Templates
 
