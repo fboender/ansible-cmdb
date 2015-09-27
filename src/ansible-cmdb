@@ -64,10 +64,10 @@ class AnsibleHostsParser(object):
 
         # Get a list of host, children and vars sections in the hosts file
         try:
-            self.sections = self.parse_hosts_contents(hosts_contents)
+            self.sections = self._parse_hosts_contents(hosts_contents)
 
             # Initialize each unique host found in the hosts file
-            for hostname in self.get_distinct_hostnames():
+            for hostname in self._get_distinct_hostnames():
                 self.hosts[hostname] = {
                     'groups': set(),
                     'hostvars': {}
@@ -77,17 +77,17 @@ class AnsibleHostsParser(object):
             # the hosts it covers. 'Applying a section' means adding the group name
             # and variables defined in the section to each host the section covers.
             for section in filter(lambda s: s['type'] == 'children', self.sections):
-                self.apply_section(section, self.hosts)
+                self._apply_section(section, self.hosts)
             for section in filter(lambda s: s['type'] == 'vars', self.sections):
-                self.apply_section(section, self.hosts)
+                self._apply_section(section, self.hosts)
             for section in filter(lambda s: s['type'] == 'hosts', self.sections):
-                self.apply_section(section, self.hosts)
+                self._apply_section(section, self.hosts)
         except ValueError as e:
             sys.stderr.write("Error while parsing hosts contents: '{}'\n"
                              "Invalid hosts file?\n".format(str(e)))
 
 
-    def parse_hosts_contents(self, hosts_contents):
+    def _parse_hosts_contents(self, hosts_contents):
         """
         Parse the inventory contents. This returns a list of sections found in
         the inventory, which can then be used to figure out which hosts belong
@@ -123,14 +123,14 @@ class AnsibleHostsParser(object):
                 continue
             elif line.startswith('['):
                 sections.append(cur_section)
-                section_type, name = self.parse_line_section(line)
+                section_type, name = self._parse_line_section(line)
                 cur_section = {
                     'type': section_type,
                     'name': name,
                     'entries': []
                 }
             else:
-                name, vars = self.parse_line_entry(line, cur_section['type'])
+                name, vars = self._parse_line_entry(line, cur_section['type'])
                 entry = {
                     'name': name,
                     'hostvars': vars
@@ -139,7 +139,7 @@ class AnsibleHostsParser(object):
         sections.append(cur_section)
         return sections
 
-    def parse_line_section(self, line):
+    def _parse_line_section(self, line):
         """
         Parse a line containing a group definition. Returns a tuple:
         (group_type, group_name), where group_type is in the set ('hosts',
@@ -165,7 +165,7 @@ class AnsibleHostsParser(object):
 
         return (group_type, group_name)
 
-    def parse_line_entry(self, line, type):
+    def _parse_line_entry(self, line, type):
         """
         Parse a section entry line into its components. In case of a 'vars'
         section, the first field will be None.
@@ -180,10 +180,10 @@ class AnsibleHostsParser(object):
         name = None
         if type != 'vars':
             name = tokens.pop(0)
-        key_values = self.parse_vars(tokens)
+        key_values = self._parse_vars(tokens)
         return (name, key_values)
 
-    def parse_vars(self, tokens):
+    def _parse_vars(self, tokens):
         """
         Given an iterable of tokens, returns variables and their values as a
         dictionary.
@@ -205,35 +205,35 @@ class AnsibleHostsParser(object):
                 key_values[key] = v.strip()
         return key_values
 
-    def get_distinct_hostnames(self):
+    def _get_distinct_hostnames(self):
         """
         Return a set of distinct hostnames found in the entire inventory.
         """
         hostnames = []
         for section in self.sections:
-            hostnames.extend(self.group_get_hostnames(section['name']))
+            hostnames.extend(self._group_get_hostnames(section['name']))
         return set(hostnames)
 
-    def apply_section(self, section, hosts):
+    def _apply_section(self, section, hosts):
         """
         Recursively find all the hosts that belong in or under a section and
         add the section's group name and variables to every host.
         """
         # Add the current group name to each host that this section covers.
         if section['name'] is not None:
-            for hostname in self.group_get_hostnames(section['name']):
+            for hostname in self._group_get_hostnames(section['name']):
                 hosts[hostname]['groups'].add(section['name'])
 
         # Apply variables
         func_map = {
-            "hosts": self.apply_section_hosts,
-            "children": self.apply_section_children,
-            "vars": self.apply_section_vars,
+            "hosts": self._apply_section_hosts,
+            "children": self._apply_section_children,
+            "vars": self._apply_section_vars,
         }
         func = func_map[section['type']]
         func(section, hosts)
 
-    def apply_section_hosts(self, section, hosts):
+    def _apply_section_hosts(self, section, hosts):
         """
         Add the variables for each entry in a 'hosts' section to the hosts
         belonging to that entry.
@@ -244,48 +244,48 @@ class AnsibleHostsParser(object):
                 for var_key, var_val in entry['hostvars'].items():
                     host['hostvars'][var_key] = var_val
 
-    def apply_section_children(self, section, hosts):
+    def _apply_section_children(self, section, hosts):
         """
         Add the variables for each entry in a 'children' section to the hosts
         belonging to that entry.
         """
         for entry in section['entries']:
-            for hostname in self.group_get_hostnames(entry['name']):
+            for hostname in self._group_get_hostnames(entry['name']):
                 host = hosts[hostname]
                 for var_key, var_val in entry['hostvars'].items():
                     host['hostvars'][var_key] = var_val
 
-    def apply_section_vars(self, section, hosts):
+    def _apply_section_vars(self, section, hosts):
         """
         Apply the variables in a 'vars' section to each host belonging to the
         group the section refers to.
         """
-        for hostname in self.group_get_hostnames(section['name']):
+        for hostname in self._group_get_hostnames(section['name']):
             host = hosts[hostname]
             for entry in section['entries']:
                 for var_key, var_val in entry['hostvars'].items():
                     host['hostvars'][var_key] = var_val
 
-    def group_get_hostnames(self, group_name):
+    def _group_get_hostnames(self, group_name):
         """
         Recursively fetch a list of each unique hostname that belongs in or
         under the group. This includes hosts in children groups.
         """
         hostnames = []
 
-        hosts_section = self.get_section(group_name, 'hosts')
+        hosts_section = self._get_section(group_name, 'hosts')
         if hosts_section:
             for entry in hosts_section['entries']:
                 hostnames.extend(self.expand_hostdef(entry['name']))
 
-        children_section = self.get_section(group_name, 'children')
+        children_section = self._get_section(group_name, 'children')
         if children_section:
             for entry in children_section['entries']:
-                hostnames.extend(self.group_get_hostnames(entry['name']))
+                hostnames.extend(self._group_get_hostnames(entry['name']))
 
         return hostnames
 
-    def get_section(self, name, type):
+    def _get_section(self, name, type):
         """
         Find and return a section with `name` and `type`
         """
@@ -421,21 +421,21 @@ class Ansible(object):
         self.debug = debug
         self.hosts = {}
         for fact_dir in self.fact_dirs:
-            self.parse_fact_dir(fact_dir, self.fact_cache)
+            self._parse_fact_dir(fact_dir, self.fact_cache)
         if self.hosts_path is not None:
             if os.path.isfile(self.hosts_path) and \
                stat.S_IXUSR & os.stat(self.hosts_path)[stat.ST_MODE]:
                 # Dynamic inventory script
-                self.parse_dyn_inventory(self.hosts_path)
+                self._parse_dyn_inventory(self.hosts_path)
             else:
                 # Static inventory hosts file
-                self.parse_hosts_inventory(self.hosts_path)
-            self.parse_hostvar_dir(self.hosts_path)
+                self._parse_hosts_inventory(self.hosts_path)
+            self._parse_hostvar_dir(self.hosts_path)
         if self.debug:
             sys.stderr.write("Hosts\n" + 60 * '-' + '\n')
             pprint.pprint(self.hosts, stream=sys.stderr)
 
-    def parse_hosts_inventory(self, hosts_path):
+    def _parse_hosts_inventory(self, hosts_path):
         """
         Read all the available hosts inventory information into one big list
         and parse it.
@@ -457,7 +457,7 @@ class Ansible(object):
         for hostname, key_values in hosts_parser.hosts.items():
             self.update_host(hostname, key_values)
 
-    def	parse_hostvar_dir(self, hosts_path):
+    def	_parse_hostvar_dir(self, hosts_path):
         """
         Parse host_vars dir, if it exists. This requires the yaml module, which
         is imported on-demand, since it's not a default module.
@@ -482,7 +482,7 @@ class Ansible(object):
             f.close()
             self.update_host(fname, {'hostvars': invars})
 
-    def parse_fact_dir(self, fact_dir, fact_cache=False):
+    def _parse_fact_dir(self, fact_dir, fact_cache=False):
         """
         Walk through a directory of JSON files and extract information from
         them. This is used for both the Ansible fact gathering (setup module)
@@ -511,7 +511,7 @@ class Ansible(object):
                 # Ignore non-JSON files (and bonus errors)
                 sys.stderr.write("Error parsing: %s: %s\n" % (fname, e))
 
-    def parse_dyn_inventory(self, script):
+    def _parse_dyn_inventory(self, script):
         """
         Execute a dynamic inventory script and parse the results.
         """
