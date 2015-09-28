@@ -516,7 +516,7 @@ class Ansible(object):
         Execute a dynamic inventory script and parse the results.
         """
         try:
-            proc = subprocess.Popen(script,
+            proc = subprocess.Popen([script, '--list'],
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE,
                                     close_fds=True)
