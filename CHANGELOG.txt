@@ -1,3 +1,13 @@
+v1.6
+
+- The -i switch now supports reading dynamic inventory scripts.
+- host_vars directory now supported (by Malcolm Mallardi)
+- Improved error handling prevents ansible-cmdb from stopping if it encounters
+  non-critical errors (malformed host definitions, etc).
+- Improved error reporting.
+- html_fancy template column headers are now visually identifiable as being
+  sortable.
+
 v1.5    2015-09-20
 
 - html_fancy overview page can now be viewed locally (through file:///) without
