@@ -105,6 +105,12 @@ class InventoryTestCase(unittest.TestCase):
         """
         fact_dirs = ['f_inventory/out']
         inventory = 'f_inventory/mixeddir'
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        # results from dynamic inventory
+        self.assertIn("host4.example.com", ansible.hosts)
+        self.assertIn("moocow.example.com", ansible.hosts)
+        # results from normal hosts file.
+        self.assertIn("web03.dev.local", ansible.hosts)
 
 
 class FactCacheTestCase(unittest.TestCase):

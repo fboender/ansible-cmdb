@@ -414,42 +414,76 @@ class AnsibleDynInvParser(object):
 
 
 class Ansible(object):
-    def __init__(self, fact_dirs, hosts_path=None, fact_cache=False, debug=False):
+    """
+    The Ansible class is responsible for gathering host information.
+    """
+    def __init__(self, fact_dirs, inventory_path=None, fact_cache=False, debug=False):
+        """
+        `fact_dirs` is a list of paths to directories containing facts gathered
+        by ansible's 'setup' module. `inventory_path` points to the file or
+        directory containing the inventory. It will be scanned to extract
+        groups, variables and additional facts. If this points to a file, it's
+        read as a hosts file. If it's a directory, it is scanned for hosts
+        files and dynamic inventory scripts.
+        """
         self.fact_dirs = fact_dirs
-        self.hosts_path = hosts_path
+        self.inventory_path = inventory_path
         self.fact_cache = fact_cache # fact dirs are fact-caches
         self.debug = debug
         self.hosts = {}
+
+        # Process facts gathered by Ansible's setup module of fact caching.
         for fact_dir in self.fact_dirs:
             self._parse_fact_dir(fact_dir, self.fact_cache)
-        if self.hosts_path is not None:
-            if os.path.isfile(self.hosts_path) and \
-               stat.S_IXUSR & os.stat(self.hosts_path)[stat.ST_MODE]:
-                # Dynamic inventory script
-                self._parse_dyn_inventory(self.hosts_path)
-            else:
-                # Static inventory hosts file
-                self._parse_hosts_inventory(self.hosts_path)
-            self._parse_hostvar_dir(self.hosts_path)
+
+        # Scan the inventory for known hosts.
+        if self.inventory_path is not None:
+            self._handle_inventory(self.inventory_path)
         if self.debug:
             sys.stderr.write("Hosts\n" + 60 * '-' + '\n')
             pprint.pprint(self.hosts, stream=sys.stderr)
 
-    def _parse_hosts_inventory(self, hosts_path):
+    def _handle_inventory(self, inventory_path):
+        """
+        Scan inventory. As Ansible is a big mess without any kind of
+        preconceived notion of design, there are several (and I use that word
+        lightly) different ways inventory_path can be handled:
+
+          - a non-executable file: handled as a Ansible 'hosts' file.
+          - an executable file: handled as a dynamic inventory file.
+          - a directory: scanned for Ansible 'hosts' and dynamic inventory
+            files.
+        """
+        if os.path.isfile(inventory_path) and \
+           stat.S_IXUSR & os.stat(inventory_path)[stat.ST_MODE]:
+            # It's a file and it's executable. Handle as dynamic inventory script
+            self._parse_dyn_inventory(inventory_path)
+        elif os.path.isfile(inventory_path):
+            # Static inventory hosts file
+            self._parse_hosts_inventory(inventory_path)
+        elif os.path.isdir(inventory_path):
+            # Scan directory 
+            for fname in os.listdir(inventory_path):
+                self._handle_inventory(os.path.join(inventory_path, fname))
+        else:
+            sys.stderr.write("Don't know what to do with inventory '{}'\n".format(inventory_path))
+        self._parse_hostvar_dir(inventory_path)
+
+    def _parse_hosts_inventory(self, inventory_path):
         """
         Read all the available hosts inventory information into one big list
         and parse it.
         """
         hosts_contents = []
-        if os.path.isdir(hosts_path):
-            for fname in os.listdir(hosts_path):
-                path = os.path.join(hosts_path, fname)
+        if os.path.isdir(inventory_path):
+            for fname in os.listdir(inventory_path):
+                path = os.path.join(inventory_path, fname)
                 if os.path.isdir(path):
                     continue
                 with open(path, 'r') as f:
                     hosts_contents += f.readlines()
         else:
-            with open(hosts_path, 'r') as f:
+            with open(inventory_path, 'r') as f:
                 hosts_contents = f.readlines()
 
         # Parse inventory and apply it to the hosts
@@ -457,12 +491,12 @@ class Ansible(object):
         for hostname, key_values in hosts_parser.hosts.items():
             self.update_host(hostname, key_values)
 
-    def	_parse_hostvar_dir(self, hosts_path):
+    def	_parse_hostvar_dir(self, inventory_path):
         """
         Parse host_vars dir, if it exists. This requires the yaml module, which
         is imported on-demand, since it's not a default module.
         """
-        path = os.path.join(os.path.dirname(hosts_path), 'host_vars')
+        path = os.path.join(os.path.dirname(inventory_path), 'host_vars')
         if not os.path.exists(path):
             return
 
