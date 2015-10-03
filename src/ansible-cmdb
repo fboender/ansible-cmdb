@@ -488,6 +488,9 @@ class Ansible(object):
         them. This is used for both the Ansible fact gathering (setup module)
         output and custom variables.
         """
+        if not os.path.isdir(fact_dir):
+            raise IOError("No such file or directory: '{}'".format(fact_dir))
+
         flist = []
         for (dirpath, dirnames, filenames) in os.walk(fact_dir):
             flist.extend(filenames)
