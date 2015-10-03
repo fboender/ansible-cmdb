@@ -6,6 +6,7 @@ import os
 sys.path.insert(0, '../lib')
 ansiblecmdb = imp.load_source('ansiblecmdb', '../src/ansible-cmdb')
 
+
 class ExtendTestCase(unittest.TestCase):
     """
     Test the extending of facts.
@@ -28,9 +29,10 @@ class ExtendTestCase(unittest.TestCase):
         software = ansible.hosts['debian.dev.local']['software']
         self.assertIn('Apache2', software)
 
+
 class HostParseTestCase(unittest.TestCase):
     """
-    Test the hosts inventory parser
+    Test specifics of the hosts inventory parser
     """
     def testChildGroupHosts(self):
         """
@@ -55,19 +57,6 @@ class HostParseTestCase(unittest.TestCase):
         self.assertEqual(host_vars['function'], 'db')
         self.assertEqual(host_vars['dtap'], 'dev')
 
-    def testHostsDir(self):
-        """
-        Verify that we can specify a directory as the hosts inventory file and
-        that all files are parsed.
-        """
-        fact_dirs = ['f_hostparse/out']
-        inventory = 'f_hostparse/hostsdir'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
-        host_vars = ansible.hosts['db.dev.local']['hostvars']
-        groups = ansible.hosts['db.dev.local']['groups']
-        self.assertEqual(host_vars['function'], 'db')
-        self.assertIn('db', groups)
-
     def testExpandHostDef(self):
         """
         Verify that host ranges are properly expanded. E.g. db[01-03].local ->
@@ -77,6 +66,46 @@ class HostParseTestCase(unittest.TestCase):
         inventory = 'f_hostparse/hosts'
         ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
         self.assertIn('web02.dev.local', ansible.hosts)
+        self.assertIn('fe03.dev02.local', ansible.hosts)
+
+
+class InventoryTestCase(unittest.TestCase):
+    def testHostsDir(self):
+        """
+        Verify that we can specify a directory as the hosts inventory file and
+        that all files are parsed.
+        """
+        fact_dirs = ['f_inventory/out']
+        inventory = 'f_inventory/hostsdir'
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        host_vars = ansible.hosts['db.dev.local']['hostvars']
+        groups = ansible.hosts['db.dev.local']['groups']
+        self.assertEqual(host_vars['function'], 'db')
+        self.assertIn('db', groups)
+
+    def testDynInv(self):
+        """
+        Verify that we can specify a path to a dynamic inventory as the
+        inventory file, and it will be executed, it's output parsed and added
+        as available hosts.
+        """
+        fact_dirs = ['f_inventory/out'] # Reuse f_hostparse
+        inventory = 'f_inventory/dyninv.py'
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        self.assertIn('host5.example.com', ansible.hosts)
+        host_vars = ansible.hosts['host5.example.com']['hostvars']
+        groups = ansible.hosts['host5.example.com']['groups']
+        self.assertEqual(host_vars['b'], False)
+        self.assertIn("atlanta", groups)
+
+    def testMixedDir(self):
+        """
+        Verify that a mixed dir of hosts files and dynamic inventory scripts is
+        parsed correctly.
+        """
+        fact_dirs = ['f_inventory/out']
+        inventory = 'f_inventory/mixeddir'
+
 
 class FactCacheTestCase(unittest.TestCase):
     """
@@ -93,19 +122,6 @@ class FactCacheTestCase(unittest.TestCase):
         self.assertEqual(host_vars['dtap'], 'dev')
         self.assertIn('ansible_env', ansible_facts)
 
-class DynInvTestCase(unittest.TestCase):
-    """
-    Test dynamic inventory execution and parsing
-    """
-    def testParse(self):
-        fact_dirs = ['f_hostparse/out'] # Reuse f_hostparse
-        inventory = 'f_dyninv/dyninv.py'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
-        self.assertIn('host5.example.com', ansible.hosts)
-        host_vars = ansible.hosts['host5.example.com']['hostvars']
-        groups = ansible.hosts['host5.example.com']['groups']
-        self.assertEqual(host_vars['b'], False)
-        self.assertIn("atlanta", groups)
 
 if __name__ == '__main__':
     unittest.main(exit=False)

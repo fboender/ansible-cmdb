@@ -16,3 +16,6 @@ dtap=dev
 
 [web]
 web[01:03].dev.local
+
+[frontend]
+fe[01:03].dev[01:02].local
