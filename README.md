@@ -52,18 +52,20 @@ The default template is `html_fancy`, which uses Jquery.
 
 ### Full usage
 
-    Usage: ../src/ansible-cmdb [option] <dir> > output.html
-    
+    Usage: ansible-cmdb [option] <dir> > output.html
+
     Options:
       --version             show program's version number and exit
       -h, --help            show this help message and exit
       -t TEMPLATE, --template=TEMPLATE
                             Template to use. Default is 'html_fancy'
       -i INVENTORY, --inventory=INVENTORY
-                            Inventory hosts file to read extra info from
+                            Inventory to read extra info from
       -f, --fact-cache      <dir> contains fact-cache files
       -p PARAMS, --params=PARAMS
                             Params to send to template
+      -d, --debug           Show debug output
+
 
 ### Inventory scanning
 
