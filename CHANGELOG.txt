@@ -1,3 +1,9 @@
+v1.7    2015-
+
+- Development related: Support for python Setuptools
+- Development related: Refactoring of ansible-cmdb into a module and a thing
+  commandline wrapper.
+
 v1.6    2015-10-03
 
 - The -i switch now supports reading dynamic inventory scripts.
