@@ -122,7 +122,7 @@ cols = [
   if local_js is UNDEFINED:
     res_url = "https://cdn.datatables.net/1.10.2/"
   else:
-    res_url = "file://" + lib_dir + "/static/"
+    res_url = "file://" + data_dir + "/static/"
 %>
 <html>
 <head>
@@ -353,7 +353,7 @@ cols = [
   % if local_js is UNDEFINED:
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   % else:
-    <script type="text/javascript" charset="utf8" src="file://${lib_dir}/static/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery-1.10.2.min.js"></script>
   % endif
   <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery.dataTables.js"></script>
 </head>
