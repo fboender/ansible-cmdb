@@ -26,7 +26,7 @@ if sys.argv[-1] == 'publish':
 
 
 setup(
-    name='django-iban',
+    name='ansible-cmdb',
     version='1.6',
     license='BSD',
     description='Generate host overview from ansible fact gathering output',
