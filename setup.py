@@ -16,6 +16,13 @@ def get_version():
     setup_py = open('setup.py').read()
     return re.search('version=[\'"]([0-9]+\.[0-9]+(|\.[0-9]+))[\'"]', setup_py, re.MULTILINE).group(1)
 
+def get_data_files(path, strip='', prefix=''):
+    data_files = []
+    for dirpath, dirnames, filenames in os.walk(path):
+        files = [os.path.join(dirpath, filename) for filename in filenames]
+        data_files.append( (prefix + dirpath[len(strip):], files) )
+    return data_files
+
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -36,20 +43,19 @@ setup(
     author='Ferry Boender',
     author_email='ferry.boender@gmail.com',
 
-    packages=find_packages(),
+    package_dir={'': 'src'},
+    packages=find_packages('src'),
     include_package_data=True,
+    data_files=get_data_files('src/ansiblecmdb/data',
+                              strip='src/ansiblecmdb/',
+                              prefix='ansiblecmdb/'),
     zip_safe=False,
     install_requires=[
-        'ansible>=1.0',
-        'mako>=1.0'
+        'mako>=1.0',
+        'pyyaml>=1.0'
     ],
     scripts=[
         'src/ansible-cmdb',
-        # FIXME: The template files shouldn't be installed as scripts.
-        # One solution is to create an ansible-cmdb python module with a thin command line wrapper. The templates can
-        # then be installed along side the module.
-        'src/html_fancy.tpl',
-        'src/txt_table.tpl'
     ],
 
     classifiers=[
