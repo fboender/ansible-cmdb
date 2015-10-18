@@ -242,6 +242,11 @@ Ansible currently does not include disk size information for Solaris hosts. As
 such, we can't include it in the output of Ansible-cmdb. See issue #24 for more
 information.
 
+### Python packaging / Pypi?
+
+Python has some of the most horrendous packaging infrastructure I've ever
+encountered in 25 years of programming. As such, anything related to Python
+packaging will not be supported.
 
 Development
 -----------
@@ -318,6 +323,8 @@ to build a test release, you can temporary stash your untracked changes:
 
 If you wish to contribute code, please consider the following:
 
+* Any form of Python packaging will NOT be supoprted. Merge requests involving
+  python packages will not be considered. See issue #23.
 * Thank you for even considering contributing. I'm quite newby-friendly, so
   don't hesitate to ask any help! 
 * Code should be reasonably PEP8-like. I'm not too strict on this.
