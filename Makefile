@@ -28,9 +28,9 @@ release_src: release_clean doc
 
 	# Prepare source
 	mkdir $(PROG)-$(REL_VERSION)
-	cp -r src/* $(PROG)-$(REL_VERSION)/
+	cp -ar src/* $(PROG)-$(REL_VERSION)/
 	cp -r lib/mako $(PROG)-$(REL_VERSION)/
-	cp -r lib/ansible-cmdb/* $(PROG)-$(REL_VERSION)/
+	cp -r lib/yaml $(PROG)-$(REL_VERSION)/
 	cp LICENSE $(PROG)-$(REL_VERSION)/
 	cp README.md $(PROG)-$(REL_VERSION)/
 	cp CHANGELOG.txt $(PROG)-$(REL_VERSION)/
@@ -40,8 +40,8 @@ release_src: release_clean doc
 	find $(PROG)-$(REL_VERSION)/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$(REL_VERSION)/g" 
 
 	# Create archives
-	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
-	tar -vczf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
+	zip -q -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
+	tar -czf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
 release_deb: release_clean doc
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
@@ -52,6 +52,7 @@ release_deb: release_clean doc
 	mkdir -p rel_deb/usr/bin
 	mkdir -p rel_deb/usr/lib/${PROG}
 	mkdir -p rel_deb/usr/lib/${PROG}/mako
+	mkdir -p rel_deb/usr/lib/${PROG}/yaml
 	mkdir -p rel_deb/usr/share/doc/$(PROG)
 	mkdir -p rel_deb/usr/share/man/man1
 
@@ -62,7 +63,7 @@ release_deb: release_clean doc
 	cp CHANGELOG.txt rel_deb/usr/share/doc/$(PROG)/
 	cp -r src/* rel_deb/usr/lib/${PROG}/
 	cp -r lib/mako rel_deb/usr/lib/${PROG}/
-	cp -r lib/ansible-cmdb/* rel_deb/usr/lib/${PROG}/
+	cp -r lib/yaml rel_deb/usr/lib/${PROG}/
 	ln -s /usr/lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -ar contrib/debian/DEBIAN rel_deb/
 
