@@ -21,7 +21,7 @@ import ansiblecmdb
 from mako.template import Template
 
 if __name__ == "__main__":
-    parser = optparse.OptionParser(version="%prog %%MASTER%%")
+    parser = optparse.OptionParser(version="%prog v%%MASTER%%")
     parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
     parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
     parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory to read extra info from")
