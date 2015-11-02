@@ -561,7 +561,7 @@ $(document).ready( function () {
   });
 
   // Focus the input field
-  $('#host_overview_filter label input').focus();
+  $('#host_overview_tbl_filter label input').focus();
 } );
 </script>
 
