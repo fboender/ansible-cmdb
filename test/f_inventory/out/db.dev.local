@@ -1,0 +1,9 @@
+{
+    "ansible_facts": {
+        "ansible_fqdn": "localhost", 
+        "ansible_hostname": "dev", 
+        "ansible_nodename": "db.dev.local", 
+        "module_setup": true
+    }, 
+    "changed": false
+}

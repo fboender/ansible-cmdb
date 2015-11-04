@@ -1,3 +1,29 @@
+v1.7    2015-
+
+- Development related: Support for python Setuptools
+- Development related: Refactoring of ansible-cmdb into a module and a thing
+  commandline wrapper.
+
+v1.6    2015-10-03
+
+- The -i switch now supports reading dynamic inventory scripts.
+- host_vars directory now supported (by Malcolm Mallardi)
+- Support for multiple inventory sources as per
+  https://docs.ansible.com/ansible/intro_dynamic_inventory.html#using-multiple-inventory-sources.
+- Improved error handling prevents ansible-cmdb from stopping if it encounters
+  non-critical errors (malformed host definitions, etc).
+- Improved error reporting.
+- html_fancy template column headers are now visually identifiable as being
+  sortable.
+
+v1.5    2015-09-20
+
+- html_fancy overview page can now be viewed locally (through file:///) without
+  needing to specify the -p local_js=1 flag to it. It still fetches resources
+  from the internet, so you still require an internet connection. If you do not
+  want to fetch resources from the internet, use the -p local_js=1 flag.
+- A new Material design for the html_fancy template.
+
 v1.4    2015-08-26
 
 - Support for host inventory patterns (e.g. foo[01:04].bar.com)

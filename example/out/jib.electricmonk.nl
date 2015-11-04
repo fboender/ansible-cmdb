@@ -247,7 +247,7 @@
                 "device": "/home/fboender/.Private", 
                 "fstype": "ecryptfs", 
                 "mount": "/home/fboender", 
-                "options": "ecryptfs_check_dev_ruid,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs,ecryptfs_sig=0e85e342c1be1478,ecryptfs_fnek_sig=912316d9976d93b1", 
+                "options": "ecryptfs_check_dev_ruid,ecryptfs_cipher=aes,ecryptfs_key_bytes=16", 
                 "size_available": 420194226176, 
                 "size_total": 612248961024, 
                 "uuid": "NA"

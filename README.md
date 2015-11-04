@@ -4,11 +4,13 @@ Ansible Configuration Management Database
 About
 -----
 
-This script takes the output of Ansible's `setup` module and converts it into a
-static HTML overview page containing system configuration information.
+Ansible-cmdb takes the output of Ansible's fact gathering and converts it into
+a static HTML overview page containing system configuration information.
 
 It supports multiple templates and extending information gathered by Ansible
 with custom data.
+
+![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot.png)
 
 [HTML example](https://rawgit.com/fboender/ansible-cmdb/master/example/html_fancy.html) output.
 
@@ -38,50 +40,52 @@ Usage
 
 First, generate Ansible output for your hosts:
 
-	mkdir out
-	ansible -m setup --tree out/ all
+    mkdir out
+    ansible -m setup --tree out/ all
 
 Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
 overview page:
 
-	ansible-cmdb out/ > overview.html
+    ansible-cmdb out/ > overview.html
 
-The default template is `html_fancy`, which uses Jquery. By default it can
-therefor not be opened in your browser using `file:///`, but must be served
-over HTTP or HTTPS. If you wish to view it locally, you can instruct the
-template to use local javascript resources. The *Templates* section has
-information on how to do that.
+The default template is `html_fancy`, which uses Jquery. 
 
 ### Full usage
 
-    Usage: ../src/ansible-cmdb [option] <dir> > output.html
-    
+    Usage: ansible-cmdb [option] <dir> > output.html
+
     Options:
+      --version             show program's version number and exit
       -h, --help            show this help message and exit
       -t TEMPLATE, --template=TEMPLATE
                             Template to use. Default is 'html_fancy'
       -i INVENTORY, --inventory=INVENTORY
-                            Inventory hosts file to read extra info from
+                            Inventory to read extra info from
       -f, --fact-cache      <dir> contains fact-cache files
       -p PARAMS, --params=PARAMS
                             Params to send to template
+      -d, --debug           Show debug output
+
 
 ### Inventory scanning
 
-Ansible-cmdb can read your inventory file (`hosts`, by default) and extract
-useful information from it such as:
+Ansible-cmdb can read your inventory file (`hosts`, by default), inventory
+directory or dynamic inventory and extract useful information from it such as:
 
 - All the groups a host belongs to.
 - Host variables. These are optional key/value pairs for each host which can be
   used in playbooks. They are scanned by ansible-cmdb and get added to a hosts
   discovered facts under the 'hostvars' section.
 
+Reading the inventory is done using the `-i` switch to ansible-cmdb.  It takes
+a single parameter: your hosts file, directory containing your hosts files or
+path to your dynamic inventory script.
 
-Reading the hosts inventory file is done using the `-i` switch to ansible-cmdb.
-It takes a single parameter: your hosts file or directory containing your hosts
-files. For example:
+For example:
 
     $ ansible-cmdb -i ./hosts out/ > overview.html
+
+If a `host_vars` dir exists at that location, it will also be read.
 
 The ''html_fancy'' template uses four extra fields:
 
@@ -93,21 +97,21 @@ The ''html_fancy'' template uses four extra fields:
 
 For example, lets say we have the following `hosts` file:
 
-	[cust.megacorp]
-	db1.dev.megacorp.com   dtap=dev  comment="Old database server"
-	db2.dev.megacorp.com   dtap=dev  comment="New database server"
-	test.megacorp.com      dtap=test 
-	acc.megacorp.com       dtap=acc  comment="24/7 support"
-	megacorp.com           dtap=prod comment="Hosting by Foo" ext_id="SRV_10029"
-	
-	[os.redhat]
-	megacorp.com
-	acc.megacorp.com
-	test.megacorp.com
-	db2.dev.megacorp.com
-	
-	[os.debian]
-	db1.dev.megacorp.com
+    [cust.megacorp]
+    db1.dev.megacorp.com   dtap=dev  comment="Old database server"
+    db2.dev.megacorp.com   dtap=dev  comment="New database server"
+    test.megacorp.com      dtap=test 
+    acc.megacorp.com       dtap=acc  comment="24/7 support"
+    megacorp.com           dtap=prod comment="Hosting by Foo" ext_id="SRV_10029"
+    
+    [os.redhat]
+    megacorp.com
+    acc.megacorp.com
+    test.megacorp.com
+    db2.dev.megacorp.com
+    
+    [os.debian]
+    db1.dev.megacorp.com
 
 The host `acc.megacorp.com` will have groups 'cust.megacorp' and 'os.redhat',
 will have a comment saying it has 24/7 support and will be marked as a `acc`
@@ -117,20 +121,21 @@ be required by for communicating with Foo company about hosting.
 See http://docs.ansible.com/intro_inventory.html#host-variables for more
 information on host variables.
 
+Any variables set for your hosts will become available in the html_fancy
+template under the "Custom variables" heading.
+
 ### Templates
 
 ansible-cmdb offers multiple templates. You can choose your template with the
 `-t` or `--template` argument:
 
-	ansible-cmdb -t tpl_custom out/ > overview.html
+    ansible-cmdb -t tpl_custom out/ > overview.html
 
-The 'html_fancy' template is the default. It can be easily extended by copying
-it and modifying the `cols` definition at the top. It should be served over
-HTTP, as it uses CDN Jquery libs (unless you specify the `local_js` parameter).
+The 'html_fancy' template is the default.  
 
 Ansible-cmdb currently provides the following templates out of the box:
 
-* `html_fancy`: A fancy HTML page that used JQuery and DataTables to give you a
+* `html_fancy`: A fancy HTML page that uses JQuery and DataTables to give you a
   searchable, sortable table overview of all hosts with detailed information
   just a click away.
 
@@ -138,6 +143,9 @@ Ansible-cmdb currently provides the following templates out of the box:
   local disk instead of over the network. To enable it, call ansible-cmdb with:
 
       ansible-cmdb -t html_fancy -p local_js=1 out > overview.html
+
+  It can be easily extended by copying it and modifying the `cols` definition
+  at the top.
 
 * `txt_table`: A quick text table summary of the available hosts with some
   minimal information.
@@ -170,16 +178,16 @@ the root of the JSON.
 ### Extending
 
 You can specify multiple directories that need to be scanned for output. This
-lets you add more custom information by creating a directory that looks like
-the output of Ansible's 'setup' module, but contains fake entries with your own
-information.
+lets you add more custom information to existing hosts or even completely new
+hosts.
 
 For example, if your normal ansible `setup` output contains:
 
     $ ls out/
-	db1.dev.megacorp.com
-	db2.dev.megacorp.com
-	test.megacorp.com
+    db1.dev.megacorp.com
+    db2.dev.megacorp.com
+    test.megacorp.com
+    
     $ cat out/test.megacorp.com
     {
         "ansible_facts": {
@@ -201,7 +209,7 @@ You can create an additional directory with custom information:
 
 Specify both directories when generating the output:
 
-	./ansible-cmdb out/ out_cust/ > overview.html
+    ./ansible-cmdb out/ out_cust/ > overview.html
 
 Your custom variables will be put in the root of the host information
 dictionary:
@@ -234,6 +242,11 @@ Ansible currently does not include disk size information for Solaris hosts. As
 such, we can't include it in the output of Ansible-cmdb. See issue #24 for more
 information.
 
+### Python packaging / Pypi?
+
+Python has some of the most horrendous packaging infrastructure I've ever
+encountered in 25 years of programming. As such, anything related to Python
+packaging will not be supported.
 
 Development
 -----------
@@ -306,3 +319,22 @@ to build a test release, you can temporary stash your untracked changes:
 
     git stash -u
 
+### Contributions
+
+If you wish to contribute code, please consider the following:
+
+* Any form of Python packaging will NOT be supoprted. Merge requests involving
+  python packages will not be considered. See issue #23.
+* Thank you for even considering contributing. I'm quite newby-friendly, so
+  don't hesitate to ask any help! 
+* Code should be reasonably PEP8-like. I'm not too strict on this.
+* One logical change per merge request.
+* By putting in a merge request or putting code in comments, you autoamtically
+  grant me permission to include this code in ansible-cmdb under the license
+  (MIT) that ansible-cmdb uses.
+* Please don't be disappointed or angry if your contributions end up unused.
+  It's not that they aren't appreciated, but I can be somewhat strict when it
+  comes to code quality, feature-creep, etc.
+
+When in doubt, just open a pull-request and post a comment on what you're
+unclear of, and we'll figure it out.
