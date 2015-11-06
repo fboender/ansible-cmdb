@@ -5,19 +5,24 @@
 import datetime
 cols = [
   {"title": "Name", "func": col_name, "visible": True},
-  {"title": "DTAP", "func": col_dtap, "visible": True},
+  {"title": "DTAP", "func": col_dtap, "visible": False},
   {"title": "Groups", "func": col_groups, "visible": False},
   {"title": "FQDN", "func": col_fqdn, "visible": True},
-  {"title": "OS", "func": col_os, "visible": True},
   {"title": "Main IP", "func": col_main_ip, "visible": True},
   {"title": "All IPv4", "func": col_all_ip, "visible": False},
+  {"title": "OS", "func": col_os, "visible": True},
+  {"title": "Kernel", "func": col_kernel, "visible": False},
   {"title": "Arch", "func": col_arch, "visible": False},
-  {"title": "Mem", "func": col_mem, "visible": True},
-  {"title": "CPUs", "func": col_cpus, "visible": False},
   {"title": "Virt", "func": col_virt, "visible": False},
+  {"title": "CPU type", "func": col_cpu_type, "visible": False},
+  {"title": "vCPUs", "func": col_cpus, "visible": False},
+  {"title": "RAM [GB]", "func": col_ram, "visible": False},
+  {"title": "Mem Usage", "func": col_mem, "visible": True},
+  {"title": "Swap Usage", "func": col_swap, "visible": False},
   {"title": "Disk usage", "func": col_disk_usage, "visible": False},
-  {"title": "Comment", "func": col_comment, "visible": True},
-  {"title": "Ext ID", "func": col_ext_id, "visible": True},
+  {"title": "Comment", "func": col_comment, "visible": False},
+  {"title": "Ext ID", "func": col_ext_id, "visible": False},
+  {"title": "Timestamp", "func": col_gathered, "visible": False},
 ]
 %>
 
@@ -39,14 +44,49 @@ cols = [
 <%def name="col_os(host)">
   ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_version', '')}
 </%def>
+<%def name="col_kernel(host)">
+  ${host['ansible_facts'].get('ansible_kernel', '')}
+</%def>
 <%def name="col_arch(host)">
   ${host['ansible_facts'].get('ansible_architecture', '')} / ${host['ansible_facts'].get('ansible_userspace_architecture', '')}
 </%def>
+<%def name="col_ram(host)">
+  ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
+</%def>
 <%def name="col_mem(host)">
-  ${'%0.1fg' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1000.0))}
+  <% i = host['ansible_facts'].get('ansible_memory_mb') %>
+  % if i is not None:
+  <div class="bar">
+    ## hidden sort helper
+    <span style="display:none">${'%f' % (float(i["nocache"]["used"]) / i["real"]["total"])}</span>
+    <span class="prog_bar_full" style="width:100px">
+      <span class="prog_bar_used" style="width:${float(i["nocache"]["used"]) / i["real"]["total"] * 100}px"></span>
+    </span>
+    <span id="mem_usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)}G / ${round(i["real"]["total"] / 1024.0, 1)}G)</span>
+  </div>
+  % endif
+</%def>
+<%def name="col_swap(host)">
+  <% i = host['ansible_facts'].get('ansible_memory_mb') %>
+  % if i is not None and i["swap"]["total"] > 0:
+  <div class="bar">
+    ## hidden sort helper
+    <span style="display:none">${'%f' % (float(i["swap"]["used"]) / i["swap"]["total"])}</span>
+    <span class="prog_bar_full" style="width:100px">
+      <span class="prog_bar_used" style="width:${float(i["swap"]["used"]) / i["swap"]["total"] * 100}px"></span>
+    </span>
+    <span id="mem_usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)}G / ${round(i["swap"]["total"] / 1024.0, 1)}G)</span>
+  </div>
+  % endif
+</%def>
+<%def name="col_cpu_type(host)">
+  <% cpu_type = host['ansible_facts'].get('ansible_processor', 0)%>
+  % if isinstance(cpu_type, list):
+  ${ cpu_type[-1] }
+  % endif
 </%def>
 <%def name="col_cpus(host)">
-  ${host['ansible_facts'].get('ansible_processor_count', 0)}
+  ${host['ansible_facts'].get('ansible_processor_vcpus', 0)}
 </%def>
 <%def name="col_main_ip(host)">
   ${host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')}
@@ -62,6 +102,8 @@ cols = [
     % if 'size_total' in i:  # Solaris hosts have no size_total
       % if i['size_total'] > 1:
         <div class="bar">
+          ## hidden sort helper
+	  <span style="display:none">${'%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])}</span>
           <span class="prog_bar_full" style="width:100px">
             <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
           </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1048576000.0, 2)}g / ${round(i['size_total'] / 1048576000.0, 2)}g)</span>
@@ -80,6 +122,11 @@ cols = [
 </%def>
 <%def name="col_ext_id(host)">
   ${host['hostvars'].get('ext_id', '')}
+</%def>
+<%def name="col_gathered(host)">
+  % if 'ansible_date_time' in host['ansible_facts']:
+    ${host['ansible_facts']['ansible_date_time'].get('iso8601')}
+  % endif
 </%def>
 
 ##
@@ -328,6 +375,7 @@ cols = [
     #host_overview tbody td.error a {
         color: #FF0000;
     }
+    #mem_usage_detail { font-size: small; }
     #disk_usage_detail { font-size: small; }
     footer {
       display: block;
