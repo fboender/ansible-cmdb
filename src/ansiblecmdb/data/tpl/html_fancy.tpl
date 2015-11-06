@@ -80,7 +80,10 @@ cols = [
   % endif
 </%def>
 <%def name="col_cpu_type(host)">
-  ${host['ansible_facts'].get('ansible_processor', 0)[1]}
+  <% cpu_type = host['ansible_facts'].get('ansible_processor', 0)%>
+  % if isinstance(cpu_type, list):
+  ${ cpu_type[-1] }
+  % endif
 </%def>
 <%def name="col_cpus(host)">
   ${host['ansible_facts'].get('ansible_processor_vcpus', 0)}
@@ -121,7 +124,9 @@ cols = [
   ${host['hostvars'].get('ext_id', '')}
 </%def>
 <%def name="col_gathered(host)">
-  ${host['ansible_facts']['ansible_date_time'].get('iso8601')}
+  % if 'ansible_date_time' in host['ansible_facts']:
+    ${host['ansible_facts']['ansible_date_time'].get('iso8601')}
+  % endif
 </%def>
 
 ##
