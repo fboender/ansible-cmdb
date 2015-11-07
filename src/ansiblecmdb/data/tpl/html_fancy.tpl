@@ -18,7 +18,8 @@ cols = [
   {"title": "Disk usage", "func": col_disk_usage, "visible": False},
   {"title": "Comment", "func": col_comment, "visible": True},
   {"title": "Ext ID", "func": col_ext_id, "visible": True},
-  {"title": "Timestamp", "func": col_gathered, "visible": False},
+  {"title": "Kernel", "func": col_kernel, "visible": True},
+  {"title": "Timestamp", "func": col_gathered, "visible": True},
 ]
 %>
 
@@ -39,6 +40,9 @@ cols = [
 </%def>
 <%def name="col_os(host)">
   ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_version', '')}
+</%def>
+<%def name="col_kernel(host)">
+  ${host['ansible_facts'].get('ansible_kernel', '')}
 </%def>
 <%def name="col_arch(host)">
   ${host['ansible_facts'].get('ansible_architecture', '')} / ${host['ansible_facts'].get('ansible_userspace_architecture', '')}
