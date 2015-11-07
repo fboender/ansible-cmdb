@@ -53,7 +53,7 @@ The default template is `html_fancy`, which uses Jquery.
 ### Full usage
 
     Usage: ansible-cmdb [option] <dir> > output.html
-
+    
     Options:
       --version             show program's version number and exit
       -h, --help            show this help message and exit
@@ -65,7 +65,8 @@ The default template is `html_fancy`, which uses Jquery.
       -p PARAMS, --params=PARAMS
                             Params to send to template
       -d, --debug           Show debug output
-
+      -c COLUMNS, --columns=COLUMNS
+                            Show only given columns
 
 ### Inventory scanning
 
@@ -174,6 +175,34 @@ you specify. This means you can't mix fact-cache fact directories and normal
 `setup` fact directories. Also, if you wish to manually extend facts (see the
 `Extending` chapter), you must ommit the `ansible_facts` key and put items in
 the root of the JSON.
+
+### Columns
+
+Some templates, such as txt_table and html_fancy,  support columns. If a
+template supports columns, you can use the `--columns` / `-c` command line
+option to specify which columns to show. 
+
+The `--columns` takes a comma-separated list of columns which should be shown.
+The columns must be specified by their `id` field. For information on what `id`
+fields are supported by a template, take a look in the template. Usually it's
+the column title, but in lowercase and with spaces replaced by underscores.
+
+For example:
+
+    $ ansible-cmdb -t txt_table --columns name,os,ip,mem,cpus facts/
+    Name                    OS             IP             Mem  CPUs
+    ----------------------  -------------  -------------  ---  -  
+    jib.electricmonk.nl     Linuxmint 17   192.168.0.3    16g  1  
+    app.uat.local           Debian 6.0.10  192.168.57.1   1g   1  
+    eek.electricmonk.nl     Ubuntu 14.04   192.168.0.10   3g   1  
+    db01.prod.local         Debian 6.0.10  192.168.58.1   0g   1  
+    debian.dev.local        Debian 6.0.10  192.168.56.2   1g   1  
+    db02.prod.local         Debian 6.0.10  192.168.58.2   0g   1  
+    centos.dev.local        CentOS 6.6     192.168.56.8   1g   1  
+    win.dev.local           Windows 2012   10.0.0.3       4g   0  
+    host5.example.com       Debian 6.0.10  192.168.57.1   1g   1  
+    db03.prod.local         Debian 6.0.10  192.168.58.3   0g   1  
+    zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  4g   2 
 
 ### Extending
 

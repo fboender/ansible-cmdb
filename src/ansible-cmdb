@@ -28,6 +28,7 @@ if __name__ == "__main__":
     parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
     parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
+    parser.add_option("-c", "--columns", dest="columns", action="store", default=None, help="Show only given columns")
     (options, args) = parser.parse_args()
 
     if len(args) < 1:
@@ -49,6 +50,7 @@ if __name__ == "__main__":
         'lib_dir': data_dir,  # Backwards compatibility for custom templates < ansible-cmdb v1.7
         'data_dir': data_dir,
         'version': '%%MASTER%%',
+        'columns': None,
     }
     if options.params:
         try:
@@ -61,6 +63,8 @@ if __name__ == "__main__":
         if options.debug:
             sys.stderr.write("Params\n" + 60 * '-' + '\n')
             pprint.pprint(params, stream=sys.stderr)
+    if options.columns is not None:
+        params['columns'] = options.columns.split(',')
 
     ansible = ansiblecmdb.Ansible(args, options.inventory, options.fact_cache, debug=options.debug)
 

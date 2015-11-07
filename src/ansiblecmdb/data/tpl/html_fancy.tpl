@@ -4,23 +4,31 @@
 ##
 import datetime
 cols = [
-  {"title": "Name", "func": col_name, "visible": True},
-  {"title": "DTAP", "func": col_dtap, "visible": True},
-  {"title": "Groups", "func": col_groups, "visible": False},
-  {"title": "FQDN", "func": col_fqdn, "visible": True},
-  {"title": "OS", "func": col_os, "visible": True},
-  {"title": "Main IP", "func": col_main_ip, "visible": True},
-  {"title": "All IPv4", "func": col_all_ip, "visible": False},
-  {"title": "Arch", "func": col_arch, "visible": False},
-  {"title": "Mem", "func": col_mem, "visible": True},
-  {"title": "CPUs", "func": col_cpus, "visible": False},
-  {"title": "Virt", "func": col_virt, "visible": False},
-  {"title": "Disk usage", "func": col_disk_usage, "visible": False},
-  {"title": "Comment", "func": col_comment, "visible": True},
-  {"title": "Ext ID", "func": col_ext_id, "visible": True},
-  {"title": "Kernel", "func": col_kernel, "visible": True},
-  {"title": "Timestamp", "func": col_gathered, "visible": True},
+  {"title": "Name",       "id": "name",       "func": col_name,       "visible": True},
+  {"title": "DTAP",       "id": "dtap",       "func": col_dtap,       "visible": True},
+  {"title": "Groups",     "id": "groups",     "func": col_groups,     "visible": False},
+  {"title": "FQDN",       "id": "fqdn",       "func": col_fqdn,       "visible": True},
+  {"title": "OS",         "id": "os",         "func": col_os,         "visible": True},
+  {"title": "Main IP",    "id": "main_ip",    "func": col_main_ip,    "visible": True},
+  {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip,     "visible": False},
+  {"title": "Arch",       "id": "arch",       "func": col_arch,       "visible": False},
+  {"title": "Mem",        "id": "mem",        "func": col_mem,        "visible": True},
+  {"title": "CPUs",       "id": "cpus",       "func": col_cpus,       "visible": False},
+  {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": False},
+  {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
+  {"title": "Comment",    "id": "comment",    "func": col_comment,    "visible": True},
+  {"title": "Ext ID",     "id": "ext_id",     "func": col_ext_id,     "visible": True},
+  {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "visible": True},
+  {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "visible": True},
 ]
+
+# Enable columns specified with '--columns'
+if columns is not None:
+  for col in cols:
+    if col["id"] in columns:
+      col["visible"] = True
+    else:
+      col["visible"] = False
 %>
 
 ##
