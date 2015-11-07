@@ -18,6 +18,7 @@ cols = [
   {"title": "Disk usage", "func": col_disk_usage, "visible": False},
   {"title": "Comment", "func": col_comment, "visible": True},
   {"title": "Ext ID", "func": col_ext_id, "visible": True},
+  {"title": "Timestamp", "func": col_gathered, "visible": False},
 ]
 %>
 
@@ -80,6 +81,11 @@ cols = [
 </%def>
 <%def name="col_ext_id(host)">
   ${host['hostvars'].get('ext_id', '')}
+</%def>
+<%def name="col_gathered(host)">
+  % if 'ansible_date_time' in host['ansible_facts']:
+    ${host['ansible_facts']['ansible_date_time'].get('iso8601')}
+  % endif
 </%def>
 
 ##
