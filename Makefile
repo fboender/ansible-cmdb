@@ -10,7 +10,7 @@ test:
 example:
 	example/generate.sh
 
-release_clean:
+release_clean: clean
 	@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
 
 release: release_src release_deb release_rpm
