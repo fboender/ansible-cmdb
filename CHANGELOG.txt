@@ -1,7 +1,14 @@
-v1.7    2015-
+v1.7    2015-11-08
 
-- Development related: Support for python Setuptools
-- Development related: Refactoring of ansible-cmdb into a module and a thing
+- Added a -c / --columns option that allows users to specify the columns to
+  show. Must be supported by template.
+- Html_fancy template now has a kernel column. (by Rowin Andruscavage)
+- Html_fancy template now has a timestamp column which displays when facts
+  where gathered. (by Rowin Andruscavage)
+- Bugfix: Search box in html_fancy template was not properly focused
+  automatically.
+- Version is now properly displayed with --version
+- Development related: Refactoring of ansible-cmdb into a module and a thin
   commandline wrapper.
 
 v1.6    2015-10-03
