@@ -48,7 +48,7 @@ overview page:
 
     ansible-cmdb out/ > overview.html
 
-The default template is `html_fancy`, which uses Jquery. 
+The default template is `html_fancy`, which uses jQuery. 
 
 ### Full usage
 
@@ -86,17 +86,17 @@ For example:
 
     $ ansible-cmdb -i ./hosts out/ > overview.html
 
-If a `host_vars` dir exists at that location, it will also be read.
+If a `host_vars` directory exists at that location, it will also be read.
 
 The ''html_fancy'' template uses four extra fields:
 
-- `groups`: A list of Ansible groups the host belongs too
+- `groups`: A list of Ansible groups the host belongs to.
 - `dtap`: Whether a host is a development, test, acceptance or production
    system.
 - `comment`: A comment for the host.
 - `ext_id`: An external unique identifier for the host.
 
-For example, lets say we have the following `hosts` file:
+For example, let's say we have the following `hosts` file:
 
     [cust.megacorp]
     db1.dev.megacorp.com   dtap=dev  comment="Old database server"
@@ -136,7 +136,7 @@ The 'html_fancy' template is the default.
 
 Ansible-cmdb currently provides the following templates out of the box:
 
-* `html_fancy`: A fancy HTML page that uses JQuery and DataTables to give you a
+* `html_fancy`: A fancy HTML page that uses jQuery and DataTables to give you a
   searchable, sortable table overview of all hosts with detailed information
   just a click away.
 
@@ -173,7 +173,7 @@ specifying the `-f` (`--fact-cache`) option:
 Please note that the `--fact-cache` option will apply to *all* fact directories
 you specify. This means you can't mix fact-cache fact directories and normal
 `setup` fact directories. Also, if you wish to manually extend facts (see the
-`Extending` chapter), you must ommit the `ansible_facts` key and put items in
+`Extending` chapter), you must omit the `ansible_facts` key and put items in
 the root of the JSON.
 
 ### Columns
@@ -256,7 +256,7 @@ dictionary:
         "name": "ad6.flusso.nl"
     }
 
-If you're using the `--fact-cache` option, you must ommit the `ansible_facts`
+If you're using the `--fact-cache` option, you must omit the `ansible_facts`
 key and put items in the root of the JSON. This also means that you can only
 extend native ansible facts and not information read from the `hosts` file by
 ansible-cmdb.
@@ -290,7 +290,7 @@ If you want to run ansible-cmdb directly from the Git repo:
 
 ### Inner workings
 
-Here's a quick introducton on how ansible-cmdb works internally.
+Here's a quick introduction on how ansible-cmdb works internally.
 
 1. The main section in `ansible-cmdb` reads the commandline params and
    instantiates an `Ansible` object.
@@ -352,13 +352,13 @@ to build a test release, you can temporary stash your untracked changes:
 
 If you wish to contribute code, please consider the following:
 
-* Any form of Python packaging will NOT be supoprted. Merge requests involving
+* Any form of Python packaging will NOT be supported. Merge requests involving
   python packages will not be considered. See issue #23.
-* Thank you for even considering contributing. I'm quite newby-friendly, so
-  don't hesitate to ask any help! 
+* Thank you for even considering contributing. I'm quite newbie-friendly, so
+  don't hesitate to ask for help! 
 * Code should be reasonably PEP8-like. I'm not too strict on this.
 * One logical change per merge request.
-* By putting in a merge request or putting code in comments, you autoamtically
+* By putting in a merge request or putting code in comments, you automatically
   grant me permission to include this code in ansible-cmdb under the license
   (MIT) that ansible-cmdb uses.
 * Please don't be disappointed or angry if your contributions end up unused.
