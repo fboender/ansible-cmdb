@@ -1,3 +1,8 @@
+v1.8    2015-11-10
+
+- Fixed a bug in Dynamic Inventory parsing
+- Spelling mistakes in README fixed (by Sebastian Gumprich)
+
 v1.7    2015-11-08
 
 - Added a -c / --columns option that allows users to specify the columns to
