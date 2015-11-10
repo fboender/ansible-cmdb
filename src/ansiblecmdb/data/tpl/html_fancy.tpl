@@ -545,7 +545,12 @@ $(document).ready( function () {
       % for col in cols:
         { "targets": [${loop.index}], "visible": ${str(col['visible']).lower()} },
       % endfor
-    ]
+    ],
+    "fnInitComplete": function() {
+      // Focus the input field
+      $("#host_overview_tbl_filter input").focus();
+    }
+
   });
 
   // Show and hide columns on button clicks
@@ -577,10 +582,7 @@ $(document).ready( function () {
       $('#top').hide();
     };
   });
-
-  // Focus the input field
-  $('#host_overview_tbl_filter label input').focus();
-} );
+});
 </script>
 
 </body>
