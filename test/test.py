@@ -4,7 +4,8 @@ import imp
 import os
 
 sys.path.insert(0, '../lib')
-ansiblecmdb = imp.load_source('ansiblecmdb', '../src/ansible-cmdb')
+sys.path.insert(0, '../src')
+import ansiblecmdb
 
 
 class ExtendTestCase(unittest.TestCase):
