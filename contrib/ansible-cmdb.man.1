@@ -1,0 +1,323 @@
+.TH MAN 1 "2015-11-11" "%%VERSION%%" "Ansible CMDB"
+
+.SH NAME
+ansible\-cmdb - generate host overview from ansible facts
+
+.SH SYNOPSIS
+.B ansible\-cmdb
+.RB [options] 
+.IR fact_dir\ [fact_dir]
+
+.SH DESCRIPTION
+
+ansible\-cmdb parses facts about machines gathered by Ansible and generates host
+overviews or other information based on those facts. It includes the ability to
+parse variables, groups and other information from Ansible's hosts inventory
+and dynamic inventories.
+
+Output is rendered using templates. At the moment there are various templates
+available. You can create your own templates to completely customize
+ansible\-cmdb's output.
+
+.SH OPTIONS
+
+Ansible\-cmdb supports the following options:
+
+.SS General options
+
+.TP
+.BR \-h,\ \-\-help
+Show help information.
+
+.TP
+.BR \-\-version
+Show version.
+
+.SS Input options
+
+.TP
+.BR \-f ", " \-\-fact\-cache =\fIDIR\fR
+Use Ansible fact-cache dir for facts
+
+.TP
+.BR \-i ", " \-\-inventory =\fIPATH\fR
+Scan inventory at PATH for groups, variables, etc.
+
+.SS Output options
+
+.TP
+.BR \-t ", " \-\-template =\fITEMPLATE\fR
+Template to use. Default is 'html_fancy'.
+
+.TP
+.BR \-p ", " \-\-params =\fIKEY=VALUE\fR
+Params to send to the template.
+
+.TP
+.BR \-c ", " \-\-columns =\fICOL[,COL]\fR
+Show only given columns
+
+.SH EXAMPLES
+
+First, generate Ansible output for your hosts:
+
+.PP
+.nf
+.RS
+mkdir out \\
+ansible -m setup --tree out/ all
+.RE
+.fi
+.PP
+
+To generate a host overview with the default template (html_fancy):
+
+.PP
+.nf
+.RS
+ansible-cmdb out/ > overview.html
+.RE
+.fi
+.PP
+
+To make ansible\-cmdb scan your hosts file, which will include group
+information and variables in the host overview:
+
+.PP
+.nf
+.RS
+ansible-cmdb -i /path/to/hosts out/ > overview.html
+.RE
+.fi
+.PP
+
+To select a different template, use the \fB\-t\fR switch. The default template is
+html_fancy. If you want to use the txt_table template:
+
+.PP
+.nf
+.RS
+ansible-cmdb -t txt_table out/ > overview.html
+.RE
+.fi
+.PP
+
+If you want to refer to a template at some other location on your disk, you
+need to leave the .tpl extension of:
+
+.PP
+.nf
+.RS
+ansible-cmdb -t /home/test/some_template out/ > overview.html
+.RE
+.fi
+.PP
+
+To send parameters to a template, use the \fB\-p\fR swtich. For example: to use
+local Javascript resources with the html_fancy template (so you can it
+offline):
+
+.PP
+.nf
+.RS
+ansible-cmdb -p local_js=1 -i /path/to/hosts out/ > overview.html
+.RE
+.fi
+.PP
+
+The \fB\-\--columns\fR (\fB\-c\fR ) switch lets you specify which columns
+should appear in the overview. This must be supported by the template.
+
+.PP
+.nf
+.RS
+ansible-cmdb --columns name,os,ip,mem,cpus out/ > overview.html
+.RE
+.fi
+.PP
+
+You can specify multiple fact directories. You could, for example, include
+hosts that aren't scanned by ansible by manually creating JSON files, or add
+additional facts or variables to systems that are also present in the normal
+facts dir.
+
+.PP
+.nf
+.RS
+ansible-cmdb out/ manual_facts/ > overview.html
+.RE
+.fi
+.PP
+
+
+.SH INVENTORY SCANNING
+
+Ansible-cmdb can read your inventory file (hosts, by default), inventory
+directory or dynamic inventory and extract useful information from it such as:
+
+.TP
+.BR Groups
+All the groups a host belongs to. 
+
+.TP
+.BR Host\ variables
+These are optional key/value pairs for each host which can be used in
+playbooks. They are scanned by ansible-cmdb and get added to a hosts discovered
+facts under the 'hostvars' section. 
+
+Reading the inventory is done using the \fB\-i\fR switch to ansible-cmdb. It
+takes a single parameter: your hosts file, directory containing your hosts
+files or path to your dynamic inventory script.
+
+See http://docs.ansible.com/intro_inventory.html#host-variables for more
+information on host variables.
+
+
+.SH TEMPLATES
+
+Ansible\-cmdb supports multiple different templates. You can choose which
+template to use with the \fB\-t\fR switch
+
+.SS html_fancy
+
+A fancy HTML page that uses jQuery and DataTables to give you a searchable,
+sortable table overview of all hosts with detailed information just a click
+away.
+
+It takes a parameter \fIlocal_js=1\fR which will load resources from the local
+disk instead of over the network. See the \fBEXAMPLES\fR section for an
+example. It also supports the \fB\-\-cols\fR parameter to specify which 
+columns you'd like to see in the output.
+
+It can be easily extended by copying it and modifying the cols definition at
+the top. 
+
+.SS txt_table
+
+A quick text table summary of the available hosts with some minimal information.
+
+It supports the \fI\-\-cols\fR parameter to specify which columns you'd like in
+the output.
+
+.SS json
+
+The json template simple dumps a JSON-encoded representation of the gathered
+information. This includes all the extra information scanned by ansible-cmdb
+such as groups, variables, custom information, etc.
+
+.SH FACT CACHING
+
+Ansible can cache facts from hosts when running playbooks. This is configured
+in Ansible like:\
+
+.PP
+.nf
+.RS
+[defaults]
+fact_caching=jsonfile
+fact_caching_connection = /path/to/facts/dir
+.RE
+.fi
+.PP
+
+You can use these cached facts as facts directories with ansible\-cmdb by
+specifying the \fB\-f\fR (\fB\-\-fact\-cache\fR) option:\
+
+.PP
+.nf
+.RS
+$ ansible-cmdb -f /path/to/facts/dir > overview.html
+.RE
+.fi
+.PP
+
+Please note that the \fB\-\-fact\-cache\fR option will apply to all fact
+directories you specify. This means you can't mix fact-cache fact directories
+and normal setup fact directories. Also, if you wish to manually extend facts
+(see the Extending chapter), you must omit the ansible_facts key and put items
+in the root of the JSON.
+
+
+.SH COLUMNS
+
+Some templates, such as \fBtxt_table\fR and \fBhtml_fancy\fR, support columns.
+If a template supports columns, you can use the \fB\-\-columns\fR / \fB\-c\fR
+command line option to specify which columns to show.
+
+The \fB\-\-columns\fR takes a comma-separated list of columns (no spaces!)
+which should be shown. The columns must be specified by their id field. For
+information on what id fields are supported by a template, take a look in the
+template.  Usually it's the column title, but in lowercase and with spaces
+replaced by underscores.
+
+.SH EXTENDING
+
+You can specify multiple directories that need to be scanned for output. This
+lets you add more custom information to existing hosts or even completely new
+hosts.
+
+For example, you could create a directory called out_cust and put manually
+crafted JSON files in it:
+
+.PP
+.nf
+.RS
+$ mkdir out_cust
+$ cat out_cust/test.megacorp.com
+{
+  "software": [
+    "Apache2",
+    "MySQL5.5"
+  ]
+}
+.RE
+.fi
+.PP
+
+Specify both directories when generating the output:
+
+.PP
+.nf
+.RS
+$ ansible-cmdb out/ out_cust/ > overview.html
+.RE
+.fi
+.PP
+
+our custom variables will be put in the root of the host information dictionary:
+
+.PP
+.nf
+.RS
+"test.megacorp.com": {
+  "ansible_facts": {
+    "ansible_all_ipv4_addresses": ["185.21.189.140"],
+  },
+  "changed": false,
+  "groups": ["cust.flusso"],
+  "software": [
+    "Apache2",
+    "MySQL5.5"
+  ],
+  "name": "ad6.flusso.nl"
+}
+.RE
+.fi
+.PP
+
+If you're using the \fB\-\-fact\-cache\fR option, you must omit the
+ansible_facts key and put items in the root of the JSON. This also means that
+you can only extend native ansible facts and not information read from the
+hosts file by ansible\-cmdb.
+
+.SH SEE ALSO
+
+\fIREADME.md\fR, the main source of documentation
+
+.SH COPYRIGHT
+
+ansible\-cmdb is copyright 2015 by Ferry Boender
+
+Ferry Boneder
+ferry.boender@gmail.com
+
