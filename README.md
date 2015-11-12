@@ -151,6 +151,10 @@ Ansible-cmdb currently provides the following templates out of the box:
 * `txt_table`: A quick text table summary of the available hosts with some
   minimal information.
 
+* `json`: The json template simple dumps a JSON-encoded representation of the
+  gathered information. This includes all the extra information scanned by
+  ansible-cmdb such as groups, variables, custom information, etc.
+
 You can create your own template or extend an existing one by copying it and
 refering to the full path to the template when using the `-t` option:
 
@@ -159,7 +163,7 @@ refering to the full path to the template when using the `-t` option:
 ### Fact caching
 
 Ansible can cache facts from hosts when running playbooks. This is configured
-like:
+in Ansible like:
 
     [defaults]
     fact_caching=jsonfile
@@ -182,10 +186,11 @@ Some templates, such as txt_table and html_fancy,  support columns. If a
 template supports columns, you can use the `--columns` / `-c` command line
 option to specify which columns to show. 
 
-The `--columns` takes a comma-separated list of columns which should be shown.
-The columns must be specified by their `id` field. For information on what `id`
-fields are supported by a template, take a look in the template. Usually it's
-the column title, but in lowercase and with spaces replaced by underscores.
+The `--columns` takes a comma-separated list of columns (no spaces!) which
+should be shown.  The columns must be specified by their `id` field. For
+information on what `id` fields are supported by a template, take a look in the
+template. Usually it's the column title, but in lowercase and with spaces
+replaced by underscores.
 
 For example:
 
