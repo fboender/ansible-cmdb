@@ -35,6 +35,7 @@ release_src: release_clean doc
 	cp README.md $(PROG)-$(REL_VERSION)/
 	cp CHANGELOG.txt $(PROG)-$(REL_VERSION)/
 	cp contrib/release_Makefile $(PROG)-$(REL_VERSION)/Makefile
+	cp contrib/ansible-cmdb.man.1 $(PROG)-$(REL_VERSION)/
 
 	# Bump version numbers
 	find $(PROG)-$(REL_VERSION)/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$(REL_VERSION)/g" 
@@ -66,6 +67,8 @@ release_deb: release_clean doc
 	cp -r lib/yaml rel_deb/usr/lib/${PROG}/
 	ln -s /usr/lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -ar contrib/debian/DEBIAN rel_deb/
+	cp -ar contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansile-cmdb.1
+	gzip rel_deb/usr/share/man/man1/ansile-cmdb.1
 
 	# Bump version numbers
 	find rel_deb/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$(REL_VERSION)/g" 
