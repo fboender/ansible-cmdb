@@ -67,8 +67,8 @@ release_deb: release_clean doc
 	cp -r lib/yaml rel_deb/usr/lib/${PROG}/
 	ln -s /usr/lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -ar contrib/debian/DEBIAN rel_deb/
-	cp -ar contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansile-cmdb.1
-	gzip rel_deb/usr/share/man/man1/ansile-cmdb.1
+	cp -ar contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansible-cmdb.1
+	gzip rel_deb/usr/share/man/man1/ansible-cmdb.1
 
 	# Bump version numbers
 	find rel_deb/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$(REL_VERSION)/g" 
