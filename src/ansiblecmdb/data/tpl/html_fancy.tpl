@@ -12,7 +12,7 @@ cols = [
   {"title": "Main IP",    "id": "main_ip",    "func": col_main_ip,    "visible": True},
   {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip,     "visible": False},
   {"title": "Arch",       "id": "arch",       "func": col_arch,       "visible": False},
-  {"title": "Mem",        "id": "mem",        "func": col_mem,        "visible": True},
+  {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "visible": True},
   {"title": "vCPUs",      "id": "cpus",       "func": col_cpus,       "visible": False},
   {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": False},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
@@ -55,8 +55,8 @@ if columns is not None:
 <%def name="col_arch(host)">
   ${host['ansible_facts'].get('ansible_architecture', '')} / ${host['ansible_facts'].get('ansible_userspace_architecture', '')}
 </%def>
-<%def name="col_mem(host)">
-  ${'%0.1fg' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1000.0))}
+<%def name="col_ram(host)">
+  ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
 </%def>
 <%def name="col_cpus(host)">
   ${host['ansible_facts'].get('ansible_processor_vcpus', 0)}
