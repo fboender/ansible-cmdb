@@ -74,10 +74,12 @@ if columns is not None:
   % for i in host['ansible_facts'].get('ansible_mounts', []):
     % if 'size_total' in i:  # Solaris hosts have no size_total
       % if i['size_total'] > 1:
+        ## hidden sort helper
+        <span style="display:none">${'%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])}</span>
         <div class="bar">
           <span class="prog_bar_full" style="width:100px">
             <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
-          </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1048576000.0, 2)}g / ${round(i['size_total'] / 1048576000.0, 2)}g)</span>
+          </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1073741824.0, 1)} / ${round(i['size_total'] / 1073741824.0, 1)} GiB)</span>
         </div>
       % endif
     % else:
