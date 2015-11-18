@@ -5,21 +5,21 @@
 import datetime
 cols = [
   {"title": "Name",       "id": "name",       "func": col_name,       "visible": True},
-  {"title": "DTAP",       "id": "dtap",       "func": col_dtap,       "visible": True},
   {"title": "Groups",     "id": "groups",     "func": col_groups,     "visible": False},
+  {"title": "DTAP",       "id": "dtap",       "func": col_dtap,       "visible": False},
+  {"title": "Comment",    "id": "comment",    "func": col_comment,    "visible": False},
+  {"title": "Ext ID",     "id": "ext_id",     "func": col_ext_id,     "visible": False},
   {"title": "FQDN",       "id": "fqdn",       "func": col_fqdn,       "visible": True},
   {"title": "Main IP",    "id": "main_ip",    "func": col_main_ip,    "visible": True},
   {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip,     "visible": False},
   {"title": "OS",         "id": "os",         "func": col_os,         "visible": True},
-  {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "visible": True},
+  {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "visible": False},
   {"title": "Arch",       "id": "arch",       "func": col_arch,       "visible": False},
-  {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": False},
-  {"title": "vCPUs",      "id": "cpus",       "func": col_cpus,       "visible": False},
+  {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": True},
+  {"title": "vCPUs",      "id": "cpus",       "func": col_cpus,       "visible": True},
   {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "visible": True},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
-  {"title": "Comment",    "id": "comment",    "func": col_comment,    "visible": True},
-  {"title": "Ext ID",     "id": "ext_id",     "func": col_ext_id,     "visible": True},
-  {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "visible": True},
+  {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "visible": False},
 ]
 
 # Enable columns specified with '--columns'
