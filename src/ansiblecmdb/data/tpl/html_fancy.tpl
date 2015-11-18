@@ -8,17 +8,17 @@ cols = [
   {"title": "DTAP",       "id": "dtap",       "func": col_dtap,       "visible": True},
   {"title": "Groups",     "id": "groups",     "func": col_groups,     "visible": False},
   {"title": "FQDN",       "id": "fqdn",       "func": col_fqdn,       "visible": True},
-  {"title": "OS",         "id": "os",         "func": col_os,         "visible": True},
   {"title": "Main IP",    "id": "main_ip",    "func": col_main_ip,    "visible": True},
   {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip,     "visible": False},
+  {"title": "OS",         "id": "os",         "func": col_os,         "visible": True},
+  {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "visible": True},
   {"title": "Arch",       "id": "arch",       "func": col_arch,       "visible": False},
-  {"title": "Mem",        "id": "mem",        "func": col_mem,        "visible": True},
-  {"title": "CPUs",       "id": "cpus",       "func": col_cpus,       "visible": False},
   {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": False},
+  {"title": "vCPUs",      "id": "cpus",       "func": col_cpus,       "visible": False},
+  {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "visible": True},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
   {"title": "Comment",    "id": "comment",    "func": col_comment,    "visible": True},
   {"title": "Ext ID",     "id": "ext_id",     "func": col_ext_id,     "visible": True},
-  {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "visible": True},
   {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "visible": True},
 ]
 
@@ -46,6 +46,12 @@ if columns is not None:
 <%def name="col_fqdn(host)">
   ${host['ansible_facts'].get('ansible_fqdn', '')}
 </%def>
+<%def name="col_main_ip(host)">
+  ${host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')}
+</%def>
+<%def name="col_all_ip(host)">
+  ${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}
+</%def>
 <%def name="col_os(host)">
   ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_version', '')}
 </%def>
@@ -55,29 +61,25 @@ if columns is not None:
 <%def name="col_arch(host)">
   ${host['ansible_facts'].get('ansible_architecture', '')} / ${host['ansible_facts'].get('ansible_userspace_architecture', '')}
 </%def>
-<%def name="col_mem(host)">
-  ${'%0.1fg' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1000.0))}
-</%def>
-<%def name="col_cpus(host)">
-  ${host['ansible_facts'].get('ansible_processor_count', 0)}
-</%def>
-<%def name="col_main_ip(host)">
-  ${host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')}
-</%def>
-<%def name="col_all_ip(host)">
-  ${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}
-</%def>
 <%def name="col_virt(host)">
   ${host['ansible_facts'].get('ansible_virtualization_type', '')} / ${host['ansible_facts'].get('ansible_virtualization_role', '')}
+</%def>
+<%def name="col_cpus(host)">
+  ${host['ansible_facts'].get('ansible_processor_vcpus', 0)}
+</%def>
+<%def name="col_ram(host)">
+  ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
 </%def>
 <%def name="col_disk_usage(host)">
   % for i in host['ansible_facts'].get('ansible_mounts', []):
     % if 'size_total' in i:  # Solaris hosts have no size_total
       % if i['size_total'] > 1:
+        ## hidden sort helper
+        <span style="display:none">${'%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])}</span>
         <div class="bar">
           <span class="prog_bar_full" style="width:100px">
             <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
-          </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1048576000.0, 2)}g / ${round(i['size_total'] / 1048576000.0, 2)}g)</span>
+          </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1073741824.0, 1)} / ${round(i['size_total'] / 1073741824.0, 1)} GiB)</span>
         </div>
       % endif
     % else:
