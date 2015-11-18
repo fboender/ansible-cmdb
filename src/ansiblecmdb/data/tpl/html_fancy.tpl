@@ -342,6 +342,10 @@ if columns is not None:
       color: #303030;
       padding-bottom: 10px;
     }
+    #hosts ul {
+      list-style: square;
+      margin-left: 48px;
+    }
     .error { color: #FF0000; }
     #host_overview tbody td.error a {
         color: #FF0000;
@@ -445,6 +449,13 @@ if columns is not None:
         <tr><th>Virtualisation role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
         <tr><th>Virtualisation type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
       </table>
+
+      <h4>Groups</h4>
+      <ul>
+        % for group in sorted(host.get('groups', [])):
+          <li>${group}</li>
+        % endfor
+      </ul>
 
       <h4>Custom variables</h4>
       <table>
