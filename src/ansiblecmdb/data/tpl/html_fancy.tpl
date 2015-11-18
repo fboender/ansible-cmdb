@@ -138,6 +138,115 @@ if columns is not None:
 </%def>
 
 ##
+## Detailed host information blocks
+##
+<%def name="host_general(host)">
+  <h4>General</h4>
+  <table>
+    <tr><th>Node name</th><td>${host['ansible_facts'].get('ansible_nodename', '')}</td></tr>
+    <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
+    <tr><th>Virtualisation role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
+    <tr><th>Virtualisation type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
+  </table>
+</%def>
+<%def name="host_groups(host)">
+  <h4>Groups</h4>
+  <ul>
+    % for group in sorted(host.get('groups', [])):
+      <li>${group}</li>
+    % endfor
+  </ul>
+</%def>
+<%def name="host_custvars(host)">
+  <h4>Custom variables</h4>
+  <table>
+      % for var_name, var_value in host['hostvars'].items():
+        <tr><th>${var_name}</th><td>${var_value}</td></tr>
+      % endfor
+  </table>
+</%def>
+<%def name="host_hardware(host)">
+  <h4>Hardware</h4>
+  <table>
+    <tr><th>Vendor</th><td>${host['ansible_facts'].get('ansible_system_vendor', '')}</td></tr>
+    <tr><th>Product name</th><td>${host['ansible_facts'].get('ansible_product_name', '')}</td></tr>
+    <tr><th>Product serial</th><td>${host['ansible_facts'].get('ansible_product_serial', '')}</td></tr>
+    <tr><th>Architecture</th><td>${host['ansible_facts'].get('ansible_architecture', '')}</td></tr>
+    <tr><th>Machine</th><td>${host['ansible_facts'].get('ansible_machine', '')}</td></tr>
+    <tr><th>Processor count</th><td>${host['ansible_facts'].get('ansible_processor_count', '')}</td></tr>
+    <tr><th>Processor cores</th><td>${host['ansible_facts'].get('ansible_processor_cores', '')}</td></tr>
+    <tr><th>Processor threads per core</th><td>${host['ansible_facts'].get('ansible_processor_threads_per_core', '')}</td></tr>
+    <tr><th>Processor virtual CPUs</th><td>${host['ansible_facts'].get('ansible_processor_vcpus', '')}</td></tr>
+    <tr><th>Mem total mb</th><td>${host['ansible_facts'].get('ansible_memtotal_mb', '')}</td></tr>
+    <tr><th>Mem free mb</th><td>${host['ansible_facts'].get('ansible_memfree_mb', '')}</td></tr>
+    <tr><th>Swap total mb</th><td>${host['ansible_facts'].get('ansible_swaptotal_mb', '')}</td></tr>
+    <tr><th>Swap free mb</th><td>${host['ansible_facts'].get('ansible_swapfree_mb', '')}</td></tr>
+  </table>
+</%def>
+<%def name="host_os(host)">
+  <h4>Operating System</h4>
+  <table>
+    <tr><th>System</th><td>${host['ansible_facts'].get('ansible_system', '')}</td></tr>
+    <tr><th>OS Family</th><td>${host['ansible_facts'].get('ansible_os_family', '')}</td></tr>
+    <tr><th>Distribution</th><td>${host['ansible_facts'].get('ansible_distribution', '')}</td></tr>
+    <tr><th>Distribution version</th><td>${host['ansible_facts'].get('ansible_distribution_version', '')}</td></tr>
+    <tr><th>Distribution release</th><td>${host['ansible_facts'].get('ansible_distribution_release', '')}</td></tr>
+    <tr><th>Kernel</th><td>${host['ansible_facts'].get('ansible_kernel', '')}</td></tr>
+    <tr><th>Userspace bits</th><td>${host['ansible_facts'].get('ansible_userspace_bits', '')}</td></tr>
+    <tr><th>Userspace_architecture</th><td>${host['ansible_facts'].get('ansible_userspace_architecture', '')}</td></tr>
+    <tr><th>Date time</th><td>${host['ansible_facts'].get('ansible_date_time', {}).get('iso8601', '')}</td></tr>
+    <tr><th>Locale / Encoding</th><td>${host['ansible_facts'].get('ansible_env', {}).get('LC_ALL', 'Unknown')}</td></tr>
+    <tr><th>SELinux?</th><td>${host['ansible_facts'].get('ansible_selinux', '')}</td></tr>
+    <tr><th>Package manager</th><td>${host['ansible_facts'].get('ansible_pkg_mgr', '')}</td></tr>
+  </table>
+</%def>
+<%def name="host_network(host)">
+  <h4>Network</h4>
+  <table>
+    <tr><th>Hostname</th><td>${host['ansible_facts'].get('ansible_hostname', '')}</td></tr>
+    <tr><th>Domain</th><td>${host['ansible_facts'].get('ansible_domain', '')}</td></tr>
+    <tr><th>FQDN</th><td>${host['ansible_facts'].get('ansible_fqdn', '')}</td></tr>
+    <tr><th>All IPv4</th><td>${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}</td></tr>
+    <tr>
+      <th>Interfaces</th>
+      <td>
+        <table>
+            % for iface in host['ansible_facts'].get('ansible_interfaces', []):
+              <tr>
+                <th>${iface}</th>
+                <td>
+                  % try:
+                    ${r_dict(host['ansible_facts']['ansible_%s' % (iface)])}
+                  % except KeyError:
+                    No information available
+                  % endtry
+                </td>
+              </tr>
+            % endfor
+        </table>
+      </td>
+    </tr>
+  </table>
+</%def>
+<%def name="host_storage(host)">
+  <h4>Storage</h4>
+  <table>
+    <tr>
+      <th>Devices</th>
+      <td>
+        ${r_dict(host['ansible_facts'].get('ansible_devices', {}))}
+      </td>
+    </tr>
+    <tr>
+      <th>Mounts</th>
+      <td>
+        ${r_list(host['ansible_facts'].get('ansible_mounts', []))}
+      </td>
+    </tr>
+  </table>
+</%def>
+
+##
 ## Helper functions for dumping python datastructures
 ##
 <%def name="r_list(l)">
@@ -480,103 +589,13 @@ if columns is not None:
       % endif
     % else:
       <a name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
-      <h4>General</h4>
-      <table>
-        <tr><th>Node name</th><td>${host['ansible_facts'].get('ansible_nodename', '')}</td></tr>
-        <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
-        <tr><th>Virtualisation role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
-        <tr><th>Virtualisation type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
-      </table>
-
-      <h4>Groups</h4>
-      <ul>
-        % for group in sorted(host.get('groups', [])):
-          <li>${group}</li>
-        % endfor
-      </ul>
-
-      <h4>Custom variables</h4>
-      <table>
-          % for var_name, var_value in host['hostvars'].items():
-            <tr><th>${var_name}</th><td>${var_value}</td></tr>
-          % endfor
-      </table>
-
-      <h4>Hardware</h4>
-      <table>
-        <tr><th>Vendor</th><td>${host['ansible_facts'].get('ansible_system_vendor', '')}</td></tr>
-        <tr><th>Product name</th><td>${host['ansible_facts'].get('ansible_product_name', '')}</td></tr>
-        <tr><th>Product serial</th><td>${host['ansible_facts'].get('ansible_product_serial', '')}</td></tr>
-        <tr><th>Architecture</th><td>${host['ansible_facts'].get('ansible_architecture', '')}</td></tr>
-        <tr><th>Machine</th><td>${host['ansible_facts'].get('ansible_machine', '')}</td></tr>
-        <tr><th>Processor count</th><td>${host['ansible_facts'].get('ansible_processor_count', '')}</td></tr>
-        <tr><th>Processor cores</th><td>${host['ansible_facts'].get('ansible_processor_cores', '')}</td></tr>
-        <tr><th>Processor threads per core</th><td>${host['ansible_facts'].get('ansible_processor_threads_per_core', '')}</td></tr>
-        <tr><th>Processor virtual CPUs</th><td>${host['ansible_facts'].get('ansible_processor_vcpus', '')}</td></tr>
-        <tr><th>Mem total mb</th><td>${host['ansible_facts'].get('ansible_memtotal_mb', '')}</td></tr>
-        <tr><th>Mem free mb</th><td>${host['ansible_facts'].get('ansible_memfree_mb', '')}</td></tr>
-        <tr><th>Swap total mb</th><td>${host['ansible_facts'].get('ansible_swaptotal_mb', '')}</td></tr>
-        <tr><th>Swap free mb</th><td>${host['ansible_facts'].get('ansible_swapfree_mb', '')}</td></tr>
-      </table>
-
-      <h4>Operating System</h4>
-      <table>
-        <tr><th>System</th><td>${host['ansible_facts'].get('ansible_system', '')}</td></tr>
-        <tr><th>OS Family</th><td>${host['ansible_facts'].get('ansible_os_family', '')}</td></tr>
-        <tr><th>Distribution</th><td>${host['ansible_facts'].get('ansible_distribution', '')}</td></tr>
-        <tr><th>Distribution version</th><td>${host['ansible_facts'].get('ansible_distribution_version', '')}</td></tr>
-        <tr><th>Distribution release</th><td>${host['ansible_facts'].get('ansible_distribution_release', '')}</td></tr>
-        <tr><th>Kernel</th><td>${host['ansible_facts'].get('ansible_kernel', '')}</td></tr>
-        <tr><th>Userspace bits</th><td>${host['ansible_facts'].get('ansible_userspace_bits', '')}</td></tr>
-        <tr><th>Userspace_architecture</th><td>${host['ansible_facts'].get('ansible_userspace_architecture', '')}</td></tr>
-        <tr><th>Date time</th><td>${host['ansible_facts'].get('ansible_date_time', {}).get('iso8601', '')}</td></tr>
-        <tr><th>Locale / Encoding</th><td>${host['ansible_facts'].get('ansible_env', {}).get('LC_ALL', 'Unknown')}</td></tr>
-        <tr><th>SELinux?</th><td>${host['ansible_facts'].get('ansible_selinux', '')}</td></tr>
-        <tr><th>Package manager</th><td>${host['ansible_facts'].get('ansible_pkg_mgr', '')}</td></tr>
-      </table>
-
-      <h4>Network</h4>
-      <table>
-        <tr><th>Hostname</th><td>${host['ansible_facts'].get('ansible_hostname', '')}</td></tr>
-        <tr><th>Domain</th><td>${host['ansible_facts'].get('ansible_domain', '')}</td></tr>
-        <tr><th>FQDN</th><td>${host['ansible_facts'].get('ansible_fqdn', '')}</td></tr>
-        <tr><th>All IPv4</th><td>${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}</td></tr>
-        <tr>
-          <th>Interfaces</th>
-          <td>
-            <table>
-                % for iface in host['ansible_facts'].get('ansible_interfaces', []):
-                  <tr>
-                    <th>${iface}</th>
-                    <td>
-                      % try:
-                        ${r_dict(host['ansible_facts']['ansible_%s' % (iface)])}
-                      % except KeyError:
-                        No information available
-                      % endtry
-                    </td>
-                  </tr>
-                % endfor
-            </table>
-          </td>
-        </tr>
-      </table>
-
-      <h4>Storage</h4>
-      <table>
-        <tr>
-          <th>Devices</th>
-          <td>
-            ${r_dict(host['ansible_facts'].get('ansible_devices', {}))}
-          </td>
-        </tr>
-        <tr>
-          <th>Mounts</th>
-          <td>
-            ${r_list(host['ansible_facts'].get('ansible_mounts', []))}
-          </td>
-        </tr>
-      </table>
+      <% host_general(host) %>
+      <% host_groups(host) %>
+      <% host_custvars(host) %>
+      <% host_hardware(host) %>
+      <% host_os(host) %>
+      <% host_network(host) %>
+      <% host_storage(host) %>
     % endif
   % endfor
 </div>
