@@ -16,6 +16,7 @@ cols = [
   {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "visible": False},
   {"title": "Arch",       "id": "arch",       "func": col_arch,       "visible": False},
   {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": True},
+  {"title": "CPU type",   "id": "cpu_type",   "func": col_cpu_type,   "visible": False},
   {"title": "vCPUs",      "id": "cpus",       "func": col_cpus,       "visible": True},
   {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "visible": True},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
@@ -63,6 +64,12 @@ if columns is not None:
 </%def>
 <%def name="col_virt(host)">
   ${host['ansible_facts'].get('ansible_virtualization_type', '')} / ${host['ansible_facts'].get('ansible_virtualization_role', '')}
+</%def>
+<%def name="col_cpu_type(host)">
+  <% cpu_type = host['ansible_facts'].get('ansible_processor', 0)%>
+  % if isinstance(cpu_type, list):
+  ${ cpu_type[-1] }
+  % endif
 </%def>
 <%def name="col_cpus(host)">
   ${host['ansible_facts'].get('ansible_processor_vcpus', 0)}
