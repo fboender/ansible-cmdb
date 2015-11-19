@@ -202,13 +202,43 @@ if columns is not None:
 </%def>
 <%def name="host_network(host)">
   <h4>Network</h4>
-  <table>
+  <table class="net_info">
     <tr><th>Hostname</th><td>${host['ansible_facts'].get('ansible_hostname', '')}</td></tr>
     <tr><th>Domain</th><td>${host['ansible_facts'].get('ansible_domain', '')}</td></tr>
     <tr><th>FQDN</th><td>${host['ansible_facts'].get('ansible_fqdn', '')}</td></tr>
     <tr><th>All IPv4</th><td>${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}</td></tr>
+  </table>
+  <table class="net_overview">
     <tr>
-      <th>Interfaces</th>
+      <th>Networks</th>
+      <td>
+        <table class="net_overview">
+          <tr>
+            <th>dev</th>
+            <th>address</th>
+            <th>network</th>
+            <th>netmask</th>
+          </tr>
+          % for iface_name in host['ansible_facts'].get('ansible_interfaces', []):
+            <% iface = host['ansible_facts'].get('ansible_' + iface_name, {}) %>
+            % for net in [iface.get('ipv4', {})] + iface.get('ipv4_secondaries', []):
+              % if net:
+                <tr>
+                  <td>${iface_name}</td>
+                  <td>${net['address']}</td>
+                  <td>${net['network']}</td>
+                  <td>${net['netmask']}</td>
+                </tr>
+              % endif
+            % endfor
+          % endfor
+        </table>
+      </td>
+    </tr>
+  </table>
+  <table class="net_iface_details">
+    <tr>
+      <th>Interface details</th>
       <td>
         <table>
             % for iface in host['ansible_facts'].get('ansible_interfaces', []):
@@ -491,6 +521,14 @@ if columns is not None:
     #hosts ul {
       list-style: square;
       margin-left: 48px;
+    }
+    #hosts table.net_overview td,th {
+      text-align: left;
+      padding: 0px 0px 8px 16px;
+      margin: 0px;
+    }
+    #hosts table.net_overview {
+      margin: 16px 0px 16px 0px;
     }
     .error { color: #FF0000; }
     #host_overview tbody td.error a {
