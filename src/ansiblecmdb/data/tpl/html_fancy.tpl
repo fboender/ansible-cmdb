@@ -114,7 +114,7 @@ if columns is not None:
         <div class="bar">
           <span class="prog_bar_full" style="width:100px">
             <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
-          </span> ${i['mount']} <span id="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1073741824.0, 1)} / ${round(i['size_total'] / 1073741824.0, 1)} GiB)</span>
+          </span> ${i['mount']} <span class="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1073741824.0, 1)} / ${round(i['size_total'] / 1073741824.0, 1)} GiB)</span>
         </div>
       % endif
     % else:
@@ -349,212 +349,55 @@ if columns is not None:
     table { border-collapse: collapse; border-spacing: 0; }
 
     /* ansible-cmdb */
-    *, body {
-      font-family: sans-serif; font-weight: lighter;
-    }
+    *, body { font-family: sans-serif; font-weight: lighter; }
     a { text-decoration: none; }
-    header {
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      background-color: #0071b8;
-      overflow: auto;
-      color: #E0E0E0;
-      padding: 15px;
-      z-index: 1000;
-    }
-    header h1 {
-      font-size: x-large;
-      float: left;
-      line-height: 32px;
-      font-weight: bold;
-    }
-    header #generated {
-      float: right;
-      line-height: 32px;
-      font-size: small;
-    }
-    header #top {
-        display: none;
-    }
-    header #top a {
-        line-height: 32px;
-        margin-left: 64px;
-        color: #FFFFFF;
-        border-bottom: 1px solid #909090;
-    }
-    #generated .datetime {
-      font-weight: bold;
-      margin-left: 12px;
-    }
-    #col_toggles {
-      margin: 32px;
-      margin-top: 100px;
-    }
-    h2 {
-      display: block;
-      margin-bottom: 32px;
-      color: #606060;
-    }
-    #col_toggle_buttons {
-      margin-left: 32px;
-      font-weight: normal;
-      line-height: 40px;
-    }
-    #col_toggles a {
-      line-height: 40px;
-    }
-    #col_toggles a {
-      display: inline-block;
-      background-color: #009688;
-      line-height: 32px;
-      padding: 0px 15px 0px 15px;
-      margin-right: 6px;
-      font-size: small;
-      box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.35);
-      color: #FFFFFF;
-    }
-    #col_toggles a.col-invisible{
-      background-color: #B0B0B0;
-      box-shadow: 0 0px 0px 0;
-    }
 
-    #host_overview {
-      margin: 32px;
-    }
-    #jquery_sucks{
-      margin-left: 32px;
-    }
-    #host_overview table {
-      width: 100%;
-      clear: both;
-    }
-    #host_overview th, #host_overview td {
-      font-size: small;
-      padding: 8px 12px 8px 12px;
-    }
-    #host_overview thead th {
-      text-align: left;
-      color: #707070;
-      font-size: x-small;
-      font-weight: bold;
-      cursor: pointer;
-      background-repeat: no-repeat;
-      background-position: center right;
-      background-image: url("${res_url}/images/sort_both.png");
-    }
-    #host_overview thead th.sorting_desc {
-      background-image: url("${res_url}/images/sort_desc.png");
-    }
-    #host_overview thead th.sorting_asc {
-      background-image: url("${res_url}/images/sort_asc.png");
-    }
-    #host_overview tr {
-      border-bottom: 1px solid #F0F0F0;
-    }
-    #host_overview tr:hover {
-      background-color: #F0F0F0;
-    }
-    #host_overview tbody td {
-      color: #000000;
-    }
-    #host_overview tbody a {
-      text-decoration: none;
-      color: #005c9d;
-    }
-    #host_overview_tbl_filter {
-      float: right;
-      font-size: small;
-      color: #808080;
-    }
-    #host_overview_tbl_filter label input {
-      margin-left: 12px;
-    }
-    #host_overview_tbl_info {
-      font-size: x-small;
-      margin-top: 16px;
-      color: #C0C0C0;
-    }
-    .bar {
-      clear: both;
-    }
-    .prog_bar_full {
-      float: left;
-      display: block;
-      height: 12px;
-      border: 1px solid #000000;
-      padding: 1px;
-      margin-right: 4px;
-      color: white;
-      text-align: center;
-    }
-    .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
+    header { position: fixed; top: 0px; left: 0px; right: 0px; background-color: #0071b8; overflow: auto; color: #E0E0E0; padding: 15px; z-index: 1000; }
+    header h1 { font-size: x-large; float: left; line-height: 32px; font-weight: bold; }
+    header #generated { float: right; line-height: 32px; font-size: small; }
+    header #top { display: none; }
+    header #top a { line-height: 32px; margin-left: 64px; color: #FFFFFF; border-bottom: 1px solid #909090; }
+    header #generated .datetime { font-weight: bold; margin-left: 12px; }
 
-    #hosts {
-      margin-left: 32px;
-      margin-bottom: 120px;
-    }
-    #hosts h3 {
-      margin-top: 128px;
-      padding-bottom: 16px;
-      font-size: xx-large;
-      border-bottom: 1px solid #D0D0D0;
-    }
-    #hosts h4 {
-      font-size: large;
-      font-weight: bold;
-      color: #404040;
-      margin-top: 32px;
-      margin-bottom: 32px;
-    }
-    #hosts th {
-      text-align: left;
-      color: #909090;
-      padding-bottom: 10px;
-    }
-    #hosts td {
-      padding-left: 16px;
-      color: #303030;
-      padding-bottom: 10px;
-    }
-    #hosts ul {
-      list-style: square;
-      margin-left: 48px;
-    }
-    #hosts table.net_overview td,th {
-      text-align: left;
-      padding: 0px 0px 8px 16px;
-      margin: 0px;
-    }
-    #hosts table.net_overview {
-      margin: 16px 0px 16px 0px;
-    }
-    .error { color: #FF0000; }
-    #host_overview tbody td.error a {
-        color: #FF0000;
-    }
+    footer { display: block; position: fixed; bottom: 0px; right: 0px; left: 0px; background-color: #d5d5d5; overflow: auto; color: #505050; padding: 4px; font-size: x-small; text-align: right; padding-right: 8px; }
+    footer a { font-weight: bold; text-decoration: none; color: #202020; }
+
+    #col_toggles { margin: 32px; margin-top: 100px; }
+    #col_toggles h2 { display: block; margin-bottom: 32px; color: #606060; }
+    #col_toggle_buttons { margin-left: 32px; font-weight: normal; line-height: 40px; }
+    #col_toggles a { line-height: 40px; }
+    #col_toggles a { display: inline-block; background-color: #009688; line-height: 32px; padding: 0px 15px 0px 15px; margin-right: 6px; font-size: small; box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.35); color: #FFFFFF; }
+    #col_toggles a.col-invisible { background-color: #B0B0B0; box-shadow: 0 0px 0px 0; }
+
+    #host_overview { margin: 32px; }
+    #host_overview_tbl_wrapper{ margin-left: 16px; }
+    #host_overview table { width: 100%; clear: both; }
+    #host_overview tr { border-bottom: 1px solid #F0F0F0; }
+    #host_overview tr:hover { background-color: #F0F0F0; }
+    #host_overview thead th { text-align: left; color: #707070; font-size: x-small; font-weight: bold; cursor: pointer; background-repeat: no-repeat; background-position: center right; background-image: url("${res_url}/images/sort_both.png"); }
+    #host_overview thead th.sorting_desc { background-image: url("${res_url}/images/sort_desc.png"); }
+    #host_overview thead th.sorting_asc { background-image: url("${res_url}/images/sort_asc.png"); }
+    #host_overview tbody td { color: #000000; font-size: small; padding: 8px 12px 8px 12px; }
+    #host_overview tbody a { text-decoration: none; color: #005c9d; }
+    #host_overview_tbl_filter { float: right; font-size: small; color: #808080; }
+    #host_overview_tbl_filter label input { margin-left: 12px; }
+    #host_overview_tbl_info { font-size: x-small; margin-top: 16px; color: #C0C0C0; }
+    #host_overview .bar { clear: both; }
+    #host_overview .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
+    #host_overview .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
+    #host_overview tbody td.error a { color: #FF0000; }
+    #host_overview span.disk_usage_detail { font-size: x-small; color: #606060; }
     #mem_usage_detail { font-size: small; }
-    #disk_usage_detail { font-size: small; }
-    footer {
-      display: block;
-      position: fixed;
-      bottom: 0px;
-      right: 0px;
-      left: 0px;
-      background-color: #d5d5d5;
-      overflow: auto;
-      color: #505050;
-      padding: 4px;
-      font-size: x-small;
-      text-align: right;
-      padding-right: 8px;
-    }
-    footer a {
-      font-weight: bold;
-      text-decoration: none;
-      color: #202020;
-    }
+
+    #hosts { margin-left: 32px; margin-bottom: 120px; }
+    #hosts h3 { margin-top: 128px; padding-bottom: 16px; font-size: xx-large; border-bottom: 1px solid #D0D0D0; }
+    #hosts h4 { font-size: large; font-weight: bold; color: #404040; margin-top: 32px; margin-bottom: 32px; }
+    #hosts th { text-align: left; color: #909090; padding-bottom: 10px; }
+    #hosts td { padding-left: 16px; color: #303030; padding-bottom: 10px; }
+    #hosts ul { list-style: square; margin-left: 48px; }
+    #hosts table.net_overview td,th { text-align: left; padding: 0px 0px 8px 16px; margin: 0px; }
+    #hosts table.net_overview { margin: 16px 0px 16px 0px; }
+    #hosts .error { color: #FF0000; }
   </style>
   <!-- DataTables assets -->
   % if local_js is UNDEFINED:
@@ -588,7 +431,7 @@ if columns is not None:
 
 <div id="host_overview">
   <h2>Host overview</h2>
-  <div id="jquery_sucks">
+  <div id="host_overview_tbl_wrapper">
     <table id="host_overview_tbl" class="demo display dataTable compact">
     <thead>
       <tr>
