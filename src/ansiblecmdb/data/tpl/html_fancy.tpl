@@ -19,6 +19,8 @@ cols = [
   {"title": "CPU type",   "id": "cpu_type",   "func": col_cpu_type,   "visible": False},
   {"title": "vCPUs",      "id": "cpus",       "func": col_cpus,       "visible": True},
   {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "visible": True},
+  {"title": "Mem Usage",  "id": "mem",        "func": col_mem,        "visible": False},
+  {"title": "Swap Usage", "id": "swap",       "func": col_swap,       "visible": False},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
   {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "visible": False},
 ]
@@ -76,6 +78,32 @@ if columns is not None:
 </%def>
 <%def name="col_ram(host)">
   ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
+</%def>
+<%def name="col_mem(host)">
+  <% i = host['ansible_facts'].get('ansible_memory_mb') %>
+  % if i is not None:
+  <div class="bar">
+    ## hidden sort helper
+    <span style="display:none">${'%f' % (float(i["nocache"]["used"]) / i["real"]["total"])}</span>
+    <span class="prog_bar_full" style="width:100px">
+      <span class="prog_bar_used" style="width:${float(i["nocache"]["used"]) / i["real"]["total"] * 100}px"></span>
+    </span>
+    <span id="mem_usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)} / ${round(i["real"]["total"] / 1024.0, 1)} GiB)</span>
+  </div>
+  % endif
+</%def>
+<%def name="col_swap(host)">
+  <% i = host['ansible_facts'].get('ansible_memory_mb') %>
+  % if i is not None and i["swap"]["total"] > 0:
+  <div class="bar">
+    ## hidden sort helper
+    <span style="display:none">${'%f' % (float(i["swap"]["used"]) / i["swap"]["total"])}</span>
+    <span class="prog_bar_full" style="width:100px">
+      <span class="prog_bar_used" style="width:${float(i["swap"]["used"]) / i["swap"]["total"] * 100}px"></span>
+    </span>
+    <span id="mem_usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)} / ${round(i["swap"]["total"] / 1024.0, 1)} GiB)</span>
+  </div>
+  % endif
 </%def>
 <%def name="col_disk_usage(host)">
   % for i in host['ansible_facts'].get('ansible_mounts', []):
@@ -359,6 +387,7 @@ if columns is not None:
     #host_overview tbody td.error a {
         color: #FF0000;
     }
+    #mem_usage_detail { font-size: small; }
     #disk_usage_detail { font-size: small; }
     footer {
       display: block;
