@@ -88,7 +88,7 @@ if columns is not None:
     <span class="prog_bar_full" style="width:100px">
       <span class="prog_bar_used" style="width:${float(i["nocache"]["used"]) / i["real"]["total"] * 100}px"></span>
     </span>
-    <span id="mem_usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)} / ${round(i["real"]["total"] / 1024.0, 1)} GiB)</span>
+    <span class="usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)} / ${round(i["real"]["total"] / 1024.0, 1)} GiB)</span>
   </div>
   % endif
 </%def>
@@ -101,7 +101,7 @@ if columns is not None:
     <span class="prog_bar_full" style="width:100px">
       <span class="prog_bar_used" style="width:${float(i["swap"]["used"]) / i["swap"]["total"] * 100}px"></span>
     </span>
-    <span id="mem_usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)} / ${round(i["swap"]["total"] / 1024.0, 1)} GiB)</span>
+    <span class="usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)} / ${round(i["swap"]["total"] / 1024.0, 1)} GiB)</span>
   </div>
   % endif
 </%def>
@@ -114,7 +114,7 @@ if columns is not None:
         <div class="bar">
           <span class="prog_bar_full" style="width:100px">
             <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
-          </span> ${i['mount']} <span class="disk_usage_detail">(${round((i['size_total'] - i['size_available']) / 1073741824.0, 1)} / ${round(i['size_total'] / 1073741824.0, 1)} GiB)</span>
+          </span> ${i['mount']} <span class="usage_detail">(${round((i['size_total'] - i['size_available']) / 1073741824.0, 1)} / ${round(i['size_total'] / 1073741824.0, 1)} GiB)</span>
         </div>
       % endif
     % else:
@@ -386,8 +386,7 @@ if columns is not None:
     #host_overview .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
     #host_overview .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     #host_overview tbody td.error a { color: #FF0000; }
-    #host_overview span.disk_usage_detail { font-size: x-small; color: #606060; }
-    #mem_usage_detail { font-size: small; }
+    #host_overview span.usage_detail { font-size: x-small; color: #606060; }
 
     #hosts { margin-left: 32px; margin-bottom: 120px; }
     #hosts h3 { margin-top: 128px; padding-bottom: 16px; font-size: xx-large; border-bottom: 1px solid #D0D0D0; }
