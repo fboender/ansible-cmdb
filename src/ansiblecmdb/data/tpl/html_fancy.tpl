@@ -210,7 +210,7 @@ if columns is not None:
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -219,10 +219,10 @@ if columns is not None:
             <th>network</th>
             <th>netmask</th>
           </tr>
-          % for iface_name in host['ansible_facts'].get('ansible_interfaces', []):
+          % for iface_name in sorted(host['ansible_facts'].get('ansible_interfaces', [])):
             <% iface = host['ansible_facts'].get('ansible_' + iface_name, {}) %>
             % for net in [iface.get('ipv4', {})] + iface.get('ipv4_secondaries', []):
-              % if net:
+              % if 'address' in net:
                 <tr>
                   <td>${iface_name}</td>
                   <td>${net['address']}</td>
@@ -241,7 +241,7 @@ if columns is not None:
       <th>Interface details</th>
       <td>
         <table>
-            % for iface in host['ansible_facts'].get('ansible_interfaces', []):
+            % for iface in sorted(host['ansible_facts'].get('ansible_interfaces', [])):
               <tr>
                 <th>${iface}</th>
                 <td>
