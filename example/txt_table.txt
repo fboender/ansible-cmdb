@@ -1,13 +1,14 @@
 Name                    OS             IP             Arch           Mem  CPUsVirt              Disk avail            
 ----------------------  -------------  -------------  -------------  ---  -  ----------------  --------------------  
-db02.prod.local         Debian 6.0.10  192.168.58.2   x86_64/x86_64  0g   1  virtualbox/guest  84.9g, 0.2g           
-debian.dev.local        Debian 6.0.10  192.168.56.2   x86_64/x86_64  1g   1  virtualbox/guest  180.3g, 0.2g          
-app.uat.local           Debian 6.0.10  192.168.57.1   x86_64/x86_64  1g   1  virtualbox/guest  180.3g, 0.2g          
-eek.electricmonk.nl     Ubuntu 14.04   192.168.0.10   i386/i386      3g   1  kvm/host          277.3g, 955.1g, 0.1g  
-centos.dev.local        CentOS 6.6     192.168.56.8   x86_64/x86_64  1g   1  virtualbox/guest  27.5g, 0.4g           
-jib.electricmonk.nl     Linuxmint 17   192.168.0.3    x86_64/x86_64  16g  1  kvm/host          0.5g, 400.7g          
-zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  x86_64/x86_64  4g   2  VMware/guest      27.5g, 0.1g           
-db03.prod.local         Debian 6.0.10  192.168.58.3   x86_64/x86_64  0g   1  virtualbox/guest  84.9g, 0.2g           
-db01.prod.local         Debian 6.0.10  192.168.58.1   x86_64/x86_64  0g   1  virtualbox/guest  84.9g, 0.2g           
+jib.electricmonk.nl     Linuxmint 17   192.168.0.3    x86_64/x86_64  16g  1  kvm/host          0.0g, 400.0g          
+app.uat.local           Debian 6.0.10  192.168.57.1   x86_64/x86_64  1g   1  virtualbox/guest  180.0g, 0.0g          
+eek.electricmonk.nl     Ubuntu 14.04   192.168.0.10   i386/i386      3g   1  kvm/host          277.0g, 955.0g, 0.0g  
+db01.prod.local         Debian 6.0.10  192.168.58.1   x86_64/x86_64  0g   1  virtualbox/guest  84.0g, 0.0g           
+debian.dev.local        Debian 6.0.10  192.168.56.2   x86_64/x86_64  1g   1  virtualbox/guest  180.0g, 0.0g          
+db02.prod.local         Debian 6.0.10  192.168.58.2   x86_64/x86_64  0g   1  virtualbox/guest  84.0g, 0.0g           
+centos.dev.local        CentOS 6.6     192.168.56.8   x86_64/x86_64  1g   1  virtualbox/guest  27.0g, 0.0g           
 win.dev.local           Windows 2012   10.0.0.3       x86_64/x86_64  4g   0  VMware/guest                            
+host5.example.com       Debian 6.0.10  192.168.57.1   x86_64/x86_64  1g   1  virtualbox/guest  180.0g, 0.0g          
+db03.prod.local         Debian 6.0.10  192.168.58.3   x86_64/x86_64  0g   1  virtualbox/guest  84.0g, 0.0g           
+zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  x86_64/x86_64  4g   2  VMware/guest      27.0g, 0.0g           
 
