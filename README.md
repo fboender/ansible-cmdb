@@ -10,7 +10,9 @@ a static HTML overview page containing system configuration information.
 It supports multiple templates and extending information gathered by Ansible
 with custom data.
 
-![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot.png)
+![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot-overview.png)
+
+![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot-detail.png)
 
 [HTML example](https://rawgit.com/fboender/ansible-cmdb/master/example/html_fancy.html) output.
 
