@@ -17,10 +17,10 @@ cols = [
   {"title": "Arch",       "id": "arch",       "func": col_arch,       "visible": False},
   {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": True},
   {"title": "CPU type",   "id": "cpu_type",   "func": col_cpu_type,   "visible": False},
-  {"title": "vCPUs",      "id": "cpus",       "func": col_cpus,       "visible": True},
+  {"title": "vCPUs",      "id": "vcpus",      "func": col_vcpus,      "visible": True},
   {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "visible": True},
-  {"title": "Mem Usage",  "id": "mem",        "func": col_mem,        "visible": False},
-  {"title": "Swap Usage", "id": "swap",       "func": col_swap,       "visible": False},
+  {"title": "Mem Usage",  "id": "mem_usage",  "func": col_mem_usage,  "visible": False},
+  {"title": "Swap Usage", "id": "swap_usage", "func": col_swap_usage, "visible": False},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
   {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "visible": False},
 ]
@@ -73,13 +73,13 @@ if columns is not None:
   ${ cpu_type[-1] }
   % endif
 </%def>
-<%def name="col_cpus(host)">
+<%def name="col_vcpus(host)">
   ${host['ansible_facts'].get('ansible_processor_vcpus', 0)}
 </%def>
 <%def name="col_ram(host)">
   ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
 </%def>
-<%def name="col_mem(host)">
+<%def name="col_mem_usage(host)">
   <% i = host['ansible_facts'].get('ansible_memory_mb') %>
   % if i is not None:
   <div class="bar">
@@ -92,7 +92,7 @@ if columns is not None:
   </div>
   % endif
 </%def>
-<%def name="col_swap(host)">
+<%def name="col_swap_usage(host)">
   <% i = host['ansible_facts'].get('ansible_memory_mb') %>
   % if i is not None and i["swap"]["total"] > 0:
   <div class="bar">
