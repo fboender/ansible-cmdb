@@ -121,7 +121,7 @@
 <header>
   <h1>Host Overview</h1>
   <span id="top"><a href="#">Back to top</a></span>
-  <span id="generated">Generated on <span class="datetime">Sun Nov 29 11:10:33 2015</span></span>
+  <span id="generated">Generated on <span class="datetime">Sun Nov 29 11:47:44 2015</span></span>
 </header>
 
 <div id="col_toggles">
@@ -132,13 +132,13 @@
       
       <a href="" class="col-toggle col-invisible" data-column="1">Groups</a>
       
-      <a href="" class="col-toggle col-visible" data-column="2">DTAP</a>
+      <a href="" class="col-toggle col-invisible" data-column="2">DTAP</a>
       
       <a href="" class="col-toggle col-invisible" data-column="3">Comment</a>
       
       <a href="" class="col-toggle col-invisible" data-column="4">Ext ID</a>
       
-      <a href="" class="col-toggle col-invisible" data-column="5">FQDN</a>
+      <a href="" class="col-toggle col-visible" data-column="5">FQDN</a>
       
       <a href="" class="col-toggle col-visible" data-column="6">Main IP</a>
       
@@ -150,15 +150,15 @@
       
       <a href="" class="col-toggle col-invisible" data-column="10">Arch</a>
       
-      <a href="" class="col-toggle col-invisible" data-column="11">Virt</a>
+      <a href="" class="col-toggle col-visible" data-column="11">Virt</a>
       
       <a href="" class="col-toggle col-invisible" data-column="12">CPU type</a>
       
       <a href="" class="col-toggle col-visible" data-column="13">vCPUs</a>
       
-      <a href="" class="col-toggle col-invisible" data-column="14">RAM [GiB]</a>
+      <a href="" class="col-toggle col-visible" data-column="14">RAM [GiB]</a>
       
-      <a href="" class="col-toggle col-visible" data-column="15">Mem Usage</a>
+      <a href="" class="col-toggle col-invisible" data-column="15">Mem Usage</a>
       
       <a href="" class="col-toggle col-invisible" data-column="16">Swap Usage</a>
       
@@ -1176,7 +1176,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -1186,13 +1186,13 @@
             <th>netmask</th>
           </tr>
             
-            
                 <tr>
                   <td>lo</td>
                   <td>127.0.0.1</td>
                   <td>127.0.0.0</td>
                   <td>255.0.0.0</td>
                 </tr>
+            
             
                 <tr>
                   <td>vboxnet0</td>
@@ -1202,13 +1202,13 @@
                 </tr>
             
             
+            
                 <tr>
                   <td>wlan0</td>
                   <td>192.168.0.3</td>
                   <td>192.168.0.0</td>
                   <td>255.255.255.0</td>
                 </tr>
-            
         </table>
       </td>
     </tr>
@@ -1218,51 +1218,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>vboxnet2</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>macaddress</th>
-        <td>
-          0a:00:27:00:00:02
-        </td>
-      </tr>
-      <tr>
-        <th>mtu</th>
-        <td>
-          1500
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          vboxnet2
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          ether
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>lo</th>
                 <td>
@@ -1327,6 +1282,12 @@
       </tr>
   </table>
 
+                </td>
+              </tr>
+              <tr>
+                <th>ovs-system</th>
+                <td>
+                                        No information available
                 </td>
               </tr>
               <tr>
@@ -1447,6 +1408,51 @@
                 </td>
               </tr>
               <tr>
+                <th>vboxnet2</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>macaddress</th>
+        <td>
+          0a:00:27:00:00:02
+        </td>
+      </tr>
+      <tr>
+        <th>mtu</th>
+        <td>
+          1500
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          vboxnet2
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
                 <th>wlan0</th>
                 <td>
                     
@@ -1522,12 +1528,6 @@
       </tr>
   </table>
 
-                </td>
-              </tr>
-              <tr>
-                <th>ovs-system</th>
-                <td>
-                                        No information available
                 </td>
               </tr>
         </table>
@@ -2228,7 +2228,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -2239,17 +2239,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.57.1</td>
                   <td>192.168.57.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -2260,101 +2260,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          16436
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -2456,6 +2361,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          16436
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -2917,7 +2917,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -2928,17 +2928,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.0.10</td>
                   <td>192.168.0.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -2949,101 +2949,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          65536
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -3145,6 +3050,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          65536
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -3737,7 +3737,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -3748,17 +3748,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.56.2</td>
                   <td>192.168.58.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -3769,101 +3769,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          16436
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -3965,6 +3870,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          16436
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -4426,7 +4426,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -4437,17 +4437,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.56.2</td>
                   <td>192.168.56.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -4458,101 +4458,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          16436
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -4654,6 +4559,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          16436
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -5115,7 +5115,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -5126,17 +5126,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.58.2</td>
                   <td>192.168.58.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -5147,101 +5147,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          16436
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -5343,6 +5248,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          16436
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -5804,7 +5804,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -5815,17 +5815,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.56.8</td>
                   <td>192.168.56.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -5836,101 +5836,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          65536
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -6032,6 +5937,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          65536
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -6542,7 +6542,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -6651,7 +6651,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -6662,17 +6662,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.57.1</td>
                   <td>192.168.57.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -6683,101 +6683,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          16436
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -6879,6 +6784,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          16436
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -7340,7 +7340,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -7351,17 +7351,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>192.168.58.3</td>
                   <td>192.168.58.0</td>
                   <td>255.255.255.0</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -7372,101 +7372,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          16436
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -7568,6 +7473,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          16436
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -8029,7 +8029,7 @@
   </table>
   <table class="net_overview">
     <tr>
-      <th>Networks</th>
+      <th>IPv4 Networks</th>
       <td>
         <table class="net_overview">
           <tr>
@@ -8040,17 +8040,17 @@
           </tr>
             
                 <tr>
-                  <td>lo</td>
-                  <td>127.0.0.1</td>
-                  <td>127.0.0.0</td>
-                  <td>255.0.0.0</td>
-                </tr>
-            
-                <tr>
                   <td>eth0</td>
                   <td>194.187.79.11</td>
                   <td>194.187.79.0</td>
                   <td>255.255.255.192</td>
+                </tr>
+            
+                <tr>
+                  <td>lo</td>
+                  <td>127.0.0.1</td>
+                  <td>127.0.0.0</td>
+                  <td>255.0.0.0</td>
                 </tr>
         </table>
       </td>
@@ -8061,101 +8061,6 @@
       <th>Interface details</th>
       <td>
         <table>
-              <tr>
-                <th>lo</th>
-                <td>
-                    
-  <table>
-      <tr>
-        <th>mtu</th>
-        <td>
-          65536
-        </td>
-      </tr>
-      <tr>
-        <th>active</th>
-        <td>
-          True
-        </td>
-      </tr>
-      <tr>
-        <th>promisc</th>
-        <td>
-          False
-        </td>
-      </tr>
-      <tr>
-        <th>ipv4</th>
-        <td>
-          
-  <table>
-      <tr>
-        <th>netmask</th>
-        <td>
-          255.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>network</th>
-        <td>
-          127.0.0.0
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          127.0.0.1
-        </td>
-      </tr>
-  </table>
-
-        </td>
-      </tr>
-      <tr>
-        <th>ipv6</th>
-        <td>
-          
-      
-  <table>
-      <tr>
-        <th>scope</th>
-        <td>
-          host
-        </td>
-      </tr>
-      <tr>
-        <th>prefix</th>
-        <td>
-          128
-        </td>
-      </tr>
-      <tr>
-        <th>address</th>
-        <td>
-          ::1
-        </td>
-      </tr>
-  </table>
-
-
-        </td>
-      </tr>
-      <tr>
-        <th>device</th>
-        <td>
-          lo
-        </td>
-      </tr>
-      <tr>
-        <th>type</th>
-        <td>
-          loopback
-        </td>
-      </tr>
-  </table>
-
-                </td>
-              </tr>
               <tr>
                 <th>eth0</th>
                 <td>
@@ -8257,6 +8162,101 @@
         <th>type</th>
         <td>
           ether
+        </td>
+      </tr>
+  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <th>lo</th>
+                <td>
+                    
+  <table>
+      <tr>
+        <th>mtu</th>
+        <td>
+          65536
+        </td>
+      </tr>
+      <tr>
+        <th>active</th>
+        <td>
+          True
+        </td>
+      </tr>
+      <tr>
+        <th>promisc</th>
+        <td>
+          False
+        </td>
+      </tr>
+      <tr>
+        <th>ipv4</th>
+        <td>
+          
+  <table>
+      <tr>
+        <th>netmask</th>
+        <td>
+          255.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>network</th>
+        <td>
+          127.0.0.0
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          127.0.0.1
+        </td>
+      </tr>
+  </table>
+
+        </td>
+      </tr>
+      <tr>
+        <th>ipv6</th>
+        <td>
+          
+      
+  <table>
+      <tr>
+        <th>scope</th>
+        <td>
+          host
+        </td>
+      </tr>
+      <tr>
+        <th>prefix</th>
+        <td>
+          128
+        </td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>
+          ::1
+        </td>
+      </tr>
+  </table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <th>device</th>
+        <td>
+          lo
+        </td>
+      </tr>
+      <tr>
+        <th>type</th>
+        <td>
+          loopback
         </td>
       </tr>
   </table>
@@ -8782,20 +8782,20 @@ $(document).ready( function () {
     columnDefs: [
         { "targets": [0], "visible": true },
         { "targets": [1], "visible": false },
-        { "targets": [2], "visible": true },
+        { "targets": [2], "visible": false },
         { "targets": [3], "visible": false },
         { "targets": [4], "visible": false },
-        { "targets": [5], "visible": false },
+        { "targets": [5], "visible": true },
         { "targets": [6], "visible": true },
         { "targets": [7], "visible": false },
         { "targets": [8], "visible": true },
         { "targets": [9], "visible": false },
         { "targets": [10], "visible": false },
-        { "targets": [11], "visible": false },
+        { "targets": [11], "visible": true },
         { "targets": [12], "visible": false },
         { "targets": [13], "visible": true },
-        { "targets": [14], "visible": false },
-        { "targets": [15], "visible": true },
+        { "targets": [14], "visible": true },
+        { "targets": [15], "visible": false },
         { "targets": [16], "visible": false },
         { "targets": [17], "visible": false },
         { "targets": [18], "visible": false },
