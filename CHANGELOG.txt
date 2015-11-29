@@ -1,3 +1,17 @@
+v1.9    2015-11-29
+
+- Added the 'json' template, which dumps the entire inventory including
+  variables and groups in JSON format.
+- Included a manual page in the packages.
+- The -t/--template switch can now point to an actual filename, and no longer
+  requires the .tpl extension to be stripped.
+- html_fancy: Fixed a bug where the search field was not properly focussed.
+- html_fancy: Use vcpus for cores + hyperthreading count (Rowin Andruscavage)
+- html_fancy: New cpu, memory, swap columns and improved sorting (Rowin Andruscavage)
+- html_fancy: Show a hosts groups in the detailed view
+- html_fancy: Move and disable/enable some default columns.
+- html_fancy: Network overview table for host details.
+
 v1.8    2015-11-10
 
 - Fixed a bug in Dynamic Inventory parsing
