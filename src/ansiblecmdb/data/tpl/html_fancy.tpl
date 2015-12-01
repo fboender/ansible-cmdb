@@ -74,7 +74,7 @@ if columns is not None:
   % endif
 </%def>
 <%def name="col_vcpus(host)">
-  ${host['ansible_facts'].get('ansible_processor_vcpus', 0)}
+  ${host['ansible_facts'].get('ansible_processor_vcpus', host['ansible_facts'].get('ansible_processor_cores', 0))}
 </%def>
 <%def name="col_ram(host)">
   ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
