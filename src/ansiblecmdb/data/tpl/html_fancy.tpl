@@ -90,6 +90,8 @@ if columns is not None:
       </span>
       <span class="usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)} / ${round(i["real"]["total"] / 1024.0, 1)} GiB)</span>
     </div>
+  % else:
+    n/a
   % endif
 </%def>
 <%def name="col_swap_usage(host)">
@@ -103,6 +105,8 @@ if columns is not None:
       </span>
       <span class="usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)} / ${round(i["swap"]["total"] / 1024.0, 1)} GiB)</span>
     </div>
+  % else:
+    n/a
   % endif
 </%def>
 <%def name="col_disk_usage(host)">
