@@ -82,27 +82,27 @@ if columns is not None:
 <%def name="col_mem_usage(host)">
   <% i = host['ansible_facts'].get('ansible_memory_mb') %>
   % if i is not None:
-  <div class="bar">
-    ## hidden sort helper
-    <span style="display:none">${'%f' % (float(i["nocache"]["used"]) / i["real"]["total"])}</span>
-    <span class="prog_bar_full" style="width:100px">
-      <span class="prog_bar_used" style="width:${float(i["nocache"]["used"]) / i["real"]["total"] * 100}px"></span>
-    </span>
-    <span class="usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)} / ${round(i["real"]["total"] / 1024.0, 1)} GiB)</span>
-  </div>
+    <div class="bar">
+      ## hidden sort helper
+      <span style="display:none">${'%f' % (float(i["nocache"]["used"]) / i["real"]["total"])}</span>
+      <span class="prog_bar_full" style="width:100px">
+        <span class="prog_bar_used" style="width:${float(i["nocache"]["used"]) / i["real"]["total"] * 100}px"></span>
+      </span>
+      <span class="usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)} / ${round(i["real"]["total"] / 1024.0, 1)} GiB)</span>
+    </div>
   % endif
 </%def>
 <%def name="col_swap_usage(host)">
   <% i = host['ansible_facts'].get('ansible_memory_mb') %>
   % if i is not None and i["swap"]["total"] > 0:
-  <div class="bar">
-    ## hidden sort helper
-    <span style="display:none">${'%f' % (float(i["swap"]["used"]) / i["swap"]["total"])}</span>
-    <span class="prog_bar_full" style="width:100px">
-      <span class="prog_bar_used" style="width:${float(i["swap"]["used"]) / i["swap"]["total"] * 100}px"></span>
-    </span>
-    <span class="usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)} / ${round(i["swap"]["total"] / 1024.0, 1)} GiB)</span>
-  </div>
+    <div class="bar">
+      ## hidden sort helper
+      <span style="display:none">${'%f' % (float(i["swap"]["used"]) / i["swap"]["total"])}</span>
+      <span class="prog_bar_full" style="width:100px">
+        <span class="prog_bar_used" style="width:${float(i["swap"]["used"]) / i["swap"]["total"] * 100}px"></span>
+      </span>
+      <span class="usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)} / ${round(i["swap"]["total"] / 1024.0, 1)} GiB)</span>
+    </div>
   % endif
 </%def>
 <%def name="col_disk_usage(host)">
