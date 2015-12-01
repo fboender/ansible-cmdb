@@ -22,3 +22,6 @@ centos.dev.local
 
 [uat]
 app.uat.local dtap=uat
+
+[solaris]
+sol_host

@@ -1,0 +1,279 @@
+{
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "10.0.2.15"
+        ],
+        "ansible_all_ipv6_addresses": [],
+        "ansible_architecture": "i386",
+        "ansible_date_time": {
+            "date": "2015-12-01",
+            "day": "01",
+            "epoch": "1449006393",
+            "hour": "22",
+            "iso8601": "2015-12-01T21:46:33Z",
+            "iso8601_micro": "2015-12-01T21:46:33.598536Z",
+            "minute": "46",
+            "month": "12",
+            "second": "33",
+            "time": "22:46:33",
+            "tz": "CET",
+            "tz_offset": "+0100",
+            "weekday": "Tuesday",
+            "year": "2015"
+        },
+        "ansible_default_ipv4": {
+            "address": "10.0.2.15",
+            "broadcast": "10.0.2.255",
+            "device": "e1000g0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "RUNNING",
+                "MULTICAST",
+                "DHCP",
+                "IPv4"
+            ],
+            "gateway": "10.0.2.2",
+            "interface": "e1000g0",
+            "macaddress": "08:00:27:13:f7:38",
+            "mtu": "1500",
+            "netmask": "255.255.255.0",
+            "network": "10.0.2.0",
+            "type": "unknown"
+        },
+        "ansible_default_ipv6": {},
+        "ansible_distribution": "Solaris",
+        "ansible_distribution_major_version": "NA",
+        "ansible_distribution_release": "Oracle Solaris 10 1/13 s10x_u11wos_24a X86",
+        "ansible_distribution_version": "10",
+        "ansible_domain": "",
+        "ansible_e1000g0": {
+            "device": "e1000g0",
+            "ipv4": [
+                {
+                    "address": "10.0.2.15",
+                    "broadcast": "10.0.2.255",
+                    "flags": [
+                        "UP",
+                        "BROADCAST",
+                        "RUNNING",
+                        "MULTICAST",
+                        "DHCP",
+                        "IPv4"
+                    ],
+                    "mtu": "1500",
+                    "netmask": "255.255.255.0",
+                    "network": "10.0.2.0"
+                }
+            ],
+            "ipv6": [],
+            "macaddress": "08:00:27:13:f7:38",
+            "type": "unknown"
+        },
+        "ansible_env": {
+            "HOME": "/",
+            "LANG": "C",
+            "LC_CTYPE": "C",
+            "LOGNAME": "root",
+            "MAIL": "/var/mail//root",
+            "PATH": "/usr/sbin:/usr/bin",
+            "SHELL": "/sbin/sh",
+            "SSH_CLIENT": "10.0.2.2 45015 22",
+            "SSH_CONNECTION": "10.0.2.2 45015 10.0.2.15 22",
+            "SSH_TTY": "/dev/pts/4",
+            "TERM": "xterm",
+            "TZ": "Europe/Amsterdam",
+            "USER": "root"
+        },
+        "ansible_fips": false,
+        "ansible_fqdn": "unknown",
+        "ansible_hostname": "",
+        "ansible_interfaces": [
+            "lo0",
+            "e1000g0"
+        ],
+        "ansible_kernel": "5.10",
+        "ansible_lo0": {
+            "device": "lo0",
+            "ipv4": [
+                {
+                    "address": "127.0.0.1",
+                    "broadcast": "127.255.255.255",
+                    "flags": [
+                        "UP",
+                        "LOOPBACK",
+                        "RUNNING",
+                        "MULTICAST",
+                        "IPv4",
+                        "VIRTUAL"
+                    ],
+                    "mtu": "8232",
+                    "netmask": "255.0.0.0",
+                    "network": "127.0.0.0"
+                }
+            ],
+            "ipv6": [],
+            "macaddress": "unknown",
+            "type": "unknown"
+        },
+        "ansible_machine": "i86pc",
+        "ansible_memtotal_mb": "1536",
+        "ansible_mounts": [
+            {
+                "device": "rpool/ROOT/s10_1-13",
+                "fstype": "zfs",
+                "mount": "/",
+                "options": "dev=2d50002",
+                "time": "0"
+            },
+            {
+                "device": "/devices",
+                "fstype": "devfs",
+                "mount": "/devices",
+                "options": "dev=4bc0000",
+                "time": "1449005273"
+            },
+            {
+                "device": "ctfs",
+                "fstype": "ctfs",
+                "mount": "/system/contract",
+                "options": "dev=4c40001",
+                "time": "1449005273"
+            },
+            {
+                "device": "proc",
+                "fstype": "proc",
+                "mount": "/proc",
+                "options": "dev=4c00000",
+                "time": "1449005273"
+            },
+            {
+                "device": "mnttab",
+                "fstype": "mntfs",
+                "mount": "/etc/mnttab",
+                "options": "dev=4c80001",
+                "time": "1449005273"
+            },
+            {
+                "device": "swap",
+                "fstype": "tmpfs",
+                "mount": "/etc/svc/volatile",
+                "options": "xattr,dev=4cc0001",
+                "time": "1449005273"
+            },
+            {
+                "device": "objfs",
+                "fstype": "objfs",
+                "mount": "/system/object",
+                "options": "dev=4d00001",
+                "time": "1449005273"
+            },
+            {
+                "device": "sharefs",
+                "fstype": "sharefs",
+                "mount": "/etc/dfs/sharetab",
+                "options": "dev=4d40001",
+                "time": "1449005273"
+            },
+            {
+                "device": "/usr/lib/libc/libc_hwcap1.so.1",
+                "fstype": "lofs",
+                "mount": "/lib/libc.so.1",
+                "options": "dev=2d50002",
+                "time": "1449005275"
+            },
+            {
+                "device": "fd",
+                "fstype": "fd",
+                "mount": "/dev/fd",
+                "options": "rw,dev=4ec0001",
+                "time": "1449005278"
+            },
+            {
+                "device": "swap",
+                "fstype": "tmpfs",
+                "mount": "/tmp",
+                "options": "xattr,dev=4cc0002",
+                "time": "1449005278"
+            },
+            {
+                "device": "swap",
+                "fstype": "tmpfs",
+                "mount": "/var/run",
+                "options": "xattr,dev=4cc0003",
+                "time": "1449005278"
+            },
+            {
+                "device": "rpool/export",
+                "fstype": "zfs",
+                "mount": "/export",
+                "options": "rw,devices,setuid,nonbmand,exec,rstchown,xattr,atime,dev=2d50003",
+                "time": "1449005281"
+            },
+            {
+                "device": "rpool/export/home",
+                "fstype": "zfs",
+                "mount": "/export/home",
+                "options": "rw,devices,setuid,nonbmand,exec,rstchown,xattr,atime,dev=2d50004",
+                "time": "1449005281"
+            },
+            {
+                "device": "rpool",
+                "fstype": "zfs",
+                "mount": "/rpool",
+                "options": "rw,devices,setuid,nonbmand,exec,rstchown,xattr,atime,dev=2d50005",
+                "time": "1449005281"
+            },
+            {
+                "device": "-hosts",
+                "fstype": "autofs",
+                "mount": "/net",
+                "options": "nosuid,indirect,ignore,nobrowse,dev=4f40001",
+                "time": "1449005282"
+            },
+            {
+                "device": "auto_home",
+                "fstype": "autofs",
+                "mount": "/home",
+                "options": "indirect,ignore,nobrowse,dev=4f40002",
+                "time": "1449005282"
+            },
+            {
+                "device": "unknown:vold(pid499)",
+                "fstype": "nfs",
+                "mount": "/vol",
+                "options": "ignore,noquota,dev=4f80001",
+                "time": "1449005283"
+            }
+        ],
+        "ansible_nodename": "",
+        "ansible_os_family": "Solaris",
+        "ansible_pkg_mgr": "svr4pkg",
+        "ansible_processor": [
+            "Intel(r) Core(tm) i7-4712HQ CPU @ 2.30GHz"
+        ],
+        "ansible_processor_cores": 1,
+        "ansible_processor_count": 1,
+        "ansible_python_version": "2.6.4",
+        "ansible_selinux": false,
+        "ansible_ssh_host_key_dsa_public": "AAAAB3NzaC1kc3MAAACBANQc7gMlZomeeGReLeBuhoZA03zr1g3C7f3JoH3Jnb5JMxZb+gxKQOqwMomnTZTeTSF/ceaCMKgGOSUTLpGZFBCIgArb+3okmzkHq0fMU77FcIyTLJgYbGiuE4uX9qSe5PdBOHtMy+KKD362pZcLTp9GZreD4tIrlIxUG8dYSUzdAAAAFQD2DIxaWuLLl6s0/oG0nCWzSC2VUQAAAIBXN9feILaAv8f0D+X4LuVQNih77PonS1wSylYPUlDeWxUqyiow5HNuhnhEr42N7ZXjvYx6p1opDU5ctWbbHyjosY3+DIWQtFJLHQmDcRmaaBMRNr7bEWycB7cdNJbzrijPSUNdZSOdfdJPTn17XXecGZNCsPmYH8w3yxfR53mi7wAAAIA90NU1RG/Y6k9Gkl7jqoBMA7M4Q0fIuQRMaT2D1p6m+ECmcYKUZNiXvmy22o8uiwbN1fc50/kv50Ekq0I3n14DOmITrZKsRvJYmpzi+uUqVgO+Jz08LXjxjCbXQ//9PM5Yi0JJ/wKEL9kWE3hxksGJ64ahLEZel/1GiGGPxoQy0w==",
+        "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAABIwAAAIEA2zZEX/RISxWMwGT5RtD/bS4pnvIfXjbSxD+KLWEFbN573oojL7f3o9Qoci6tSyuuoss3d/9ucbuCAsqB73vPKDi4S3yEdlE+5t886SIHB+9AFTGAVVA96/yhG4YuOpThxB8Wfqu2LS26ah+yFABJq685XqMl/PXGf5ZJ7ok8nxs=",
+        "ansible_swap_allocated_mb": 262,
+        "ansible_swap_reserved_mb": 81,
+        "ansible_swapfree_mb": 1510,
+        "ansible_swaptotal_mb": 1854,
+        "ansible_system": "SunOS",
+        "ansible_user_dir": "/",
+        "ansible_user_gecos": "Super-User",
+        "ansible_user_gid": 0,
+        "ansible_user_id": "root",
+        "ansible_user_shell": "/sbin/sh",
+        "ansible_user_uid": 0,
+        "ansible_userspace_architecture": "i386",
+        "ansible_userspace_bits": "32",
+        "ansible_virtualization_role": "guest",
+        "ansible_virtualization_type": "virtualbox",
+        "module_setup": true
+    },
+    "changed": false
+}
