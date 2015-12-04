@@ -324,6 +324,7 @@ if columns is not None:
 %>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Ansible overview</title>
   <style type="text/css">
     /* reset.css */

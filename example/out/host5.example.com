@@ -216,6 +216,15 @@
                 "size_available": 209807360, 
                 "size_total": 238787584, 
                 "uuid": "NA"
+            }, 
+            {
+                "device": "//share/Prüfhinweise", 
+                "fstype": "cifs", 
+                "mount": "/media", 
+                "options": "rw", 
+                "size_available": 349807360, 
+                "size_total": 428787584, 
+                "uuid": "NA"
             }
         ], 
         "ansible_nodename": "dev.local", 
