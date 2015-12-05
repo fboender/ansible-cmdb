@@ -1,5 +1,6 @@
-v1.9    2015-11-29
+v1.9    2015-12-05 (Happy Sinterklaas)
 
+- Always output UTF-8.
 - Added the 'json' template, which dumps the entire inventory including
   variables and groups in JSON format.
 - Included a manual page in the packages.
