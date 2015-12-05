@@ -81,9 +81,9 @@ if __name__ == "__main__":
             sys.exit(1)
         mytemplate = Template(filename=tpl_path)
 
-    if sys.stdout.encoding is None:
-        # No encoding, so we let Python guess what the user wants
-        import codecs
-        import locale
-        sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
-    sys.stdout.write(mytemplate.render(hosts=ansible.hosts, **params))
+    # Make sure we always output in UTF-8, regardless of the user's locale /
+    # terminal encoding. This is different in Python 2 and 3.
+    if sys.version_info[0] == 3:
+        sys.stdout.buffer.write(mytemplate.render(hosts=ansible.hosts, **params).encode('utf-8'))
+    else:
+        sys.stdout.write(mytemplate.render(hosts=ansible.hosts, **params).encode('utf-8'))
