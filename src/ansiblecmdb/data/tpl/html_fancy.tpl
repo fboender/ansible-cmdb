@@ -490,6 +490,17 @@ if columns is not None:
 </footer>
 
 <script>
+function getQueryParams(qs) {
+  qs = qs.split('+').join(' ');
+  var params = {},
+    tokens,
+    re = /[?&]?([^=]+)=([^&]*)/g;
+  while (tokens = re.exec(qs)) {
+    params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+  }
+  return params;
+}
+
 $(document).ready( function () {
   // Initialize the DataTables jQuery plugin on the host overview table
   var table = $('#host_overview_tbl').DataTable({
@@ -502,6 +513,13 @@ $(document).ready( function () {
     "fnInitComplete": function() {
       // Focus the input field
       $("#host_overview_tbl_filter input").focus();
+
+      // Set the search box value to the query string 'search' part
+      var qp = getQueryParams(document.location.search);
+      if ("search" in qp) {
+        $("#host_overview_tbl_filter input").val(qp.search);
+        this.fnFilter(qp.search);
+      }
     }
 
   });
