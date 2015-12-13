@@ -394,6 +394,7 @@ if columns is not None:
     #host_overview span.usage_detail { font-size: x-small; color: #606060; }
 
     #hosts { margin-left: 32px; margin-bottom: 120px; }
+    #hosts a { color: #000000; }
     #hosts h3 { margin-top: 128px; padding-bottom: 16px; font-size: xx-large; border-bottom: 1px solid #D0D0D0; }
     #hosts h4 { font-size: large; font-weight: bold; color: #404040; margin-top: 32px; margin-bottom: 32px; }
     #hosts th { text-align: left; color: #909090; padding-bottom: 10px; }
@@ -466,14 +467,13 @@ if columns is not None:
 
 <div id="hosts">
   % for hostname, host in hosts.items():
+    <a href="#${host['name']}" name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
     % if 'ansible_facts' not in host:
-      <a name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
       <p>No host information collected</p>
       % if 'msg' in host:
         <p class="error">${host['msg']}</p>
       % endif
     % else:
-      <a name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
       <% host_general(host) %>
       <% host_groups(host) %>
       <% host_custvars(host) %>
