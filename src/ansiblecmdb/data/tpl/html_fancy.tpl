@@ -386,6 +386,7 @@ if columns is not None:
     #host_overview tbody a { text-decoration: none; color: #005c9d; }
     #host_overview_tbl_filter { float: right; font-size: small; color: #808080; }
     #host_overview_tbl_filter label input { margin-left: 12px; }
+    #host_overview_tbl_filter #filter_link a { color: #000000; }
     #host_overview_tbl_info { font-size: x-small; margin-top: 16px; color: #C0C0C0; }
     #host_overview .bar { clear: both; }
     #host_overview .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
@@ -523,6 +524,14 @@ $(document).ready( function () {
     }
 
   });
+  table.on( 'search.dt', function () {
+    // Show a direct link to the search term
+    $('#filter_link').remove();
+    if (table.search() == "") {
+    } else {
+      $('#host_overview_tbl_filter label').after(' <span id="filter_link"><a title="Direct link to search" href="?search='+table.search()+'">&#x2605;</a></span>');
+    }
+  } );
 
   // Show and hide columns on button clicks
   $('a.col-toggle').on('click', function(e) {
