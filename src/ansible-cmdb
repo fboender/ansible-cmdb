@@ -71,7 +71,7 @@ if __name__ == "__main__":
     # Render a template with the gathered host info
     if os.path.isfile(options.template):
         # --template option points to an actual file
-        mytemplate = Template(filename=options.template)
+        mytemplate = Template(filename=options.template, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
     else:
         # Find template given with --template in the standard templates dir.
         tpl_dir = os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data', 'tpl')
@@ -79,11 +79,14 @@ if __name__ == "__main__":
         if not os.path.isfile(tpl_path):
             sys.stderr.write("Template not found: {0}\n".format(tpl_path))
             sys.exit(1)
-        mytemplate = Template(filename=tpl_path)
+        mytemplate = Template(filename=tpl_path, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
 
     # Make sure we always output in UTF-8, regardless of the user's locale /
     # terminal encoding. This is different in Python 2 and 3.
+    #print type(ansible.hosts['zoltar.electricmonk.nl']['hostvars']['comment'])
     if sys.version_info[0] == 3:
-        sys.stdout.buffer.write(mytemplate.render(hosts=ansible.hosts, **params).encode('utf-8'))
+        out = mytemplate.render(hosts=ansible.hosts, **params)
+        sys.stdout.buffer.write(out)
     else:
-        sys.stdout.write(mytemplate.render(hosts=ansible.hosts, **params).encode('utf-8'))
+        out = mytemplate.render(hosts=ansible.hosts, **params)
+        sys.stdout.write(out)

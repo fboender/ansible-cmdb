@@ -7,7 +7,7 @@ db[01:03].prod.local dtap=prod
 
 [prod]
 eek.electricmonk.nl
-zoltar.electricmonk.nl comment="Load balancer"
+zoltar.electricmonk.nl comment="Trés Load balancer"
 jib.electricmonk.nl comment="Workstation"
 
 [prod:children]

@@ -1,7 +1,11 @@
 import sys
 import re
-import shlex
 import json
+if sys.version_info.major == 2:
+    # Python 2.x shlex doesn't support unicode
+    import ushlex as shlex
+else:
+    import shlex
 
 
 class HostsParser(object):

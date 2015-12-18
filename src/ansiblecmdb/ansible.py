@@ -3,7 +3,7 @@ import os
 import json
 import stat
 import subprocess
-import pprint
+import codecs
 
 import ansiblecmdb.util as util
 import ansiblecmdb.parser as parser
@@ -37,7 +37,6 @@ class Ansible(object):
             self._handle_inventory(self.inventory_path)
         if self.debug:
             sys.stderr.write("Hosts\n" + 60 * '-' + '\n')
-            #pprint.pprint(self.hosts, stream=sys.stderr)
 
     def _handle_inventory(self, inventory_path):
         """
@@ -76,10 +75,10 @@ class Ansible(object):
                 path = os.path.join(inventory_path, fname)
                 if os.path.isdir(path):
                     continue
-                with open(path, 'r') as f:
+                with codecs.open(path, 'r', encoding='utf8') as f:
                     hosts_contents += f.readlines()
         else:
-            with open(inventory_path, 'r') as f:
+            with codecs.open(inventory_path, 'r', encoding='utf8') as f:
                 hosts_contents = f.readlines()
 
         # Parse inventory and apply it to the hosts
@@ -107,7 +106,7 @@ class Ansible(object):
             break
 
         for fname in flist:
-            f = open(os.path.join(path, fname), 'r')
+            f = codecs.open(os.path.join(path, fname), 'r', encoding='utf8')
             invars = yaml.load(f)
             f.close()
             self.update_host(fname, {'hostvars': invars})
@@ -129,7 +128,7 @@ class Ansible(object):
         for fname in flist:
             hostname = fname
 
-            fd = open(os.path.join(fact_dir, fname), 'r')
+            fd = codecs.open(os.path.join(fact_dir, fname), 'r', encoding='utf8')
             s = fd.readlines()
             fd.close()
             try:
