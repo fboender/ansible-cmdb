@@ -1,3 +1,12 @@
+v1.10   2015-12-21
+
+- html_fancy: Headers are now links
+- html_fancy: Search box can now be linked to using the ?search= param, which
+  will automatically filter the results when the page is loaded. 
+- html_fancy: A star with a link now appears next to the search box for easy
+  copy-pasting of the search box URL.
+- UTF-8 / unicode bugfixes.
+
 v1.9    2015-12-05 (Happy Sinterklaas)
 
 - Always output UTF-8.
