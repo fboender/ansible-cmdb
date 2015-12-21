@@ -1,7 +1,7 @@
 import sys
 import re
 import json
-if sys.version_info.major == 2:
+if sys.version_info[0] == 2:
     # Python 2.x shlex doesn't support unicode
     import ushlex as shlex
 else:
