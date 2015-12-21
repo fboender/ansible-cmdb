@@ -101,3 +101,5 @@ clean:
 	rm -f README.html
 	find ./ -name "*.pyc" -delete
 	find ./ -name "__pycache__" -type d -delete
+	rm -f example/html_*_[23].html
+	rm -f example/txt_*_[23].txt
