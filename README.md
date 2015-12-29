@@ -367,7 +367,7 @@ If you wish to contribute code, please consider the following:
 * One logical change per merge request.
 * By putting in a merge request or putting code in comments, you automatically
   grant me permission to include this code in ansible-cmdb under the license
-  (MIT) that ansible-cmdb uses.
+  (GPLv3) that ansible-cmdb uses.
 * Please don't be disappointed or angry if your contributions end up unused.
   It's not that they aren't appreciated, but I can be somewhat strict when it
   comes to code quality, feature-creep, etc.
