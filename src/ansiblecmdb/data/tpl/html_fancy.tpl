@@ -56,7 +56,11 @@ if columns is not None:
   ${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}
 </%def>
 <%def name="col_os(host)">
-  ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_version', '')}
+  % if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
+    ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_release', '')}
+  % else:
+    ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_version', '')}
+  % endif
 </%def>
 <%def name="col_kernel(host)">
   ${host['ansible_facts'].get('ansible_kernel', '')}
@@ -65,7 +69,7 @@ if columns is not None:
   ${host['ansible_facts'].get('ansible_architecture', '')} / ${host['ansible_facts'].get('ansible_userspace_architecture', '')}
 </%def>
 <%def name="col_virt(host)">
-  ${host['ansible_facts'].get('ansible_virtualization_type', '')} / ${host['ansible_facts'].get('ansible_virtualization_role', '')}
+  ${host['ansible_facts'].get('ansible_virtualization_type', '?')} / ${host['ansible_facts'].get('ansible_virtualization_role', '?')}
 </%def>
 <%def name="col_cpu_type(host)">
   <% cpu_type = host['ansible_facts'].get('ansible_processor', 0)%>
@@ -268,7 +272,11 @@ if columns is not None:
     <tr>
       <th>Devices</th>
       <td>
-        ${r_dict(host['ansible_facts'].get('ansible_devices', {}))}
+        % if type(host['ansible_facts'].get('ansible_devices')) == list:
+          ${r_list(host['ansible_facts'].get('ansible_devices', []))}
+        % else:
+          ${r_dict(host['ansible_facts'].get('ansible_devices', {}))}
+        % endif
       </td>
     </tr>
     <tr>
