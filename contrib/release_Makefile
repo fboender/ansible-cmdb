@@ -7,7 +7,7 @@ fake:
 install:
 	mkdir -p /usr/local/lib/${PROG}
 	cp -a * /usr/local/lib/${PROG}/
-	cp -a ansible-cmdb.man.1 /usr/local/share/man/man1/
+	cp -a ansible-cmdb.man.1 /usr/local/share/man/man1/ansible-cmdb.1
 	ln -s /usr/local/lib/${PROG}/ansible-cmdb /usr/local/bin/ansible-cmdb
 	mandb -p -q
 
