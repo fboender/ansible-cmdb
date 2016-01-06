@@ -19,7 +19,9 @@ with custom data.
 Installation
 ------------
 
-Get the package for your distribution from the [Releases page](https://github.com/fboender/ansible-cmdb/releases)
+Get the package for your distribution from the [Releases
+page](https://github.com/fboender/ansible-cmdb/releases) (Not required for
+MacOS X install)
 
 For **Debian / Ubuntu** systems:
 
@@ -28,6 +30,10 @@ For **Debian / Ubuntu** systems:
 For **Redhat / Centos** systems:
 
     sudo yum install ansible-cmdb*.rpm
+
+For **MacOS X** systems:
+
+    brew install ansible-cmdb
 
 For **Other** systems:
 
