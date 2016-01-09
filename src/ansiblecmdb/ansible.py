@@ -4,6 +4,7 @@ import json
 import stat
 import subprocess
 import codecs
+import logging
 
 import ansiblecmdb.util as util
 import ansiblecmdb.parser as parser
@@ -27,6 +28,7 @@ class Ansible(object):
         self.fact_cache = fact_cache # fact dirs are fact-caches
         self.debug = debug
         self.hosts = {}
+        self.log = logging.getLogger()
 
         # Process facts gathered by Ansible's setup module of fact caching.
         for fact_dir in self.fact_dirs:
@@ -35,8 +37,6 @@ class Ansible(object):
         # Scan the inventory for known hosts.
         if self.inventory_path is not None:
             self._handle_inventory(self.inventory_path)
-        if self.debug:
-            sys.stderr.write("Hosts\n" + 60 * '-' + '\n')
 
     def _handle_inventory(self, inventory_path):
         """
@@ -91,6 +91,7 @@ class Ansible(object):
         Parse host_vars dir, if it exists. This requires the yaml module, which
         is imported on-demand, since it's not a default module.
         """
+        self.log.debug("Parsing host vars (dir): {0}".format(inventory_path))
         path = os.path.join(os.path.dirname(inventory_path), 'host_vars')
         if not os.path.exists(path):
             return
@@ -117,6 +118,7 @@ class Ansible(object):
         them. This is used for both the Ansible fact gathering (setup module)
         output and custom variables.
         """
+        self.log.debug("Parsing fact dir: {0}".format(fact_dir))
         if not os.path.isdir(fact_dir):
             raise IOError("No such file or directory: '{}'".format(fact_dir))
 
@@ -126,6 +128,7 @@ class Ansible(object):
             break
 
         for fname in flist:
+            self.log.debug("Reading host facts from {0}".format(os.path.join(fact_dir, fname)))
             hostname = fname
 
             fd = codecs.open(os.path.join(fact_dir, fname), 'r', encoding='utf8')

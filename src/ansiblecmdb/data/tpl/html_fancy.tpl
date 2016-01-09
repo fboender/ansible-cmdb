@@ -456,6 +456,9 @@ if columns is not None:
     </thead>
     <tbody>
       % for hostname, host in hosts.items():
+        <%
+        log.debug("Rendering host overview for {0}".format(hostname))
+        %>
         <tr>
           % if 'ansible_facts' not in host:
             <td class="error">${col_name(host)}</td>
@@ -476,6 +479,9 @@ if columns is not None:
 
 <div id="hosts">
   % for hostname, host in hosts.items():
+    <%
+    log.debug("Rendering host details for {0}".format(hostname))
+    %>
     <a href="#${host['name']}" name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
     % if 'ansible_facts' not in host:
       <p>No host information collected</p>

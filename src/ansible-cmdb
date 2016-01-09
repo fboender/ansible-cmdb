@@ -16,11 +16,24 @@ import sys
 import os
 import mako
 import pprint
+import logging
 
 import ansiblecmdb
 from mako.template import Template
+from mako import exceptions
+
 
 if __name__ == "__main__":
+    # Set up logging
+    root = logging.getLogger()
+    root.setLevel(logging.CRITICAL)
+    ch = logging.StreamHandler(sys.stderr)
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(message)s')
+    ch.setFormatter(formatter)
+    root.addHandler(ch)
+    log = root
+
     parser = optparse.OptionParser(version="%prog v%%MASTER%%")
     parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
     parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
@@ -36,14 +49,16 @@ if __name__ == "__main__":
         sys.stderr.write("The <dir> argument is mandatory\n")
         sys.exit(1)
 
+    if options.debug:
+        root.setLevel(logging.DEBUG)
+
     # Find out our installation prefix
     data_dir = os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data')
     tpl_dir = os.path.join(data_dir, 'tpl')
     static_dir = os.path.join(data_dir, 'static')
-    if options.debug:
-        sys.stderr.write('data_dir = {0}\n'.format(data_dir))
-        sys.stderr.write('tpl_dir = {0}\n'.format(tpl_dir))
-        sys.stderr.write('static_dir = {0}\n'.format(static_dir))
+    log.debug('data_dir = {0}'.format(data_dir))
+    log.debug('tpl_dir = {0}'.format(tpl_dir))
+    log.debug('static_dir = {0}'.format(static_dir))
 
     # Handle template params
     params = {
@@ -60,9 +75,7 @@ if __name__ == "__main__":
         except ValueError as e:
             sys.stdout.write("Invalid params specified. Should be in format: <key=value>[,<key=value>..]\n")
             sys.exit(1)
-        if options.debug:
-            sys.stderr.write("Params\n" + 60 * '-' + '\n')
-            pprint.pprint(params, stream=sys.stderr)
+        log.debug(params)
     if options.columns is not None:
         params['columns'] = options.columns.split(',')
 
@@ -71,6 +84,7 @@ if __name__ == "__main__":
     # Render a template with the gathered host info
     if os.path.isfile(options.template):
         # --template option points to an actual file
+        log.debug('template file = {0}'.format(options.template))
         mytemplate = Template(filename=options.template, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
     else:
         # Find template given with --template in the standard templates dir.
@@ -79,14 +93,33 @@ if __name__ == "__main__":
         if not os.path.isfile(tpl_path):
             sys.stderr.write("Template not found: {0}\n".format(tpl_path))
             sys.exit(1)
+        log.debug('template file = {0}'.format(tpl_path))
         mytemplate = Template(filename=tpl_path, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
 
     # Make sure we always output in UTF-8, regardless of the user's locale /
     # terminal encoding. This is different in Python 2 and 3.
-    #print type(ansible.hosts['zoltar.electricmonk.nl']['hostvars']['comment'])
-    if sys.version_info[0] == 3:
-        out = mytemplate.render(hosts=ansible.hosts, **params)
-        sys.stdout.buffer.write(out)
-    else:
-        out = mytemplate.render(hosts=ansible.hosts, **params)
-        sys.stdout.write(out)
+    params['log'] = log
+    log.debug("Template params: {0}".format(params))
+    try:
+        if sys.version_info[0] == 3:
+            out = mytemplate.render(hosts=ansible.hosts, **params)
+            sys.stdout.buffer.write(out)
+        else:
+            out = mytemplate.render(hosts=ansible.hosts, **params)
+            sys.stdout.write(out)
+    except Exception as err:
+        if options.debug:
+            sys.stderr.write(exceptions.text_error_template().render())
+            sys.stderr.write('\n')
+        debug_cmd = "{0} -d {1}".format(sys.argv[0], ' '.join(sys.argv[1:]))
+        debug_txt = ("Whoops, it looks like something went wrong while rendering the template.\n\n"
+                     "The reported error was: {0}\n\n"
+                     "The output is probably not correct.\n".format(err))
+        if not options.debug:
+            debug_txt += ("You can re-run ansible-cmdb with the -d switch to turn on debugging\n"
+                          "to get an insight in what might be going wrong:\n\n"
+                          "  {0}\n\n".format(debug_cmd))
+        debug_txt += ("You can report a bug on the issue tracker:\n\n"
+                      "  https://github.com/fboender/ansible-cmdb/issues\n\n"
+                      "Please include the debugging output (-d switch) in the report!\n")
+        sys.stderr.write(debug_txt)
