@@ -1,0 +1,39 @@
+{
+    "ansible_facts": {
+        "ansible_architecture": "64-bit", 
+        "ansible_date_time": {
+            "date": "08/01/2016", 
+            "day": "08", 
+            "hour": "23", 
+            "iso8601": "2016-01-08T23:10:56", 
+            "minute": "10", 
+            "month": "01", 
+            "year": "2016"
+        }, 
+        "ansible_distribution": "Microsoft Windows NT 6.1.7601 Service Pack 1", 
+        "ansible_distribution_version": "6.1.7601.65536", 
+        "ansible_fqdn": "win2k8r2.local", 
+        "ansible_hostname": "win2k8r2", 
+        "ansible_interfaces": [
+            {
+                "default_gateway": "192.168.1.1", 
+                "dns_domain": "home", 
+                "interface_index": 11, 
+                "interface_name": "Intel(R) PRO/1000 MT Desktop Adapter"
+            }
+        ], 
+        "ansible_ip_addresses": [
+            "192.168.1.94", 
+            "fe80::aca8:571c:f3e2:afd7"
+        ], 
+        "ansible_lastboot": "2016-01-08 23:08:57Z", 
+        "ansible_os_family": "Windows", 
+        "ansible_os_name": "Microsoft Windows Server 2008 R2 Standard", 
+        "ansible_powershell_version": 3, 
+        "ansible_system": "Win32NT", 
+        "ansible_totalmem": 2147016704, 
+        "ansible_uptime_seconds": 119, 
+        "ansible_winrm_certificate_expires": "2016-10-10 19:34:00"
+    }, 
+    "changed": false
+}

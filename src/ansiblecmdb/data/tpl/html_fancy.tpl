@@ -50,10 +50,25 @@ if columns is not None:
   ${host['ansible_facts'].get('ansible_fqdn', '')}
 </%def>
 <%def name="col_main_ip(host)">
-  ${host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')}
+  <%
+    default_ipv4 = ''
+    if host['ansible_facts'].get('ansible_os_family', '') == 'Windows':
+      ipv4_addresses = [ip for ip in host['ansible_facts'].get('ansible_ip_addresses', []) if ':' not in ip]
+      if ipv4_addresses:
+        default_ipv4 = ipv4_addresses[0]
+    else:
+      default_ipv4 = host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')
+  %>
+  ${default_ipv4}
 </%def>
 <%def name="col_all_ip(host)">
-  ${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}
+  <%
+    if host['ansible_facts'].get('ansible_os_family', '') == 'Windows':
+      ipv4_addresses = [ip for ip in host['ansible_facts'].get('ansible_ip_addresses', []) if ':' not in ip]
+    else:
+      ipv4_addresses = host['ansible_facts'].get('ansible_all_ipv4_addresses', [])
+  %>
+  ${'<br>'.join(ipv4_addresses)}
 </%def>
 <%def name="col_os(host)">
   % if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
@@ -74,7 +89,7 @@ if columns is not None:
 <%def name="col_cpu_type(host)">
   <% cpu_type = host['ansible_facts'].get('ansible_processor', 0)%>
   % if isinstance(cpu_type, list):
-  ${ cpu_type[-1] }
+    ${ cpu_type[-1] }
   % endif
 </%def>
 <%def name="col_vcpus(host)">
@@ -216,34 +231,36 @@ if columns is not None:
     <tr><th>FQDN</th><td>${host['ansible_facts'].get('ansible_fqdn', '')}</td></tr>
     <tr><th>All IPv4</th><td>${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}</td></tr>
   </table>
-  <table class="net_overview">
-    <tr>
-      <th>IPv4 Networks</th>
-      <td>
-        <table class="net_overview">
-          <tr>
-            <th>dev</th>
-            <th>address</th>
-            <th>network</th>
-            <th>netmask</th>
-          </tr>
-          % for iface_name in sorted(host['ansible_facts'].get('ansible_interfaces', [])):
-            <% iface = host['ansible_facts'].get('ansible_' + iface_name, {}) %>
-            % for net in [iface.get('ipv4', {})] + iface.get('ipv4_secondaries', []):
-              % if 'address' in net:
-                <tr>
-                  <td>${iface_name}</td>
-                  <td>${net['address']}</td>
-                  <td>${net['network']}</td>
-                  <td>${net['netmask']}</td>
-                </tr>
-              % endif
+  % if host['ansible_facts'].get('ansible_os_family', '') != "Windows":
+    <table class="net_overview">
+      <tr>
+        <th>IPv4 Networks</th>
+        <td>
+          <table class="net_overview">
+            <tr>
+              <th>dev</th>
+              <th>address</th>
+              <th>network</th>
+              <th>netmask</th>
+            </tr>
+            % for iface_name in sorted(host['ansible_facts'].get('ansible_interfaces', [])):
+              <% iface = host['ansible_facts'].get('ansible_' + iface_name, {}) %>
+              % for net in [iface.get('ipv4', {})] + iface.get('ipv4_secondaries', []):
+                % if 'address' in net:
+                  <tr>
+                    <td>${iface_name}</td>
+                    <td>${net['address']}</td>
+                    <td>${net['network']}</td>
+                    <td>${net['netmask']}</td>
+                  </tr>
+                % endif
+              % endfor
             % endfor
-          % endfor
-        </table>
-      </td>
-    </tr>
-  </table>
+          </table>
+        </td>
+      </tr>
+    </table>
+  % endif
   <table class="net_iface_details">
     <tr>
       <th>Interface details</th>
