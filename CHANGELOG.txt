@@ -1,3 +1,11 @@
+v1.11   2016-01-12
+
+- Source package improvements in man page handling (Alex Barton)
+- html_fancy template now supports OpenBSD facts.
+- html_fancy template now supports Windows (2008) facts.
+- html_fancy template now shows a link icon instead of a star for the search box URL.
+- Improved error reporting and debugging mode (-d).
+
 v1.10   2015-12-21
 
 - html_fancy: Headers are now links
