@@ -128,6 +128,8 @@ class Ansible(object):
             break
 
         for fname in flist:
+            if fname.startswith('.'):
+                continue
             self.log.debug("Reading host facts from {0}".format(os.path.join(fact_dir, fname)))
             hostname = fname
 
