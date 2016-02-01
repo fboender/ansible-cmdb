@@ -100,7 +100,7 @@ if columns is not None:
 </%def>
 <%def name="col_mem_usage(host)">
   <% i = host['ansible_facts'].get('ansible_memory_mb') %>
-  % if i is not None:
+  % if i is not None and 'nocache' in i and 'used' in i['nocache'] and i['nocache']['used'] != None:
     <div class="bar">
       ## hidden sort helper
       <span style="display:none">${'%f' % (float(i["nocache"]["used"]) / i["real"]["total"])}</span>
