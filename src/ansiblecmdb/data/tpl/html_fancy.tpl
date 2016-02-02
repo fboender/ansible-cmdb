@@ -99,53 +99,69 @@ if columns is not None:
   ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
 </%def>
 <%def name="col_mem_usage(host)">
-  <% i = host['ansible_facts'].get('ansible_memory_mb') %>
-  % if i is not None and 'nocache' in i and 'used' in i['nocache'] and i['nocache']['used'] != None:
+  % try:
+    <%
+    i = host['ansible_facts'].get('ansible_memory_mb') 
+    sort_used = '%f' % (float(i["nocache"]["used"]) / i["real"]["total"])
+    used = float(i["nocache"]["used"]) / i["real"]["total"] * 100
+    detail_used = round((i["nocache"]["used"]) / 1024.0, 1)
+    detail_total = round(i["real"]["total"] / 1024.0, 1)
+    %>
     <div class="bar">
       ## hidden sort helper
-      <span style="display:none">${'%f' % (float(i["nocache"]["used"]) / i["real"]["total"])}</span>
+      <span style="display:none">${sort_used}</span>
       <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:${float(i["nocache"]["used"]) / i["real"]["total"] * 100}px"></span>
+        <span class="prog_bar_used" style="width:${used}px"></span>
       </span>
-      <span class="usage_detail">(${round((i["nocache"]["used"]) / 1024.0, 1)} / ${round(i["real"]["total"] / 1024.0, 1)} GiB)</span>
+      <span class="usage_detail">(${detail_used} / ${detail_total} GiB)</span>
     </div>
-  % else:
+  % except:
     n/a
-  % endif
+  % endtry
 </%def>
 <%def name="col_swap_usage(host)">
-  <% i = host['ansible_facts'].get('ansible_memory_mb') %>
-  % if i is not None and i["swap"]["total"] > 0:
+  % try:
+    <%
+      i = host['ansible_facts'].get('ansible_memory_mb')
+      sort_used = '%f' % (float(i["swap"]["used"]) / i["swap"]["total"])
+      used = float(i["swap"]["used"]) / i["swap"]["total"] * 100
+      detail_used = round((i["swap"]["used"]) / 1024.0, 1)
+      detail_total = round(i["swap"]["total"] / 1024.0, 1)
+    %>
     <div class="bar">
       ## hidden sort helper
-      <span style="display:none">${'%f' % (float(i["swap"]["used"]) / i["swap"]["total"])}</span>
+      <span style="display:none">${sort_used}</span>
       <span class="prog_bar_full" style="width:100px">
-        <span class="prog_bar_used" style="width:${float(i["swap"]["used"]) / i["swap"]["total"] * 100}px"></span>
+        <span class="prog_bar_used" style="width:${used}px"></span>
       </span>
-      <span class="usage_detail">(${round((i["swap"]["used"]) / 1024.0, 1)} / ${round(i["swap"]["total"] / 1024.0, 1)} GiB)</span>
+      <span class="usage_detail">(${detail_used} / ${detail_total} GiB)</span>
     </div>
-  % else:
+  % except:
     n/a
-  % endif
+  % endtry
 </%def>
 <%def name="col_disk_usage(host)">
   % for i in host['ansible_facts'].get('ansible_mounts', []):
-    % if 'size_total' in i:  # Solaris hosts have no size_total
-      % if i['size_total'] > 1:
-        ## hidden sort helper
-        <span style="display:none">${'%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])}</span>
-        <div class="bar">
-          <span class="prog_bar_full" style="width:100px">
-            <span class="prog_bar_used" style="width:${float((i["size_total"] - i["size_available"])) / i["size_total"] * 100}px"></span>
-          </span> ${i['mount']} <span class="usage_detail">(${round((i['size_total'] - i['size_available']) / 1073741824.0, 1)} / ${round(i['size_total'] / 1073741824.0, 1)} GiB)</span>
-        </div>
-      % endif
-    % else:
+    % try:
+      <%
+        sort_used = '%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])
+        used = float((i["size_total"] - i["size_available"])) / i["size_total"] * 100
+        detail_used = round((i['size_total'] - i['size_available']) / 1073741824.0, 1)
+        detail_total = round(i['size_total'] / 1073741824.0, 1)
+      %>
+      ## hidden sort helper
+      <span style="display:none">${sort_used}</span>
+      <div class="bar">
+        <span class="prog_bar_full" style="width:100px">
+          <span class="prog_bar_used" style="width:${used}px"></span>
+        </span> ${i['mount']} <span class="usage_detail">(${detail_used} / ${detail_total} GiB)</span>
+      </div>
+    % except:
       n/a
       <%
-      break  # Don't list any more disks since no 'size_total' is available.
+      break  ## Stop listing disks, since there was an error.
       %>
-    % endif
+    % endtry
   % endfor
 </%def>
 <%def name="col_comment(host)">
