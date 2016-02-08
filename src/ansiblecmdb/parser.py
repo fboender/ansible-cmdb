@@ -1,6 +1,7 @@
 import sys
 import re
 import json
+import traceback
 if sys.version_info[0] == 2:
     # Python 2.x shlex doesn't support unicode
     import ushlex as shlex
@@ -39,9 +40,10 @@ class HostsParser(object):
                 self._apply_section(section, self.hosts)
             for section in filter(lambda s: s['type'] == 'hosts', self.sections):
                 self._apply_section(section, self.hosts)
-        except ValueError as e:
+        except ValueError as err:
+            tb = traceback.format_exc()
             sys.stderr.write("Error while parsing hosts contents: '{}'\n"
-                             "Invalid hosts file?\n".format(str(e)))
+                             "Invalid hosts file?\n".format(tb))
 
 
     def _parse_hosts_contents(self, hosts_contents):
