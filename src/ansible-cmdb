@@ -119,7 +119,16 @@ if __name__ == "__main__":
             debug_txt += ("You can re-run ansible-cmdb with the -d switch to turn on debugging\n"
                           "to get an insight in what might be going wrong:\n\n"
                           "  {0}\n\n".format(debug_cmd))
-        debug_txt += ("You can report a bug on the issue tracker:\n\n"
-                      "  https://github.com/fboender/ansible-cmdb/issues\n\n"
-                      "Please include the debugging output (-d switch) in the report!\n")
+        debug_txt += \
+"""\
+You can report a bug on the issue tracker:
+
+  https://github.com/fboender/ansible-cmdb/issues
+
+Please include the debugging output (-d switch) in the report!
+
+If you can, also include the hosts file and the facts file for the last host
+that rendered properly ('Rendering host...' in the output. If these files must
+remain confidential, you can send them to ferry.boender@gmail.com instead.
+"""
         sys.stderr.write(debug_txt)
