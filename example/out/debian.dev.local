@@ -251,7 +251,33 @@
         "ansible_userspace_bits": "64", 
         "ansible_virtualization_role": "guest", 
         "ansible_virtualization_type": "virtualbox", 
-        "module_setup": true
+        "module_setup": true,
+        "ansible_local": {
+            "checklist": {
+                "auto_upgrade_mail": true,
+                "auto_upgrades_on": true,
+                "cron_sys_mail": false,
+                "cron_user_mail": {
+                    "root": false,
+                    "smix": false
+                },
+                "desc": {
+                    "auto_upgrade_mail": "Check that automatic upgrades mail results",
+                    "auto_upgrades_on": "Check that Automatic security upgrades are on (Debian/Ubuntu)",
+                    "cron_sys_mail": "Check that the system crontab contains a MAILTO.",
+                    "cron_user_mail": "Check that user crontabs contain a valid MAILTO.",
+                    "mysql_listen_local": "Check that MySQL doesn't listen on 0.0.0.0",
+                    "root_mail_forward": "Check that root mail is forwarded",
+                    "smtp_server_running": "Check that a SMTP server is running",
+                    "zabbix_agent_running": "Check that a Zabbix agent is running"
+                },
+                "errors": [],
+                "mysql_listen_local": true,
+                "root_mail_forward": false,
+                "smtp_server_running": true,
+                "zabbix_agent_running": true
+            }
+        }
     }, 
     "changed": false
 }

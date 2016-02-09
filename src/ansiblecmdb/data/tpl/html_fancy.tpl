@@ -204,6 +204,10 @@ if columns is not None:
       % endfor
   </table>
 </%def>
+<%def name="host_localfacts(host)">
+  <h4>Host local facts</h4>
+  ${r_dict(host['ansible_facts'].get('ansible_local', {}))}
+</%def>
 <%def name="host_hardware(host)">
   <h4>Hardware</h4>
   <table>
@@ -525,6 +529,7 @@ if columns is not None:
       <% host_general(host) %>
       <% host_groups(host) %>
       <% host_custvars(host) %>
+      <% host_localfacts(host) %>
       <% host_hardware(host) %>
       <% host_os(host) %>
       <% host_network(host) %>
