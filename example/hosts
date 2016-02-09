@@ -15,6 +15,9 @@ db
 
 [prod:vars]
 dtap=prod
+# This appears to be allowed, but is undocumented
+json_like_vars=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+
 
 [virtual]
 debian.dev.local
