@@ -29,6 +29,11 @@ def get_cols():
 
 # Find longest value in a column
 col_longest = {}
+
+# Init col width to titles' len
+for col in get_cols():
+	col_longest[col['title']] = len(col['title'])
+
 for hostname, host in hosts.items():
 	for col in get_cols():
 		try:
