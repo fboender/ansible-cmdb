@@ -1,3 +1,18 @@
+v1.12   2016-02-15
+
+- Bugfix: Don't parse hidden files in fact output dirs.
+- Bugfix: Various fixes in html_fancy template that prevent output from being
+  generated if certain facts are missing.
+- Bugfix: Improved error handling to prevent ansible-cmdb from stopping on a
+  single invalid host.
+- Improved error reporting
+- Ansible local facts (from /etc/ansible/facts.d on hosts) is now shown in the
+  Host details overview.
+- Support undocumented extended YAML vars in hosts files.
+- txt_table: Show MemFree and MemUsed columns. (by Kurt Davis)
+- txt_table: Properly align table columns if the values are less wide than the
+  title.
+
 v1.11   2016-01-12
 
 - Source package improvements in man page handling (Alex Barton)
