@@ -7,8 +7,8 @@ About
 Ansible-cmdb takes the output of Ansible's fact gathering and converts it into
 a static HTML overview page containing system configuration information.
 
-It supports multiple templates and extending information gathered by Ansible
-with custom data.
+It supports multiple templates (html, txt_table, csv, json output) and
+extending information gathered by Ansible with custom data.
 
 ![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot-overview.png)
 
@@ -162,6 +162,8 @@ Ansible-cmdb currently provides the following templates out of the box:
 * `json`: The json template simple dumps a JSON-encoded representation of the
   gathered information. This includes all the extra information scanned by
   ansible-cmdb such as groups, variables, custom information, etc.
+
+* `csv`: The CSV template outputs a CSV file of your hosts.
 
 You can create your own template or extend an existing one by copying it and
 refering to the full path to the template when using the `-t` option:
