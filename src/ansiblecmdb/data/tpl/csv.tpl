@@ -3,7 +3,6 @@
 import sys
 import csv
 
-col_space = 2
 
 cols = [
   {"title": "Name",       "id": "name",       "visible": True, "field": lambda h: h.get('name', '')},
