@@ -7,8 +7,9 @@ About
 Ansible-cmdb takes the output of Ansible's fact gathering and converts it into
 a static HTML overview page containing system configuration information.
 
-It supports multiple templates (html, txt_table, csv, json output) and
-extending information gathered by Ansible with custom data.
+It supports multiple templates (html, txt_table, csv, json output, markdown)
+and extending information gathered by Ansible with custom data. For each host
+it also shows the groups, host variables, locat facts.
 
 ![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot-overview.png)
 
@@ -40,6 +41,10 @@ For **Other** systems:
     tar -vxzf ansible-cmdb*.tar.gz
     cd ansible-cmdb*
     sudo make install
+
+Installation from **Git** repository:
+
+
 
 Usage
 -----
@@ -164,6 +169,9 @@ Ansible-cmdb currently provides the following templates out of the box:
   ansible-cmdb such as groups, variables, custom information, etc.
 
 * `csv`: The CSV template outputs a CSV file of your hosts.
+
+* `markdown`: The Markdown templates generates host information in the
+  Markdown format.
 
 You can create your own template or extend an existing one by copying it and
 refering to the full path to the template when using the `-t` option:
