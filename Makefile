@@ -6,6 +6,7 @@ fake:
 
 test:
 	cd test && ./test.sh
+	example/generate.sh
 
 example:
 	example/generate.sh
