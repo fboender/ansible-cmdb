@@ -184,8 +184,8 @@ if columns is not None:
   <table>
     <tr><th>Node name</th><td>${host['ansible_facts'].get('ansible_nodename', '')}</td></tr>
     <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
-    <tr><th>Virtualisation role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
-    <tr><th>Virtualisation type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
+    <tr><th>Virtualization role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
+    <tr><th>Virtualization type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
   </table>
 </%def>
 <%def name="host_groups(host)">
