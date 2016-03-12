@@ -215,6 +215,9 @@ if columns is not None:
     <tr><th>Product name</th><td>${host['ansible_facts'].get('ansible_product_name', '')}</td></tr>
     <tr><th>Product serial</th><td>${host['ansible_facts'].get('ansible_product_serial', '')}</td></tr>
     <tr><th>Architecture</th><td>${host['ansible_facts'].get('ansible_architecture', '')}</td></tr>
+    <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
+    <tr><th>Virtualization role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
+    <tr><th>Virtualization type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
     <tr><th>Machine</th><td>${host['ansible_facts'].get('ansible_machine', '')}</td></tr>
     <tr><th>Processor count</th><td>${host['ansible_facts'].get('ansible_processor_count', '')}</td></tr>
     <tr><th>Processor cores</th><td>${host['ansible_facts'].get('ansible_processor_cores', '')}</td></tr>
