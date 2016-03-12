@@ -95,6 +95,23 @@ release_rpm: release_clean release_deb
 	sed -i '\:%dir "/usr/bin/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
 	cd $(PROG)-$(REL_VERSION) && rpmbuild --buildroot='$(shell readlink -f $(PROG)-$(REL_VERSION))/' -bb --target noarch '$(PROG)-$(REL_VERSION)-2.spec'
 
+install:
+	mkdir -p /usr/local/lib/$(PROG)
+	mkdir -p /usr/local/man/man1
+	cp -ar src/* /usr/local/lib/$(PROG)
+	cp -r lib/mako /usr/local/lib/$(PROG)
+	cp -r lib/yaml /usr/local/lib/$(PROG)
+	cp -r lib/ushlex.py /usr/local/lib/$(PROG)
+	cp LICENSE /usr/local/lib/$(PROG)
+	cp README.md /usr/local/lib/$(PROG)
+	cp CHANGELOG.txt /usr/local/lib/$(PROG)
+	gzip -9 -c contrib/ansible-cmdb.man.1 > /usr/local/man/man1/ansible-cmdb.man.1.gz
+	ln -s /usr/local/lib/ansible-cmdb/ansible-cmdb /usr/local/bin/ansible-cmdb
+
+uninstall:
+	rm -rf /usr/local/lib/$(PROG)
+	rm -f /usr/local/man/man/ansible-cmdb.man.1.gz
+	rm -rf /usr/local/bin/ansible-cmdb
 
 clean:
 	rm -f *.rpm
