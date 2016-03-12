@@ -60,6 +60,22 @@ if __name__ == "__main__":
     log.debug('tpl_dir = {0}'.format(tpl_dir))
     log.debug('static_dir = {0}'.format(static_dir))
 
+    # Find configuration file to use. Params override optiosn for this
+    config_file = None
+    config_locations = ['/etc/ansible/ansible.cfg', 'ansible.cfg']
+
+    for config_location in config_locations:
+        if os.path.exists(config_location):
+            config_file = os.path.realpath(config_location)
+
+    log.debug('config_file = {0}'.format(config_file))
+    if config_file:
+        with open(config_file, 'r') as cf:
+            for line in cf:
+                if line.startswith('hostfile'):
+                    options.inventory = line.strip().split('=', 1)[1]
+    log.debug('inventory hostfile = {0}'.format(options.inventory))
+
     # Handle template params
     params = {
         'lib_dir': data_dir,  # Backwards compatibility for custom templates < ansible-cmdb v1.7
