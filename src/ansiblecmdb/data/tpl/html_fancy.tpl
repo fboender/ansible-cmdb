@@ -4,25 +4,25 @@
 ##
 import datetime
 cols = [
-  {"title": "Name",       "id": "name",       "func": col_name,       "visible": True},
-  {"title": "Groups",     "id": "groups",     "func": col_groups,     "visible": False},
-  {"title": "DTAP",       "id": "dtap",       "func": col_dtap,       "visible": False},
-  {"title": "Comment",    "id": "comment",    "func": col_comment,    "visible": False},
-  {"title": "Ext ID",     "id": "ext_id",     "func": col_ext_id,     "visible": False},
-  {"title": "FQDN",       "id": "fqdn",       "func": col_fqdn,       "visible": True},
-  {"title": "Main IP",    "id": "main_ip",    "func": col_main_ip,    "visible": True},
-  {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip,     "visible": False},
-  {"title": "OS",         "id": "os",         "func": col_os,         "visible": True},
-  {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "visible": False},
-  {"title": "Arch",       "id": "arch",       "func": col_arch,       "visible": False},
-  {"title": "Virt",       "id": "virt",       "func": col_virt,       "visible": True},
-  {"title": "CPU type",   "id": "cpu_type",   "func": col_cpu_type,   "visible": False},
-  {"title": "vCPUs",      "id": "vcpus",      "func": col_vcpus,      "visible": True},
-  {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "visible": True},
-  {"title": "Mem Usage",  "id": "mem_usage",  "func": col_mem_usage,  "visible": False},
-  {"title": "Swap Usage", "id": "swap_usage", "func": col_swap_usage, "visible": False},
-  {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "visible": False},
-  {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "visible": False},
+  {"title": "Name",       "id": "name",       "func": col_name,       "sType": "string", "visible": True},
+  {"title": "Groups",     "id": "groups",     "func": col_groups,     "sType": "string", "visible": False},
+  {"title": "DTAP",       "id": "dtap",       "func": col_dtap,       "sType": "string", "visible": False},
+  {"title": "Comment",    "id": "comment",    "func": col_comment,    "sType": "string", "visible": False},
+  {"title": "Ext ID",     "id": "ext_id",     "func": col_ext_id,     "sType": "string", "visible": False},
+  {"title": "FQDN",       "id": "fqdn",       "func": col_fqdn,       "sType": "string", "visible": True},
+  {"title": "Main IP",    "id": "main_ip",    "func": col_main_ip,    "sType": "string", "visible": True},
+  {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip,     "sType": "string", "visible": False},
+  {"title": "OS",         "id": "os",         "func": col_os,         "sType": "string", "visible": True},
+  {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "sType": "string", "visible": False},
+  {"title": "Arch",       "id": "arch",       "func": col_arch,       "sType": "string", "visible": False},
+  {"title": "Virt",       "id": "virt",       "func": col_virt,       "sType": "string", "visible": True},
+  {"title": "CPU type",   "id": "cpu_type",   "func": col_cpu_type,   "sType": "string", "visible": False},
+  {"title": "vCPUs",      "id": "vcpus",      "func": col_vcpus,      "sType": "num", "visible": True},
+  {"title": "RAM [GiB]",  "id": "ram",        "func": col_ram,        "sType": "num", "visible": True},
+  {"title": "Mem Usage",  "id": "mem_usage",  "func": col_mem_usage,  "sType": "string", "visible": False},
+  {"title": "Swap Usage", "id": "swap_usage", "func": col_swap_usage, "sType": "string", "visible": False},
+  {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "sType": "string", "visible": False},
+  {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "sType": "string", "visible": False},
 ]
 
 # Enable columns specified with '--columns'
@@ -93,7 +93,11 @@ if columns is not None:
   % endif
 </%def>
 <%def name="col_vcpus(host)">
-  ${host['ansible_facts'].get('ansible_processor_vcpus', host['ansible_facts'].get('ansible_processor_cores', 0))}
+  % if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
+    0
+  % else:
+    ${host['ansible_facts'].get('ansible_processor_vcpus', host['ansible_facts'].get('ansible_processor_cores', 0))}
+  % endif
 </%def>
 <%def name="col_ram(host)">
   ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
@@ -575,7 +579,7 @@ $(document).ready( function () {
     paging: false,
     columnDefs: [
       % for col in cols:
-        { "targets": [${loop.index}], "visible": ${str(col['visible']).lower()} },
+        { "targets": [${loop.index}], "visible": ${str(col['visible']).lower()}, "sType": "${col['sType']}" },
       % endfor
     ],
     "fnInitComplete": function() {
