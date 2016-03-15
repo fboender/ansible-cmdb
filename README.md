@@ -9,7 +9,8 @@ a static HTML overview page containing system configuration information.
 
 It supports multiple templates (html, txt_table, csv, json output, markdown)
 and extending information gathered by Ansible with custom data. For each host
-it also shows the groups, host variables, locat facts.
+it also shows the groups, host variables, custom variables and machine-local
+facts.
 
 ![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot-overview.png)
 
@@ -44,6 +45,9 @@ For **Other** systems:
 
 Installation from **Git** repository:
 
+    git clone git@github.com:fboender/ansible-cmdb.git
+    cd ansible-cmdb
+    sudo make install
 
 
 Usage
