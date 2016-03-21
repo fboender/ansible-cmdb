@@ -1,6 +1,9 @@
 Ansible Configuration Management Database
 =========================================
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green.svg)
+![Activity: Active development](https://img.shields.io/badge/activity-active%20development-green.svg)
+
 About
 -----
 
