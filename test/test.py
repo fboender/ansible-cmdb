@@ -131,7 +131,7 @@ class FactCacheTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(exit=False)
+    unittest.main(exit=True)
 
     try:
         os.unlink('../src/ansible-cmdbc') # FIXME: Where is this coming from? Our weird import I assume.
