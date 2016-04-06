@@ -494,7 +494,7 @@ if columns is not None:
         if col['visible'] is False:
           visible = "invisible"
       %>
-      <a href="" class="col-toggle col-${visible}" data-column="${loop.index}">${col['title']}</a>
+      <a href="" class="col-toggle col-${visible}" data-column="${loop.index}" data-column-id="${col["id"]}">${col['title']}</a>
     % endfor
   </div>
 </div>
@@ -574,12 +574,29 @@ function getQueryParams(qs) {
 }
 
 $(document).ready( function () {
+  // Get persisted column visibility from localStorage.
+  var columnVisibility = localStorage.getItem("columnVisibility");
+  if (columnVisibility == null) {
+    columnVisibility = {
+      % for col in cols:
+        "${col["id"]}": ${str(col["visible"]).lower()},
+      % endfor
+    };
+    localStorage.setItem("columnVisibility", JSON.stringify(columnVisibility));
+  } else {
+    columnVisibility = JSON.parse(columnVisibility);
+  }
+
   // Initialize the DataTables jQuery plugin on the host overview table
   var table = $('#host_overview_tbl').DataTable({
     paging: false,
     columnDefs: [
       % for col in cols:
-        { "targets": [${loop.index}], "visible": ${str(col['visible']).lower()}, "sType": "${col['sType']}" },
+        {
+          "targets": [${loop.index}],
+          "visible": ${str(col['visible']).lower()},
+          "sType": "${col['sType']}" 
+        },
       % endfor
     ],
     "fnInitComplete": function() {
@@ -593,10 +610,20 @@ $(document).ready( function () {
         this.fnFilter(qp.search);
       }
     }
-
   });
+
+  // Display or hide columns based on localStorage preferences.
+  for (var columnId in columnVisibility) {
+    var columnButton = $("a[data-column-id='" + columnId +"']");
+    var columnNr = columnButton.attr('data-column');
+    var column = table.column(columnNr);
+    column.visible(columnVisibility[columnId]);
+    var newClass = ['col-invisible','col-visible'][Number(column.visible())];
+    columnButton.get(0).className = 'col-toggle ' + newClass;
+  }
+
+  // Show a direct link to the search term
   table.on( 'search.dt', function () {
-    // Show a direct link to the search term
     $('#filter_link').remove();
     if (table.search() == "") {
     } else {
@@ -607,10 +634,15 @@ $(document).ready( function () {
   // Show and hide columns on button clicks
   $('a.col-toggle').on('click', function(e) {
     e.preventDefault();
+    var columnId = $(this).attr('data-column-id')
     var column = table.column( $(this).attr('data-column') );
     column.visible( ! column.visible() );
     var newClass = ['col-invisible','col-visible'][Number(column.visible())];
     e.target.className = 'col-toggle ' + newClass;
+
+    // Storage column visibility in localStorage.
+    columnVisibility[columnId] = column.visible();
+    localStorage.setItem("columnVisibility", JSON.stringify(columnVisibility));
   });
 
   // Show host name in header bar when scrolling
