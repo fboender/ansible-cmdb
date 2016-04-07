@@ -173,13 +173,13 @@ Ansible-cmdb currently provides the following templates out of the box:
 * `txt_table`: A quick text table summary of the available hosts with some
   minimal information.
 
-* `json`: The json template simple dumps a JSON-encoded representation of the
+* `json`: The json template simply dumps a JSON-encoded representation of the
   gathered information. This includes all the extra information scanned by
   ansible-cmdb such as groups, variables, custom information, etc.
 
 * `csv`: The CSV template outputs a CSV file of your hosts.
 
-* `markdown`: The Markdown templates generates host information in the
+* `markdown`: The Markdown template generates host information in the
   Markdown format.
 
 You can create your own template or extend an existing one by copying it and
