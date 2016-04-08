@@ -25,7 +25,7 @@ class Ansible(object):
         """
         self.fact_dirs = fact_dirs
         self.inventory_path = inventory_path
-        self.fact_cache = fact_cache # fact dirs are fact-caches
+        self.fact_cache = fact_cache  # fact dirs are fact-caches
         self.debug = debug
         self.hosts = {}
         self.log = logging.getLogger()
@@ -57,7 +57,7 @@ class Ansible(object):
             # Static inventory hosts file
             self._parse_hosts_inventory(inventory_path)
         elif os.path.isdir(inventory_path):
-            # Scan directory 
+            # Scan directory
             for fname in os.listdir(inventory_path):
                 self._handle_inventory(os.path.join(inventory_path, fname))
         else:
@@ -86,7 +86,7 @@ class Ansible(object):
         for hostname, key_values in hosts_parser.hosts.items():
             self.update_host(hostname, key_values)
 
-    def	_parse_hostvar_dir(self, inventory_path):
+    def _parse_hostvar_dir(self, inventory_path):
         """
         Parse host_vars dir, if it exists. This requires the yaml module, which
         is imported on-demand, since it's not a default module.
@@ -98,7 +98,7 @@ class Ansible(object):
 
         try:
             import yaml
-        except ImportError as e:
+        except ImportError:
             import yaml3 as yaml
 
         flist = []
@@ -161,7 +161,7 @@ class Ansible(object):
             if proc.returncode != 0:
                 sys.stderr.write("Dynamic inventory script '{}' returned "
                                  "exitcode {}\n".format(script,
-                                                       proc.returncode))
+                                                        proc.returncode))
                 for line in stderr:
                     sys.stderr.write(line)
 

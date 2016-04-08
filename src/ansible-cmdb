@@ -9,13 +9,11 @@
 #
 #   $ ansible -m setup --tree out all
 #   $ ansible-cmdb out > cmdb.html
-# 
+#
 
 import optparse
 import sys
 import os
-import mako
-import pprint
 import logging
 
 import ansiblecmdb

@@ -44,11 +44,10 @@ class HostsParser(object):
                 self._apply_section(section, self.hosts)
             for section in filter(lambda s: s['type'] == 'hosts', self.sections):
                 self._apply_section(section, self.hosts)
-        except ValueError as err:
+        except ValueError:
             tb = traceback.format_exc()
             sys.stderr.write("Error while parsing hosts contents: '{}'\n"
                              "Invalid hosts file?\n".format(tb))
-
 
     def _parse_hosts_contents(self, hosts_contents):
         """

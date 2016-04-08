@@ -1,5 +1,6 @@
 import copy
 
+
 def deepupdate(target, src):
     """Deep update target dict with src
     For each k,v in src: if k doesn't exist in target, it is deep copied from
@@ -31,4 +32,3 @@ def deepupdate(target, src):
                 target[k].update(v.copy())
         else:
             target[k] = copy.copy(v)
-
