@@ -5,7 +5,6 @@ Ansible Configuration Management Database
 ![Activity: Active development](https://img.shields.io/badge/activity-active%20development-green.svg)
 ![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)
 
-
 About
 -----
 
