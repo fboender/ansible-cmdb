@@ -88,7 +88,7 @@ if columns is not None:
 </%def>
 <%def name="col_cpu_type(host)">
   <% cpu_type = host['ansible_facts'].get('ansible_processor', 0)%>
-  % if isinstance(cpu_type, list):
+  % if isinstance(cpu_type, list) and len(cpu_type) > 0:
     ${ cpu_type[-1] }
   % endif
 </%def>
