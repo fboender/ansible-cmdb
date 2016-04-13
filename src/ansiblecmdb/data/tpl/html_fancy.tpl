@@ -544,6 +544,8 @@ if columns is not None:
       % if 'msg' in host:
         <p class="error">${host['msg']}</p>
       % endif
+      <% host_groups(host) %>
+      <% host_custvars(host) %>
     % else:
       <% host_general(host) %>
       <% host_groups(host) %>
