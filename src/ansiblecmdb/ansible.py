@@ -152,6 +152,7 @@ class Ansible(object):
         """
         Execute a dynamic inventory script and parse the results.
         """
+        self.log.debug("Reading dynamic inventory {0}".format(script))
         try:
             proc = subprocess.Popen([script, '--list'],
                                     stdout=subprocess.PIPE,
