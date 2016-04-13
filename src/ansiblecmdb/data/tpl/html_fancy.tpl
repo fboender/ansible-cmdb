@@ -224,6 +224,20 @@ if columns is not None:
     ${r_dict(host['ansible_facts'].get('ansible_local', {}))}
   % endif
 </%def>
+<%def name="host_factorfacts(host)">
+  <h4>Facter facts</h4>
+  <%
+  facter_facts = {}
+  for key, value in host['ansible_facts'].items():
+    if key.startswith('facter_'):
+      facter_facts[key] = value
+  %>
+  % if len(facter_facts) == 0:
+    <p>No facter facts avaialble</p>
+  % else:
+    ${r_dict(facter_facts)}
+  % endif
+</%def>
 <%def name="host_hardware(host)">
   <h4>Hardware</h4>
   <table>
@@ -551,6 +565,7 @@ if columns is not None:
       <% host_groups(host) %>
       <% host_custvars(host) %>
       <% host_localfacts(host) %>
+      <% host_factorfacts(host) %>
       <% host_hardware(host) %>
       <% host_os(host) %>
       <% host_network(host) %>
