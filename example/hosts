@@ -38,3 +38,6 @@ win.dev.local
 
 [openvz]
 openvz.debian.local
+
+[test]
+facter.test.local ansible_host=192.168.56.7
