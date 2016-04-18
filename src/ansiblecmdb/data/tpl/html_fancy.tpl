@@ -230,6 +230,12 @@ if columns is not None:
     ${r_dict(facter_facts)}
   % endif
 </%def>
+<%def name="host_customfacts(host)">
+  % if len(host.get('custom_facts', {}).items()) != 0:
+    <h4>Custom facts</h4>
+    ${r_dict(host['custom_facts'])}
+  % endif
+</%def>
 <%def name="host_hardware(host)">
   <h4>Hardware</h4>
   <table>
@@ -558,6 +564,7 @@ if columns is not None:
       <% host_custvars(host) %>
       <% host_localfacts(host) %>
       <% host_factorfacts(host) %>
+      <% host_customfacts(host) %>
       <% host_hardware(host) %>
       <% host_os(host) %>
       <% host_network(host) %>

@@ -237,60 +237,144 @@ For example:
 
 ### Extending
 
-You can specify multiple directories that need to be scanned for output. This
-lets you add more custom information to existing hosts or even completely new
+You can specify multiple directories that need to be scanned for facts. This
+lets you override, extend and fill in missing information on hosts. You can
+also use this to create completely new hosts or to add custom facts to your
 hosts.
 
-For example, if your normal ansible `setup` output contains:
+Extended facts are basically the same as normal Ansible fact files. When you
+specify multiple fact directories, Ansible-cmdb scans all of the in order and
+overlays the facts. 
 
-    $ ls out/
-    db1.dev.megacorp.com
-    db2.dev.megacorp.com
-    test.megacorp.com
-    
-    $ cat out/test.megacorp.com
-    {
-        "ansible_facts": {
-            "ansible_all_ipv4_addresses": [
-                "158.12.198.104"
-            ], 
-    --snip--
-
-You can create an additional directory with custom information:
-
-    $ mkdir out_cust
-    $ cat out_cust/test.megacorp.com
-    {
-        "software": [
-            "Apache2",
-            "MySQL5.5"
-        ]
-    }
-
-Specify both directories when generating the output:
-
-    ./ansible-cmdb out/ out_cust/ > overview.html
-
-Your custom variables will be put in the root of the host information
-dictionary:
-
-    "test.megacorp.com": {
-        "ansible_facts": {
-            "ansible_all_ipv4_addresses": ["185.21.189.140"],
-        },
-        "changed": false,
-        "groups": ["cust.flusso"],
-        "software": [
-            "Apache2",
-            "MySQL5.5"
-        ],
-        "name": "ad6.flusso.nl"
-    }
+Note that the host *must still* be present in your hosts file, or it will not
+generate anything.
 
 If you're using the `--fact-cache` option, you must omit the `ansible_facts`
 key and put items in the root of the JSON. This also means that you can only
 extend native ansible facts and not information read from the `hosts` file by
 ansible-cmdb.
+
+
+#### Override / fill in facts
+
+Sometimes Ansible doesn't properly gather certain facts for hosts. For
+instance, OpenBSD facts don't include the `userspace_architecture` fact. You
+can add it manually to a host.
+
+Create a directory for your extended facts:
+
+    $ mkdir out_extend
+
+Create a file in it for a host. The file must be named the same as it appears
+in your `hosts` file:
+
+    $ vi out_extend/openbsd.dev.local
+    {
+      "ansible_facts": {
+          "ansible_userspace_architecture": "x86_64"
+      }
+    }
+
+Specify both directories when generating the output:
+
+    ./ansible-cmdb out/ out_extend/ > overview.html
+
+Your OpenBSD host will now include the 'Userspace Architecture' fact.
+
+
+#### Manual hosts
+
+For example, lets say you have 100 linux machines, but only one windows machine.
+It's not worth setting up ansible on that one windows machine, but you still
+want it to appear in your overview...
+
+Create a directory for you custom facts:
+
+    $ mkdir out_manual
+
+Create a file in it for your windows host:
+
+    $ vi out_manual/win.dev.local
+    {
+      "groups": [
+      ],
+      "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+          "10.10.0.2",
+          "191.37.104.122"
+        ], 
+        "ansible_default_ipv4": {
+          "address": "191.37.104.122"
+        }, 
+        "ansible_devices": {
+        }, 
+        "ansible_distribution": "Windows", 
+        "ansible_distribution_major_version": "2008", 
+        "ansible_distribution_release": "", 
+        "ansible_distribution_version": "2008", 
+        "ansible_domain": "win.dev.local", 
+        "ansible_fips": false, 
+        "ansible_form_factor": "VPS", 
+        "ansible_fqdn": "win.dev.local", 
+        "ansible_hostname": "win", 
+        "ansible_machine": "x86_64", 
+        "ansible_nodename": "win.dev.local", 
+        "ansible_userspace_architecture": "x86_64", 
+        "ansible_userspace_bits": "64", 
+        "ansible_virtualization_role": "guest", 
+        "ansible_virtualization_type": "xen", 
+        "module_setup": true
+      }, 
+      "changed": false
+    }
+
+Now you can create the overview including the windows host by specifying two
+fact directories:
+
+    ./ansible-cmdb out/ out_manual/ > overview.html
+
+
+#### Custom facts
+
+You can add custom facts (not to be confused with 'custom variables') to you
+hosts. These facts will be displayed in the `html_fancy` template by default
+under the 'Custom facts' header.
+
+Let's say you want to add information about installed software to your facts.
+
+Create a directory for you custom facts:
+
+    $ mkdir out_custom
+
+Create a file in it for the host where you want to add the custom facts:
+
+    $ vi custfact.test.local
+    {
+      "custom_facts": {
+        "software": {
+          "apache": {
+            "version": "2.4",
+            "install_src": "backport_deb"
+          },
+          "mysql-server": {
+            "version": "5.5",
+            "install_src": "manual_compile"
+          },
+          "redis": {
+            "version": "3.0.7",
+            "install_src": "manual_compile"
+          }
+        }
+      }
+    }
+
+For this to work the facts **must** be listed under the **custom_facts** key.
+
+Generate the overview:
+
+    ./ansible-cmdb out/ out_custom/ > overview.html
+
+The software items will be listed under the "*Custom facts*" heading.
 
 
 Infrequently Asked Questions

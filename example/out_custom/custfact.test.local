@@ -1,0 +1,18 @@
+{
+    "custom_facts": {
+        "software": {
+            "apache": {
+              "version": "2.4",
+              "install_src": "backport_deb"
+            },
+            "mysql-server": {
+              "version": "5.5",
+              "install_src": "manual_compile"
+            },
+            "redis": {
+              "version": "3.0.7",
+              "install_src": "manual_compile"
+            }
+        }
+    }
+}
