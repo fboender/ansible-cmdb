@@ -193,10 +193,8 @@ if columns is not None:
   </table>
 </%def>
 <%def name="host_groups(host)">
-  <h4>Groups</h4>
-  % if len(host.get('groups', [])) == 0:
-    <p>No groups defined</p>
-  % else:
+  % if len(host.get('groups', [])) != 0:
+    <h4>Groups</h4>
     <ul>
       % for group in sorted(host.get('groups', [])):
         <li>${group}</li>
@@ -205,10 +203,8 @@ if columns is not None:
   % endif
 </%def>
 <%def name="host_custvars(host)">
-  <h4>Custom variables</h4>
-  % if len(host['hostvars']) == 0:
-    <p>No custom variables defined</p>
-  % else:
+  % if len(host['hostvars']) != 0:
+    <h4>Custom variables</h4>
     <table>
         % for var_name, var_value in host['hostvars'].items():
           <tr><th>${var_name}</th><td>${var_value}</td></tr>
@@ -217,24 +213,20 @@ if columns is not None:
   % endif
 </%def>
 <%def name="host_localfacts(host)">
-  <h4>Host local facts</h4>
-  % if len(host['ansible_facts'].get('ansible_local', {}).items()) == 0:
-    <p>No host local facts avaialble</p>
-  % else:
+  % if len(host['ansible_facts'].get('ansible_local', {}).items()) != 0:
+    <h4>Host local facts</h4>
     ${r_dict(host['ansible_facts'].get('ansible_local', {}))}
   % endif
 </%def>
 <%def name="host_factorfacts(host)">
-  <h4>Facter facts</h4>
   <%
   facter_facts = {}
   for key, value in host['ansible_facts'].items():
     if key.startswith('facter_'):
       facter_facts[key] = value
   %>
-  % if len(facter_facts) == 0:
-    <p>No facter facts avaialble</p>
-  % else:
+  % if len(facter_facts) != 0:
+    <h4>Facter facts</h4>
     ${r_dict(facter_facts)}
   % endif
 </%def>
