@@ -1,3 +1,22 @@
+v1.14   ????-??-??
+
+- Look for ansible.cfg and use hostfile setting.
+- html_fancy: Properly sort vcpu and ram columns.
+- html_fancy: Remember which columns the user has toggled.
+- html_fancy: display groups and hostvars even if no host information was
+  collected.
+- html_fancy: support for facter and custom facts.
+- html_fancy: Hide sections if there are no items for it.
+- Apply Dynamic Inventory vars to all hostnames in the group.
+- Many minor bugfixes.
+
+v1.13   2016-03-12
+
+- Added csv template: Output a CSV file with host information.
+- Added markdown template: Output a Markdown-formatted file with host
+  information.
+- html_fancy template: Minor cosmetic changes.
+
 v1.12   2016-02-15
 
 - Bugfix: Don't parse hidden files in fact output dirs.
