@@ -207,7 +207,16 @@ if columns is not None:
     <h4>Custom variables</h4>
     <table>
         % for var_name, var_value in host['hostvars'].items():
-          <tr><th>${var_name}</th><td>${var_value}</td></tr>
+          <tr>
+            <th>${var_name}</th>
+            <td>
+              % if type(var_value) == dict:
+                ${r_dict(var_value)}
+              % elif type(var_value) == list:
+                ${r_list(var_value)}
+              % else:
+                ${var_value}
+              % endif
         % endfor
     </table>
   % endif
