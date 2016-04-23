@@ -1,4 +1,4 @@
-v1.14   ????-??-??
+v1.14   2016-04-23
 
 - Look for ansible.cfg and use hostfile setting.
 - html_fancy: Properly sort vcpu and ram columns.
@@ -7,6 +7,7 @@ v1.14   ????-??-??
   collected.
 - html_fancy: support for facter and custom facts.
 - html_fancy: Hide sections if there are no items for it.
+- html_fancy: Improvements in the rendering of custom variables.
 - Apply Dynamic Inventory vars to all hostnames in the group.
 - Many minor bugfixes.
 
