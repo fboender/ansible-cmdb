@@ -120,7 +120,7 @@ class Ansible(object):
         """
         self.log.debug("Parsing fact dir: {0}".format(fact_dir))
         if not os.path.isdir(fact_dir):
-            raise IOError("No such file or directory: '{}'".format(fact_dir))
+            raise IOError("Not a directory: '{}'".format(fact_dir))
 
         flist = []
         for (dirpath, dirnames, filenames) in os.walk(fact_dir):
