@@ -107,10 +107,22 @@ class Ansible(object):
             break
 
         for fname in flist:
-            f = codecs.open(os.path.join(path, fname), 'r', encoding='utf8')
-            invars = yaml.load(f)
-            f.close()
-            self.update_host(fname, {'hostvars': invars})
+            f_path = os.path.join(path, fname)
+
+            # Check for ansible-vault files, because they're valid yaml for
+            # some reason... (psst, the reason is that yaml sucks)
+            first_line = open(f_path, 'r').readline()
+            if first_line.startswith('$ANSIBLE_VAULT'):
+                sys.stderr.write("Skipping encrypted vault file {}\n".format(f_path))
+                continue
+
+            try:
+                f = codecs.open(f_path, 'r', encoding='utf8')
+                invars = yaml.load(f)
+                f.close()
+                self.update_host(fname, {'hostvars': invars})
+            except Exception as err:
+                sys.stderr.write("Yaml couldn't load '{}'. Skipping\n".format(f_path))
 
     def _parse_fact_dir(self, fact_dir, fact_cache=False):
         """
