@@ -68,7 +68,7 @@ release_deb: release_clean doc
 	cp -r lib/mako rel_deb/usr/lib/${PROG}/
 	cp -r lib/yaml rel_deb/usr/lib/${PROG}/
 	cp -r lib/ushlex.py rel_deb/usr/lib/${PROG}/
-	ln -s /usr/lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
+	ln -s ../lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -ar contrib/debian/DEBIAN rel_deb/
 	cp -ar contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansible-cmdb.1
 	gzip rel_deb/usr/share/man/man1/ansible-cmdb.1
