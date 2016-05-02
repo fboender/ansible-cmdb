@@ -456,7 +456,7 @@ if columns is not None:
     #col_toggles h2 { display: block; margin-bottom: 32px; color: #606060; }
     #col_toggle_buttons { margin-left: 32px; font-weight: normal; line-height: 40px; }
     #col_toggles a { line-height: 40px; }
-    #col_toggles a { display: inline-block; background-color: #009688; line-height: 32px; padding: 0px 15px 0px 15px; margin-right: 6px; font-size: small; box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.35); color: #FFFFFF; }
+    #col_toggles a { display: inline-block; background-color: #009688; line-height: 32px; padding: 0px 15px 0px 15px; margin-right: 6px; box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.35); color: #FFFFFF; }
     #col_toggles a.col-invisible { background-color: #B0B0B0; box-shadow: 0 0px 0px 0; }
 
     #host_overview { margin: 32px; }
@@ -464,20 +464,20 @@ if columns is not None:
     #host_overview table { width: 100%; clear: both; }
     #host_overview tr { border-bottom: 1px solid #F0F0F0; }
     #host_overview tr:hover { background-color: #F0F0F0; }
-    #host_overview thead th { text-align: left; color: #707070; font-size: x-small; font-weight: bold; cursor: pointer; background-repeat: no-repeat; background-position: center right; background-image: url("${res_url}/images/sort_both.png"); }
+    #host_overview thead th { text-align: left; color: #707070; font-weight: bold; cursor: pointer; background-repeat: no-repeat; background-position: center right; background-image: url("${res_url}/images/sort_both.png"); }
     #host_overview thead th.sorting_desc { background-image: url("${res_url}/images/sort_desc.png"); }
     #host_overview thead th.sorting_asc { background-image: url("${res_url}/images/sort_asc.png"); }
-    #host_overview tbody td { color: #000000; font-size: small; padding: 8px 12px 8px 12px; }
+    #host_overview tbody td { color: #000000; padding: 8px 12px 8px 12px; }
     #host_overview tbody a { text-decoration: none; color: #005c9d; }
-    #host_overview_tbl_filter { float: right; font-size: small; color: #808080; }
+    #host_overview_tbl_filter { float: right; color: #808080; }
     #host_overview_tbl_filter label input { margin-left: 12px; }
     #host_overview_tbl_filter #filter_link a { color: #000000; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR4Xu2TIQ6EMBBF/+4dOUBFBYoboBHoBsuRUCgcnpDg3/Y7ICQVK3ebvPxJ30xH9QXom/PO/PoDAjSOY8pwIwFFr2EYUobjONj33bjGd3Ylr77v2bYNp7Hwhifs3HOeUdu2LMuCE1DXdedtl612cJ1R0zRM04TT1HVNjPERO/ecZxRCSBnmeWZdV+Ma39mVvABVVZUy3EhA0f//gvQB4y08WIiD/goAAAAASUVORK5CYII=) no-repeat left center; padding: 5px 0 5px 25px; }
-    #host_overview_tbl_info { font-size: x-small; margin-top: 16px; color: #C0C0C0; }
+    #host_overview_tbl_info { margin-top: 16px; color: #C0C0C0; }
     #host_overview .bar { clear: both; }
     #host_overview .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
     #host_overview .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     #host_overview tbody td.error a { color: #FF0000; }
-    #host_overview span.usage_detail { font-size: x-small; color: #606060; }
+    #host_overview span.usage_detail { color: #606060; }
 
     #hosts { margin-left: 32px; margin-bottom: 120px; }
     #hosts a { color: #000000; }
