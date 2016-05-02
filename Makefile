@@ -60,7 +60,7 @@ release_deb: release_clean doc
 	mkdir -p rel_deb/usr/share/man/man1
 
 	# Copy the source to the release directory structure.
-	cp LICENSE rel_deb/usr/share/doc/$(PROG)/
+	cp contrib/debian/copyright rel_deb/usr/share/doc/$(PROG)/copyright
 	cp README.md rel_deb/usr/share/doc/$(PROG)/
 	cp README.html rel_deb/usr/share/doc/$(PROG)/
 	cp CHANGELOG.txt rel_deb/usr/share/doc/$(PROG)/
@@ -71,7 +71,7 @@ release_deb: release_clean doc
 	ln -s ../lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -ar contrib/debian/DEBIAN rel_deb/
 	cp -ar contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansible-cmdb.1
-	gzip rel_deb/usr/share/man/man1/ansible-cmdb.1
+	gzip -9 rel_deb/usr/share/man/man1/ansible-cmdb.1
 
 	# Bump version numbers
 	find rel_deb/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$(REL_VERSION)/g" 
