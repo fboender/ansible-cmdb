@@ -71,7 +71,7 @@ if __name__ == "__main__":
         with open(config_file, 'r') as cf:
             for line in cf:
                 if line.startswith('hostfile'):
-                    options.inventory = line.strip().split('=', 1)[1]
+                    options.inventory = line.split('=', 1)[1].strip()
     log.debug('inventory hostfile = {0}'.format(options.inventory))
 
     # Handle template params
