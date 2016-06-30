@@ -181,6 +181,13 @@ Ansible-cmdb currently provides the following templates out of the box:
 * `markdown`: The Markdown template generates host information in the
   Markdown format.
 
+* `sql`: The SQL template generates an .sql file that can be loaded into an
+  SQLite or MySQL database.
+
+        $ ansible-cmdb -t sql -i hosts out > cmdb.sql
+        $ echo "CREATE DATABASE ansiblecmdb" | mysql 
+        $ mysql ansiblecmdb < cmdb.sql
+
 You can create your own template or extend an existing one by copying it and
 refering to the full path to the template when using the `-t` option:
 
