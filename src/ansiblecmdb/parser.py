@@ -160,7 +160,11 @@ class HostsParser(object):
         else:
             tokens = shlex.split(line.strip())
             name = tokens.pop(0)
-            key_values = self._parse_vars(tokens)
+            try:
+                key_values = self._parse_vars(tokens)
+            except ValueError:
+                sys.stderr.write("Unsupported vars syntax. Skipping line: {0}\n".format(line))
+                return (name, {})
         return (name, key_values)
 
     def _parse_line_vars(self, line):
