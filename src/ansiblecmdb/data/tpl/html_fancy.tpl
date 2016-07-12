@@ -1,4 +1,6 @@
 <%
+from jsonxs import jsonxs
+
 ##
 ## Column definitions
 ##
@@ -38,78 +40,78 @@ if columns is not None:
 ## Column functions
 ##
 <%def name="col_name(host)">
-  <a href="#${host["name"]}">${host["name"]}</a>
+  <a href="#${jsonxs(host, 'name')}["name"]}">${jsonxs(host, "name")}</a>
 </%def>
 <%def name="col_dtap(host)">
-  ${host['hostvars'].get('dtap', '')}
+  ${jsonxs(host, 'hostvars.dtap', default='')}
 </%def>
 <%def name="col_groups(host)">
-  ${'<br>'.join(host.get('groups', ''))}
+  ${'<br>'.join(jsonxs(host, 'groups', default=''))}
 </%def>
 <%def name="col_fqdn(host)">
-  ${host['ansible_facts'].get('ansible_fqdn', '')}
+  ${jsonxs(host, 'ansible_facts.ansible_fqdn', default='')}
 </%def>
 <%def name="col_main_ip(host)">
   <%
     default_ipv4 = ''
-    if host['ansible_facts'].get('ansible_os_family', '') == 'Windows':
-      ipv4_addresses = [ip for ip in host['ansible_facts'].get('ansible_ip_addresses', []) if ':' not in ip]
+    if jsonxs(host, 'ansible_facts.ansible_os_family', default='') == 'Windows':
+      ipv4_addresses = [ip for ip in jsonxs(host, 'ansible_facts.ansible_ip_addresses', default=[]) if ':' not in ip]
       if ipv4_addresses:
         default_ipv4 = ipv4_addresses[0]
     else:
-      default_ipv4 = host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')
+      default_ipv4 = jsonxs(host, 'ansible_facts.ansible_default_ipv4.address', default={})
   %>
   ${default_ipv4}
 </%def>
 <%def name="col_all_ip(host)">
   <%
-    if host['ansible_facts'].get('ansible_os_family', '') == 'Windows':
-      ipv4_addresses = [ip for ip in host['ansible_facts'].get('ansible_ip_addresses', []) if ':' not in ip]
+    if jsonxs(host, 'ansible_facts.ansible_os_family', default='') == 'Windows':
+      ipv4_addresses = [ip for ip in jsonxs(host, 'ansible_facts.ansible_ip_addresses', default=[]) if ':' not in ip]
     else:
-      ipv4_addresses = host['ansible_facts'].get('ansible_all_ipv4_addresses', [])
+      ipv4_addresses = jsonxs(host, 'ansible_facts.ansible_all_ipv4_addresses', default=[])
   %>
   ${'<br>'.join(ipv4_addresses)}
 </%def>
 <%def name="col_os(host)">
-  % if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
-    ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_release', '')}
+  % if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
+    ${jsonxs(host, 'ansible_facts.ansible_distribution', default='')} ${jsonxs(host, 'ansible_facts.ansible_distribution_release', default='')}
   % else:
-    ${host['ansible_facts'].get('ansible_distribution', '')} ${host['ansible_facts'].get('ansible_distribution_version', '')}
+    ${jsonxs(host, 'ansible_facts.ansible_distribution', default='')} ${jsonxs(host, 'ansible_facts.ansible_distribution_version', default='')}
   % endif
 </%def>
 <%def name="col_kernel(host)">
-  ${host['ansible_facts'].get('ansible_kernel', '')}
+  ${jsonxs(host, 'ansible_facts.ansible_kernel', default='')}
 </%def>
 <%def name="col_arch(host)">
-  ${host['ansible_facts'].get('ansible_architecture', '')} / ${host['ansible_facts'].get('ansible_userspace_architecture', '')}
+  ${jsonxs(host, 'ansible_facts.ansible_architecture', default='')} / ${jsonxs(host, 'ansible_facts.ansible_userspace_architecture', default='')}
 </%def>
 <%def name="col_virt(host)">
-  ${host['ansible_facts'].get('ansible_virtualization_type', '?')} / ${host['ansible_facts'].get('ansible_virtualization_role', '?')}
+  ${jsonxs(host, 'ansible_facts.ansible_virtualization_type', default='?')} / ${jsonxs(host, 'ansible_facts.ansible_virtualization_role', default='?')}
 </%def>
 <%def name="col_cpu_type(host)">
-  <% cpu_type = host['ansible_facts'].get('ansible_processor', 0)%>
+  <% cpu_type = jsonxs(host, 'ansible_facts.ansible_processor', default=0)%>
   % if isinstance(cpu_type, list) and len(cpu_type) > 0:
     ${ cpu_type[-1] }
   % endif
 </%def>
 <%def name="col_vcpus(host)">
-  % if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
+  % if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
     0
   % else:
-    ${host['ansible_facts'].get('ansible_processor_vcpus', host['ansible_facts'].get('ansible_processor_cores', 0))}
+    ${jsonxs(host, 'ansible_facts.ansible_processor_vcpus', default=jsonxs(host, 'ansible_facts.ansible_processor_cores', default=0))}
   % endif
 </%def>
 <%def name="col_ram(host)">
-  ${'%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))}
+  ${'%0.1f' % ((int(jsonxs(host, 'ansible_facts.ansible_memtotal_mb', default=0)) / 1024.0))}
 </%def>
 <%def name="col_mem_usage(host)">
   % try:
     <%
-    i = host['ansible_facts'].get('ansible_memory_mb') 
-    sort_used = '%f' % (float(i["nocache"]["used"]) / i["real"]["total"])
+    i = jsonxs(host, 'ansible_facts.ansible_memory_mb', default=0) 
+    sort_used = '%f' % (float(jsonxs(i, "nocache.used", default=0)) / jsonxs(i, "real.total", default=0))
     used = float(i["nocache"]["used"]) / i["real"]["total"] * 100
-    detail_used = round((i["nocache"]["used"]) / 1024.0, 1)
-    detail_total = round(i["real"]["total"] / 1024.0, 1)
+    detail_used = round(jsonxs(i, "nocache.used", default=0) / 1024.0, 1)
+    detail_total = round(jsonxs(i, "real.total", default=0) / 1024.0, 1)
     %>
     <div class="bar">
       ## hidden sort helper
@@ -126,11 +128,11 @@ if columns is not None:
 <%def name="col_swap_usage(host)">
   % try:
     <%
-      i = host['ansible_facts'].get('ansible_memory_mb')
-      sort_used = '%f' % (float(i["swap"]["used"]) / i["swap"]["total"])
-      used = float(i["swap"]["used"]) / i["swap"]["total"] * 100
-      detail_used = round((i["swap"]["used"]) / 1024.0, 1)
-      detail_total = round(i["swap"]["total"] / 1024.0, 1)
+      i = jsonxs(host, 'ansible_facts.ansible_memory_mb', default=0)
+      sort_used = '%f' % (float(jsonxs(i, "swap.used", default=0)) / jsonxs(i, "swap.total", default=0))
+      used = float(jsonxs(i, "swap.used", default=0)) / jsonxs(i, "swap.total", default=0) * 100
+      detail_used = round((jsonxs(i, "swap.used", default=0)) / 1024.0, 1)
+      detail_total = round(jsonxs(i, "swap.total", default=0) / 1024.0, 1)
     %>
     <div class="bar">
       ## hidden sort helper
@@ -145,7 +147,7 @@ if columns is not None:
   % endtry
 </%def>
 <%def name="col_disk_usage(host)">
-  % for i in host['ansible_facts'].get('ansible_mounts', []):
+  % for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
     % try:
       <%
         sort_used = '%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])
@@ -169,10 +171,10 @@ if columns is not None:
   % endfor
 </%def>
 <%def name="col_comment(host)">
-  ${host['hostvars'].get('comment', '')}
+  ${jsonxs(host, 'hostvars.comment', default='')}
 </%def>
 <%def name="col_ext_id(host)">
-  ${host['hostvars'].get('ext_id', '')}
+  ${jsonxs(host, 'hostvars.ext_id', default='')}
 </%def>
 <%def name="col_gathered(host)">
   % if 'ansible_date_time' in host['ansible_facts']:
@@ -186,10 +188,10 @@ if columns is not None:
 <%def name="host_general(host)">
   <h4>General</h4>
   <table>
-    <tr><th>Node name</th><td>${host['ansible_facts'].get('ansible_nodename', '')}</td></tr>
-    <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
-    <tr><th>Virtualization role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
-    <tr><th>Virtualization type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
+    <tr><th>Node name</th><td>${jsonxs(host, 'ansible_facts.ansible_nodename', default='')}</td></tr>
+    <tr><th>Form factor</th><td>${jsonxs(host, 'ansible_facts.ansible_form_factor',  default='')}</td></tr>
+    <tr><th>Virtualization role</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_role',  default='')}</td></tr>
+    <tr><th>Virtualization type</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_type',  default='')}</td></tr>
   </table>
 </%def>
 <%def name="host_groups(host)">
@@ -222,15 +224,15 @@ if columns is not None:
   % endif
 </%def>
 <%def name="host_localfacts(host)">
-  % if len(host['ansible_facts'].get('ansible_local', {}).items()) != 0:
+  % if len(jsonxs(host, 'ansible_facts.ansible_local', default={}).items()) != 0:
     <h4>Host local facts</h4>
-    ${r_dict(host['ansible_facts'].get('ansible_local', {}))}
+    ${r_dict(jsonxs(host,  'ansible_facts.ansible_local', default={}))}
   % endif
 </%def>
 <%def name="host_factorfacts(host)">
   <%
   facter_facts = {}
-  for key, value in host['ansible_facts'].items():
+  for key, value in jsonxs(host, 'ansible_facts', default={}).items():
     if key.startswith('facter_'):
       facter_facts[key] = value
   %>
@@ -242,56 +244,56 @@ if columns is not None:
 <%def name="host_customfacts(host)">
   % if len(host.get('custom_facts', {}).items()) != 0:
     <h4>Custom facts</h4>
-    ${r_dict(host['custom_facts'])}
+    ${r_dict(host.get('custom_facts', {}))}
   % endif
 </%def>
 <%def name="host_hardware(host)">
   <h4>Hardware</h4>
   <table>
-    <tr><th>Vendor</th><td>${host['ansible_facts'].get('ansible_system_vendor', '')}</td></tr>
-    <tr><th>Product name</th><td>${host['ansible_facts'].get('ansible_product_name', '')}</td></tr>
-    <tr><th>Product serial</th><td>${host['ansible_facts'].get('ansible_product_serial', '')}</td></tr>
-    <tr><th>Architecture</th><td>${host['ansible_facts'].get('ansible_architecture', '')}</td></tr>
-    <tr><th>Form factor</th><td>${host['ansible_facts'].get('ansible_form_factor', '')}</td></tr>
-    <tr><th>Virtualization role</th><td>${host['ansible_facts'].get('ansible_virtualization_role', '')}</td></tr>
-    <tr><th>Virtualization type</th><td>${host['ansible_facts'].get('ansible_virtualization_type', '')}</td></tr>
-    <tr><th>Machine</th><td>${host['ansible_facts'].get('ansible_machine', '')}</td></tr>
-    <tr><th>Processor count</th><td>${host['ansible_facts'].get('ansible_processor_count', '')}</td></tr>
-    <tr><th>Processor cores</th><td>${host['ansible_facts'].get('ansible_processor_cores', '')}</td></tr>
-    <tr><th>Processor threads per core</th><td>${host['ansible_facts'].get('ansible_processor_threads_per_core', '')}</td></tr>
-    <tr><th>Processor virtual CPUs</th><td>${host['ansible_facts'].get('ansible_processor_vcpus', '')}</td></tr>
-    <tr><th>Mem total mb</th><td>${host['ansible_facts'].get('ansible_memtotal_mb', '')}</td></tr>
-    <tr><th>Mem free mb</th><td>${host['ansible_facts'].get('ansible_memfree_mb', '')}</td></tr>
-    <tr><th>Swap total mb</th><td>${host['ansible_facts'].get('ansible_swaptotal_mb', '')}</td></tr>
-    <tr><th>Swap free mb</th><td>${host['ansible_facts'].get('ansible_swapfree_mb', '')}</td></tr>
+    <tr><th>Vendor</th><td>${jsonxs(host, 'ansible_facts.ansible_system_vendor',  default='')}</td></tr>
+    <tr><th>Product name</th><td>${jsonxs(host, 'ansible_facts.ansible_product_name',  default='')}</td></tr>
+    <tr><th>Product serial</th><td>${jsonxs(host, 'ansible_facts.ansible_product_serial',  default='')}</td></tr>
+    <tr><th>Architecture</th><td>${jsonxs(host, 'ansible_facts.ansible_architecture',  default='')}</td></tr>
+    <tr><th>Form factor</th><td>${jsonxs(host, 'ansible_facts.ansible_form_factor',  default='')}</td></tr>
+    <tr><th>Virtualization role</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_role',  default='')}</td></tr>
+    <tr><th>Virtualization type</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_type',  default='')}</td></tr>
+    <tr><th>Machine</th><td>${jsonxs(host, 'ansible_facts.ansible_machine',  default='')}</td></tr>
+    <tr><th>Processor count</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_count',  default='')}</td></tr>
+    <tr><th>Processor cores</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_cores',  default='')}</td></tr>
+    <tr><th>Processor threads per core</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_threads_per_core',  default='')}</td></tr>
+    <tr><th>Processor virtual CPUs</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_vcpus',  default='')}</td></tr>
+    <tr><th>Mem total mb</th><td>${jsonxs(host, 'ansible_facts.ansible_memtotal_mb',  default='')}</td></tr>
+    <tr><th>Mem free mb</th><td>${jsonxs(host, 'ansible_facts.ansible_memfree_mb',  default='')}</td></tr>
+    <tr><th>Swap total mb</th><td>${jsonxs(host, 'ansible_facts.ansible_swaptotal_mb',  default='')}</td></tr>
+    <tr><th>Swap free mb</th><td>${jsonxs(host, 'ansible_facts.ansible_swapfree_mb',  default='')}</td></tr>
   </table>
 </%def>
 <%def name="host_os(host)">
   <h4>Operating System</h4>
   <table>
-    <tr><th>System</th><td>${host['ansible_facts'].get('ansible_system', '')}</td></tr>
-    <tr><th>OS Family</th><td>${host['ansible_facts'].get('ansible_os_family', '')}</td></tr>
-    <tr><th>Distribution</th><td>${host['ansible_facts'].get('ansible_distribution', '')}</td></tr>
-    <tr><th>Distribution version</th><td>${host['ansible_facts'].get('ansible_distribution_version', '')}</td></tr>
-    <tr><th>Distribution release</th><td>${host['ansible_facts'].get('ansible_distribution_release', '')}</td></tr>
-    <tr><th>Kernel</th><td>${host['ansible_facts'].get('ansible_kernel', '')}</td></tr>
-    <tr><th>Userspace bits</th><td>${host['ansible_facts'].get('ansible_userspace_bits', '')}</td></tr>
-    <tr><th>Userspace_architecture</th><td>${host['ansible_facts'].get('ansible_userspace_architecture', '')}</td></tr>
-    <tr><th>Date time</th><td>${host['ansible_facts'].get('ansible_date_time', {}).get('iso8601', '')}</td></tr>
-    <tr><th>Locale / Encoding</th><td>${host['ansible_facts'].get('ansible_env', {}).get('LC_ALL', 'Unknown')}</td></tr>
-    <tr><th>SELinux?</th><td>${host['ansible_facts'].get('ansible_selinux', '')}</td></tr>
-    <tr><th>Package manager</th><td>${host['ansible_facts'].get('ansible_pkg_mgr', '')}</td></tr>
+    <tr><th>System</th><td>${jsonxs(host, 'ansible_facts.ansible_system',  default='')}</td></tr>
+    <tr><th>OS Family</th><td>${jsonxs(host, 'ansible_facts.ansible_os_family',  default='')}</td></tr>
+    <tr><th>Distribution</th><td>${jsonxs(host, 'ansible_facts.ansible_distribution',  default='')}</td></tr>
+    <tr><th>Distribution version</th><td>${jsonxs(host, 'ansible_facts.ansible_distribution_version',  default='')}</td></tr>
+    <tr><th>Distribution release</th><td>${jsonxs(host, 'ansible_facts.ansible_distribution_release',  default='')}</td></tr>
+    <tr><th>Kernel</th><td>${jsonxs(host, 'ansible_facts.ansible_kernel',  default='')}</td></tr>
+    <tr><th>Userspace bits</th><td>${jsonxs(host, 'ansible_facts.ansible_userspace_bits',  default='')}</td></tr>
+    <tr><th>Userspace_architecture</th><td>${jsonxs(host, 'ansible_facts.ansible_userspace_architecture',  default='')}</td></tr>
+    <tr><th>Date time</th><td>${jsonxs(host, 'ansible_facts.ansible_date_time.iso8601', default='')}</td></tr>
+    <tr><th>Locale / Encoding</th><td>${jsonxs(host, 'ansible_facts.ansible_env.LC_ALL', default='Unknown')}</td></tr>
+    <tr><th>SELinux?</th><td>${jsonxs(host, 'ansible_facts.ansible_selinux', default='')}</td></tr>
+    <tr><th>Package manager</th><td>${jsonxs(host, 'ansible_facts.ansible_pkg_mgr', default='')}</td></tr>
   </table>
 </%def>
 <%def name="host_network(host)">
   <h4>Network</h4>
   <table class="net_info">
-    <tr><th>Hostname</th><td>${host['ansible_facts'].get('ansible_hostname', '')}</td></tr>
-    <tr><th>Domain</th><td>${host['ansible_facts'].get('ansible_domain', '')}</td></tr>
-    <tr><th>FQDN</th><td>${host['ansible_facts'].get('ansible_fqdn', '')}</td></tr>
-    <tr><th>All IPv4</th><td>${'<br>'.join(host['ansible_facts'].get('ansible_all_ipv4_addresses', []))}</td></tr>
+    <tr><th>Hostname</th><td>${jsonxs(host, 'ansible_facts.ansible_hostname',  default='')}</td></tr>
+    <tr><th>Domain</th><td>${jsonxs(host, 'ansible_facts.ansible_domain',  default='')}</td></tr>
+    <tr><th>FQDN</th><td>${jsonxs(host, 'ansible_facts.ansible_fqdn',  default='')}</td></tr>
+    <tr><th>All IPv4</th><td>${'<br>'.join(jsonxs(host, 'ansible_facts.ansible_all_ipv4_addresses', default=[]))}</td></tr>
   </table>
-  % if host['ansible_facts'].get('ansible_os_family', '') != "Windows":
+  % if jsonxs(host, 'ansible_facts.ansible_os_family', default='') != "Windows":
     <table class="net_overview">
       <tr>
         <th>IPv4 Networks</th>
@@ -303,8 +305,8 @@ if columns is not None:
               <th>network</th>
               <th>netmask</th>
             </tr>
-            % for iface_name in sorted(host['ansible_facts'].get('ansible_interfaces', [])):
-              <% iface = host['ansible_facts'].get('ansible_' + iface_name, {}) %>
+            % for iface_name in sorted(jsonxs(host, 'ansible_facts.ansible_interfaces', default=[])):
+              <% iface = jsonxs(host, 'ansible_facts.ansible_' + iface_name, default={}) %>
               % for net in [iface.get('ipv4', {})] + iface.get('ipv4_secondaries', []):
                 % if 'address' in net:
                   <tr>
@@ -326,12 +328,12 @@ if columns is not None:
       <th>Interface details</th>
       <td>
         <table>
-            % for iface in sorted(host['ansible_facts'].get('ansible_interfaces', [])):
+            % for iface in sorted(jsonxs(host, 'ansible_facts.ansible_interfaces', default=[])):
               <tr>
                 <th>${iface}</th>
                 <td>
                   % try:
-                    ${r_dict(host['ansible_facts']['ansible_%s' % (iface)])}
+                    ${r_dict(jsonxs(host, 'ansible_facts.ansible_%s' % (iface)))}
                   % except KeyError:
                     No information available
                   % endtry
@@ -349,10 +351,10 @@ if columns is not None:
     <tr>
       <th>Devices</th>
       <td>
-        % if type(host['ansible_facts'].get('ansible_devices')) == list:
-          ${r_list(host['ansible_facts'].get('ansible_devices', []))}
+        % if type(jsonxs(host, 'ansible_facts.ansible_devices', default=[])) == list:
+          ${r_list(jsonxs(host, 'ansible_facts.ansible_devices', default=[]))}
         % else:
-          ${r_dict(host['ansible_facts'].get('ansible_devices', {}))}
+          ${r_dict(jsonxs(host, 'ansible_facts.ansible_devices', default={}))}
         % endif
       </td>
     </tr>
