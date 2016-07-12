@@ -61,7 +61,7 @@ class Ansible(object):
             for fname in os.listdir(inventory_path):
                 self._handle_inventory(os.path.join(inventory_path, fname))
         else:
-            sys.stderr.write("Don't know what to do with inventory '{}'\n".format(inventory_path))
+            sys.stderr.write("Not a file or directory: '{}'\n".format(inventory_path))
         self._parse_hostvar_dir(inventory_path)
 
     def _parse_hosts_inventory(self, inventory_path):
