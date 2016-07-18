@@ -1,68 +1,71 @@
+<%
+from jsonxs import jsonxs
+%>
 <%def name="col_fqdn(host)"><%
-  return host['ansible_facts'].get('ansible_fqdn', '')
+  return jsonxs(host, 'ansible_facts.ansible_fqdn', default='')
 %></%def>
 <%def name="col_main_ip(host)"><%
   default_ipv4 = ''
-  if host['ansible_facts'].get('ansible_os_family', '') == 'Windows':
-    ipv4_addresses = [ip for ip in host['ansible_facts'].get('ansible_ip_addresses', []) if ':' not in ip]
+  if jsonxs(host, 'ansible_facts.ansible_os_family', default='') == 'Windows':
+    ipv4_addresses = [ip for ip in jsonxs(host, 'ansible_facts.ansible_ip_addresses', default=[]) if ':' not in ip]
     if ipv4_addresses:
       default_ipv4 = ipv4_addresses[0]
   else:
-    default_ipv4 = host['ansible_facts'].get('ansible_default_ipv4', {}).get('address', '')
+    default_ipv4 = jsonxs(host, 'ansible_facts.ansible_default_ipv4.address', default='')
   
   return default_ipv4.strip()
 %></%def>
 <%def name="col_os_name(host)"><%
-  if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
-    return host['ansible_facts'].get('ansible_distribution', '')
+  if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
+    return jsonxs(host, 'ansible_facts.ansible_distribution', default='')
   else:
-    return host['ansible_facts'].get('ansible_distribution', '')
+    return jsonxs(host, 'ansible_facts.ansible_distribution', default='')
   endif
 %></%def>
 <%def name="col_os_version(host)"><%
-  if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
-    return host['ansible_facts'].get('ansible_distribution_release', '')
+  if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
+    return jsonxs(host, 'ansible_facts.ansible_distribution_release', default='')
   else:
-    return host['ansible_facts'].get('ansible_distribution_version', '')
+    return jsonxs(host, 'ansible_facts.ansible_distribution_version', default='')
   endif
 %></%def>
 <%def name="col_system(host)"><%
-  return host['ansible_facts'].get('ansible_system', '')
+  return jsonxs(host, 'ansible_facts.ansible_system', default='')
 %></%def>
 <%def name="col_kernel(host)"><%
-  return host['ansible_facts'].get('ansible_kernel', '')
+  return jsonxs(host, 'ansible_facts.ansible_kernel', default='')
 %></%def>
 <%def name="col_arch_hardware(host)"><%
-  return host['ansible_facts'].get('ansible_architecture', '')
+  return jsonxs(host, 'ansible_facts.ansible_architecture', default='')
 %></%def>
 <%def name="col_arch_userspace(host)"><%
-  return host['ansible_facts'].get('ansible_userspace_architecture', '')
+  return jsonxs(host, 'ansible_facts.ansible_userspace_architecture', default='')
 %></%def>
 <%def name="col_virt_type(host)"><%
-  return host['ansible_facts'].get('ansible_virtualization_type', '?')
+  return jsonxs(host, 'ansible_facts.ansible_virtualization_type', default='?')
 %></%def>
 <%def name="col_virt_role(host)"><%
-  return host['ansible_facts'].get('ansible_virtualization_role', '?')
+  return jsonxs(host, 'ansible_facts.ansible_virtualization_role', default='?')
 %></%def>
 <%def name="col_cpu_type(host)"><%
-  cpu_type = host['ansible_facts'].get('ansible_processor', 0)
+  cpu_type = jsonxs(host, 'ansible_facts.ansible_processor', default=0)
   if isinstance(cpu_type, list) and len(cpu_type) > 0:
     return cpu_type[-1]
   else:
     return ''
 %></%def>
 <%def name="col_vcpus(host)"><%
-  if host['ansible_facts'].get('ansible_distribution', '') in ["OpenBSD"]:
+  if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
     return 0
   else:
-    return host['ansible_facts'].get('ansible_processor_vcpus', host['ansible_facts'].get('ansible_processor_cores', 0))
+    return jsonxs(host, 'ansible_facts.ansible_processor_vcpus', default=jsonxs(host, 'ansible_facts.ansible_processor_cores', default=0))
   endif
 %></%def>
 <%def name="col_ram(host)"><%
-  return '%0.1f' % ((int(host['ansible_facts'].get('ansible_memtotal_mb', 0)) / 1024.0))
+  return '%0.1f' % ((int(jsonxs(host, 'ansible_facts.ansible_memtotal_mb', default=0)) / 1024.0))
 %></%def>
 <%def name="col_disk_total(host)"><%
-  for i in host['ansible_facts'].get('ansible_mounts', []):
+  for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
     if i["mount"] == '/':
       return round(i.get('size_total', 0) / 1073741824.0, 1)
     endif
@@ -70,7 +73,7 @@
   return 0
 %></%def>
 <%def name="col_disk_free(host)"><%
-  for i in host['ansible_facts'].get('ansible_mounts', []):
+  for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
     if i["mount"] == '/':
       try:
         disk_free = i["size_total"] - i["size_available"]
@@ -121,7 +124,7 @@ CREATE TABLE hosts (
         disk_total,
         disk_free
     ) VALUES (
-        "${host['name']}",
+        "${jsonxs(host, 'name', default='Unknown')}",
         "${col_fqdn(host)}",
         "${col_main_ip(host)}",
         "${col_os_name(host)}",
