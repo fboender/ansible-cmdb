@@ -33,6 +33,7 @@ release_src: release_clean doc
 	cp -r lib/mako $(PROG)-$(REL_VERSION)/
 	cp -r lib/yaml $(PROG)-$(REL_VERSION)/
 	cp -r lib/ushlex.py $(PROG)-$(REL_VERSION)/
+	cp -r lib/jsonxs.py $(PROG)-$(REL_VERSION)/
 	cp LICENSE $(PROG)-$(REL_VERSION)/
 	cp README.md $(PROG)-$(REL_VERSION)/
 	cp CHANGELOG.txt $(PROG)-$(REL_VERSION)/
@@ -67,6 +68,7 @@ release_deb: release_clean doc
 	cp -r lib/mako rel_deb/usr/lib/${PROG}/
 	cp -r lib/yaml rel_deb/usr/lib/${PROG}/
 	cp -r lib/ushlex.py rel_deb/usr/lib/${PROG}/
+	cp -r lib/jsonxs.py rel_deb/usr/lib/${PROG}/
 	ln -s ../lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -ar contrib/debian/DEBIAN rel_deb/
 	cp contrib/debian/copyright rel_deb/usr/share/doc/$(PROG)/
@@ -107,6 +109,7 @@ install:
 	cp -r lib/mako /usr/local/lib/$(PROG)
 	cp -r lib/yaml /usr/local/lib/$(PROG)
 	cp -r lib/ushlex.py /usr/local/lib/$(PROG)
+	cp -r lib/jsonxs.py /usr/local/lib/$(PROG)
 	cp LICENSE /usr/local/lib/$(PROG)
 	cp README.md /usr/local/lib/$(PROG)
 	cp CHANGELOG.txt /usr/local/lib/$(PROG)
