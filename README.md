@@ -35,7 +35,7 @@ For **Debian / Ubuntu** systems:
 
 For **Redhat / Centos** systems:
 
-    sudo yum install ansible-cmdb*.rpm
+    sudo yum --disablerepo=* install ansible-cmdb*.rpm
 
 For **MacOS X** systems:
 
