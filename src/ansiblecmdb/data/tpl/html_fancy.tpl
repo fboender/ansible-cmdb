@@ -13,7 +13,8 @@ cols = [
   {"title": "Ext ID",     "id": "ext_id",     "func": col_ext_id,     "sType": "string", "visible": False},
   {"title": "FQDN",       "id": "fqdn",       "func": col_fqdn,       "sType": "string", "visible": True},
   {"title": "Main IP",    "id": "main_ip",    "func": col_main_ip,    "sType": "string", "visible": True},
-  {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip,     "sType": "string", "visible": False},
+  {"title": "All IPv4",   "id": "all_ipv4",   "func": col_all_ip4,    "sType": "string", "visible": False},
+  {"title": "All IPv6",   "id": "all_ipv6",   "func": col_all_ip6,    "sType": "string", "visible": False},
   {"title": "OS",         "id": "os",         "func": col_os,         "sType": "string", "visible": True},
   {"title": "Kernel",     "id": "kernel",     "func": col_kernel,     "sType": "string", "visible": False},
   {"title": "Arch",       "id": "arch",       "func": col_arch,       "sType": "string", "visible": False},
@@ -63,7 +64,7 @@ if columns is not None:
   %>
   ${default_ipv4}
 </%def>
-<%def name="col_all_ip(host)">
+<%def name="col_all_ip4(host)">
   <%
     if jsonxs(host, 'ansible_facts.ansible_os_family', default='') == 'Windows':
       ipv4_addresses = [ip for ip in jsonxs(host, 'ansible_facts.ansible_ip_addresses', default=[]) if ':' not in ip]
@@ -71,6 +72,9 @@ if columns is not None:
       ipv4_addresses = jsonxs(host, 'ansible_facts.ansible_all_ipv4_addresses', default=[])
   %>
   ${'<br>'.join(ipv4_addresses)}
+</%def>
+<%def name="col_all_ip6(host)">
+  ${'<br>'.join(jsonxs(host, 'ansible_facts.ansible_all_ipv6_addresses', default=[]))}
 </%def>
 <%def name="col_os(host)">
   % if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
@@ -292,6 +296,7 @@ if columns is not None:
     <tr><th>Domain</th><td>${jsonxs(host, 'ansible_facts.ansible_domain',  default='')}</td></tr>
     <tr><th>FQDN</th><td>${jsonxs(host, 'ansible_facts.ansible_fqdn',  default='')}</td></tr>
     <tr><th>All IPv4</th><td>${'<br>'.join(jsonxs(host, 'ansible_facts.ansible_all_ipv4_addresses', default=[]))}</td></tr>
+    <tr><th>All IPv6</th><td>${'<br>'.join(jsonxs(host, 'ansible_facts.ansible_all_ipv6_addresses', default=[]))}</td></tr>
   </table>
   % if jsonxs(host, 'ansible_facts.ansible_os_family', default='') != "Windows":
     <table class="net_overview">
