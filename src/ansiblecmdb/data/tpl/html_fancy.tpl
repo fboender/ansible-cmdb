@@ -41,7 +41,7 @@ if columns is not None:
 ## Column functions
 ##
 <%def name="col_name(host)">
-  <a href="#${jsonxs(host, 'name')}["name"]}">${jsonxs(host, "name")}</a>
+  <a href="#${jsonxs(host, 'name')}">${jsonxs(host, "name")}</a>
 </%def>
 <%def name="col_dtap(host)">
   ${jsonxs(host, 'hostvars.dtap', default='')}
