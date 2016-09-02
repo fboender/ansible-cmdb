@@ -1,3 +1,8 @@
+v1.16   2016-09-02
+
+- Added "all ipv6" column to html_fancy template.
+- Fixed broken name urls on html_fancy template (patch by Jordan Anderson)
+
 v1.15   2016-07-28
 
 - Improvements to the resilience against wrong, unsupported and missing data.
