@@ -659,7 +659,7 @@ $(document).ready( function () {
     $('#filter_link').remove();
     if (table.search() == "") {
     } else {
-      $('#host_overview_tbl_filter label').after('&nbsp; <span id="filter_link"><a title="Direct link to search" href="?search='+table.search()+'">&nbsp;</a></span>');
+      $('#host_overview_tbl_filter label').after('<span id="filter_link">&nbsp; <a title="Direct link to search" href="?search='+table.search()+'">&nbsp;</a></span>');
     }
   } );
 
