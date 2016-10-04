@@ -318,7 +318,11 @@ if columns is not None:
                     <td>${iface_name}</td>
                     <td>${net['address']}</td>
                     <td>${net['network']}</td>
-                    <td>${net['netmask']}</td>
+                    % if 'netmask' in net:
+                      <td>${net['netmask']}</td>
+                    % else:
+                      <td></td>
+                    % endif
                   </tr>
                 % endif
               % endfor
