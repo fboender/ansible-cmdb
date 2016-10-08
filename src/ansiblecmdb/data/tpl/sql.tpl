@@ -16,11 +16,7 @@ from jsonxs import jsonxs
   return default_ipv4.strip()
 %></%def>
 <%def name="col_os_name(host)"><%
-  if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
-    return jsonxs(host, 'ansible_facts.ansible_distribution', default='')
-  else:
-    return jsonxs(host, 'ansible_facts.ansible_distribution', default='')
-  endif
+  return jsonxs(host, 'ansible_facts.ansible_distribution', default='')
 %></%def>
 <%def name="col_os_version(host)"><%
   if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
