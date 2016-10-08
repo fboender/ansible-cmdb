@@ -52,7 +52,7 @@ from jsonxs import jsonxs
 %></%def>
 <%def name="col_vcpus(host)"><%
   if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
-    return 0
+    return jsonxs(host, 'ansible_facts.ansible_processor_count', default=0)
   else:
     return jsonxs(host, 'ansible_facts.ansible_processor_vcpus', default=jsonxs(host, 'ansible_facts.ansible_processor_cores', default=0))
   endif
