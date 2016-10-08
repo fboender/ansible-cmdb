@@ -1,3 +1,10 @@
+v1.17   2016-10-08
+
+- A bug that caused whitespace to be added each time a character was typed
+  into the search box was fixed.
+- Fix for HP-UX missing netmask (patch by Randy Rasmussen)
+- SQL template improvements for BSD.
+
 v1.16   2016-09-02
 
 - Added "all ipv6" column to html_fancy template.
