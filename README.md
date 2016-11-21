@@ -396,9 +396,13 @@ information.
 
 ### Python packaging / Pypi?
 
-Python has some of the most horrendous packaging infrastructure I've ever
-encountered in 25 years of programming. As such, anything related to Python
-packaging will not be supported.
+In the past I've attempted to create Python packages for Ansible-cmdb, but the
+packaging tools and infrastructure have left me disappointed with regards to
+the packaging of non-library Python programs. Most notably, the inclusion of
+static assets (jquery and such) has been problematic.
+
+Please refer to issue #90 for the current status of this feature request.
+
 
 Development
 -----------
@@ -475,8 +479,6 @@ to build a test release, you can temporary stash your untracked changes:
 
 If you wish to contribute code, please consider the following:
 
-* Any form of Python packaging will NOT be supported. Merge requests involving
-  python packages will not be considered. See issue #23.
 * Thank you for even considering contributing. I'm quite newbie-friendly, so
   don't hesitate to ask for help! 
 * Code should be reasonably PEP8-like. I'm not too strict on this.
