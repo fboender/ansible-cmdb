@@ -58,7 +58,11 @@ if __name__ == "__main__":
     log.debug('tpl_dir = {0}'.format(tpl_dir))
     log.debug('static_dir = {0}'.format(static_dir))
 
-    # Find configuration file to use. Params override optiosn for this
+    # Use hosts file from the current dir if it exists
+    if os.path.isfile('hosts'):
+        options.inventory = 'hosts'
+
+    # Find configuration file to use. Params override options for this
     config_file = None
     config_locations = ['/etc/ansible/ansible.cfg', 'ansible.cfg']
 
