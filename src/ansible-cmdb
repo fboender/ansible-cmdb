@@ -21,6 +21,17 @@ from mako.template import Template
 from mako import exceptions
 
 
+def find_path(dirs, path_to_find):
+    """
+    Go through a bunch of dirs and see if dir+path_to_find exists there.
+    Returns the first dir that matches. Otherwise, return None.
+    """
+    for dir in dirs:
+        if os.path.exists(os.path.join(dir, path_to_find)):
+            return dir
+    return None
+
+
 if __name__ == "__main__":
     # Set up logging
     root = logging.getLogger()
@@ -50,8 +61,14 @@ if __name__ == "__main__":
     if options.debug:
         root.setLevel(logging.DEBUG)
 
-    # Find out our installation prefix
-    data_dir = os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data')
+    # Find out our installation prefix and data directory. These can be in
+    # different places depending on how ansible-cmdb was installed.
+    data_dir_paths = [
+        os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data'),
+        '/usr/local/lib/ansiblecmdb/data',
+        '/usr/lib/ansiblecmdb/data',
+    ]
+    data_dir = find_path(data_dir_paths, 'tpl/html_fancy.tpl')
     tpl_dir = os.path.join(data_dir, 'tpl')
     static_dir = os.path.join(data_dir, 'static')
     log.debug('data_dir = {0}'.format(data_dir))
@@ -63,6 +80,7 @@ if __name__ == "__main__":
         options.inventory = 'hosts'
 
     # Find configuration file to use. Params override options for this
+    # FIXME: use find_path()
     config_file = None
     config_locations = ['/etc/ansible/ansible.cfg', 'ansible.cfg']
 
