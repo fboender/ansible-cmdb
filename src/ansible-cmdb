@@ -106,7 +106,6 @@ if __name__ == "__main__":
         mytemplate = Template(filename=options.template, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
     else:
         # Find template given with --template in the standard templates dir.
-        tpl_dir = os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data', 'tpl')
         tpl_path = os.path.join(tpl_dir, '%s.tpl' % (options.template))
         if not os.path.isfile(tpl_path):
             sys.stderr.write("Template not found: {0}\n".format(tpl_path))
