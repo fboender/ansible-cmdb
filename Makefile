@@ -29,7 +29,7 @@ release_src: release_clean doc
 
 	# Prepare source
 	mkdir $(PROG)-$(REL_VERSION)
-	cp -ar src/* $(PROG)-$(REL_VERSION)/
+	cp -a src/* $(PROG)-$(REL_VERSION)/
 	cp -r lib/mako $(PROG)-$(REL_VERSION)/
 	cp -r lib/yaml $(PROG)-$(REL_VERSION)/
 	cp -r lib/ushlex.py $(PROG)-$(REL_VERSION)/
@@ -70,11 +70,11 @@ release_deb: release_clean doc
 	cp -r lib/ushlex.py rel_deb/usr/lib/${PROG}/
 	cp -r lib/jsonxs.py rel_deb/usr/lib/${PROG}/
 	ln -s ../lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
-	cp -ar contrib/debian/DEBIAN rel_deb/
+	cp -a contrib/debian/DEBIAN rel_deb/
 	cp contrib/debian/copyright rel_deb/usr/share/doc/$(PROG)/
 	cp contrib/debian/changelog rel_deb/usr/share/doc/$(PROG)/
 	gzip -9 rel_deb/usr/share/doc/$(PROG)/changelog
-	cp -ar contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansible-cmdb.1
+	cp -a contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansible-cmdb.1
 	gzip -9 rel_deb/usr/share/man/man1/ansible-cmdb.1
 
 	# Bump version numbers
@@ -105,7 +105,7 @@ release_rpm: release_clean release_deb
 install:
 	mkdir -p /usr/local/lib/$(PROG)
 	mkdir -p /usr/local/man/man1
-	cp -ar src/* /usr/local/lib/$(PROG)
+	cp -a src/* /usr/local/lib/$(PROG)
 	cp -r lib/mako /usr/local/lib/$(PROG)
 	cp -r lib/yaml /usr/local/lib/$(PROG)
 	cp -r lib/ushlex.py /usr/local/lib/$(PROG)
