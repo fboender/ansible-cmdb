@@ -6,3 +6,6 @@ ansible-cmdb*.deb
 ansible-cmdb*.tar.gz
 ansible-cmdb*.zip
 example/gen_*
+build/
+dist/
+src/ansible_cmdb.egg-info/

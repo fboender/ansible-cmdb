@@ -11,10 +11,8 @@ def get_long_description():
     with open(path) as f:
         return f.read()
 
-
 def get_version():
-    setup_py = open('setup.py').read()
-    return re.search('version=[\'"]([0-9]+\.[0-9]+(|\.[0-9]+))[\'"]', setup_py, re.MULTILINE).group(1)
+    return open('src/ansiblecmdb/data/VERSION', 'r').read().strip()
 
 def get_data_files(path, strip='', prefix=''):
     data_files = []
@@ -34,25 +32,27 @@ if sys.argv[-1] == 'publish':
 
 setup(
     name='ansible-cmdb',
-    version='1.6',
-    license='BSD',
+    version=get_version(),
+    license='MIT',
     description='Generate host overview from ansible fact gathering output',
     long_description=get_long_description(),
     url='https://github.com/fboender/ansible-cmdb',
 
     author='Ferry Boender',
-    author_email='ferry.boender@gmail.com',
+    author_email='ferry.boender@electricmonk.nl',
 
     package_dir={'': 'src'},
     packages=find_packages('src'),
     include_package_data=True,
     data_files=get_data_files('src/ansiblecmdb/data',
-                              strip='src/ansiblecmdb/',
-                              prefix='ansiblecmdb/'),
+                              strip='src',
+                              prefix='lib/'),
     zip_safe=False,
     install_requires=[
         'mako>=1.0',
-        'pyyaml>=1.0'
+        'pyyaml>=1.0',
+        'ushlex>=0.99',
+        'jsonxs>=0.3',
     ],
     scripts=[
         'src/ansible-cmdb',
@@ -70,6 +70,7 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Topic :: System :: Installation/Setup',
         'Topic :: System :: Systems Administration',
         'Topic :: Utilities',

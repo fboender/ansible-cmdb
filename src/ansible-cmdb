@@ -43,7 +43,20 @@ if __name__ == "__main__":
     root.addHandler(ch)
     log = root
 
-    parser = optparse.OptionParser(version="%prog v%%MASTER%%")
+    # Find out our installation prefix and data directory. These can be in
+    # different places depending on how ansible-cmdb was installed.
+    data_dir_paths = [
+        os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data'),
+        '/usr/local/lib/ansiblecmdb/data',
+        '/usr/lib/ansiblecmdb/data',
+    ]
+
+    data_dir = find_path(data_dir_paths, 'tpl/html_fancy.tpl')
+    tpl_dir = os.path.join(data_dir, 'tpl')
+    static_dir = os.path.join(data_dir, 'static')
+    version = open(os.path.join(data_dir, 'VERSION')).read().strip()
+
+    parser = optparse.OptionParser(version="%prog v{}".format(version))
     parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
     parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
     parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory to read extra info from")
@@ -61,16 +74,7 @@ if __name__ == "__main__":
     if options.debug:
         root.setLevel(logging.DEBUG)
 
-    # Find out our installation prefix and data directory. These can be in
-    # different places depending on how ansible-cmdb was installed.
-    data_dir_paths = [
-        os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data'),
-        '/usr/local/lib/ansiblecmdb/data',
-        '/usr/lib/ansiblecmdb/data',
-    ]
-    data_dir = find_path(data_dir_paths, 'tpl/html_fancy.tpl')
-    tpl_dir = os.path.join(data_dir, 'tpl')
-    static_dir = os.path.join(data_dir, 'static')
+    # Log some path information
     log.debug('data_dir = {0}'.format(data_dir))
     log.debug('tpl_dir = {0}'.format(tpl_dir))
     log.debug('static_dir = {0}'.format(static_dir))
@@ -100,7 +104,7 @@ if __name__ == "__main__":
     params = {
         'lib_dir': data_dir,  # Backwards compatibility for custom templates < ansible-cmdb v1.7
         'data_dir': data_dir,
-        'version': '%%MASTER%%',
+        'version': version,
         'columns': None,
     }
     if options.params:

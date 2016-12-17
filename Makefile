@@ -11,20 +11,34 @@ test:
 example:
 	example/generate.sh
 
-release_clean: clean
-	@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
-
-release: release_src release_deb release_rpm
-
 doc:
 	markdown_py README.md > README.html
 
-release_src: release_clean doc
-	@echo "Making release for version $(REL_VERSION)"
+clean:
+	rm -rf rel_deb
+	rm -f *.rpm
+	rm -f *.deb
+	rm -f *.tar.gz
+	rm -f *.zip
+	rm -f README.html
+	find ./ -name "*.pyc" -delete
+	find ./ -name "__pycache__" -type d -delete
+	rm -f example/gen_*
+	rm -rf build/
+	rm -rf dist/
+	rm -rf src/ansible_cmdb.egg-info/
 
+release_clean: clean
+	#@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
+
+release_check:
+	@echo "Making release for version $(REL_VERSION)"
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
 
-	# Cleanup
+release: release_check release_src release_deb release_rpm release_wheel
+
+release_src: release_check release_clean doc
+	# Cleanup. Only on release, since REL_VERSION doesn't exist otherwise
 	rm -rf $(PROG)-$(REL_VERSION)
 
 	# Prepare source
@@ -47,12 +61,7 @@ release_src: release_clean doc
 	zip -q -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -czf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
-release_deb: release_clean doc
-	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
-
-	# Cleanup
-	rm -rf rel_deb
-
+release_deb: release_check release_clean doc
 	mkdir -p rel_deb/usr/bin
 	mkdir -p rel_deb/usr/lib/${PROG}
 	mkdir -p rel_deb/usr/lib/${PROG}/mako
@@ -91,7 +100,7 @@ release_deb: release_clean doc
 	# Lint
 	lintian ansible-cmdb-*.deb
 
-release_rpm: release_clean release_deb
+release_rpm: release_check release_clean release_deb
 	alien -r -g $(PROG)-$(REL_VERSION).deb
 	sed -i '\:%dir "/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
 	sed -i '\:%dir "/usr/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
@@ -101,6 +110,11 @@ release_rpm: release_clean release_deb
 	sed -i '\:%dir "/usr/lib/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
 	sed -i '\:%dir "/usr/bin/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
 	cd $(PROG)-$(REL_VERSION) && rpmbuild --buildroot='$(shell readlink -f $(PROG)-$(REL_VERSION))/' -bb --target noarch '$(PROG)-$(REL_VERSION)-2.spec'
+
+release_wheel: release_check release_clean
+	echo "$(REL_VERSION)" > src/ansiblecmdb/data/VERSION
+	python setup.py bdist_wheel --universal
+	echo `git rev-parse --abbrev-ref HEAD | tr "[:lower:]" "[:upper:]"` > src/ansiblecmdb/data/VERSION
 
 install:
 	mkdir -p /usr/local/lib/$(PROG)
@@ -120,13 +134,3 @@ uninstall:
 	rm -rf /usr/local/lib/$(PROG)
 	rm -f /usr/local/man/man/ansible-cmdb.man.1.gz
 	rm -rf /usr/local/bin/ansible-cmdb
-
-clean:
-	rm -f *.rpm
-	rm -f *.deb
-	rm -f *.tar.gz
-	rm -f *.zip
-	rm -f README.html
-	find ./ -name "*.pyc" -delete
-	find ./ -name "__pycache__" -type d -delete
-	rm -f example/gen_*
