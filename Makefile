@@ -29,7 +29,7 @@ clean:
 	rm -rf src/ansible_cmdb.egg-info/
 
 release_clean: clean
-	#@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
+	@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
 
 release_check:
 	@echo "Making release for version $(REL_VERSION)"
