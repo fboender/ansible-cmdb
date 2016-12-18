@@ -34,6 +34,7 @@ release_clean: clean
 release_check:
 	@echo "Making release for version $(REL_VERSION)"
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
+	echo "$(REL_VERSION)" > src/ansiblecmdb/data/VERSION
 
 release: release_check release_src release_deb release_rpm release_wheel
 
