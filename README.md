@@ -26,6 +26,30 @@ facts.
 Installation
 ------------
 
+Ansible-cmdb can be installed using `pip` (the Python package manager), with
+stand-alone packages for your distribution or through brew and plain old `make
+install`.
+
+### Through Pip
+
+For **installation via Pip**:
+
+Install `pip` [for your
+  distribution](https://packaging.python.org/install_requirements_linux/) if
+  you don't have it yet.
+
+Install Ansible-cmdb through Pip:
+
+    sudo pip install ansible-cmdb
+
+Ansible-cmdb currently can't be installed into virtualenv.
+
+You can also upgrade Ansible-cmdb through Pip:
+
+    sudo pip install --upgrade ansible-cmdb
+
+### Through distribution packages
+
 Get the package for your distribution from the [Releases
 page](https://github.com/fboender/ansible-cmdb/releases) (Not required for
 MacOS X install)
@@ -37,6 +61,8 @@ For **Debian / Ubuntu** systems:
 For **Redhat / Centos** systems:
 
     sudo yum --disablerepo=* install ansible-cmdb*.rpm
+
+### For other systems
 
 For **MacOS X** systems:
 
