@@ -420,15 +420,6 @@ Ansible currently does not include disk size information for Solaris hosts. As
 such, we can't include it in the output of Ansible-cmdb. See issue #24 for more
 information.
 
-### Python packaging / Pypi?
-
-In the past I've attempted to create Python packages for Ansible-cmdb, but the
-packaging tools and infrastructure have left me disappointed with regards to
-the packaging of non-library Python programs. Most notably, the inclusion of
-static assets (jquery and such) has been problematic.
-
-Please refer to issue #90 for the current status of this feature request.
-
 
 Development
 -----------
