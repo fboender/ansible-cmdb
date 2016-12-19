@@ -171,3 +171,4 @@ that rendered properly ('Rendering host...' in the output. If these files must
 remain confidential, you can send them to ferry.boender@gmail.com instead.
 """
         sys.stderr.write(debug_txt)
+        sys.exit(1)
