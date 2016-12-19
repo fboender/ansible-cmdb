@@ -147,13 +147,13 @@ if __name__ == "__main__":
             out = mytemplate.render(hosts=ansible.hosts, **params)
             sys.stdout.write(out)
     except Exception as err:
-        if options.debug:
-            sys.stderr.write(exceptions.text_error_template().render())
-            sys.stderr.write('\n')
+        full_err = exceptions.text_error_template().render().replace("\n", "\n    ")
         debug_cmd = "{0} -d {1}".format(sys.argv[0], ' '.join(sys.argv[1:]))
         debug_txt = ("Whoops, it looks like something went wrong while rendering the template.\n\n"
-                     "The reported error was: {0}\n\n"
-                     "The output is probably not correct.\n".format(err))
+                     "The reported error was: {0}: {1}\n\nThe full error was:{2}\n"
+                     "The output is probably not correct.\n\n".format(err.__class__.__name__, err, full_err))
+        if err.__class__.__name__ == "KeyError":
+            debug_txt += "!!! This is probably a problem with missing information in your host facts\n\n"
         if not options.debug:
             debug_txt += ("You can re-run ansible-cmdb with the -d switch to turn on debugging\n"
                           "to get an insight in what might be going wrong:\n\n"
