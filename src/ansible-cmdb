@@ -17,19 +17,9 @@ import os
 import logging
 
 import ansiblecmdb
+import ansiblecmdb.util as util
 from mako.template import Template
 from mako import exceptions
-
-
-def find_path(dirs, path_to_find):
-    """
-    Go through a bunch of dirs and see if dir+path_to_find exists there.
-    Returns the first dir that matches. Otherwise, return None.
-    """
-    for dir in dirs:
-        if os.path.exists(os.path.join(dir, path_to_find)):
-            return dir
-    return None
 
 
 if __name__ == "__main__":
@@ -51,7 +41,7 @@ if __name__ == "__main__":
         '/usr/lib/ansiblecmdb/data',
     ]
 
-    data_dir = find_path(data_dir_paths, 'tpl/html_fancy.tpl')
+    data_dir = util.find_path(data_dir_paths, 'tpl/html_fancy.tpl')
     tpl_dir = os.path.join(data_dir, 'tpl')
     static_dir = os.path.join(data_dir, 'static')
     version = open(os.path.join(data_dir, 'VERSION')).read().strip()

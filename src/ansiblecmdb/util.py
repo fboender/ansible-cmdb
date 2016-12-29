@@ -1,4 +1,5 @@
 import copy
+import os
 
 
 def deepupdate(target, src):
@@ -32,3 +33,13 @@ def deepupdate(target, src):
                 target[k].update(v.copy())
         else:
             target[k] = copy.copy(v)
+
+def find_path(dirs, path_to_find):
+    """
+    Go through a bunch of dirs and see if dir+path_to_find exists there.
+    Returns the first dir that matches. Otherwise, return None.
+    """
+    for dir in dirs:
+        if os.path.exists(os.path.join(dir, path_to_find)):
+            return dir
+    return None
