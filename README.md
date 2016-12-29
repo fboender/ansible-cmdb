@@ -12,16 +12,17 @@ About
 Ansible-cmdb takes the output of Ansible's fact gathering and converts it into
 a static HTML overview page containing system configuration information.
 
-It supports multiple templates (html, txt_table, csv, json output, markdown)
-and extending information gathered by Ansible with custom data. For each host
-it also shows the groups, host variables, custom variables and machine-local
-facts.
+It supports multiple templates (html, txt_table, csv, json output, markdown,
+sql) and extending information gathered by Ansible with custom data. For each
+host it also shows the groups, host variables, custom variables and
+machine-local facts.
 
 ![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot-overview.png)
 
 ![](https://raw.githubusercontent.com/fboender/ansible-cmdb/master/contrib/screenshot-detail.png)
 
 [HTML example](https://rawgit.com/fboender/ansible-cmdb/master/example/html_fancy.html) output.
+
 
 Installation
 ------------
