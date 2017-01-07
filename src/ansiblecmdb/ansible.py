@@ -65,7 +65,7 @@ class Ansible(object):
 
                 self._handle_inventory(os.path.join(inventory_path, fname))
         else:
-            sys.stderr.write("Not a file or directory: '{}'\n".format(inventory_path))
+            raise IOError("Invalid inventory file / dir: '{}'".format(inventory_path))
         self._parse_hostvar_dir(inventory_path)
 
     def _parse_hosts_inventory(self, inventory_path):
