@@ -59,6 +59,10 @@ class Ansible(object):
         elif os.path.isdir(inventory_path):
             # Scan directory
             for fname in os.listdir(inventory_path):
+                # Skip files that end with certain extensions or characters
+                if any(fname.endswith(ext) for ext in ["~", ".orig", ".bak", ".ini", ".cfg", ".retry", ".pyc", ".pyo"]):
+                    continue
+
                 self._handle_inventory(os.path.join(inventory_path, fname))
         else:
             sys.stderr.write("Not a file or directory: '{}'\n".format(inventory_path))

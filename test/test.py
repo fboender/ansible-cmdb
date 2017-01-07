@@ -112,6 +112,8 @@ class InventoryTestCase(unittest.TestCase):
         self.assertIn("moocow.example.com", ansible.hosts)
         # results from normal hosts file.
         self.assertIn("web03.dev.local", ansible.hosts)
+        # INI file ignored.
+        self.assertNotIn("ini_setting", ansible.hosts)
 
 
 class FactCacheTestCase(unittest.TestCase):
