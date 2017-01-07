@@ -1,3 +1,16 @@
+v1.19   2017-01-07
+
+- Always show stacktrace on error and include class name.
+- Exit with proper exit codes.
+- Exclude certain file extensions from consideration as inventories.
+- Improved error reporting and lookups of templates.
+
+v1.18   2016-12-07
+
+- Python packaging / pip support.
+- Fixes in the "Make install" from repository procedure.
+- If Ansible-cmdb finds a "hosts" file in the current dir, it will use it.
+
 v1.17   2016-10-08
 
 - A bug that caused whitespace to be added each time a character was typed
