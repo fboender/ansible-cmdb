@@ -112,18 +112,21 @@ if __name__ == "__main__":
     ansible = ansiblecmdb.Ansible(args, options.inventory, options.fact_cache, debug=options.debug)
 
     # Render a template with the gathered host info
-    if os.path.isfile(options.template):
-        # --template option points to an actual file
-        log.debug('template file = {0}'.format(options.template))
-        mytemplate = Template(filename=options.template, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
+    tpl_file = None
+    tpl_lookups = [
+        os.path.realpath(options.template),
+        os.path.realpath(os.path.join(tpl_dir, '{0}.tpl'.format(options.template))),
+    ]
+    for p in tpl_lookups:
+        if os.path.isfile(p):
+            tpl_file = p
+            break
     else:
-        # Find template given with --template in the standard templates dir.
-        tpl_path = os.path.join(tpl_dir, '%s.tpl' % (options.template))
-        if not os.path.isfile(tpl_path):
-            sys.stderr.write("Template not found: {0}\n".format(tpl_path))
-            sys.exit(1)
-        log.debug('template file = {0}'.format(tpl_path))
-        mytemplate = Template(filename=tpl_path, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
+        sys.stderr.write("Template '{0}' not found at any of \n  {1}\n".format(options.template, "\n  ".join(tpl_lookups)))
+        sys.exit(1)
+
+    log.debug('template file = {0}'.format(tpl_file))
+    mytemplate = Template(filename=tpl_file, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
 
     # Make sure we always output in UTF-8, regardless of the user's locale /
     # terminal encoding. This is different in Python 2 and 3.
