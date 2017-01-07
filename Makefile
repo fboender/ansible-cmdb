@@ -28,9 +28,6 @@ clean:
 	rm -rf dist/
 	rm -rf src/ansible_cmdb.egg-info/
 
-release_clean: clean
-	@if [ "$(shell git status --porcelain)" != "" ]; then echo "Repo not clean. Not building"; exit 1; fi
-
 release_check:
 	@echo "Making release for version $(REL_VERSION)"
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
@@ -38,7 +35,7 @@ release_check:
 
 release: release_check release_src release_deb release_rpm release_wheel
 
-release_src: release_check release_clean doc
+release_src: release_check clean doc
 	# Cleanup. Only on release, since REL_VERSION doesn't exist otherwise
 	rm -rf $(PROG)-$(REL_VERSION)
 
@@ -62,7 +59,7 @@ release_src: release_check release_clean doc
 	zip -q -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -czf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
-release_deb: release_check release_clean doc
+release_deb: release_check clean doc
 	mkdir -p rel_deb/usr/bin
 	mkdir -p rel_deb/usr/lib/${PROG}
 	mkdir -p rel_deb/usr/lib/${PROG}/mako
@@ -101,7 +98,7 @@ release_deb: release_check release_clean doc
 	# Lint
 	lintian ansible-cmdb-*.deb
 
-release_rpm: release_check release_clean release_deb
+release_rpm: release_check clean release_deb
 	alien -r -g $(PROG)-$(REL_VERSION).deb
 	sed -i '\:%dir "/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
 	sed -i '\:%dir "/usr/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
@@ -112,7 +109,7 @@ release_rpm: release_check release_clean release_deb
 	sed -i '\:%dir "/usr/bin/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
 	cd $(PROG)-$(REL_VERSION) && rpmbuild --buildroot='$(shell readlink -f $(PROG)-$(REL_VERSION))/' -bb --target noarch '$(PROG)-$(REL_VERSION)-2.spec'
 
-release_wheel: release_check release_clean
+release_wheel: release_check clean
 	echo "$(REL_VERSION)" > src/ansiblecmdb/data/VERSION
 	python setup.py bdist_wheel --universal
 	echo `git rev-parse --abbrev-ref HEAD | tr "[:lower:]" "[:upper:]"` > src/ansiblecmdb/data/VERSION
