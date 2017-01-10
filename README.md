@@ -63,6 +63,9 @@ For **Redhat / Centos** systems:
 
     sudo yum --disablerepo=* install ansible-cmdb*.rpm
 
+For **Arch** systems:
+    [aur/ansible-cmdb](https://aur.archlinux.org/packages/ansible-cmdb/)
+
 ### For other systems
 
 For **MacOS X** systems:
