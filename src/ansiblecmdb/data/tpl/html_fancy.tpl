@@ -484,7 +484,7 @@ if columns is not None:
     #host_overview_tbl_filter label input { margin-left: 12px; }
     #host_overview_tbl_filter #filter_link a { color: #000000; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR4Xu2TIQ6EMBBF/+4dOUBFBYoboBHoBsuRUCgcnpDg3/Y7ICQVK3ebvPxJ30xH9QXom/PO/PoDAjSOY8pwIwFFr2EYUobjONj33bjGd3Ylr77v2bYNp7Hwhifs3HOeUdu2LMuCE1DXdedtl612cJ1R0zRM04TT1HVNjPERO/ecZxRCSBnmeWZdV+Ma39mVvABVVZUy3EhA0f//gvQB4y08WIiD/goAAAAASUVORK5CYII=) no-repeat left center; padding: 5px 0 5px 25px; }
     #host_overview_tbl_info { margin-top: 16px; color: #C0C0C0; }
-    #host_overview .bar { clear: both; }
+    #host_overview .bar { clear: both; margin-bottom: 1px; }
     #host_overview .prog_bar_full { float: left; display: block; height: 12px; border: 1px solid #000000; padding: 1px; margin-right: 4px; color: white; text-align: center; }
     #host_overview .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
     #host_overview tbody td.error a { color: #FF0000; }
