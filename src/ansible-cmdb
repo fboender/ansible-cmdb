@@ -37,6 +37,7 @@ if __name__ == "__main__":
     # different places depending on how ansible-cmdb was installed.
     data_dir_paths = [
         os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data'),
+        os.path.join(os.path.dirname(sys.argv[0]), '..', 'lib', 'ansiblecmdb', 'data'),
         '/usr/local/lib/ansiblecmdb/data',
         '/usr/lib/ansiblecmdb/data',
     ]
