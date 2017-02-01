@@ -25,6 +25,7 @@ cols = [
   {"title": "Mem Usage",  "id": "mem_usage",  "func": col_mem_usage,  "sType": "string", "visible": False},
   {"title": "Swap Usage", "id": "swap_usage", "func": col_swap_usage, "sType": "string", "visible": False},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "sType": "string", "visible": False},
+  {"title": "Disk size",  "id": "disk_size",  "func": col_disk_size,  "sType": "string", "visible": False},
   {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "sType": "string", "visible": False},
 ]
 
@@ -172,6 +173,20 @@ if columns is not None:
           <span class="prog_bar_used" style="width:${used}px"></span>
         </span> ${i['mount']} <span class="usage_detail">(${detail_used} / ${detail_total} GiB)</span>
       </div>
+    % except:
+      n/a
+      <%
+      break  ## Stop listing disks, since there was an error.
+      %>
+    % endtry
+  % endfor
+</%def>
+<%def name="col_disk_size(host)">
+  % for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
+    % try:
+      ## hidden sort helper
+      <span style="display:none">${i["size_total"]}</span>
+      ${i['mount']} <span class="usage_detail">${round(i['size_total'] / 1073741824.0, 1)} GiB</span><br />
     % except:
       n/a
       <%
