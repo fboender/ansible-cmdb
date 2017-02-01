@@ -52,8 +52,6 @@ Install Ansible-cmdb through Pip:
 
     sudo pip install ansible-cmdb
 
-Ansible-cmdb currently can't be installed into virtualenv.
-
 You can also upgrade Ansible-cmdb through Pip:
 
     sudo pip install --upgrade ansible-cmdb
