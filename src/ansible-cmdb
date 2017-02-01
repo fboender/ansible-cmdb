@@ -43,6 +43,9 @@ if __name__ == "__main__":
     ]
 
     data_dir = util.find_path(data_dir_paths, 'tpl/html_fancy.tpl')
+    if not data_dir:
+        sys.stdout.write("Couldn't find the data dir for the templates. I tried: {}\n".format(", ".join(data_dir_paths)))
+        sys.exit(1)
     tpl_dir = os.path.join(data_dir, 'tpl')
     static_dir = os.path.join(data_dir, 'static')
     version = open(os.path.join(data_dir, 'VERSION')).read().strip()
