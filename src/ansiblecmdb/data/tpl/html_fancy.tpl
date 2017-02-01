@@ -154,10 +154,16 @@ if columns is not None:
   % for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
     % try:
       <%
-        sort_used = '%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])
-        used = float((i["size_total"] - i["size_available"])) / i["size_total"] * 100
-        detail_used = round((i['size_total'] - i['size_available']) / 1073741824.0, 1)
-        detail_total = round(i['size_total'] / 1073741824.0, 1)
+        try:
+          sort_used = '%f' % (float((i["size_total"] - i["size_available"])) / i["size_total"])
+          used = float((i["size_total"] - i["size_available"])) / i["size_total"] * 100
+          detail_used = round((i['size_total'] - i['size_available']) / 1073741824.0, 1)
+          detail_total = round(i['size_total'] / 1073741824.0, 1)
+        except ZeroDivisionError:
+          sort_used = '0'
+          used = 0
+          detail_used = 0
+          detail_total = 0
       %>
       ## hidden sort helper
       <span style="display:none">${sort_used}</span>
