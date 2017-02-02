@@ -25,6 +25,7 @@ cols = [
   {"title": "Mem Usage",  "id": "mem_usage",  "func": col_mem_usage,  "sType": "string", "visible": False},
   {"title": "Swap Usage", "id": "swap_usage", "func": col_swap_usage, "sType": "string", "visible": False},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "sType": "string", "visible": False},
+  {"title": "PhysDisk size", "id": "physdisk_size", "func": col_physdisk_sizes, "sType": "string", "visible": False},
   {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "sType": "string", "visible": False},
 ]
 
@@ -179,6 +180,15 @@ if columns is not None:
       %>
     % endtry
   % endfor
+</%def>
+<%def name="col_physdisk_sizes(host)">
+  % try:
+    % for physdisk_name, physdisk_info in jsonxs(host, 'ansible_facts.ansible_devices', default={}).items():
+      ${physdisk_name}: ${jsonxs(physdisk_info, 'size', default='')}<br />
+    % endfor
+  % except AttributeError:
+    
+  % endtry
 </%def>
 <%def name="col_comment(host)">
   ${jsonxs(host, 'hostvars.comment', default='')}
