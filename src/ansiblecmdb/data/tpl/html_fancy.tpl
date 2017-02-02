@@ -26,6 +26,7 @@ cols = [
   {"title": "Swap Usage", "id": "swap_usage", "func": col_swap_usage, "sType": "string", "visible": False},
   {"title": "Disk usage", "id": "disk_usage", "func": col_disk_usage, "sType": "string", "visible": False},
   {"title": "PhysDisk size", "id": "physdisk_size", "func": col_physdisk_sizes, "sType": "string", "visible": False},
+  {"title": "Nr of Ifaces", "id": "nr_of_ifaces", "func": col_nr_of_ifaces, "sType": "num", "visible": False},
   {"title": "Timestamp",  "id": "timestamp",  "func": col_gathered,   "sType": "string", "visible": False},
 ]
 
@@ -189,6 +190,9 @@ if columns is not None:
   % except AttributeError:
     
   % endtry
+</%def>
+<%def name="col_nr_of_ifaces(host)">
+  ${len(jsonxs(host, 'ansible_facts.ansible_interfaces', default=[]))}
 </%def>
 <%def name="col_comment(host)">
   ${jsonxs(host, 'hostvars.comment', default='')}
