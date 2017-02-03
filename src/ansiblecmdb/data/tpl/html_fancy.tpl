@@ -475,6 +475,8 @@ if columns is not None:
 
     header { position: fixed; top: 0px; left: 0px; right: 0px; background-color: #0071b8; overflow: auto; color: #E0E0E0; padding: 15px; z-index: 1000; }
     header h1 { font-size: x-large; float: left; line-height: 32px; font-weight: bold; }
+    header #clear_settings { float: right; line-height: 32px; font-size: small; margin-left: 12px; }
+    header #clear_settings a { color: #FFFFFF; font-weight: bold; padding: 6px; background-color: #0090F0; box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.15); }
     header #generated { float: right; line-height: 32px; font-size: small; }
     header #top { display: none; }
     header #top a { line-height: 32px; margin-left: 64px; color: #FFFFFF; border-bottom: 1px solid #909090; }
@@ -534,6 +536,7 @@ if columns is not None:
 <header>
   <h1>Host Overview</h1>
   <span id="top"><a href="#">Back to top</a></span>
+  <span id="clear_settings"><a href="javascript:window.localStorage.clear('columnVisibility'); location.reload();">Clear settings</a></span> 
   <span id="generated">Generated on <span class="datetime">${datetime.datetime.now().strftime('%c')}</span></span>
 </header>
 
