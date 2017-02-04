@@ -212,27 +212,32 @@ if columns is not None:
 ## Detailed host information blocks
 ##
 <%def name="host_general(host)">
-  <h4>General</h4>
+  <h4 class="toggle-collapse collapsed">General</h4>
+  <div class="collapsable collapsed">
   <table>
     <tr><th>Node name</th><td>${jsonxs(host, 'ansible_facts.ansible_nodename', default='')}</td></tr>
     <tr><th>Form factor</th><td>${jsonxs(host, 'ansible_facts.ansible_form_factor',  default='')}</td></tr>
     <tr><th>Virtualization role</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_role',  default='')}</td></tr>
     <tr><th>Virtualization type</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_type',  default='')}</td></tr>
   </table>
+  </div>
 </%def>
 <%def name="host_groups(host)">
   % if len(host.get('groups', [])) != 0:
-    <h4>Groups</h4>
+    <h4 class="toggle-collapse collapsed">Groups</h4>
+    <div class="collapsable collapsed">
     <ul>
       % for group in sorted(host.get('groups', [])):
         <li>${group}</li>
       % endfor
     </ul>
+    </div>
   % endif
 </%def>
 <%def name="host_custvars(host)">
   % if len(host['hostvars']) != 0:
-    <h4>Custom variables</h4>
+    <h4 class="toggle-collapse collapsed">Custom variables</h4>
+    <div class="collapsable collapsed">
     <table>
         % for var_name, var_value in host['hostvars'].items():
           <tr>
@@ -247,12 +252,15 @@ if columns is not None:
               % endif
         % endfor
     </table>
+    </div>
   % endif
 </%def>
 <%def name="host_localfacts(host)">
   % if len(jsonxs(host, 'ansible_facts.ansible_local', default={}).items()) != 0:
-    <h4>Host local facts</h4>
+    <h4 class="toggle-collapse collapsed">Host local facts</h4>
+    <div class="collapsable collapsed">
     ${r_dict(jsonxs(host,  'ansible_facts.ansible_local', default={}))}
+    </div>
   % endif
 </%def>
 <%def name="host_factorfacts(host)">
@@ -263,18 +271,23 @@ if columns is not None:
       facter_facts[key] = value
   %>
   % if len(facter_facts) != 0:
-    <h4>Facter facts</h4>
+    <h4 class="toggle-collapse collapsed">Facter facts</h4>
+    <div class="collapsable collapsed">
     ${r_dict(facter_facts)}
+    </div>
   % endif
 </%def>
 <%def name="host_customfacts(host)">
   % if len(host.get('custom_facts', {}).items()) != 0:
-    <h4>Custom facts</h4>
+    <h4 class="toggle-collapse collapsed">Custom facts</h4>
+    <div class="collapsable collapsed">
     ${r_dict(host.get('custom_facts', {}))}
+    </div>
   % endif
 </%def>
 <%def name="host_hardware(host)">
-  <h4>Hardware</h4>
+  <h4 class="toggle-collapse collapsed">Hardware</h4>
+  <div class="collapsable collapsed">
   <table>
     <tr><th>Vendor</th><td>${jsonxs(host, 'ansible_facts.ansible_system_vendor',  default='')}</td></tr>
     <tr><th>Product name</th><td>${jsonxs(host, 'ansible_facts.ansible_product_name',  default='')}</td></tr>
@@ -293,9 +306,11 @@ if columns is not None:
     <tr><th>Swap total mb</th><td>${jsonxs(host, 'ansible_facts.ansible_swaptotal_mb',  default='')}</td></tr>
     <tr><th>Swap free mb</th><td>${jsonxs(host, 'ansible_facts.ansible_swapfree_mb',  default='')}</td></tr>
   </table>
+  </div>
 </%def>
 <%def name="host_os(host)">
-  <h4>Operating System</h4>
+  <h4 class="toggle-collapse collapsed">Operating System</h4>
+  <div class="collapsable collapsed">
   <table>
     <tr><th>System</th><td>${jsonxs(host, 'ansible_facts.ansible_system',  default='')}</td></tr>
     <tr><th>OS Family</th><td>${jsonxs(host, 'ansible_facts.ansible_os_family',  default='')}</td></tr>
@@ -310,9 +325,11 @@ if columns is not None:
     <tr><th>SELinux?</th><td>${jsonxs(host, 'ansible_facts.ansible_selinux', default='')}</td></tr>
     <tr><th>Package manager</th><td>${jsonxs(host, 'ansible_facts.ansible_pkg_mgr', default='')}</td></tr>
   </table>
+  </div>
 </%def>
 <%def name="host_network(host)">
-  <h4>Network</h4>
+  <h4 class="toggle-collapse collapsed">Network</h4>
+  <div class="collapsable collapsed">
   <table class="net_info">
     <tr><th>Hostname</th><td>${jsonxs(host, 'ansible_facts.ansible_hostname',  default='')}</td></tr>
     <tr><th>Domain</th><td>${jsonxs(host, 'ansible_facts.ansible_domain',  default='')}</td></tr>
@@ -375,9 +392,11 @@ if columns is not None:
       </td>
     </tr>
   </table>
+  </div>
 </%def>
 <%def name="host_storage(host)">
-  <h4>Storage</h4>
+  <h4 class="toggle-collapse collapsed">Storage</h4>
+  <div class="collapsable collapsed">
   <table>
     <tr>
       <th>Devices</th>
@@ -396,6 +415,7 @@ if columns is not None:
       </td>
     </tr>
   </table>
+  </div>
 </%def>
 
 ##
@@ -515,10 +535,19 @@ if columns is not None:
     #host_overview span.usage_detail { color: #606060; }
 
     #hosts { margin-left: 32px; margin-bottom: 120px; }
+    #hosts .toggle-collapse { cursor: pointer; }
+    #hosts a.open-all { margin-top: 20px; display: inline-block; color: #0080FF; }
+    #hosts h3.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large; }
+    #hosts h3.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟";  font-weight: 200; font-size: large;}
+    #hosts h4.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large;}
+    #hosts h4.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟"; font-weight: 200; font-size: large;}
+    #hosts div.collapsable { margin-left: 16px; }
+    #hosts div.collapsed { display: none; }
     #hosts a { color: #000000; }
-    #hosts h3 { margin-top: 128px; padding-bottom: 16px; font-size: xx-large; border-bottom: 1px solid #D0D0D0; }
+    #hosts h3.uncollapsed { line-height: 1.5em; font-size: xx-large; border-bottom: 1px solid #D0D0D0; }
+    #hosts h3.collapsed {  line-height: 1.5em; font-size: xx-large; }
     #hosts h4 { font-size: large; font-weight: bold; color: #404040; margin-top: 32px; margin-bottom: 32px; }
-    #hosts th { text-align: left; color: #909090; padding-bottom: 10px; }
+    #hosts th { text-align: left; color: #808080; padding-bottom: 10px; }
     #hosts td { padding-left: 16px; color: #303030; padding-bottom: 10px; }
     #hosts ul { list-style: square; margin-left: 48px; }
     #hosts table.net_overview td,th { text-align: left; padding: 0px 0px 8px 16px; margin: 0px; }
@@ -595,26 +624,30 @@ if columns is not None:
     <%
     log.debug("Rendering host details for {0}".format(hostname))
     %>
-    <a href="#${host['name']}" name="${host['name']}"><h3 id="${host['name']}">${host['name']}</h3></a>
-    % if 'ansible_facts' not in host:
-      <p>No host information collected</p>
-      % if 'msg' in host:
-        <p class="error">${host['msg']}</p>
+    <a name="${host['name']}"></a>
+    <h3 class="toggle-collapse collapsed" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
+    <div class="collapsable collapsed">
+      <a class="open-all" href="">Open all</a>
+      % if 'ansible_facts' not in host:
+        <p>No host information collected</p>
+        % if 'msg' in host:
+          <p class="error">${host['msg']}</p>
+        % endif
+        <% host_groups(host) %>
+        <% host_custvars(host) %>
+      % else:
+        <% host_general(host) %>
+        <% host_groups(host) %>
+        <% host_custvars(host) %>
+        <% host_localfacts(host) %>
+        <% host_factorfacts(host) %>
+        <% host_customfacts(host) %>
+        <% host_hardware(host) %>
+        <% host_os(host) %>
+        <% host_network(host) %>
+        <% host_storage(host) %>
       % endif
-      <% host_groups(host) %>
-      <% host_custvars(host) %>
-    % else:
-      <% host_general(host) %>
-      <% host_groups(host) %>
-      <% host_custvars(host) %>
-      <% host_localfacts(host) %>
-      <% host_factorfacts(host) %>
-      <% host_customfacts(host) %>
-      <% host_hardware(host) %>
-      <% host_os(host) %>
-      <% host_network(host) %>
-      <% host_storage(host) %>
-    % endif
+    </div>
   % endfor
 </div>
 
@@ -704,6 +737,31 @@ $(document).ready( function () {
     // Storage column visibility in localStorage.
     columnVisibility[columnId] = column.visible();
     localStorage.setItem("columnVisibility", JSON.stringify(columnVisibility));
+  });
+  
+  // Open the Detailed host information when jumping to a host.
+  $('#host_overview td a').on('click', function(e) {
+    var hostId=$(this).attr('href').substr(1);
+    var hostElem = $("h3[data-host-name='"+hostId+"']");
+    hostElem.addClass('uncollapsed');
+    hostElem.removeClass('collapsed');
+    hostElem.next().removeClass('collapsed');
+  });
+
+  // Open the detailed host information when clicking on the hosts header
+  $('.toggle-collapse').on('click', function(e) {
+    $(this).toggleClass('collapsed');
+    $(this).toggleClass('uncollapsed');
+    $(this).next().toggleClass('collapsed');
+  });
+  
+  $('a.open-all').on('click', function(e) {
+    e.preventDefault();
+    $(this).siblings('.collapsed').each(function(item) {
+        $(this).addClass('uncollapsed');
+        $(this).removeClass('collapsed');
+        $(this).next().toggleClass('collapsed');
+    });
   });
 
   // Show host name in header bar when scrolling
