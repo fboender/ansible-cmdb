@@ -1,5 +1,7 @@
 <%
 from jsonxs import jsonxs
+import socket
+import getpass
 
 ##
 ## Column definitions
@@ -480,7 +482,7 @@ if columns is not None:
     header #generated { float: right; line-height: 32px; font-size: small; }
     header #top { display: none; }
     header #top a { line-height: 32px; margin-left: 64px; color: #FFFFFF; border-bottom: 1px solid #909090; }
-    header #generated .datetime { font-weight: bold; margin-left: 12px; }
+    header #generated .detail { font-weight: bold; }
 
     footer { display: block; position: fixed; bottom: 0px; right: 0px; left: 0px; background-color: #d5d5d5; overflow: auto; color: #505050; padding: 4px; font-size: x-small; text-align: right; padding-right: 8px; }
     footer a { font-weight: bold; text-decoration: none; color: #202020; }
@@ -537,7 +539,7 @@ if columns is not None:
   <h1>Host Overview</h1>
   <span id="top"><a href="#">Back to top</a></span>
   <span id="clear_settings"><a href="javascript:window.localStorage.clear('columnVisibility'); location.reload();">Clear settings</a></span> 
-  <span id="generated">Generated on <span class="datetime">${datetime.datetime.now().strftime('%c')}</span></span>
+  <span id="generated">Generated on <span class="detail">${datetime.datetime.now().strftime('%c')}</span> by <span class="detail">${getpass.getuser()}</span> @ <span class="detail">${socket.getfqdn()}</span></span>
 </header>
 
 <div id="col_toggles">
