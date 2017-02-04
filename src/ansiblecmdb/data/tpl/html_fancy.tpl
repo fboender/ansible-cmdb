@@ -538,7 +538,7 @@ if columns is not None:
 <header>
   <h1>Host Overview</h1>
   <span id="top"><a href="#">Back to top</a></span>
-  <span id="clear_settings"><a href="javascript:window.localStorage.clear('columnVisibility'); location.reload();">Clear settings</a></span> 
+  <span id="clear_settings"><a href="javascript:window.localStorage.clear('columnVisibility'); location.reload();" title="If things are acting weird, press this button">Clear settings</a></span> 
   <span id="generated">Generated on <span class="detail">${datetime.datetime.now().strftime('%c')}</span> by <span class="detail">${getpass.getuser()}</span> @ <span class="detail">${socket.getfqdn()}</span></span>
 </header>
 
