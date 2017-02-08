@@ -536,7 +536,7 @@ if columns is not None:
 
     #hosts { margin-left: 32px; margin-bottom: 120px; }
     #hosts .toggle-collapse { cursor: pointer; }
-    #hosts a.open-all { margin-top: 20px; display: inline-block; color: #0080FF; }
+    #hosts a.toggle-all { margin-top: 20px; display: inline-block; color: #0080FF; }
     #hosts h3.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large; }
     #hosts h3.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟";  font-weight: 200; font-size: large;}
     #hosts h4.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large;}
@@ -627,7 +627,7 @@ if columns is not None:
     <a name="${host['name']}"></a>
     <h3 class="toggle-collapse collapsed" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
     <div class="collapsable collapsed">
-      <a class="open-all" href="">Open all</a>
+      <a class="toggle-all" href="">Open all</a>
       % if 'ansible_facts' not in host:
         <p>No host information collected</p>
         % if 'msg' in host:
@@ -755,13 +755,24 @@ $(document).ready( function () {
     $(this).next().toggleClass('collapsed');
   });
   
-  $('a.open-all').on('click', function(e) {
+  // Toggle opening and closing all information for a host.
+  $('a.toggle-all').on('click', function(e) {
     e.preventDefault();
-    $(this).siblings('.collapsed').each(function(item) {
+    if ($(this).text() == "Open all") {
+      $(this).siblings('.collapsed').each(function(item) {
         $(this).addClass('uncollapsed');
         $(this).removeClass('collapsed');
         $(this).next().toggleClass('collapsed');
-    });
+      });
+      $(this).text("Close all");
+    } else {
+      $(this).text("Open all");
+      $(this).siblings('.uncollapsed').each(function(item) {
+        $(this).addClass('collapsed');
+        $(this).removeClass('uncollapsed');
+        $(this).next().toggleClass('collapsed');
+      });
+    }
   });
 
   // Show host name in header bar when scrolling
