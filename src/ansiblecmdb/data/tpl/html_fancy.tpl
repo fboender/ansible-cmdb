@@ -527,7 +527,7 @@ if collapsed == "1":
     #host_overview table { width: 100%; clear: both; }
     #host_overview tr { border-bottom: 1px solid #F0F0F0; }
     #host_overview tr:hover { background-color: #F0F0F0; }
-    #host_overview thead th { text-align: left; color: #707070; font-weight: bold; cursor: pointer; background-repeat: no-repeat; background-position: center right; background-image: url("${res_url}/images/sort_both.png"); }
+    #host_overview thead th { text-align: left; color: #707070; padding: 16px 0px 8px 16px; border-bottom: 1px solid #C0C0C0; font-weight: bold; cursor: pointer; background-repeat: no-repeat; background-position: center right; background-image: url("${res_url}/images/sort_both.png"); }
     #host_overview thead th.sorting_desc { background-image: url("${res_url}/images/sort_desc.png"); }
     #host_overview thead th.sorting_asc { background-image: url("${res_url}/images/sort_asc.png"); }
     #host_overview tbody td { color: #000000; padding: 8px 12px 8px 12px; }
@@ -558,7 +558,7 @@ if collapsed == "1":
     #hosts th { text-align: left; color: #808080; padding-bottom: 10px; }
     #hosts td { padding-left: 16px; color: #303030; padding-bottom: 10px; }
     #hosts ul { list-style: square; margin-left: 48px; }
-    #hosts table.net_overview td,th { text-align: left; padding: 16px 0px 8px 16px; margin: 0px; border-bottom: 1px solid #C0C0C0; }
+    #hosts table.net_overview td, #hosts table.net_overview th { text-align: left; padding: 0px 0px 8px 16px; margin: 0px; }
     #hosts table.net_overview { margin: 16px 0px 16px 0px; }
     #hosts .error { color: #FF0000; }
   </style>
