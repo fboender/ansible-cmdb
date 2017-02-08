@@ -48,7 +48,6 @@ release_src: release_check clean doc
 	cp -r lib/jsonxs.py $(PROG)-$(REL_VERSION)/
 	cp LICENSE $(PROG)-$(REL_VERSION)/
 	cp README.md $(PROG)-$(REL_VERSION)/
-	cp CHANGELOG.txt $(PROG)-$(REL_VERSION)/
 	cp contrib/release_Makefile $(PROG)-$(REL_VERSION)/Makefile
 	cp contrib/ansible-cmdb.man.1 $(PROG)-$(REL_VERSION)/
 
@@ -70,7 +69,6 @@ release_deb: release_check clean doc
 	# Copy the source to the release directory structure.
 	cp README.md rel_deb/usr/share/doc/$(PROG)/
 	cp README.html rel_deb/usr/share/doc/$(PROG)/
-	cp CHANGELOG.txt rel_deb/usr/share/doc/$(PROG)/
 	cp -r src/* rel_deb/usr/lib/${PROG}/
 	cp -r lib/mako rel_deb/usr/lib/${PROG}/
 	cp -r lib/yaml rel_deb/usr/lib/${PROG}/
@@ -124,7 +122,6 @@ install:
 	cp -r lib/jsonxs.py /usr/local/lib/$(PROG)
 	cp LICENSE /usr/local/lib/$(PROG)
 	cp README.md /usr/local/lib/$(PROG)
-	cp CHANGELOG.txt /usr/local/lib/$(PROG)
 	gzip -9 -c contrib/ansible-cmdb.man.1 > /usr/local/man/man1/ansible-cmdb.man.1.gz
 	ln -s /usr/local/lib/ansible-cmdb/ansible-cmdb /usr/local/bin/ansible-cmdb
 
