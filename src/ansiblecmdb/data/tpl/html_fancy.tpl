@@ -516,13 +516,14 @@ if collapsed == "1":
     footer a { font-weight: bold; text-decoration: none; color: #202020; }
 
     #col_toggles { margin: 32px; margin-top: 100px; }
-    #col_toggles h2 { display: block; margin-bottom: 32px; color: #606060; }
+    #col_toggles h2 { display: block; font-size: 1.4em; margin-bottom: 32px; color: #606060; }
     #col_toggle_buttons { margin-left: 32px; font-weight: normal; line-height: 40px; }
     #col_toggles a { line-height: 40px; }
     #col_toggles a { display: inline-block; background-color: #009688; line-height: 32px; padding: 0px 15px 0px 15px; margin-right: 6px; box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.35); color: #FFFFFF; }
     #col_toggles a.col-invisible { background-color: #B0B0B0; box-shadow: 0 0px 0px 0; }
 
     #host_overview { margin: 32px; }
+    #host_overview h2 { display: block; font-size: 1.4em; color: #606060; }
     #host_overview_tbl_wrapper{ margin-left: 16px; }
     #host_overview table { width: 100%; clear: both; }
     #host_overview tr { border-bottom: 1px solid #F0F0F0; }
@@ -532,7 +533,7 @@ if collapsed == "1":
     #host_overview thead th.sorting_asc { background-image: url("${res_url}/images/sort_asc.png"); }
     #host_overview tbody td { color: #000000; padding: 8px 12px 8px 12px; }
     #host_overview tbody a { text-decoration: none; color: #005c9d; }
-    #host_overview_tbl_filter { float: right; color: #808080; padding: 32px; }
+    #host_overview_tbl_filter { float: right; color: #808080; padding-bottom: 32px; }
     #host_overview_tbl_filter label input { margin-left: 12px; }
     #host_overview_tbl_filter #filter_link a { color: #000000; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR4Xu2TIQ6EMBBF/+4dOUBFBYoboBHoBsuRUCgcnpDg3/Y7ICQVK3ebvPxJ30xH9QXom/PO/PoDAjSOY8pwIwFFr2EYUobjONj33bjGd3Ylr77v2bYNp7Hwhifs3HOeUdu2LMuCE1DXdedtl612cJ1R0zRM04TT1HVNjPERO/ecZxRCSBnmeWZdV+Ma39mVvABVVZUy3EhA0f//gvQB4y08WIiD/goAAAAASUVORK5CYII=) no-repeat left center; padding: 5px 0 5px 25px; }
     #host_overview_tbl_info { margin-top: 16px; color: #C0C0C0; }
