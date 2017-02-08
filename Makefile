@@ -9,7 +9,7 @@ test:
 	example/generate.sh
 
 example:
-	example/generate.sh
+	PYTHONPATH=lib src/ansible-cmdb -i example/hosts example/out > cmdb.html
 
 doc:
 	markdown_py README.md > README.html
