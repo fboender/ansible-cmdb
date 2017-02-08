@@ -110,6 +110,9 @@ release_rpm: release_check clean release_deb
 release_wheel: release_check clean
 	echo "$(REL_VERSION)" > src/ansiblecmdb/data/VERSION
 	python setup.py bdist_wheel --universal
+	mv dist/*.whl .
+	rmdir dist
+	rm -rf build
 	echo `git rev-parse --abbrev-ref HEAD | tr "[:lower:]" "[:upper:]"` > src/ansiblecmdb/data/VERSION
 
 install:
