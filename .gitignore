@@ -9,4 +9,5 @@ ansible-cmdb*.zip
 example/gen_*
 build/
 dist/
+*.whl
 src/ansible_cmdb.egg-info/
