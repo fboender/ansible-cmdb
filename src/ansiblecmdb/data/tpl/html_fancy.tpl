@@ -463,7 +463,7 @@ if collapsed == "1":
 ## HTML
 ##
 <%
-  if local_js is UNDEFINED:
+  if local_js == "0":
     res_url = "https://cdn.datatables.net/1.10.2/"
   else:
     res_url = "file://" + data_dir + "/static/"
@@ -563,7 +563,7 @@ if collapsed == "1":
     #hosts .error { color: #FF0000; }
   </style>
   <!-- DataTables assets -->
-  % if local_js is UNDEFINED:
+  % if local_js is "0":
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   % else:
     <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery-1.10.2.min.js"></script>
