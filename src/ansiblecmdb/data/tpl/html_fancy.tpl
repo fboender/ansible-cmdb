@@ -532,7 +532,7 @@ if collapsed == "1":
     #host_overview thead th.sorting_asc { background-image: url("${res_url}/images/sort_asc.png"); }
     #host_overview tbody td { color: #000000; padding: 8px 12px 8px 12px; }
     #host_overview tbody a { text-decoration: none; color: #005c9d; }
-    #host_overview_tbl_filter { float: right; color: #808080; }
+    #host_overview_tbl_filter { float: right; color: #808080; padding: 32px; }
     #host_overview_tbl_filter label input { margin-left: 12px; }
     #host_overview_tbl_filter #filter_link a { color: #000000; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR4Xu2TIQ6EMBBF/+4dOUBFBYoboBHoBsuRUCgcnpDg3/Y7ICQVK3ebvPxJ30xH9QXom/PO/PoDAjSOY8pwIwFFr2EYUobjONj33bjGd3Ylr77v2bYNp7Hwhifs3HOeUdu2LMuCE1DXdedtl612cJ1R0zRM04TT1HVNjPERO/ecZxRCSBnmeWZdV+Ma39mVvABVVZUy3EhA0f//gvQB4y08WIiD/goAAAAASUVORK5CYII=) no-repeat left center; padding: 5px 0 5px 25px; }
     #host_overview_tbl_info { margin-top: 16px; color: #C0C0C0; }
@@ -558,7 +558,7 @@ if collapsed == "1":
     #hosts th { text-align: left; color: #808080; padding-bottom: 10px; }
     #hosts td { padding-left: 16px; color: #303030; padding-bottom: 10px; }
     #hosts ul { list-style: square; margin-left: 48px; }
-    #hosts table.net_overview td,th { text-align: left; padding: 0px 0px 8px 16px; margin: 0px; }
+    #hosts table.net_overview td,th { text-align: left; padding: 16px 0px 8px 16px; margin: 0px; border-bottom: 1px solid #C0C0C0; }
     #hosts table.net_overview { margin: 16px 0px 16px 0px; }
     #hosts .error { color: #FF0000; }
   </style>
