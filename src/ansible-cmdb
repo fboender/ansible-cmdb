@@ -100,8 +100,8 @@ if __name__ == "__main__":
         'data_dir': data_dir,
         'version': version,
         'columns': None,
-        'local_js': 0,
-        'collapsed': 0
+        'local_js': "0",
+        'collapsed': "0"
     }
     if options.params:
         try:
