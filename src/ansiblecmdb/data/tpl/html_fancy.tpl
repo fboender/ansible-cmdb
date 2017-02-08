@@ -39,6 +39,14 @@ if columns is not None:
       col["visible"] = True
     else:
       col["visible"] = False
+
+
+# Set whether host info is collapsed by default or not
+collapsed_class = "uncollapsed"
+collapse_toggle_text = "Close all"
+if collapsed == "1":
+  collapsed_class = "collapsed"
+  collapse_toggle_text = "Open all"
 %>
 
 ##
@@ -212,8 +220,8 @@ if columns is not None:
 ## Detailed host information blocks
 ##
 <%def name="host_general(host)">
-  <h4 class="toggle-collapse collapsed">General</h4>
-  <div class="collapsable collapsed">
+  <h4 class="toggle-collapse ${collapsed_class}">General</h4>
+  <div class="collapsable ${collapsed_class}">
   <table>
     <tr><th>Node name</th><td>${jsonxs(host, 'ansible_facts.ansible_nodename', default='')}</td></tr>
     <tr><th>Form factor</th><td>${jsonxs(host, 'ansible_facts.ansible_form_factor',  default='')}</td></tr>
@@ -224,8 +232,8 @@ if columns is not None:
 </%def>
 <%def name="host_groups(host)">
   % if len(host.get('groups', [])) != 0:
-    <h4 class="toggle-collapse collapsed">Groups</h4>
-    <div class="collapsable collapsed">
+    <h4 class="toggle-collapse ${collapsed_class}">Groups</h4>
+    <div class="collapsable ${collapsed_class}">
     <ul>
       % for group in sorted(host.get('groups', [])):
         <li>${group}</li>
@@ -236,8 +244,8 @@ if columns is not None:
 </%def>
 <%def name="host_custvars(host)">
   % if len(host['hostvars']) != 0:
-    <h4 class="toggle-collapse collapsed">Custom variables</h4>
-    <div class="collapsable collapsed">
+    <h4 class="toggle-collapse ${collapsed_class}">Custom variables</h4>
+    <div class="collapsable ${collapsed_class}">
     <table>
         % for var_name, var_value in host['hostvars'].items():
           <tr>
@@ -257,8 +265,8 @@ if columns is not None:
 </%def>
 <%def name="host_localfacts(host)">
   % if len(jsonxs(host, 'ansible_facts.ansible_local', default={}).items()) != 0:
-    <h4 class="toggle-collapse collapsed">Host local facts</h4>
-    <div class="collapsable collapsed">
+    <h4 class="toggle-collapse ${collapsed_class}">Host local facts</h4>
+    <div class="collapsable ${collapsed_class}">
     ${r_dict(jsonxs(host,  'ansible_facts.ansible_local', default={}))}
     </div>
   % endif
@@ -271,23 +279,23 @@ if columns is not None:
       facter_facts[key] = value
   %>
   % if len(facter_facts) != 0:
-    <h4 class="toggle-collapse collapsed">Facter facts</h4>
-    <div class="collapsable collapsed">
+    <h4 class="toggle-collapse ${collapsed_class}">Facter facts</h4>
+    <div class="collapsable ${collapsed_class}">
     ${r_dict(facter_facts)}
     </div>
   % endif
 </%def>
 <%def name="host_customfacts(host)">
   % if len(host.get('custom_facts', {}).items()) != 0:
-    <h4 class="toggle-collapse collapsed">Custom facts</h4>
-    <div class="collapsable collapsed">
+    <h4 class="toggle-collapse ${collapsed_class}">Custom facts</h4>
+    <div class="collapsable ${collapsed_class}">
     ${r_dict(host.get('custom_facts', {}))}
     </div>
   % endif
 </%def>
 <%def name="host_hardware(host)">
-  <h4 class="toggle-collapse collapsed">Hardware</h4>
-  <div class="collapsable collapsed">
+  <h4 class="toggle-collapse ${collapsed_class}">Hardware</h4>
+  <div class="collapsable ${collapsed_class}">
   <table>
     <tr><th>Vendor</th><td>${jsonxs(host, 'ansible_facts.ansible_system_vendor',  default='')}</td></tr>
     <tr><th>Product name</th><td>${jsonxs(host, 'ansible_facts.ansible_product_name',  default='')}</td></tr>
@@ -309,8 +317,8 @@ if columns is not None:
   </div>
 </%def>
 <%def name="host_os(host)">
-  <h4 class="toggle-collapse collapsed">Operating System</h4>
-  <div class="collapsable collapsed">
+  <h4 class="toggle-collapse ${collapsed_class}">Operating System</h4>
+  <div class="collapsable ${collapsed_class}">
   <table>
     <tr><th>System</th><td>${jsonxs(host, 'ansible_facts.ansible_system',  default='')}</td></tr>
     <tr><th>OS Family</th><td>${jsonxs(host, 'ansible_facts.ansible_os_family',  default='')}</td></tr>
@@ -328,8 +336,8 @@ if columns is not None:
   </div>
 </%def>
 <%def name="host_network(host)">
-  <h4 class="toggle-collapse collapsed">Network</h4>
-  <div class="collapsable collapsed">
+  <h4 class="toggle-collapse ${collapsed_class}">Network</h4>
+  <div class="collapsable ${collapsed_class}">
   <table class="net_info">
     <tr><th>Hostname</th><td>${jsonxs(host, 'ansible_facts.ansible_hostname',  default='')}</td></tr>
     <tr><th>Domain</th><td>${jsonxs(host, 'ansible_facts.ansible_domain',  default='')}</td></tr>
@@ -395,8 +403,8 @@ if columns is not None:
   </div>
 </%def>
 <%def name="host_storage(host)">
-  <h4 class="toggle-collapse collapsed">Storage</h4>
-  <div class="collapsable collapsed">
+  <h4 class="toggle-collapse ${collapsed_class}">Storage</h4>
+  <div class="collapsable ${collapsed_class}">
   <table>
     <tr>
       <th>Devices</th>
@@ -625,9 +633,9 @@ if columns is not None:
     log.debug("Rendering host details for {0}".format(hostname))
     %>
     <a name="${host['name']}"></a>
-    <h3 class="toggle-collapse collapsed" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
-    <div class="collapsable collapsed">
-      <a class="toggle-all" href="">Open all</a>
+    <h3 class="toggle-collapse ${collapsed_class}" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
+    <div class="collapsable ${collapsed_class}">
+      <a class="toggle-all" href="">${collapse_toggle_text}</a>
       % if 'ansible_facts' not in host:
         <p>No host information collected</p>
         % if 'msg' in host:

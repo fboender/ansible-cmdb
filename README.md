@@ -204,6 +204,12 @@ Ansible-cmdb currently provides the following templates out of the box:
 
       ansible-cmdb -t html_fancy -p local_js=1 out > overview.html
 
+  the `collapsed` parameter controls whether host information is collapsed by
+  default or not. A value of `1` will collapse all host information by
+  default:
+
+      ansible-cmdb -t html_fancy -p local_js=1,collapsed=1 out > overview.html
+
   It can be easily extended by copying it and modifying the `cols` definition
   at the top.
 
