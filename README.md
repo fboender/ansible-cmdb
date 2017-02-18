@@ -100,7 +100,7 @@ Usage
 First, generate Ansible output for your hosts:
 
     mkdir out
-    ansible -m setup --tree out/ all
+    ansible -i hosts -m setup --tree out/ all
 
 Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
 overview page:
