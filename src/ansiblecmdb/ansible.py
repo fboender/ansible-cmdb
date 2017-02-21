@@ -122,7 +122,7 @@ class Ansible(object):
 
             try:
                 f = codecs.open(f_path, 'r', encoding='utf8')
-                invars = yaml.load(f)
+                invars = yaml.safe_load(f)
                 f.close()
                 self.update_host(fname, {'hostvars': invars})
             except Exception as err:
