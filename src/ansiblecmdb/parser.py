@@ -181,7 +181,7 @@ class HostsParser(object):
         k, v = line.strip().split('=', 1)
         if v.startswith('['):
             try:
-                list_res = yaml.load(v)
+                list_res = yaml.safe_load(v)
                 if isinstance(list_res[0], dict):
                     key_values = list_res[0]
                     return key_values
