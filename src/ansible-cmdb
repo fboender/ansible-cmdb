@@ -44,13 +44,13 @@ if __name__ == "__main__":
 
     data_dir = util.find_path(data_dir_paths, 'tpl/html_fancy.tpl')
     if not data_dir:
-        sys.stdout.write("Couldn't find the data dir for the templates. I tried: {}\n".format(", ".join(data_dir_paths)))
+        sys.stdout.write("Couldn't find the data dir for the templates. I tried: {0}\n".format(", ".join(data_dir_paths)))
         sys.exit(1)
     tpl_dir = os.path.join(data_dir, 'tpl')
     static_dir = os.path.join(data_dir, 'static')
     version = open(os.path.join(data_dir, 'VERSION')).read().strip()
 
-    parser = optparse.OptionParser(version="%prog v{}".format(version))
+    parser = optparse.OptionParser(version="%prog v{0}".format(version))
     parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
     parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
     parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory to read extra info from")

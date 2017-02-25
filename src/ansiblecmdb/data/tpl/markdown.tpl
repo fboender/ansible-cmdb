@@ -15,13 +15,13 @@ import datetime
 <%def name="r_dict(d, depth=0)"><%
   t = ""
   for k, v in d.items():
-    t += ("    " * depth) + "* **{}**: ".format(k)
+    t += ("    " * depth) + "* **{0}**: ".format(k)
     if type(v) == list:
-      t += "\n{}".format(r_list(v, depth + 1))
+      t += "\n{0}".format(r_list(v, depth + 1))
     elif type(v) == dict:
-      t += "\n{}".format(r_dict(v, depth + 1))
+      t += "\n{0}".format(r_dict(v, depth + 1))
     else:
-      t += "{}\n".format(v)
+      t += "{0}\n".format(v)
   return t
 %></%def>\
 <%def name="col_main_ip(host)"><%

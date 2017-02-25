@@ -65,7 +65,7 @@ class Ansible(object):
 
                 self._handle_inventory(os.path.join(inventory_path, fname))
         else:
-            raise IOError("Invalid inventory file / dir: '{}'".format(inventory_path))
+            raise IOError("Invalid inventory file / dir: '{0}'".format(inventory_path))
         self._parse_hostvar_dir(inventory_path)
 
     def _parse_hosts_inventory(self, inventory_path):
@@ -117,7 +117,7 @@ class Ansible(object):
             # some reason... (psst, the reason is that yaml sucks)
             first_line = open(f_path, 'r').readline()
             if first_line.startswith('$ANSIBLE_VAULT'):
-                sys.stderr.write("Skipping encrypted vault file {}\n".format(f_path))
+                sys.stderr.write("Skipping encrypted vault file {0}\n".format(f_path))
                 continue
 
             try:
@@ -126,7 +126,7 @@ class Ansible(object):
                 f.close()
                 self.update_host(fname, {'hostvars': invars})
             except Exception as err:
-                sys.stderr.write("Yaml couldn't load '{}'. Skipping\n".format(f_path))
+                sys.stderr.write("Yaml couldn't load '{0}'. Skipping\n".format(f_path))
 
     def _parse_fact_dir(self, fact_dir, fact_cache=False):
         """
@@ -136,7 +136,7 @@ class Ansible(object):
         """
         self.log.debug("Parsing fact dir: {0}".format(fact_dir))
         if not os.path.isdir(fact_dir):
-            raise IOError("Not a directory: '{}'".format(fact_dir))
+            raise IOError("Not a directory: '{0}'".format(fact_dir))
 
         flist = []
         for (dirpath, dirnames, filenames) in os.walk(fact_dir):
@@ -176,8 +176,8 @@ class Ansible(object):
                                     close_fds=True)
             stdout, stderr = proc.communicate(input)
             if proc.returncode != 0:
-                sys.stderr.write("Dynamic inventory script '{}' returned "
-                                 "exitcode {}\n".format(script,
+                sys.stderr.write("Dynamic inventory script '{0}' returned "
+                                 "exitcode {1}\n".format(script,
                                                         proc.returncode))
                 for line in stderr:
                     sys.stderr.write(line)
@@ -186,7 +186,7 @@ class Ansible(object):
             for hostname, key_values in dyninv_parser.hosts.items():
                 self.update_host(hostname, key_values)
         except OSError as err:
-            sys.stderr.write("Exception while executing dynamic inventory script '{}':\n\n".format(script))
+            sys.stderr.write("Exception while executing dynamic inventory script '{0}':\n\n".format(script))
             sys.stderr.write(str(err) + '\n')
 
     def update_host(self, hostname, key_values):
