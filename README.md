@@ -186,6 +186,8 @@ template under the "Custom variables" heading.
 
 ### Templates
 
+#### Specifying templates
+
 ansible-cmdb offers multiple templates. You can choose your template with the
 `-t` or `--template` argument:
 
@@ -193,49 +195,56 @@ ansible-cmdb offers multiple templates. You can choose your template with the
 
 The 'html_fancy' template is the default.  
 
-Ansible-cmdb currently provides the following templates out of the box:
-
-* `html_fancy`: A fancy HTML page that uses jQuery and DataTables to give you a
-  searchable, sortable table overview of all hosts with detailed information
-  just a click away.
-
-  It takes a parameter `local_js` which, if set, will load resources from the
-  local disk instead of over the network. To enable it, call ansible-cmdb with:
-
-      ansible-cmdb -t html_fancy -p local_js=1 out > overview.html
-
-  the `collapsed` parameter controls whether host information is collapsed by
-  default or not. A value of `1` will collapse all host information by
-  default:
-
-      ansible-cmdb -t html_fancy -p local_js=1,collapsed=1 out > overview.html
-
-  It can be easily extended by copying it and modifying the `cols` definition
-  at the top.
-
-* `txt_table`: A quick text table summary of the available hosts with some
-  minimal information.
-
-* `json`: The json template simply dumps a JSON-encoded representation of the
-  gathered information. This includes all the extra information scanned by
-  ansible-cmdb such as groups, variables, custom information, etc.
-
-* `csv`: The CSV template outputs a CSV file of your hosts.
-
-* `markdown`: The Markdown template generates host information in the
-  Markdown format.
-
-* `sql`: The SQL template generates an .sql file that can be loaded into an
-  SQLite or MySQL database.
-
-        $ ansible-cmdb -t sql -i hosts out > cmdb.sql
-        $ echo "CREATE DATABASE ansiblecmdb" | mysql 
-        $ mysql ansiblecmdb < cmdb.sql
-
-You can create your own template or extend an existing one by copying it and
-refering to the full path to the template when using the `-t` option:
+Templates can be referred to by name or by relative/absolute path to the
+`.tpl` file. This lets you implement your own templates. For example:
 
     $ ansible-cmdb -t /home/fboender/my_template out/ > my_template.html
+
+#### Template parameters
+
+Some templates support parameters that influence their output. Parameters are
+specified using the `-p` or `--parameter` option to `ansible-cmdb`. Multiple
+parameters may be specified by separating them with commas. There must be *no*
+spaces in the parameters.
+
+For example, to specify the `html_fancy` template with local Javascript
+libraries and closed trees:
+
+    ansible-cmdb -t html_fancy -p local_js=1,collapsed=1 out > overview.html
+
+
+#### Standard available templates
+
+Ansible-cmdb currently provides the following templates out of the box:
+
+* **`html_fancy`**: A dynamic, modern HTML page containing all hosts.
+* **`txt_table`**: A quick text table summary of the available hosts with some minimal information.
+* **`json`**: Dumps all hosts including groups, variable, custom info in JSON format.
+* **`csv`**: The CSV template outputs a CSV file of your hosts.
+* **`markdown`**: The Markdown template generates host information in the Markdown format.
+* **`sql`**: The SQL template generates an .sql file that can be loaded into an SQLite or MySQL database.
+
+**html_fancy**:
+
+`html_fancy` is currently the default template.
+
+A fancy HTML page that uses jQuery and DataTables to give you a searchable,
+sortable table overview of all hosts with detailed information just a click
+away.
+
+It takes three optional parameters:
+
+* `local_js=0|1`: Load resources from local disk (default=`0`). If set, will load resources from the local disk instead of over the network.
+* `collapsed=0|1`: Controls whether host information is collapsed by default or not. A value of `1` will collapse all host information by defaultcontrols whether host information is collapsed by default or not. A value of `1` will collapse all host information by default. (default='0')
+* `host_details=0|1`: Render host details or not. (default=`1`)
+
+**sql**:
+
+The `sql` template generates an .sql file that can be loaded into an SQLite or MySQL database.
+
+    $ ansible-cmdb -t sql -i hosts out > cmdb.sql
+    $ echo "CREATE DATABASE ansiblecmdb" | mysql 
+    $ mysql ansiblecmdb < cmdb.sql
 
 ### Fact caching
 

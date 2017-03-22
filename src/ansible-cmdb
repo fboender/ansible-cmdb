@@ -101,7 +101,8 @@ if __name__ == "__main__":
         'version': version,
         'columns': None,
         'local_js': "0",
-        'collapsed': "0"
+        'collapsed': "0",
+        'host_details': "1",
     }
     if options.params:
         try:
