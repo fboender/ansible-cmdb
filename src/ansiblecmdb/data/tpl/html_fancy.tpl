@@ -3,6 +3,10 @@ from jsonxs import jsonxs
 import socket
 import getpass
 
+local_js = context.get('local_js', '0')
+collapsed = context.get('collapsed', '0')
+host_details = context.get('host_details', '1')
+
 ##
 ## Column definitions
 ##
@@ -53,7 +57,7 @@ if collapsed == "1":
 ## Column functions
 ##
 <%def name="col_name(host)">
-  % if host_details == "1":
+  % if host_details == '1':
     <a href="#${jsonxs(host, 'name')}">${jsonxs(host, "name")}</a>
   % else:
     ${jsonxs(host, "name")}
