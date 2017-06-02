@@ -3,6 +3,9 @@ from jsonxs import jsonxs
 import socket
 import getpass
 
+###
+### Default parameter values
+###
 local_js = context.get('local_js', '0')
 collapsed = context.get('collapsed', '0')
 host_details = context.get('host_details', '1')
@@ -640,39 +643,39 @@ if collapsed == "1":
 </div>
 
 % if host_details == "1":
-    <div id="hosts">
-      % for hostname, host in hosts.items():
-        <%
-        log.debug("Rendering host details for {0}".format(hostname))
-        %>
-        % if skip_empty != "1" or 'ansible_facts' in host:
-          <a name="${host['name']}"></a>
-          <h3 class="toggle-collapse ${collapsed_class}" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
-          <div class="collapsable ${collapsed_class}">
-            <a class="toggle-all" href="">${collapse_toggle_text}</a>
-            % if 'ansible_facts' not in host:
-              <p>No host information collected</p>
-              % if 'msg' in host:
-                <p class="error">${host['msg']}</p>
-              % endif
-              <% host_groups(host) %>
-              <% host_custvars(host) %>
-            % else:
-              <% host_general(host) %>
-              <% host_groups(host) %>
-              <% host_custvars(host) %>
-              <% host_localfacts(host) %>
-              <% host_factorfacts(host) %>
-              <% host_customfacts(host) %>
-              <% host_hardware(host) %>
-              <% host_os(host) %>
-              <% host_network(host) %>
-              <% host_storage(host) %>
+  <div id="hosts">
+    % for hostname, host in hosts.items():
+      <%
+      log.debug("Rendering host details for {0}".format(hostname))
+      %>
+      % if skip_empty != "1" or 'ansible_facts' in host:
+        <a name="${host['name']}"></a>
+        <h3 class="toggle-collapse ${collapsed_class}" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
+        <div class="collapsable ${collapsed_class}">
+          <a class="toggle-all" href="">${collapse_toggle_text}</a>
+          % if 'ansible_facts' not in host:
+            <p>No host information collected</p>
+            % if 'msg' in host:
+              <p class="error">${host['msg']}</p>
             % endif
-          </div>
-        % endif
-      % endfor
-    </div>
+            <% host_groups(host) %>
+            <% host_custvars(host) %>
+          % else:
+            <% host_general(host) %>
+            <% host_groups(host) %>
+            <% host_custvars(host) %>
+            <% host_localfacts(host) %>
+            <% host_factorfacts(host) %>
+            <% host_customfacts(host) %>
+            <% host_hardware(host) %>
+            <% host_os(host) %>
+            <% host_network(host) %>
+            <% host_storage(host) %>
+          % endif
+        </div>
+      % endif
+    % endfor
+  </div>
 % endif
 
 <footer>
