@@ -100,10 +100,8 @@ if __name__ == "__main__":
         'data_dir': data_dir,
         'version': version,
         'columns': None,
-        'local_js': "0",
-        'collapsed': "0",
-        'host_details': "1",
     }
+    # Add user specified parameters (-p / --params)
     if options.params:
         try:
             for param in options.params.split(','):
