@@ -20,6 +20,7 @@ clean:
 	rm -f *.deb
 	rm -f *.tar.gz
 	rm -f *.zip
+	rm -f *.whl
 	rm -f README.html
 	find ./ -name "*.pyc" -delete
 	find ./ -name "__pycache__" -type d -delete
