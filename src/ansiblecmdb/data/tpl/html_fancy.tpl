@@ -6,6 +6,7 @@ import getpass
 local_js = context.get('local_js', '0')
 collapsed = context.get('collapsed', '0')
 host_details = context.get('host_details', '1')
+skip_empty = context.get('skip_empty', '0')
 
 ##
 ## Column definitions
@@ -618,18 +619,20 @@ if collapsed == "1":
         <%
         log.debug("Rendering host overview for {0}".format(hostname))
         %>
-        <tr>
-          % if 'ansible_facts' not in host:
-            <td class="error">${col_name(host)}</td>
-            % for cnt in range(len(cols) - 1):
-                <td>&nbsp;</td>
-            % endfor
-          % else:
-            % for col in cols:
-              <td>${col["func"](host)}</td>
-            % endfor
-          % endif
-        </tr>
+        % if skip_empty != "1" or 'ansible_facts' in host:
+          <tr>
+            % if 'ansible_facts' not in host:
+              <td class="error">${col_name(host)}</td>
+              % for cnt in range(len(cols) - 1):
+                  <td>&nbsp;</td>
+              % endfor
+            % else:
+              % for col in cols:
+                <td>${col["func"](host)}</td>
+              % endfor
+            % endif
+          </tr>
+        % endif
     % endfor
     </tbody>
     </table>
@@ -642,30 +645,32 @@ if collapsed == "1":
         <%
         log.debug("Rendering host details for {0}".format(hostname))
         %>
-        <a name="${host['name']}"></a>
-        <h3 class="toggle-collapse ${collapsed_class}" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
-        <div class="collapsable ${collapsed_class}">
-          <a class="toggle-all" href="">${collapse_toggle_text}</a>
-          % if 'ansible_facts' not in host:
-            <p>No host information collected</p>
-            % if 'msg' in host:
-              <p class="error">${host['msg']}</p>
+        % if skip_empty != "1" or 'ansible_facts' in host:
+          <a name="${host['name']}"></a>
+          <h3 class="toggle-collapse ${collapsed_class}" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
+          <div class="collapsable ${collapsed_class}">
+            <a class="toggle-all" href="">${collapse_toggle_text}</a>
+            % if 'ansible_facts' not in host:
+              <p>No host information collected</p>
+              % if 'msg' in host:
+                <p class="error">${host['msg']}</p>
+              % endif
+              <% host_groups(host) %>
+              <% host_custvars(host) %>
+            % else:
+              <% host_general(host) %>
+              <% host_groups(host) %>
+              <% host_custvars(host) %>
+              <% host_localfacts(host) %>
+              <% host_factorfacts(host) %>
+              <% host_customfacts(host) %>
+              <% host_hardware(host) %>
+              <% host_os(host) %>
+              <% host_network(host) %>
+              <% host_storage(host) %>
             % endif
-            <% host_groups(host) %>
-            <% host_custvars(host) %>
-          % else:
-            <% host_general(host) %>
-            <% host_groups(host) %>
-            <% host_custvars(host) %>
-            <% host_localfacts(host) %>
-            <% host_factorfacts(host) %>
-            <% host_customfacts(host) %>
-            <% host_hardware(host) %>
-            <% host_os(host) %>
-            <% host_network(host) %>
-            <% host_storage(host) %>
-          % endif
-        </div>
+          </div>
+        % endif
       % endfor
     </div>
 % endif

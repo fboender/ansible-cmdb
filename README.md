@@ -232,11 +232,12 @@ A fancy HTML page that uses jQuery and DataTables to give you a searchable,
 sortable table overview of all hosts with detailed information just a click
 away.
 
-It takes three optional parameters:
+It takes optional parameters:
 
 * `local_js=0|1`: Load resources from local disk (default=`0`). If set, will load resources from the local disk instead of over the network.
 * `collapsed=0|1`: Controls whether host information is collapsed by default or not. A value of `1` will collapse all host information by defaultcontrols whether host information is collapsed by default or not. A value of `1` will collapse all host information by default. (default='0')
 * `host_details=0|1`: Render host details or not. (default=`1`)
+* `skip_empty=0|1`: Skip hosts for which no facts were gathered (unreachable, etc). (default=`0`).
 
 **sql**:
 
