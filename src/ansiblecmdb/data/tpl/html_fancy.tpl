@@ -119,7 +119,7 @@ if collapsed == "1":
 <%def name="col_cpu_type(host)">
   <% cpu_type = jsonxs(host, 'ansible_facts.ansible_processor', default=0)%>
   % if isinstance(cpu_type, list) and len(cpu_type) > 0:
-    ${ cpu_type[-1] }
+    <a href="http://www.cpubenchmark.net/cpu.php?cpu=${ cpu_type[-1] }">${ cpu_type[-1] }</a>
   % endif
 </%def>
 <%def name="col_vcpus(host)">
@@ -317,6 +317,7 @@ if collapsed == "1":
     <tr><th>Virtualization role</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_role',  default='')}</td></tr>
     <tr><th>Virtualization type</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_type',  default='')}</td></tr>
     <tr><th>Machine</th><td>${jsonxs(host, 'ansible_facts.ansible_machine',  default='')}</td></tr>
+    <tr><th>Processor type</th><td><a href="http://www.cpubenchmark.net/cpu.php?cpu=${jsonxs(host, 'ansible_facts.ansible_processor[-1]',  default='')}">${jsonxs(host, 'ansible_facts.ansible_processor[-1]',  default='')}</a></td></tr>
     <tr><th>Processor count</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_count',  default='')}</td></tr>
     <tr><th>Processor cores</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_cores',  default='')}</td></tr>
     <tr><th>Processor threads per core</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_threads_per_core',  default='')}</td></tr>
@@ -558,13 +559,13 @@ if collapsed == "1":
     #hosts { margin-left: 32px; margin-bottom: 120px; }
     #hosts .toggle-collapse { cursor: pointer; }
     #hosts a.toggle-all { margin-top: 20px; display: inline-block; color: #0080FF; }
+    #hosts a { color: #005c9d; }
     #hosts h3.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large; }
     #hosts h3.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟";  font-weight: 200; font-size: large;}
     #hosts h4.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large;}
     #hosts h4.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟"; font-weight: 200; font-size: large;}
     #hosts div.collapsable { margin-left: 16px; }
     #hosts div.collapsed { display: none; }
-    #hosts a { color: #000000; }
     #hosts h3.uncollapsed { line-height: 1.5em; font-size: xx-large; border-bottom: 1px solid #D0D0D0; }
     #hosts h3.collapsed {  line-height: 1.5em; font-size: xx-large; }
     #hosts h4 { font-size: large; font-weight: bold; color: #404040; margin-top: 32px; margin-bottom: 32px; }
