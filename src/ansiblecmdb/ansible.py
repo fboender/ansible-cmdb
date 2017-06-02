@@ -14,7 +14,7 @@ class Ansible(object):
     """
     The Ansible class is responsible for gathering host information.
     """
-    def __init__(self, fact_dirs, inventory_path=None, fact_cache=False, debug=False):
+    def __init__(self, fact_dirs, inventory_paths=None, fact_cache=False, debug=False):
         """
         `fact_dirs` is a list of paths to directories containing facts gathered
         by ansible's 'setup' module. `inventory_path` points to the file or
@@ -24,7 +24,10 @@ class Ansible(object):
         files and dynamic inventory scripts.
         """
         self.fact_dirs = fact_dirs
-        self.inventory_path = inventory_path
+        if inventory_paths is None:
+            self.inventory_paths = []
+        else:
+            self.inventory_paths = inventory_paths
         self.fact_cache = fact_cache  # fact dirs are fact-caches
         self.debug = debug
         self.hosts = {}
@@ -35,8 +38,8 @@ class Ansible(object):
             self._parse_fact_dir(fact_dir, self.fact_cache)
 
         # Scan the inventory for known hosts.
-        if self.inventory_path is not None:
-            self._handle_inventory(self.inventory_path)
+        for inventory_path in self.inventory_paths:
+            self._handle_inventory(inventory_path)
 
     def _handle_inventory(self, inventory_path):
         """

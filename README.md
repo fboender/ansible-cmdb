@@ -139,7 +139,8 @@ directory or dynamic inventory and extract useful information from it such as:
 
 Reading the inventory is done using the `-i` switch to ansible-cmdb.  It takes
 a single parameter: your hosts file, directory containing your hosts files or
-path to your dynamic inventory script.
+path to your dynamic inventory script. You may specify the `-i` parameter
+multiple times.
 
 For example:
 
