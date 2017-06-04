@@ -140,10 +140,10 @@ if __name__ == "__main__":
     try:
         if sys.version_info[0] == 3:
             out = mytemplate.render(hosts=ansible.hosts, **params)
-            sys.stdout.buffer.write(out)
+            sys.stdout.buffer.write(out.lstrip())
         else:
             out = mytemplate.render(hosts=ansible.hosts, **params)
-            sys.stdout.write(out)
+            sys.stdout.write(out.lstrip())
     except Exception as err:
         full_err = exceptions.text_error_template().render().replace("\n", "\n    ")
         debug_cmd = "{0} -d {1}".format(sys.argv[0], ' '.join(sys.argv[1:]))
