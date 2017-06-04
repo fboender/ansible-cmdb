@@ -19,6 +19,7 @@ import logging
 import ansiblecmdb
 import ansiblecmdb.util as util
 from mako.template import Template
+from mako.lookup import TemplateLookup
 from mako import exceptions
 
 
@@ -131,7 +132,15 @@ if __name__ == "__main__":
         sys.exit(1)
 
     log.debug('template file = {0}'.format(tpl_file))
-    mytemplate = Template(filename=tpl_file, default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
+    lookups = [
+        tpl_dir
+    ]
+    mylookup = TemplateLookup(directories=lookups)
+    mytemplate = Template(filename=tpl_file,
+                          lookup=mylookup,
+                          default_filters=['decode.utf8'],
+                          input_encoding='utf-8',
+                          output_encoding='utf-8')
 
     # Make sure we always output in UTF-8, regardless of the user's locale /
     # terminal encoding. This is different in Python 2 and 3.
