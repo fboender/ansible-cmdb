@@ -54,7 +54,7 @@ if __name__ == "__main__":
     parser = optparse.OptionParser(version="%prog v{0}".format(version))
     parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
     parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
-    parser.add_option("-i", "--inventory", dest="inventory", action="append", default=[], help="Inventory to read extra info from")
+    parser.add_option("-i", "--inventory", dest="inventory", action="store", default='', help="Inventory to read extra info from")
     parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
     parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
@@ -115,7 +115,10 @@ if __name__ == "__main__":
     if options.columns is not None:
         params['columns'] = options.columns.split(',')
 
-    ansible = ansiblecmdb.Ansible(args, options.inventory, options.fact_cache, debug=options.debug)
+    # Split up inventories
+    inventories = options.inventory.split(',')
+
+    ansible = ansiblecmdb.Ansible(args, inventories, options.fact_cache, debug=options.debug)
 
     # Render a template with the gathered host info
     tpl_file = None
