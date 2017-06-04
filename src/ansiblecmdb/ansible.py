@@ -17,11 +17,13 @@ class Ansible(object):
     def __init__(self, fact_dirs, inventory_paths=None, fact_cache=False, debug=False):
         """
         `fact_dirs` is a list of paths to directories containing facts gathered
-        by ansible's 'setup' module. `inventory_path` points to the file or
-        directory containing the inventory. It will be scanned to extract
-        groups, variables and additional facts. If this points to a file, it's
-        read as a hosts file. If it's a directory, it is scanned for hosts
-        files and dynamic inventory scripts.
+        by ansible's 'setup' module.
+
+        `inventory_paths` is a list with files or directories containing the
+        inventory. It will be scanned to extract groups, variables and
+        additional facts. If entries point to a file, it's read as a
+        hosts file. If it's a directory, it is scanned for hosts files and
+        dynamic inventory scripts.
         """
         self.fact_dirs = fact_dirs
         if inventory_paths is None:
