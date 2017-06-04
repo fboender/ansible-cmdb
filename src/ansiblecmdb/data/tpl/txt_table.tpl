@@ -55,7 +55,7 @@ sys.stdout.write('\n')
 # Print out columns
 for hostname, host in hosts.items():
 	if 'ansible_facts' not in host:
-		sys.stdout.write('{0}: No info collected'.format(hostname))
+		sys.stderr.write('{0}: No info collected.\n'.format(hostname))
 	else:
 		for col in get_cols():
 			sys.stdout.write(col['field'](host).ljust(col_longest[col['title']]) + (' ' * col_space))
