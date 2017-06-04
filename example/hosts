@@ -18,7 +18,6 @@ dtap=prod
 # This appears to be allowed, but is undocumented
 json_like_vars=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 
-
 [virtual]
 debian.dev.local
 centos.dev.local
@@ -42,3 +41,4 @@ openvz.debian.local
 [test]
 facter.test.local ansible_host=192.168.56.7
 custfact.test.local ansible_host=192.168.56.7  abc: [1, 2, 3]
+onlyinhosts.test.local
