@@ -40,8 +40,8 @@ class HostParseTestCase(unittest.TestCase):
         Test that children groups contain all hosts they should.
         """
         fact_dirs = ['f_hostparse/out']
-        inventory = 'f_hostparse/hosts'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        inventories = ['f_hostparse/hosts']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
         groups = ansible.hosts['db.dev.local']['groups']
         self.assertIn('db', groups)
         self.assertIn('dev', groups)
@@ -52,8 +52,8 @@ class HostParseTestCase(unittest.TestCase):
         Test that all vars applied against a child group are set on the hosts.
         """
         fact_dirs = ['f_hostparse/out']
-        inventory = 'f_hostparse/hosts'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        inventories = ['f_hostparse/hosts']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
         host_vars = ansible.hosts['db.dev.local']['hostvars']
         self.assertEqual(host_vars['function'], 'db')
         self.assertEqual(host_vars['dtap'], 'dev')
@@ -64,8 +64,8 @@ class HostParseTestCase(unittest.TestCase):
         db01.local, db02.local, db03.local.
         """
         fact_dirs = ['f_hostparse/out']
-        inventory = 'f_hostparse/hosts'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        inventories = ['f_hostparse/hosts']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
         self.assertIn('web02.dev.local', ansible.hosts)
         self.assertIn('fe03.dev02.local', ansible.hosts)
 
@@ -77,8 +77,8 @@ class InventoryTestCase(unittest.TestCase):
         that all files are parsed.
         """
         fact_dirs = ['f_inventory/out']
-        inventory = 'f_inventory/hostsdir'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        inventories = ['f_inventory/hostsdir']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
         host_vars = ansible.hosts['db.dev.local']['hostvars']
         groups = ansible.hosts['db.dev.local']['groups']
         self.assertEqual(host_vars['function'], 'db')
@@ -91,8 +91,8 @@ class InventoryTestCase(unittest.TestCase):
         as available hosts.
         """
         fact_dirs = ['f_inventory/out'] # Reuse f_hostparse
-        inventory = 'f_inventory/dyninv.py'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        inventories = ['f_inventory/dyninv.py']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
         self.assertIn('host5.example.com', ansible.hosts)
         host_vars = ansible.hosts['host5.example.com']['hostvars']
         groups = ansible.hosts['host5.example.com']['groups']
@@ -105,8 +105,8 @@ class InventoryTestCase(unittest.TestCase):
         parsed correctly.
         """
         fact_dirs = ['f_inventory/out']
-        inventory = 'f_inventory/mixeddir'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory)
+        inventories = ['f_inventory/mixeddir']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
         # results from dynamic inventory
         self.assertIn("host4.example.com", ansible.hosts)
         self.assertIn("moocow.example.com", ansible.hosts)
@@ -122,8 +122,8 @@ class FactCacheTestCase(unittest.TestCase):
     """
     def testFactCache(self):
         fact_dirs = ['f_factcache/out']
-        inventory = 'f_factcache/hosts'
-        ansible = ansiblecmdb.Ansible(fact_dirs, inventory, fact_cache=True)
+        inventories = ['f_factcache/hosts']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories, fact_cache=True)
         host_vars = ansible.hosts['debian.dev.local']['hostvars']
         groups = ansible.hosts['debian.dev.local']['groups']
         ansible_facts = ansible.hosts['debian.dev.local']['ansible_facts']
