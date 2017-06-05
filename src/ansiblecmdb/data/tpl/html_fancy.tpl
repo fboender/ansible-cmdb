@@ -12,14 +12,13 @@ skip_empty = to_bool(context.get('skip_empty', '0'))
 # Get column definitions from html_fancy_defs.html
 cols = var_cols(columns)
 
-# Set the resource URL (local disk or CDN)
+# Set the Javascript resource URL (local disk or CDN)
 if local_js is False:
   res_url = "https://cdn.datatables.net/1.10.2/"
 else:
   res_url = "file://" + data_dir + "/static/"
 %>
 
-# Render single HTML page
 <% html_header("Ansible Overview", local_js, res_url) %>
 <% html_header_bar("Host overview") %>
 <% html_col_toggles(cols) %>
