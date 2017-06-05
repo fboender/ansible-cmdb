@@ -22,9 +22,10 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 from mako import exceptions
 
-
-if __name__ == "__main__":
-    # Set up logging
+def get_logger():
+    """
+    Instantiate a logger.
+    """
     root = logging.getLogger()
     root.setLevel(logging.CRITICAL)
     ch = logging.StreamHandler(sys.stderr)
@@ -32,10 +33,13 @@ if __name__ == "__main__":
     formatter = logging.Formatter('%(message)s')
     ch.setFormatter(formatter)
     root.addHandler(ch)
-    log = root
+    return root
 
-    # Find out our installation prefix and data directory. These can be in
-    # different places depending on how ansible-cmdb was installed.
+def get_data_dir():
+    """
+    Find out our installation prefix and data directory. These can be in
+    different places depending on how ansible-cmdb was installed.
+    """
     data_dir_paths = [
         os.path.join(os.path.dirname(ansiblecmdb.__file__), 'data'),
         os.path.join(os.path.dirname(sys.argv[0]), '..', 'lib', 'ansiblecmdb', 'data'),
@@ -47,6 +51,57 @@ if __name__ == "__main__":
     if not data_dir:
         sys.stdout.write("Couldn't find the data dir for the templates. I tried: {0}\n".format(", ".join(data_dir_paths)))
         sys.exit(1)
+
+    return data_dir
+
+def get_hosts_files(option):
+    """
+    Find out the location of the `hosts` file. This looks in multiple places
+    such as the `-i` option, current dir and ansible configuration files. The
+    first match is returned as a list.
+    """
+    if option is not None:
+        return option.split(',')
+
+    # Use hosts file from the current dir if it exists
+    if os.path.isfile('hosts'):
+        return ['hosts']
+
+    # Perhaps it's configured in a configuration file. Try to find a
+    # configuration file and see if it contains a `hostsfile` entry.
+    config_locations = [
+        '.',
+        '/etc/ansible/'
+    ]
+    config_file = utils.find_path(config_locations, 'ansible.cfg')
+    log.debug('config_file = {0}'.format(config_file))
+    if config_file:
+        with open(config_file, 'r') as cf:
+            for line in cf:
+                if line.startswith('hostfile'):
+                    return [line.split('=', 1)[1].strip()]
+
+def parse_user_params(user_params):
+    """
+    Parse the user params (-p/--params) and them as a dict.
+    """
+    if user_params:
+        params = {}
+        try:
+            for param in options.params.split(','):
+                param_key, param_value = param.split('=', 1)
+                params[param_key] = param_value
+        except ValueError as e:
+            sys.stdout.write("Invalid params specified. Should be in format: <key=value>[,<key=value>..]\n")
+            sys.exit(1)
+        return params
+    else:
+        return {}
+
+
+if __name__ == "__main__":
+    log = get_logger()
+    data_dir = get_data_dir()
     tpl_dir = os.path.join(data_dir, 'tpl')
     static_dir = os.path.join(data_dir, 'static')
     version = open(os.path.join(data_dir, 'VERSION')).read().strip()
@@ -54,7 +109,7 @@ if __name__ == "__main__":
     parser = optparse.OptionParser(version="%prog v{0}".format(version))
     parser.set_usage(sys.argv[0] + " [option] <dir> > output.html")
     parser.add_option("-t", "--template", dest="template", action="store", default='html_fancy', help="Template to use. Default is 'html_fancy'")
-    parser.add_option("-i", "--inventory", dest="inventory", action="store", default='', help="Inventory to read extra info from")
+    parser.add_option("-i", "--inventory", dest="inventory", action="store", default=None, help="Inventory to read extra info from")
     parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
     parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
@@ -67,33 +122,9 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if options.debug:
-        root.setLevel(logging.DEBUG)
+        log.setLevel(logging.DEBUG)
 
-    # Log some path information
-    log.debug('data_dir = {0}'.format(data_dir))
-    log.debug('tpl_dir = {0}'.format(tpl_dir))
-    log.debug('static_dir = {0}'.format(static_dir))
-
-    # Use hosts file from the current dir if it exists
-    if os.path.isfile('hosts'):
-        options.inventory = 'hosts'
-
-    # Find configuration file to use. Params override options for this
-    # FIXME: use find_path()
-    config_file = None
-    config_locations = ['/etc/ansible/ansible.cfg', 'ansible.cfg']
-
-    for config_location in config_locations:
-        if os.path.exists(config_location):
-            config_file = os.path.realpath(config_location)
-
-    log.debug('config_file = {0}'.format(config_file))
-    if config_file:
-        with open(config_file, 'r') as cf:
-            for line in cf:
-                if line.startswith('hostfile'):
-                    options.inventory = line.split('=', 1)[1].strip()
-    log.debug('inventory hostfile = {0}'.format(options.inventory))
+    hosts_files = get_hosts_files(options.inventory)
 
     # Handle template params
     params = {
@@ -102,23 +133,18 @@ if __name__ == "__main__":
         'version': version,
         'columns': None,
     }
-    # Add user specified parameters (-p / --params)
-    if options.params:
-        try:
-            for param in options.params.split(','):
-                param_key, param_value = param.split('=', 1)
-                params[param_key] = param_value
-        except ValueError as e:
-            sys.stdout.write("Invalid params specified. Should be in format: <key=value>[,<key=value>..]\n")
-            sys.exit(1)
-        log.debug(params)
+    params.update(parse_user_params(options.params))
     if options.columns is not None:
         params['columns'] = options.columns.split(',')
 
-    # Split up inventories
-    inventories = options.inventory.split(',')
+    # Log some debug information
+    log.debug('data_dir = {0}'.format(data_dir))
+    log.debug('tpl_dir = {0}'.format(tpl_dir))
+    log.debug('static_dir = {0}'.format(static_dir))
+    log.debug('inventory files = {0}'.format(hosts_files))
+    log.debug('template params = {0}'.format(params))
 
-    ansible = ansiblecmdb.Ansible(args, inventories, options.fact_cache, debug=options.debug)
+    ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache, debug=options.debug)
 
     # Render a template with the gathered host info
     tpl_file = None
