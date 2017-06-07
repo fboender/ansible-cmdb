@@ -386,7 +386,11 @@
     $('#filter_link').remove();
     if (table.search() == "") {
     } else {
+    % if inverse_link is True:
       $('#host_overview_tbl_filter label').after('<span id="filter_link">&nbsp; <a title="Direct link to search" href="?search='+table.search()+'">&nbsp;</a></span>');
+    % else:
+      $('#host_overview_tbl_filter label').after('<span id="filter_link">&nbsp; <a title="Direct link to inverse search" href="?search=^(?!.*'+table.search()+')">&nbsp;</a></span>');
+    % endif
     }
   } );
 

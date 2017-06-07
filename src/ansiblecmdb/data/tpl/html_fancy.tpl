@@ -8,6 +8,7 @@ local_js = to_bool(context.get('local_js', '0'))
 collapsed = to_bool(context.get('collapsed', '0'))
 host_details = to_bool(context.get('host_details', '1'))
 skip_empty = to_bool(context.get('skip_empty', '0'))
+inverse_link = to_bool(context.get('inverse_link', '0'))
 
 # Get column definitions from html_fancy_defs.html
 cols = var_cols(columns)

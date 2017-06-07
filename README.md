@@ -240,6 +240,7 @@ It takes optional parameters:
 * `collapsed=0|1`: Controls whether host information is collapsed by default or not. A value of `1` will collapse all host information by defaultcontrols whether host information is collapsed by default or not. A value of `1` will collapse all host information by default. (default='0')
 * `host_details=0|1`: Render host details or not. (default=`1`)
 * `skip_empty=0|1`: Skip hosts for which no facts were gathered (unreachable, etc). (default=`0`).
+* `inverse_link=0|1`: Generate link to direct URL with the regex for the *inverse* of the current search query when typing in the search box (`1`) instead of just generating a direct URL for the current search (`0`). (default=`0`)
 
 **sql**:
 
