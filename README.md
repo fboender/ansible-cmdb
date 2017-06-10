@@ -26,6 +26,8 @@ the groups, host variables, custom variables and machine-local facts.
 Supported output formats / templates:
 
 * Fancy HTML (`--template html_fancy`), as seen in the screenshots above.
+* Fancy HTML Split (`--template html_fancy_split`), with each host's details
+  in a separate file (for large number of hosts).
 * CSV (`--template csv`), the trustworthy and flexible comma-separated format.
 * JSON (`--template json`), a dump of all facts in JSON format.
 * Markdown (`--template markdown`), useful for copy-pasting into Wiki's and
@@ -220,6 +222,7 @@ libraries and closed trees:
 Ansible-cmdb currently provides the following templates out of the box:
 
 * **`html_fancy`**: A dynamic, modern HTML page containing all hosts.
+* **`html_fancy_split`**: A dynamic, modern HTML page with each host's details in a separate file.
 * **`txt_table`**: A quick text table summary of the available hosts with some minimal information.
 * **`json`**: Dumps all hosts including groups, variable, custom info in JSON format.
 * **`csv`**: The CSV template outputs a CSV file of your hosts.
@@ -240,6 +243,18 @@ It takes optional parameters:
 * `collapsed=0|1`: Controls whether host information is collapsed by default or not. A value of `1` will collapse all host information by defaultcontrols whether host information is collapsed by default or not. A value of `1` will collapse all host information by default. (default='0')
 * `host_details=0|1`: Render host details or not. (default=`1`)
 * `skip_empty=0|1`: Skip hosts for which no facts were gathered (unreachable, etc). (default=`0`).
+
+**html_fancy_split**:
+
+This template is basically the same as the **html_fancy** template, but it
+generates a `cmdb/` directory with an `index.html` file and a separate html
+file for each host's details.
+
+Usage:
+
+    ansible-cmdb -t html_fancy_split -i hosts out/ 
+
+It accepts the same parameters as the `html_fancy` template.
 
 **sql**:
 
