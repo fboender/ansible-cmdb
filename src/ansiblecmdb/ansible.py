@@ -55,7 +55,7 @@ class Ansible(object):
             files.
         """
         if os.path.isfile(inventory_path) and \
-           stat.S_IXUSR & os.stat(inventory_path)[stat.ST_MODE]:
+           util.is_executable(inventory_path):
             # It's a file and it's executable. Handle as dynamic inventory script
             self._parse_dyn_inventory(inventory_path)
         elif os.path.isfile(inventory_path):

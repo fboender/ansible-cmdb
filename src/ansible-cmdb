@@ -15,12 +15,10 @@ import optparse
 import sys
 import os
 import logging
-
+from mako import exceptions
 import ansiblecmdb
 import ansiblecmdb.util as util
-from mako.template import Template
-from mako.lookup import TemplateLookup
-from mako import exceptions
+import ansiblecmdb.render as render
 
 def get_logger():
     """
@@ -131,6 +129,7 @@ if __name__ == "__main__":
         'lib_dir': data_dir,  # Backwards compatibility for custom templates < ansible-cmdb v1.7
         'data_dir': data_dir,
         'version': version,
+        'log': log,
         'columns': None,
     }
     params.update(parse_user_params(options.params))
@@ -147,41 +146,20 @@ if __name__ == "__main__":
     ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache, debug=options.debug)
 
     # Render a template with the gathered host info
-    tpl_file = None
-    tpl_lookups = [
-        os.path.realpath(options.template),
-        os.path.realpath(os.path.join(tpl_dir, '{0}.tpl'.format(options.template))),
-    ]
-    for p in tpl_lookups:
-        if os.path.isfile(p):
-            tpl_file = p
-            break
-    else:
-        sys.stderr.write("Template '{0}' not found at any of \n  {1}\n".format(options.template, "\n  ".join(tpl_lookups)))
+    renderer = render.Render(options.template, ['.', tpl_dir])
+    if renderer.tpl_file is None:
+        sys.stderr.write("Template '{0}' not found at any of \n  {1}\n".format(options.template, "\n  ".join(renderer.tpl_possibilities)))
         sys.exit(1)
-
-    log.debug('template file = {0}'.format(tpl_file))
-    lookups = [
-        tpl_dir
-    ]
-    mylookup = TemplateLookup(directories=lookups)
-    mytemplate = Template(filename=tpl_file,
-                          lookup=mylookup,
-                          default_filters=['decode.utf8'],
-                          input_encoding='utf-8',
-                          output_encoding='utf-8')
 
     # Make sure we always output in UTF-8, regardless of the user's locale /
     # terminal encoding. This is different in Python 2 and 3.
-    params['log'] = log
-    log.debug("Template params: {0}".format(params))
     try:
-        if sys.version_info[0] == 3:
-            out = mytemplate.render(hosts=ansible.hosts, **params)
-            sys.stdout.buffer.write(out.lstrip())
-        else:
-            out = mytemplate.render(hosts=ansible.hosts, **params)
-            sys.stdout.write(out.lstrip())
+        output = renderer.render(ansible.hosts, params)
+        if output:
+            if sys.version_info[0] == 3:
+                sys.stdout.buffer.write(output.lstrip())
+            else:
+                sys.stdout.write(output.lstrip())
     except Exception as err:
         full_err = exceptions.text_error_template().render().replace("\n", "\n    ")
         debug_cmd = "{0} -d {1}".format(sys.argv[0], ' '.join(sys.argv[1:]))
@@ -208,3 +186,4 @@ remain confidential, you can send them to ferry.boender@gmail.com instead.
 """
         sys.stderr.write(debug_txt)
         sys.exit(1)
+

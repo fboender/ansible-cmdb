@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 <%! from ansiblecmdb.util import to_bool %>
 
 <%namespace name="defs" file="/html_fancy_defs.html" import="*" />
@@ -17,12 +18,18 @@ if local_js is False:
   res_url = "https://cdn.datatables.net/1.10.2/"
 else:
   res_url = "file://" + data_dir + "/static/"
+
+# Set the link type for the host overview table's 'host' column (the link that
+# takes you to the host details).
+link_type = "anchor"
+if host_details is False:
+  link_type = "none"
 %>
 
 <% html_header("Ansible Overview", local_js, res_url) %>
 <% html_header_bar("Host overview") %>
 <% html_col_toggles(cols) %>
-<% html_host_overview(cols, hosts, skip_empty=skip_empty) %>
+<% html_host_overview(cols, hosts, skip_empty=skip_empty, link_type=link_type) %>
 % if host_details is True:
   <% html_host_details(hosts, collapsed=collapsed, skip_empty=skip_empty) %>
 % endif

@@ -1,6 +1,12 @@
 import copy
 import os
+import stat
 
+def is_executable(path):
+    """
+    Determine whether `path` points to an executable file.
+    """
+    return stat.S_IXUSR & os.stat(path)[stat.ST_MODE]
 
 def deepupdate(target, src):
     """Deep update target dict with src

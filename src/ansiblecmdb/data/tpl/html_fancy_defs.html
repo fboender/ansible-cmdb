@@ -4,6 +4,7 @@
 <%! import datetime %>
 <%! import socket %>
 <%! import getpass %>
+<%! from ansiblecmdb.util import to_bool %>
 
 ##
 ## Column definitions
@@ -90,7 +91,7 @@
   <html>
   <head>
     <meta charset="UTF-8">
-    <title>Ansible overview</title>
+    <title>${title}</title>
     <style type="text/css">
       /* reset.css */
       html, body, div, span, applet, object, iframe,
@@ -195,7 +196,7 @@
 
 <%def name="html_header_bar(title)">
   <header>
-    <h1>Host Overview</h1>
+    <h1>${title}</h1>
     <span id="top"><a href="#">Back to top</a></span>
     <span id="clear_settings"><a href="javascript:window.localStorage.clear('columnVisibility'); location.reload();" title="If things are acting weird, press this button">Clear settings</a></span> 
     <span id="generated">Generated on <span class="detail">${datetime.datetime.now().strftime('%c')}</span> by <span class="detail">${getpass.getuser()}</span> @ <span class="detail">${socket.getfqdn()}</span></span>
@@ -229,7 +230,7 @@
   </div>
 </%def>
 
-<%def name="html_host_overview(cols, hosts, skip_empty=False)">
+<%def name="html_host_overview(cols, hosts, skip_empty=False, **kwargs)">
   <div id="host_overview">
     <h2>Host overview</h2>
     <div id="host_overview_tbl_wrapper">
@@ -255,7 +256,7 @@
                 % endfor
               % else:
                 % for col in cols:
-                  <td>${col["func"](host)}</td>
+                  <td>${col["func"](host, **kwargs)}</td>
                 % endfor
               % endif
             </tr>
@@ -442,28 +443,36 @@
 ##
 ## Column functions
 ##
+## Each column function takes variable kwargs. These are not properly unpacked
+## in the function scope in Mako for some reason, so if we need to use them, we
+## need to do a `kwargs.get()`. I don't like Mako much.
 
-<%def name="col_name(host, host_details=True)">
-  % if host_details is True:
+<%def name="col_name(host, **kwargs)">
+  <%
+  link_type = kwargs.get("link_type")
+  %>
+  % if link_type == "anchor":
     <a href="#${jsonxs(host, 'name')}">${jsonxs(host, "name")}</a>
+  % elif link_type == "external":
+    <a href="${jsonxs(host, 'name')}.html">${jsonxs(host, 'name')}</a>
   % else:
     ${jsonxs(host, "name")}
   % endif
 </%def>
 
-<%def name="col_dtap(host)">
+<%def name="col_dtap(host, **kwargs)">
   ${jsonxs(host, 'hostvars.dtap', default='')}
 </%def>
 
-<%def name="col_groups(host)">
+<%def name="col_groups(host, **kwargs)">
   ${'<br>'.join(jsonxs(host, 'groups', default=''))}
 </%def>
 
-<%def name="col_fqdn(host)">
+<%def name="col_fqdn(host, **kwargs)">
   ${jsonxs(host, 'ansible_facts.ansible_fqdn', default='')}
 </%def>
 
-<%def name="col_main_ip(host)">
+<%def name="col_main_ip(host, **kwargs)">
   <%
     default_ipv4 = ''
     if jsonxs(host, 'ansible_facts.ansible_os_family', default='') == 'Windows':
@@ -476,7 +485,7 @@
   ${default_ipv4}
 </%def>
 
-<%def name="col_all_ip4(host)">
+<%def name="col_all_ip4(host, **kwargs)">
   <%
     if jsonxs(host, 'ansible_facts.ansible_os_family', default='') == 'Windows':
       ipv4_addresses = [ip for ip in jsonxs(host, 'ansible_facts.ansible_ip_addresses', default=[]) if ':' not in ip]
@@ -486,11 +495,11 @@
   ${'<br>'.join(ipv4_addresses)}
 </%def>
 
-<%def name="col_all_ip6(host)">
+<%def name="col_all_ip6(host, **kwargs)">
   ${'<br>'.join(jsonxs(host, 'ansible_facts.ansible_all_ipv6_addresses', default=[]))}
 </%def>
 
-<%def name="col_os(host)">
+<%def name="col_os(host, **kwargs)">
   % if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
     ${jsonxs(host, 'ansible_facts.ansible_distribution', default='')} ${jsonxs(host, 'ansible_facts.ansible_distribution_release', default='')}
   % else:
@@ -498,26 +507,26 @@
   % endif
 </%def>
 
-<%def name="col_kernel(host)">
+<%def name="col_kernel(host, **kwargs)">
   ${jsonxs(host, 'ansible_facts.ansible_kernel', default='')}
 </%def>
 
-<%def name="col_arch(host)">
+<%def name="col_arch(host, **kwargs)">
   ${jsonxs(host, 'ansible_facts.ansible_architecture', default='')} / ${jsonxs(host, 'ansible_facts.ansible_userspace_architecture', default='')}
 </%def>
 
-<%def name="col_virt(host)">
+<%def name="col_virt(host, **kwargs)">
   ${jsonxs(host, 'ansible_facts.ansible_virtualization_type', default='?')} / ${jsonxs(host, 'ansible_facts.ansible_virtualization_role', default='?')}
 </%def>
 
-<%def name="col_cpu_type(host)">
+<%def name="col_cpu_type(host, **kwargs)">
   <% cpu_type = jsonxs(host, 'ansible_facts.ansible_processor', default=0)%>
   % if isinstance(cpu_type, list) and len(cpu_type) > 0:
     <a href="http://www.cpubenchmark.net/cpu.php?cpu=${ cpu_type[-1] }">${ cpu_type[-1] }</a>
   % endif
 </%def>
 
-<%def name="col_vcpus(host)">
+<%def name="col_vcpus(host, **kwargs)">
   % if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
     0
   % else:
@@ -525,11 +534,11 @@
   % endif
 </%def>
 
-<%def name="col_ram(host)">
+<%def name="col_ram(host, **kwargs)">
   ${'%0.1f' % ((int(jsonxs(host, 'ansible_facts.ansible_memtotal_mb', default=0)) / 1024.0))}
 </%def>
 
-<%def name="col_mem_usage(host)">
+<%def name="col_mem_usage(host, **kwargs)">
   % try:
     <%
     i = jsonxs(host, 'ansible_facts.ansible_memory_mb', default=0) 
@@ -551,7 +560,7 @@
   % endtry
 </%def>
 
-<%def name="col_swap_usage(host)">
+<%def name="col_swap_usage(host, **kwargs)">
   % try:
     <%
       i = jsonxs(host, 'ansible_facts.ansible_memory_mb', default=0)
@@ -573,7 +582,7 @@
   % endtry
 </%def>
 
-<%def name="col_disk_usage(host)">
+<%def name="col_disk_usage(host, **kwargs)">
   % for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
     % try:
       <%
@@ -604,7 +613,7 @@
   % endfor
 </%def>
 
-<%def name="col_physdisk_sizes(host)">
+<%def name="col_physdisk_sizes(host, **kwargs)">
   % try:
     % for physdisk_name, physdisk_info in jsonxs(host, 'ansible_facts.ansible_devices', default={}).items():
       ${physdisk_name}: ${jsonxs(physdisk_info, 'size', default='')}<br />
@@ -614,19 +623,19 @@
   % endtry
 </%def>
 
-<%def name="col_nr_of_ifaces(host)">
+<%def name="col_nr_of_ifaces(host, **kwargs)">
   ${len(jsonxs(host, 'ansible_facts.ansible_interfaces', default=[]))}
 </%def>
 
-<%def name="col_comment(host)">
+<%def name="col_comment(host, **kwargs)">
   ${jsonxs(host, 'hostvars.comment', default='')}
 </%def>
 
-<%def name="col_ext_id(host)">
+<%def name="col_ext_id(host, **kwargs)">
   ${jsonxs(host, 'hostvars.ext_id', default='')}
 </%def>
 
-<%def name="col_gathered(host)">
+<%def name="col_gathered(host, **kwargs)">
   % if 'ansible_date_time' in host['ansible_facts']:
     ${host['ansible_facts']['ansible_date_time'].get('iso8601')}
   % endif
