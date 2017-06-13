@@ -1,6 +1,5 @@
 import sys
 import os
-import util
 import subprocess
 import json
 import imp
