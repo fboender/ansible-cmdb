@@ -25,6 +25,7 @@ clean:
 	find ./ -name "*.pyc" -delete
 	find ./ -name "__pycache__" -type d -delete
 	rm -f example/gen_*
+	rm -rf example/cmdb/
 	rm -rf build/
 	rm -rf dist/
 	rm -rf src/ansible_cmdb.egg-info/
