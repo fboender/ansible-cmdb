@@ -43,7 +43,7 @@ class Render:
         Render a mako or .py file.
         """
         if self.tpl_file.endswith(".tpl"):
-            return self._render_mako(hosts,vars)
+            return self._render_mako(hosts, vars)
         elif self.tpl_file.endswith(".py"):
             return self._render_py(hosts, vars)
         else:
