@@ -95,9 +95,6 @@ release_deb: release_check clean doc
 	rm -rf rel_deb
 	rm -rf $(PROG)-$(REL_VERSION)
 
-	# Lint
-	lintian ansible-cmdb-*.deb
-
 release_rpm: release_check clean release_deb
 	alien -r -g $(PROG)-$(REL_VERSION).deb
 	sed -i '\:%dir "/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
