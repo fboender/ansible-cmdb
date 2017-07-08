@@ -36,7 +36,7 @@ writer = csv.writer(sys.stdout, delimiter=',', quotechar='"', quoting=csv.QUOTE_
 writer.writerow(fieldnames)
 for hostname, host in hosts.items():
   if 'ansible_facts' not in host:
-    sys.stderr.write('{0}: No info collected.\n'.format(hostname))
+    sys.stderr.write(u'{0}: No info collected.\n'.format(hostname))
   else:
     out_cols = []
     for col in get_cols():

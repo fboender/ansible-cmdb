@@ -49,13 +49,13 @@ for col in get_cols():
 sys.stdout.write('\n')
 
 for col in get_cols():
-	sys.stdout.write('-' * col_longest[col['title']] + (' ' * col_space))
+	sys.stdout.write(u'-' * col_longest[col['title']] + (u' ' * col_space))
 sys.stdout.write('\n')
 
 # Print out columns
 for hostname, host in hosts.items():
 	if 'ansible_facts' not in host:
-		sys.stderr.write('{0}: No info collected.\n'.format(hostname))
+		sys.stderr.write(u'{0}: No info collected.\n'.format(hostname))
 	else:
 		for col in get_cols():
 			sys.stdout.write(col['field'](host).ljust(col_longest[col['title']]) + (' ' * col_space))
