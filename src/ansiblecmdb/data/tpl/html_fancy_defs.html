@@ -245,7 +245,7 @@
       <tbody>
         % for hostname, host in hosts.items():
           <%
-          log.debug("Rendering host overview for {0}".format(hostname))
+          log.debug(u"Rendering host overview for {0}".format(hostname))
           %>
           % if skip_empty is False or 'ansible_facts' in host:
             <tr>
@@ -261,7 +261,7 @@
               % endif
             </tr>
           % endif
-      % endfor
+        % endfor
       </tbody>
       </table>
     </div>
@@ -272,7 +272,7 @@
   <div id="hosts">
     % for hostname, host in hosts.items():
       <%
-      log.debug("Rendering host details for {0}".format(hostname))
+      log.debug(u"Rendering host details for {0}".format(hostname))
       %>
       <% html_host_detail(host, collapsed=collapsed, skip_empty=skip_empty) %>
     % endfor

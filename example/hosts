@@ -42,3 +42,4 @@ openvz.debian.local
 facter.test.local ansible_host=192.168.56.7
 custfact.test.local ansible_host=192.168.56.7  abc: [1, 2, 3]
 onlyinhosts.test.local
+çyrillic.test.local
