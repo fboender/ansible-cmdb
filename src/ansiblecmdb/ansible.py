@@ -43,6 +43,10 @@ class Ansible(object):
         for inventory_path in self.inventory_paths:
             self._handle_inventory(inventory_path)
 
+        # Scan for group vars and apply them
+        for inventory_path in self.inventory_paths:
+            self._parse_groupvar_dir(inventory_path)
+
     def _handle_inventory(self, inventory_path):
         """
         Scan inventory. As Ansible is a big mess without any kind of
@@ -71,6 +75,7 @@ class Ansible(object):
                 self._handle_inventory(os.path.join(inventory_path, fname))
         else:
             raise IOError("Invalid inventory file / dir: '{0}'".format(inventory_path))
+
         self._parse_hostvar_dir(inventory_path)
 
     def _parse_hosts_inventory(self, inventory_path):
@@ -100,7 +105,7 @@ class Ansible(object):
         Parse host_vars dir, if it exists. This requires the yaml module, which
         is imported on-demand, since it's not a default module.
         """
-        self.log.debug("Parsing host vars (dir): {0}".format(inventory_path))
+        self.log.debug("Parsing host vars (dir): {0}".format(os.path.join(inventory_path, 'host_vars')))
         path = os.path.join(os.path.dirname(inventory_path), 'host_vars')
         if not os.path.exists(path):
             return
@@ -126,12 +131,52 @@ class Ansible(object):
                 continue
 
             try:
+                self.log.debug("Reading host vars from {}".format(f_path))
                 f = codecs.open(f_path, 'r', encoding='utf8')
                 invars = yaml.safe_load(f)
                 f.close()
                 self.update_host(fname, {'hostvars': invars})
             except Exception as err:
                 sys.stderr.write("Yaml couldn't load '{0}'. Skipping\n".format(f_path))
+
+    def _parse_groupvar_dir(self, inventory_path):
+        """
+        Parse group_vars dir, if it exists. This requires the yaml module, which
+        is imported on-demand, since it's not a default module.
+        """
+        self.log.debug("Parsing group vars (dir): {0}".format(os.path.join(inventory_path, 'group_vars')))
+        path = os.path.join(os.path.dirname(inventory_path), 'group_vars')
+        if not os.path.exists(path):
+            return
+
+        try:
+            import yaml
+        except ImportError:
+            import yaml3 as yaml
+
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            for filename in filenames:
+                f_path = os.path.join(path, filename)
+                groupname = filename
+
+                # Check for ansible-vault files, because they're valid yaml for
+                # some reason... (psst, the reason is that yaml sucks)
+                first_line = open(f_path, 'r').readline()
+                if first_line.startswith('$ANSIBLE_VAULT'):
+                    sys.stderr.write("Skipping encrypted vault file {0}\n".format(f_path))
+                    continue
+
+                try:
+                    self.log.debug("Reading group vars from {}".format(f_path))
+                    f = codecs.open(f_path, 'r', encoding='utf8')
+                    invars = yaml.safe_load(f)
+                    f.close()
+                except Exception as err:
+                    sys.stderr.write("Yaml couldn't load '{0}' because '{1}'. Skipping\n".format(f_path, err))
+                    continue  # Go to next file
+
+                for hostname in self.hosts_in_group(groupname):
+                    self.update_host(hostname, {'hostvars': invars}, overwrite=False)
 
     def _parse_fact_dir(self, fact_dir, fact_cache=False):
         """
@@ -194,13 +239,30 @@ class Ansible(object):
             sys.stderr.write("Exception while executing dynamic inventory script '{0}':\n\n".format(script))
             sys.stderr.write(str(err) + '\n')
 
-    def update_host(self, hostname, key_values):
+    def update_host(self, hostname, key_values, overwrite=True):
         """
         Update a hosts information. This is called by various collectors such
         as the ansible setup module output and the hosts parser to add
         informatio to a host. It does some deep inspection to make sure nested
         information can be updated.
         """
-        host_info = self.hosts.get(hostname, {'name': hostname, 'hostvars': {}})
-        util.deepupdate(host_info, key_values)
+        default_empty_host = {
+            'name': hostname,
+            'hostvars': {},
+        }
+        host_info = self.hosts.get(hostname, default_empty_host)
+        util.deepupdate(host_info, key_values, overwrite=overwrite)
         self.hosts[hostname] = host_info
+
+    def hosts_in_group(self, groupname):
+        """
+        Return a list of hostnames that are in a group.
+        """
+        result = []
+        for hostname, hostinfo in self.hosts.items():
+            if 'groups' in hostinfo:
+                if groupname in hostinfo['groups']:
+                    result.append(hostname)
+            else:
+                hostinfo['groups'] = [groupname]
+        return result

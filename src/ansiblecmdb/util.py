@@ -8,12 +8,13 @@ def is_executable(path):
     """
     return stat.S_IXUSR & os.stat(path)[stat.ST_MODE]
 
-def deepupdate(target, src):
+def deepupdate(target, src, overwrite=True):
     """Deep update target dict with src
     For each k,v in src: if k doesn't exist in target, it is deep copied from
     src to target. Otherwise, if v is a list, target[k] is extended with
     src[k]. If v is a set, target[k] is updated with v, If v is a dict,
-    recursively deep-update it.
+    recursively deep-update it. If `overwrite` is False, existing values in
+    target will not be overwritten.
 
     Examples:
     >>> t = {'name': 'Ferry', 'hobbies': ['programming', 'sci-fi']}
@@ -25,7 +26,7 @@ def deepupdate(target, src):
         if type(v) == list:
             if not k in target:
                 target[k] = copy.deepcopy(v)
-            else:
+            elif overwrite is True:
                 target[k].extend(v)
         elif type(v) == dict:
             if not k in target:
@@ -35,10 +36,11 @@ def deepupdate(target, src):
         elif type(v) == set:
             if not k in target:
                 target[k] = v.copy()
-            else:
+            elif overwrite is True:
                 target[k].update(v.copy())
         else:
-            target[k] = copy.copy(v)
+            if not k in target and overwrite is True:
+                target[k] = copy.copy(v)
 
 def find_path(dirs, path_to_find):
     """
