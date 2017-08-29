@@ -35,6 +35,8 @@
     {"title": "PhysDisk size", "id": "physdisk_size", "func": col_physdisk_sizes, "sType": "string", "visible": False},
     {"title": "Nr of Ifaces",  "id": "nr_of_ifaces",  "func": col_nr_of_ifaces,   "sType": "num",    "visible": False},
     {"title": "Timestamp",     "id": "timestamp",     "func": col_gathered,       "sType": "string", "visible": False},
+    {"title": "Product Name",  "id": "prodname",      "func": col_prodname,       "sType": "string", "visible": False},
+    {"title": "Product Serial","id": "prodserial",    "func": col_prodserial,     "sType": "string", "visible": False},
   ]
 
   # Enable columns specified with '--columns'
@@ -639,6 +641,14 @@
   % if 'ansible_date_time' in host['ansible_facts']:
     ${host['ansible_facts']['ansible_date_time'].get('iso8601')}
   % endif
+</%def>
+
+<%def name="col_prodname(host, **kwargs)">
+  ${jsonxs(host, 'ansible_facts.ansible_product_name', default='')}
+</%def>
+
+<%def name="col_prodserial(host, **kwargs)">
+  ${jsonxs(host, 'ansible_facts.ansible_product_serial', default='')}
 </%def>
 
 ##
