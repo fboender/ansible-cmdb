@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -x
+set -e
+
 SCRIPT_DIR=$(dirname $(readlink -f $0))
 cd $SCRIPT_DIR
 export PYTHONPATH=../lib
@@ -9,7 +12,6 @@ export PYTHONPATH=../lib
 ##
 
 # Python v2
-set -x
 python2 ../src/ansible-cmdb -i hosts out > gen_html_fancy_2.html
 python2 ../src/ansible-cmdb -p local_js=1 -i hosts out > gen_html_fancy_localjs_2.html
 python2 ../src/ansible-cmdb -t txt_table -i hosts out > gen_txt_table_2.txt
