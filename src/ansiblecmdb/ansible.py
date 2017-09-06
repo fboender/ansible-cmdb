@@ -43,6 +43,10 @@ class Ansible(object):
         for inventory_path in self.inventory_paths:
             self._handle_inventory(inventory_path)
 
+        # Scan for host vars and apply them
+        for inventory_path in self.inventory_paths:
+            self._parse_hostvar_dir(inventory_path)
+
         # Scan for group vars and apply them
         for inventory_path in self.inventory_paths:
             self._parse_groupvar_dir(inventory_path)
@@ -75,8 +79,6 @@ class Ansible(object):
                 self._handle_inventory(os.path.join(inventory_path, fname))
         else:
             raise IOError("Invalid inventory file / dir: '{0}'".format(inventory_path))
-
-        self._parse_hostvar_dir(inventory_path)
 
     def _parse_hosts_inventory(self, inventory_path):
         """
