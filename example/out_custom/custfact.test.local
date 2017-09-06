@@ -14,5 +14,10 @@
               "install_src": "manual_compile"
             }
         }
+    },
+    "ansible_facts": {
+        "ansible_local": {
+            "foo": "bar"
+        }
     }
 }
