@@ -39,7 +39,7 @@ def deepupdate(target, src, overwrite=True):
             elif overwrite is True:
                 target[k].update(v.copy())
         else:
-            if not k in target and overwrite is True:
+            if overwrite is True:
                 target[k] = copy.copy(v)
 
 def find_path(dirs, path_to_find):
