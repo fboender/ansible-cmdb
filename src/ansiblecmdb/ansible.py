@@ -5,6 +5,11 @@ import stat
 import subprocess
 import codecs
 import logging
+try:
+    import yaml
+except ImportError:
+    import yaml3 as yaml
+
 
 import ansiblecmdb.util as util
 import ansiblecmdb.parser as parser
@@ -104,42 +109,45 @@ class Ansible(object):
 
     def _parse_hostvar_dir(self, inventory_path):
         """
-        Parse host_vars dir, if it exists. This requires the yaml module, which
-        is imported on-demand, since it's not a default module.
+        Parse host_vars dir, if it exists.
         """
         self.log.debug("Parsing host vars (dir): {0}".format(os.path.join(inventory_path, 'host_vars')))
         path = os.path.join(os.path.dirname(inventory_path), 'host_vars')
         if not os.path.exists(path):
             return
 
+        for entry in os.listdir(path):
+            full_path = os.path.join(path, entry)
+            hostname = entry  # file or dir name is the hostname
+            if os.path.isfile(full_path):
+                # Parse contents of file as host vars.
+                self._parse_hostvar_file(hostname, full_path)
+            elif os.path.isdir(full_path):
+                # Parse each file in the directory as a file containing
+                # variables for the host.
+                for file_entry in os.listdir(full_path):
+                    p = os.path.join(full_path, file_entry)
+                    self._parse_hostvar_file(hostname, p)
+
+    def _parse_hostvar_file(self, hostname, path):
+        """
+        Parse a host var file and apply it to host `hostname`.
+        """
+        # Check for ansible-vault files, because they're valid yaml for
+        # some reason... (psst, the reason is that yaml sucks)
+        first_line = open(path, 'r').readline()
+        if first_line.startswith('$ANSIBLE_VAULT'):
+            sys.stderr.write("Skipping encrypted vault file {0}\n".format(path))
+            return
+
         try:
-            import yaml
-        except ImportError:
-            import yaml3 as yaml
-
-        flist = []
-        for (dirpath, dirnames, filenames) in os.walk(path):
-            flist.extend(filenames)
-            break
-
-        for fname in flist:
-            f_path = os.path.join(path, fname)
-
-            # Check for ansible-vault files, because they're valid yaml for
-            # some reason... (psst, the reason is that yaml sucks)
-            first_line = open(f_path, 'r').readline()
-            if first_line.startswith('$ANSIBLE_VAULT'):
-                sys.stderr.write("Skipping encrypted vault file {0}\n".format(f_path))
-                continue
-
-            try:
-                self.log.debug("Reading host vars from {}".format(f_path))
-                f = codecs.open(f_path, 'r', encoding='utf8')
-                invars = yaml.safe_load(f)
-                f.close()
-                self.update_host(fname, {'hostvars': invars})
-            except Exception as err:
-                sys.stderr.write("Yaml couldn't load '{0}'. Skipping\n".format(f_path))
+            self.log.debug("Reading host vars from {}".format(path))
+            f = codecs.open(path, 'r', encoding='utf8')
+            invars = yaml.safe_load(f)
+            f.close()
+            self.update_host(hostname, {'hostvars': invars})
+        except Exception as err:
+            sys.stderr.write("Yaml couldn't load '{0}'. Skipping. Error was: {1}\n".format(path, err))
 
     def _parse_groupvar_dir(self, inventory_path):
         """
