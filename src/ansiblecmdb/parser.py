@@ -2,6 +2,7 @@ import sys
 import re
 import json
 import traceback
+import logging
 if sys.version_info[0] == 2:
     # Python 2.x shlex doesn't support unicode
     import ushlex as shlex
@@ -23,6 +24,7 @@ class HostsParser(object):
     def __init__(self, hosts_contents):
         self.hosts_contents = hosts_contents
         self.hosts = {}
+        self.log = logging.getLogger(__name__)
 
         # Get a list of host, children and vars sections in the hosts file
         try:
@@ -46,8 +48,7 @@ class HostsParser(object):
                 self._apply_section(section, self.hosts)
         except ValueError:
             tb = traceback.format_exc()
-            sys.stderr.write("Error while parsing hosts contents: '{0}'\n"
-                             "Invalid hosts file?\n".format(tb))
+            self.log.warn("Error while parsing hosts contents: '{0}'. Invalid hosts file?".format(tb))
 
     def _parse_hosts_contents(self, hosts_contents):
         """
@@ -163,7 +164,7 @@ class HostsParser(object):
             try:
                 key_values = self._parse_vars(tokens)
             except ValueError:
-                sys.stderr.write("Unsupported vars syntax. Skipping line: {0}\n".format(line))
+                self.log.warning("Unsupported vars syntax. Skipping line: {0}".format(line))
                 return (name, {})
         return (name, key_values)
 
@@ -357,7 +358,7 @@ class HostsParser(object):
             # Strip port numbers off and return
             return [host_name.split(':')[0] for host_name in hosts_done]
         except Exception as e:
-            sys.stderr.write("Couldn't parse host definition '{0}': {1}\n".format(hostdef, e))
+            self.log.warning("Couldn't parse host definition '{0}': {1}".format(hostdef, e))
             return []
 
 
@@ -369,6 +370,7 @@ class DynInvParser(object):
         self.dynvinv_contents = dynvinv_contents
         self.hosts = {}
         self.dynvinv_json = json.loads(self.dynvinv_contents)
+        self.log = logging.getLogger(__name__)
 
         for k, v in self.dynvinv_json.items():
             if k.startswith('_meta'):
@@ -429,8 +431,7 @@ class DynInvParser(object):
             for hostname in group:
                 self._get_host(hostname)['groups'].add(group_name)
         else:
-            sys.stderr.write("Invalid element found in dynamic "
-                             "inventory output: {0}".format(type(group)))
+            self.log.warning("Invalid element found in dynamic inventory output: {0}".format(type(group)))
 
     def _parse_meta(self, meta):
         """

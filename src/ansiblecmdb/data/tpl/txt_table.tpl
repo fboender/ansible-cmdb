@@ -1,5 +1,8 @@
 <%
 import sys
+import logging
+
+log = logging.getLogger(__name__)
 
 col_space = 2
 
@@ -32,32 +35,32 @@ col_longest = {}
 
 # Init col width to titles' len
 for col in get_cols():
-	col_longest[col['title']] = len(col['title'])
+  col_longest[col['title']] = len(col['title'])
 
 for hostname, host in hosts.items():
-	for col in get_cols():
-		try:
-			field_value = col['field'](host)
-			if len(field_value) > col_longest.get(col['title'], 0):
-				col_longest[col['title']] = len(field_value)
-		except KeyError:
-			pass
+  for col in get_cols():
+    try:
+      field_value = col['field'](host)
+      if len(field_value) > col_longest.get(col['title'], 0):
+        col_longest[col['title']] = len(field_value)
+    except KeyError:
+      pass
 
 # Print out headers
 for col in get_cols():
-	sys.stdout.write(col['title'].ljust(col_longest[col['title']] + col_space))
+  sys.stdout.write(col['title'].ljust(col_longest[col['title']] + col_space))
 sys.stdout.write('\n')
 
 for col in get_cols():
-	sys.stdout.write(u'-' * col_longest[col['title']] + (u' ' * col_space))
+  sys.stdout.write(u'-' * col_longest[col['title']] + (u' ' * col_space))
 sys.stdout.write('\n')
 
 # Print out columns
 for hostname, host in hosts.items():
-	if 'ansible_facts' not in host:
-		sys.stderr.write(u'{0}: No info collected.\n'.format(hostname))
-	else:
-		for col in get_cols():
-			sys.stdout.write(col['field'](host).ljust(col_longest[col['title']]) + (' ' * col_space))
-	sys.stdout.write('\n')
+  if 'ansible_facts' not in host:
+    log.warning(u'{0}: No info collected.'.format(hostname))
+  else:
+    for col in get_cols():
+      sys.stdout.write(col['field'](host).ljust(col_longest[col['title']]) + (' ' * col_space))
+  sys.stdout.write('\n')
 %>

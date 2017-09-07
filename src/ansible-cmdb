@@ -25,7 +25,7 @@ def get_logger():
     Instantiate a logger.
     """
     root = logging.getLogger()
-    root.setLevel(logging.CRITICAL)
+    root.setLevel(logging.WARNING)
     ch = logging.StreamHandler(sys.stderr)
     ch.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(message)s')
@@ -111,6 +111,7 @@ if __name__ == "__main__":
     parser.add_option("-f", "--fact-cache", dest="fact_cache", action="store_true", default=False, help="<dir> contains fact-cache files")
     parser.add_option("-p", "--params", dest="params", action="store", default=None, help="Params to send to template")
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
+    parser.add_option("-q", "--quiet", dest="quiet", action="store_true", default=False, help="Don't report warnings")
     parser.add_option("-c", "--columns", dest="columns", action="store", default=None, help="Show only given columns")
     (options, args) = parser.parse_args()
 
@@ -119,7 +120,9 @@ if __name__ == "__main__":
         sys.stderr.write("The <dir> argument is mandatory\n")
         sys.exit(1)
 
-    if options.debug:
+    if options.quiet:
+        log.setLevel(logging.ERROR)
+    elif options.debug:
         log.setLevel(logging.DEBUG)
 
     hosts_files = get_hosts_files(options.inventory)

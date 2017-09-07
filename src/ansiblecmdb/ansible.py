@@ -38,7 +38,7 @@ class Ansible(object):
         self.fact_cache = fact_cache  # fact dirs are fact-caches
         self.debug = debug
         self.hosts = {}
-        self.log = logging.getLogger()
+        self.log = logging.getLogger(__name__)
 
         # Process facts gathered by Ansible's setup module of fact caching.
         for fact_dir in self.fact_dirs:
@@ -137,7 +137,7 @@ class Ansible(object):
         # some reason... (psst, the reason is that yaml sucks)
         first_line = open(path, 'r').readline()
         if first_line.startswith('$ANSIBLE_VAULT'):
-            sys.stderr.write("Skipping encrypted vault file {0}\n".format(path))
+            self.log.warning("Skipping encrypted vault file {0}".format(path))
             return
 
         try:
@@ -147,7 +147,7 @@ class Ansible(object):
             f.close()
             self.update_host(hostname, {'hostvars': invars})
         except Exception as err:
-            sys.stderr.write("Yaml couldn't load '{0}'. Skipping. Error was: {1}\n".format(path, err))
+            self.log.warning("Yaml couldn't load '{0}'. Skipping. Error was: {1}".format(path, err))
 
     def _parse_groupvar_dir(self, inventory_path):
         """
@@ -173,7 +173,7 @@ class Ansible(object):
                 # some reason... (psst, the reason is that yaml sucks)
                 first_line = open(f_path, 'r').readline()
                 if first_line.startswith('$ANSIBLE_VAULT'):
-                    sys.stderr.write("Skipping encrypted vault file {0}\n".format(f_path))
+                    self.log.warning("Skipping encrypted vault file {0}".format(f_path))
                     continue
 
                 try:
@@ -182,7 +182,7 @@ class Ansible(object):
                     invars = yaml.safe_load(f)
                     f.close()
                 except Exception as err:
-                    sys.stderr.write("Yaml couldn't load '{0}' because '{1}'. Skipping\n".format(f_path, err))
+                    self.log.warning("Yaml couldn't load '{0}' because '{1}'. Skipping".format(f_path, err))
                     continue  # Go to next file
 
                 for hostname in self.hosts_in_group(groupname):
@@ -222,7 +222,7 @@ class Ansible(object):
                 self.update_host(hostname, {'name': hostname})
             except ValueError as e:
                 # Ignore non-JSON files (and bonus errors)
-                sys.stderr.write("Error parsing: %s: %s\n" % (fname, e))
+                self.log.warning("Error parsing: %s: %s" % (fname, e))
 
     def _parse_dyn_inventory(self, script):
         """

@@ -2,7 +2,9 @@
 
 import sys
 import csv
+import logging
 
+log = logging.getLogger(__name__)
 
 cols = [
   {"title": "Name",       "id": "name",       "visible": True, "field": lambda h: h.get('name', '')},
@@ -36,7 +38,7 @@ writer = csv.writer(sys.stdout, delimiter=',', quotechar='"', quoting=csv.QUOTE_
 writer.writerow(fieldnames)
 for hostname, host in hosts.items():
   if 'ansible_facts' not in host:
-    sys.stderr.write(u'{0}: No info collected.\n'.format(hostname))
+    log.warning(u'{0}: No info collected.'.format(hostname))
   else:
     out_cols = []
     for col in get_cols():
