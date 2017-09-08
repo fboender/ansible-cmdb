@@ -151,7 +151,7 @@ class Ansible(object):
 
     def _parse_groupvar_dir(self, inventory_path):
         """
-        Parse group_vars dir, if it exists.
+        Parse group_vars dir, if it exists. Encrypted vault files are skipped.
         """
         self.log.debug("Parsing group vars (dir): {0}".format(os.path.join(inventory_path, 'group_vars')))
         path = os.path.join(os.path.dirname(inventory_path), 'group_vars')
