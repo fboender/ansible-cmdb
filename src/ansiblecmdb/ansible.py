@@ -151,18 +151,12 @@ class Ansible(object):
 
     def _parse_groupvar_dir(self, inventory_path):
         """
-        Parse group_vars dir, if it exists. This requires the yaml module, which
-        is imported on-demand, since it's not a default module.
+        Parse group_vars dir, if it exists.
         """
         self.log.debug("Parsing group vars (dir): {0}".format(os.path.join(inventory_path, 'group_vars')))
         path = os.path.join(os.path.dirname(inventory_path), 'group_vars')
         if not os.path.exists(path):
             return
-
-        try:
-            import yaml
-        except ImportError:
-            import yaml3 as yaml
 
         for (dirpath, dirnames, filenames) in os.walk(path):
             for filename in filenames:
