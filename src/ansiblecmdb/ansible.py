@@ -160,7 +160,7 @@ class Ansible(object):
 
         for (dirpath, dirnames, filenames) in os.walk(path):
             for filename in filenames:
-                f_path = os.path.join(path, filename)
+                f_path = os.path.join(dirpath, filename)
                 groupname = filename
 
                 # Check for ansible-vault files, because they're valid yaml for
