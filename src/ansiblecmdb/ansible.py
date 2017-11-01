@@ -15,6 +15,18 @@ import ansiblecmdb.util as util
 import ansiblecmdb.parser as parser
 
 
+def strip_exts(s, exts):
+    """
+    Given a string and an interable of extensions, strip the extenion off the
+    string if the string ends with one of the extensions.
+    """
+    f_split = os.path.splitext(s)
+    if f_split[1] in exts:
+        return f_split[0]
+    else:
+        return s
+
+
 class Ansible(object):
     """
     The Ansible class is responsible for gathering host information.
@@ -118,7 +130,10 @@ class Ansible(object):
 
         for entry in os.listdir(path):
             full_path = os.path.join(path, entry)
-            hostname = entry  # file or dir name is the hostname
+
+            # file or dir name is the hostname
+            hostname = strip_exts(entry, ('.yml', '.yaml', '.json'))
+
             if os.path.isfile(full_path):
                 # Parse contents of file as host vars.
                 self._parse_hostvar_file(hostname, full_path)
@@ -160,23 +175,25 @@ class Ansible(object):
 
         for (dirpath, dirnames, filenames) in os.walk(path):
             for filename in filenames:
-                f_path = os.path.join(dirpath, filename)
-                groupname = filename
+                full_path = os.path.join(dirpath, filename)
+
+                # filename is the group name
+                groupname = strip_exts(filename, ('.yml', '.yaml', '.json'))
 
                 # Check for ansible-vault files, because they're valid yaml for
                 # some reason... (psst, the reason is that yaml sucks)
-                first_line = open(f_path, 'r').readline()
+                first_line = open(full_path, 'r').readline()
                 if first_line.startswith('$ANSIBLE_VAULT'):
-                    self.log.warning("Skipping encrypted vault file {0}".format(f_path))
+                    self.log.warning("Skipping encrypted vault file {0}".format(full_path))
                     continue
 
                 try:
-                    self.log.debug("Reading group vars from {}".format(f_path))
-                    f = codecs.open(f_path, 'r', encoding='utf8')
+                    self.log.debug("Reading group vars from {}".format(full_path))
+                    f = codecs.open(full_path, 'r', encoding='utf8')
                     invars = yaml.safe_load(f)
                     f.close()
                 except Exception as err:
-                    self.log.warning("Yaml couldn't load '{0}' because '{1}'. Skipping".format(f_path, err))
+                    self.log.warning("Yaml couldn't load '{0}' because '{1}'. Skipping".format(full_path, err))
                     continue  # Go to next file
 
                 for hostname in self.hosts_in_group(groupname):
