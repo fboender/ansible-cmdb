@@ -160,7 +160,13 @@ class Ansible(object):
             f = codecs.open(path, 'r', encoding='utf8')
             invars = yaml.safe_load(f)
             f.close()
-            self.update_host(hostname, {'hostvars': invars})
+
+            if hostname == "all":
+                # Hostname 'all' is special and applies to all hosts
+                for hostname in self.hosts_all():
+                    self.update_host(hostname, {'hostvars': invars}, overwrite=False)
+            else:
+                self.update_host(hostname, {'hostvars': invars}, overwrite=True)
         except Exception as err:
             self.log.warning("Yaml couldn't load '{0}'. Skipping. Error was: {1}".format(path, err))
 
@@ -196,8 +202,13 @@ class Ansible(object):
                     self.log.warning("Yaml couldn't load '{0}' because '{1}'. Skipping".format(full_path, err))
                     continue  # Go to next file
 
-                for hostname in self.hosts_in_group(groupname):
-                    self.update_host(hostname, {'hostvars': invars}, overwrite=False)
+                if groupname == 'all':
+                    # groupname 'all' is special and applies to all hosts.
+                    for hostname in self.hosts_all():
+                        self.update_host(hostname, {'hostvars': invars}, overwrite=False)
+                else:
+                    for hostname in self.hosts_in_group(groupname):
+                        self.update_host(hostname, {'hostvars': invars}, overwrite=False)
 
     def _parse_fact_dir(self, fact_dir, fact_cache=False):
         """
@@ -274,6 +285,12 @@ class Ansible(object):
         host_info = self.hosts.get(hostname, default_empty_host)
         util.deepupdate(host_info, key_values, overwrite=overwrite)
         self.hosts[hostname] = host_info
+
+    def hosts_all(self):
+        """
+        Return a list of all hostnames.
+        """
+        return [hostname for hostname, hostinfo in self.hosts.items()]
 
     def hosts_in_group(self, groupname):
         """
