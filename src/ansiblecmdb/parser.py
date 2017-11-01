@@ -206,7 +206,7 @@ class HostsParser(object):
         """
         key_values = {}
         for token in tokens:
-            if token == '#':
+            if token.startswith('#'):
                 # End parsing if we encounter a comment, which lasts
                 # until the end of the line.
                 break
