@@ -131,6 +131,9 @@ The default template is `html_fancy`, which uses jQuery.
       -d, --debug           Show debug output
       -c COLUMNS, --columns=COLUMNS
                             Show only given columns
+      --exclude-cols=EXCLUDE_COLUMNS
+                            Exclude cols from output
+
 
 ### Inventory scanning
 
@@ -314,6 +317,17 @@ For example:
     host5.example.com       Debian 6.0.10  192.168.57.1   1g   1  
     db03.prod.local         Debian 6.0.10  192.168.58.3   0g   1  
     zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  4g   2 
+
+For interactive templates (`html_fancy` and friends), the `--columns` option
+merely hides the columns by default. It doesn't remote them from the output,
+unlike the `csv` and other static templates. If you want to exclude columns
+from `html_fancy` and friends, use the `--exclude-cols` option. It works the
+same as `--columns`. For example:
+
+    ansible-cmdb -t html_fancy_split \
+                 --exclude-cols mem_usage,swap_usage,disk_usage,physdisk_size \
+                 -i hosts \
+                 facts/
 
 ### Extending
 

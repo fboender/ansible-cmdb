@@ -113,6 +113,7 @@ if __name__ == "__main__":
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
     parser.add_option("-q", "--quiet", dest="quiet", action="store_true", default=False, help="Don't report warnings")
     parser.add_option("-c", "--columns", dest="columns", action="store", default=None, help="Show only given columns")
+    parser.add_option(      "--exclude-cols", dest="exclude_columns", action="store", default=None, help="Exclude cols from output")
     (options, args) = parser.parse_args()
 
     if len(args) < 1:
@@ -134,10 +135,13 @@ if __name__ == "__main__":
         'version': version,
         'log': log,
         'columns': None,
+        'exclude_columns': None,
     }
     params.update(parse_user_params(options.params))
     if options.columns is not None:
         params['columns'] = options.columns.split(',')
+    if options.exclude_columns is not None:
+        params['exclude_columns'] = options.exclude_columns.split(',')
 
     # Log some debug information
     log.debug('data_dir = {0}'.format(data_dir))

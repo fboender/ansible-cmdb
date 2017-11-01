@@ -11,7 +11,7 @@ host_details = to_bool(context.get('host_details', '1'))
 skip_empty = to_bool(context.get('skip_empty', '0'))
 
 # Get column definitions from html_fancy_defs.html
-cols = var_cols(columns)
+cols = var_cols(columns, exclude_columns)
 
 # Set the Javascript resource URL (local disk or CDN)
 if local_js is False:

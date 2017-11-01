@@ -10,7 +10,7 @@
 ## Column definitions
 ##
 
-<%def name="var_cols(cols_visible=None)">
+<%def name="var_cols(cols_visible=None, cols_exclude=None)">
   <%
   cols = [
     {"title": "Name",          "id": "name",          "func": col_name,           "sType": "string", "visible": True},
@@ -47,6 +47,10 @@
       else:
         col["visible"] = False
   
+  # Remove columns that should be excluded
+  if cols_exclude is not None:
+    cols = filter(lambda col: col["id"] not in cols_exclude, cols)
+
   return cols
   %>
 </%def>
