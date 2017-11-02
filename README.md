@@ -154,7 +154,8 @@ For example:
 
     $ ansible-cmdb -i ./hosts out/ > overview.html
 
-If a `host_vars` directory exists at that location, it will also be read.
+If a `host_vars` and / or `group_vars` directory exists at that location, they
+will also be read.
 
 The ''html_fancy'' template uses four extra fields:
 
