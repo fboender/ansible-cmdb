@@ -128,6 +128,8 @@
       /* ansible-cmdb */
       *, body { font-family: sans-serif; font-weight: lighter; }
       a { text-decoration: none; }
+      b { font-weight: bold; }
+      p { margin-bottom: 1em; }
   
       header { position: fixed; top: 0px; left: 0px; right: 0px; background-color: #0071b8; overflow: auto; color: #E0E0E0; padding: 15px; z-index: 1000; }
       header h1 { font-size: x-large; float: left; line-height: 32px; font-weight: bold; }
@@ -688,6 +690,7 @@
   % if len(host['hostvars']) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Custom variables</h4>
     <div class="collapsable ${collapsed_class}">
+    <p><b>Careful:</b> these variables may be overridden in various places by Ansible</p>
     <table>
         % for var_name, var_value in host['hostvars'].items():
           <tr>
