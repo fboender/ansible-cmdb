@@ -22,6 +22,7 @@ def deepupdate(target, src, overwrite=True):
     >>> print t
     {'name': 'Ferry', 'hobbies': ['programming', 'sci-fi', 'gaming']}
     """
+
     for k, v in src.items():
         if type(v) == list:
             if not k in target:
@@ -32,14 +33,14 @@ def deepupdate(target, src, overwrite=True):
             if not k in target:
                 target[k] = copy.deepcopy(v)
             else:
-                deepupdate(target[k], v)
+                deepupdate(target[k], v, overwrite=overwrite)
         elif type(v) == set:
             if not k in target:
                 target[k] = v.copy()
             elif overwrite is True:
                 target[k].update(v.copy())
         else:
-            if overwrite is True:
+            if k not in target or overwrite is True:
                 target[k] = copy.copy(v)
 
 def find_path(dirs, path_to_find):
