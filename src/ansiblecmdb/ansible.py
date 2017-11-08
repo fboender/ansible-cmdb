@@ -278,6 +278,7 @@ class Ansible(object):
         informatio to a host. It does some deep inspection to make sure nested
         information can be updated.
         """
+        self.log.debug("Updating host '{}' (overwrite={}): {}".format(hostname.encode('utf-8', 'replace'), overwrite, key_values))
         default_empty_host = {
             'name': hostname,
             'hostvars': {},
