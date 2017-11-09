@@ -129,9 +129,10 @@ class Ansible(object):
         """
         Parse host_vars dir, if it exists.
         """
-        self.log.debug("Parsing host vars (dir): {0}".format(os.path.join(inventory_path, 'host_vars')))
         path = os.path.join(os.path.dirname(inventory_path), 'host_vars')
+        self.log.debug("Parsing host vars (dir): {0}".format(path))
         if not os.path.exists(path):
+            self.log.warning("No such dir {0}".format(path))
             return
 
         for entry in os.listdir(path):
@@ -183,9 +184,10 @@ class Ansible(object):
         """
         Parse group_vars dir, if it exists. Encrypted vault files are skipped.
         """
-        self.log.debug("Parsing group vars (dir): {0}".format(os.path.join(inventory_path, 'group_vars')))
         path = os.path.join(os.path.dirname(inventory_path), 'group_vars')
+        self.log.debug("Parsing group vars (dir): {0}".format(path))
         if not os.path.exists(path):
+            self.log.warning("No such dir {0}".format(path))
             return
 
         for (dirpath, dirnames, filenames) in os.walk(path):
