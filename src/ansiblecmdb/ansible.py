@@ -93,7 +93,7 @@ class Ansible(object):
             # Scan directory
             for fname in os.listdir(inventory_path):
                 # Skip files that end with certain extensions or characters
-                if any(fname.endswith(ext) for ext in ["~", ".orig", ".bak", ".ini", ".cfg", ".retry", ".pyc", ".pyo"]):
+                if any(fname.endswith(ext) for ext in ["~", ".orig", ".bak", ".ini", ".cfg", ".retry", ".pyc", ".pyo", ".gitignore"]):
                     continue
 
                 self._handle_inventory(os.path.join(inventory_path, fname))
