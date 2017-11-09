@@ -87,6 +87,9 @@ class Ansible(object):
             # Static inventory hosts file
             self._parse_hosts_inventory(inventory_path)
         elif os.path.isdir(inventory_path):
+            # Don't parse folder as inventory if it is a .git or group/host_vars
+            if any(os.path.basename(inventory_path) == name for name in ['.git', 'group_vars', 'host_vars']):
+                return
             # Scan directory
             for fname in os.listdir(inventory_path):
                 # Skip files that end with certain extensions or characters
@@ -105,6 +108,9 @@ class Ansible(object):
         hosts_contents = []
         if os.path.isdir(inventory_path):
             for fname in os.listdir(inventory_path):
+                # Skip .git folder
+                if fname == '.git':
+                    continue
                 path = os.path.join(inventory_path, fname)
                 if os.path.isdir(path):
                     continue
@@ -129,6 +135,9 @@ class Ansible(object):
             return
 
         for entry in os.listdir(path):
+            # Skip .git folder
+            if entry == '.git':
+                continue
             full_path = os.path.join(path, entry)
 
             # file or dir name is the hostname
