@@ -252,19 +252,17 @@
       </thead>
       <tbody>
         % for hostname, host in hosts.items():
-          <%
-          log.debug(u"Rendering host overview for {0}".format(hostname))
-          %>
+          <% log.debug(u"Rendering host overview for {0}".format(hostname)) %>
           % if skip_empty is False or 'ansible_facts' in host:
-            <tr>
+            <tr>\
               % if 'ansible_facts' not in host:
-                <td class="error">${col_name(host)}</td>
+                <td class="error">${col_name(host)}</td>\
                 % for cnt in range(len(cols) - 1):
-                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>\
                 % endfor
               % else:
                 % for col in cols:
-                  <td>${col["func"](host, **kwargs)}</td>
+                  <td>${col["func"](host, **kwargs)}</td>\
                 % endfor
               % endif
             </tr>
