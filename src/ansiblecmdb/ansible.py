@@ -147,7 +147,7 @@ class Ansible(object):
 
         self.log.debug("Parsing host vars (dir): {0}".format(path))
         if not os.path.exists(path):
-            self.log.warning("No such dir {0}".format(path))
+            self.log.info("No such dir {0}".format(path))
             return
 
         for entry in os.listdir(path):
@@ -208,7 +208,7 @@ class Ansible(object):
 
         self.log.debug("Parsing group vars (dir): {0}".format(path))
         if not os.path.exists(path):
-            self.log.warning("No such dir {0}".format(path))
+            self.log.info("No such dir {0}".format(path))
             return
 
         for (dirpath, dirnames, filenames) in os.walk(path):
