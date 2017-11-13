@@ -143,7 +143,7 @@ class Ansible(object):
         if os.path.isdir(inventory_path):
             path = os.path.join(inventory_path, 'host_vars')
         else:
-            path = os.path.join(os.path.dirname(inventory_path, 'host_vars'))
+            path = os.path.join(os.path.dirname(inventory_path), 'host_vars')
 
         self.log.debug("Parsing host vars (dir): {0}".format(path))
         if not os.path.exists(path):
