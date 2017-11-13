@@ -79,17 +79,24 @@ class Ansible(object):
           - a directory: scanned for Ansible 'hosts' and dynamic inventory
             files.
         """
+        self.log.debug("Determining type of inventory_path {}".format(inventory_path))
         if os.path.isfile(inventory_path) and \
            util.is_executable(inventory_path):
             # It's a file and it's executable. Handle as dynamic inventory script
+            self.log.debug("{} is a executable. Handle as dynamic inventory script".format(inventory_path))
             self._parse_dyn_inventory(inventory_path)
         elif os.path.isfile(inventory_path):
             # Static inventory hosts file
+            self.log.debug("{} is a file. Handle as static inventory file".format(inventory_path))
             self._parse_hosts_inventory(inventory_path)
         elif os.path.isdir(inventory_path):
+            # Directory
+            self.log.debug("{} is a dir. Just try most files to see if they happen to be inventory files".format(inventory_path))
+
             # Don't parse folder as inventory if it is a .git or group/host_vars
             if any(os.path.basename(inventory_path) == name for name in ['.git', 'group_vars', 'host_vars']):
                 return
+
             # Scan directory
             for fname in os.listdir(inventory_path):
                 # Skip files that end with certain extensions or characters
@@ -107,6 +114,7 @@ class Ansible(object):
         """
         hosts_contents = []
         if os.path.isdir(inventory_path):
+            self.log.debug("Inventory path {} is a dir. Looking for inventory files in that dir.".format(inventory_path))
             for fname in os.listdir(inventory_path):
                 # Skip .git folder
                 if fname == '.git':
@@ -117,6 +125,7 @@ class Ansible(object):
                 with codecs.open(path, 'r', encoding='utf8') as f:
                     hosts_contents += f.readlines()
         else:
+            self.log.debug("Inventory path {} is a file. Reading as inventory.".format(inventory_path))
             with codecs.open(inventory_path, 'r', encoding='utf8') as f:
                 hosts_contents = f.readlines()
 
