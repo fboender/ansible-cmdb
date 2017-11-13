@@ -138,7 +138,13 @@ class Ansible(object):
         """
         Parse host_vars dir, if it exists.
         """
-        path = os.path.join(os.path.dirname(inventory_path), 'host_vars')
+        # inventory_path could point to a `hosts` file, or to a dir. So we
+        # construct the location to the `host_vars` differently.
+        if os.path.isdir(inventory_path):
+            path = os.path.join(inventory_path, 'host_vars')
+        else:
+            path = os.path.join(os.path.dirname(inventory_path, 'host_vars'))
+
         self.log.debug("Parsing host vars (dir): {0}".format(path))
         if not os.path.exists(path):
             self.log.warning("No such dir {0}".format(path))
@@ -193,7 +199,13 @@ class Ansible(object):
         """
         Parse group_vars dir, if it exists. Encrypted vault files are skipped.
         """
-        path = os.path.join(os.path.dirname(inventory_path), 'group_vars')
+        # inventory_path could point to a `hosts` file, or to a dir. So we
+        # construct the location to the `group_vars` differently.
+        if os.path.isdir(inventory_path):
+            path = os.path.join(inventory_path, 'group_vars')
+        else:
+            path = os.path.join(os.path.dirname(inventory_path), 'group_vars')
+
         self.log.debug("Parsing group vars (dir): {0}".format(path))
         if not os.path.exists(path):
             self.log.warning("No such dir {0}".format(path))
