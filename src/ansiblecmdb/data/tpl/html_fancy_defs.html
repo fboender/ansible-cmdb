@@ -255,16 +255,9 @@
           <% log.debug(u"Rendering host overview for {0}".format(hostname)) %>
           % if skip_empty is False or 'ansible_facts' in host:
             <tr>\
-              % if 'ansible_facts' not in host:
-                <td class="error">${col_name(host)}</td>\
-                % for cnt in range(len(cols) - 1):
-                    <td>&nbsp;</td>\
-                % endfor
-              % else:
-                % for col in cols:
-                  <td>${col["func"](host, **kwargs)}</td>\
-                % endfor
-              % endif
+              % for col in cols:
+                <td>${col["func"](host, **kwargs)}</td>\
+              % endfor
             </tr>
           % endif
         % endfor
@@ -486,7 +479,7 @@
       if ipv4_addresses:
         default_ipv4 = ipv4_addresses[0]
     else:
-      default_ipv4 = jsonxs(host, 'ansible_facts.ansible_default_ipv4.address', default={})
+      default_ipv4 = jsonxs(host, 'ansible_facts.ansible_default_ipv4.address', default='')
   %>
   ${default_ipv4}
 </%def>
@@ -642,9 +635,7 @@
 </%def>
 
 <%def name="col_gathered(host, **kwargs)">
-  % if 'ansible_date_time' in host['ansible_facts']:
-    ${host['ansible_facts']['ansible_date_time'].get('iso8601')}
-  % endif
+  ${jsonxs(host, 'ansible_facts.ansible_date_time.iso8601', default='')}
 </%def>
 
 <%def name="col_prodname(host, **kwargs)">
