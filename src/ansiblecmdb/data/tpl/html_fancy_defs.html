@@ -75,15 +75,21 @@
   <table>
     % for k, v in d.items():
       <tr>
-        <th>${k.replace('ansible_', '')}</th>
+        <th>
+            % if type(k) == "str":
+                ${k.replace('ansible_', '')}
+            % else:
+                ${k}
+            % endif
+        </th>
         <td>
-        % if type(v) == list:
-          ${r_list(v)}
-        % elif type(v) == dict:
-          ${r_dict(v)}
-        % else:
-          ${v}
-        % endif
+            % if type(v) == list:
+              ${r_list(v)}
+            % elif type(v) == dict:
+              ${r_dict(v)}
+            % else:
+              ${v}
+            % endif
         </td>
       </tr>
     % endfor
