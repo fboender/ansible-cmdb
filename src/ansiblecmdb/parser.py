@@ -13,6 +13,10 @@ try:
 except ImportError as err:
     import yaml3 as yaml
 
+def default_ctor(loader, tag_suffix, node):
+    return tag_suffix + ' ' + node.value
+
+yaml.add_multi_constructor('', default_ctor)
 
 class HostsParser(object):
     """
