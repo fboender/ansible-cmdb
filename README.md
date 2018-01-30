@@ -41,6 +41,8 @@ Supported output formats / templates:
 Installation
 ------------
 
+Ansible-cmdb requires **Python v2.7+ / 3.0+**.
+
 Ansible-cmdb can be installed using `pip` (the Python package manager), with
 stand-alone packages for your distribution or through brew and plain old `make
 install`.

@@ -20,6 +20,16 @@ import ansiblecmdb
 import ansiblecmdb.util as util
 import ansiblecmdb.render as render
 
+
+# Verify Python version
+if sys.version_info < (2, 7):
+    sys.stderr.write(
+        "Ansible-cmdb requires Python v2.7+. You are running {}. Support for "
+        "Python v2.6 supported ended October 2013. You should upgrade to a "
+        "newer version.\n".format(sys.version))
+    sys.exit(1)
+
+
 def get_logger():
     """
     Instantiate a logger.
