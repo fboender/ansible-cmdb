@@ -49,10 +49,10 @@ setup(
                               prefix='lib/'),
     zip_safe=False,
     install_requires=[
-        'mako>=1.0',
-        'pyyaml>=1.0',
-        'ushlex>=0.99',
-        'jsonxs>=0.3',
+        'mako',
+        'pyyaml',
+        'ushlex',
+        'jsonxs',
     ],
     scripts=[
         'src/ansible-cmdb',
