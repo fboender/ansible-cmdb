@@ -1,7 +1,6 @@
 import sys
 import os
 import json
-import stat
 import subprocess
 import codecs
 import logging
@@ -292,7 +291,7 @@ class Ansible(object):
             if proc.returncode != 0:
                 sys.stderr.write("Dynamic inventory script '{0}' returned "
                                  "exitcode {1}\n".format(script,
-                                                        proc.returncode))
+                                                         proc.returncode))
                 for line in stderr:
                     sys.stderr.write(line)
 

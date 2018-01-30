@@ -2,11 +2,13 @@ import copy
 import os
 import stat
 
+
 def is_executable(path):
     """
     Determine whether `path` points to an executable file.
     """
     return stat.S_IXUSR & os.stat(path)[stat.ST_MODE]
+
 
 def deepupdate(target, src, overwrite=True):
     """Deep update target dict with src
@@ -43,6 +45,7 @@ def deepupdate(target, src, overwrite=True):
             if k not in target or overwrite is True:
                 target[k] = copy.copy(v)
 
+
 def find_path(dirs, path_to_find):
     """
     Go through a bunch of dirs and see if dir+path_to_find exists there.
@@ -52,6 +55,7 @@ def find_path(dirs, path_to_find):
         if os.path.exists(os.path.join(dir, path_to_find)):
             return dir
     return None
+
 
 def to_bool(s):
     """

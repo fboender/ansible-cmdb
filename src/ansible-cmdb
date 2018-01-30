@@ -43,6 +43,7 @@ def get_logger():
     root.addHandler(ch)
     return root
 
+
 def get_data_dir():
     """
     Find out our installation prefix and data directory. These can be in
@@ -61,6 +62,7 @@ def get_data_dir():
         sys.exit(1)
 
     return data_dir
+
 
 def get_hosts_files(option):
     """
@@ -88,6 +90,7 @@ def get_hosts_files(option):
             for line in cf:
                 if line.startswith('hostfile'):
                     return [line.split('=', 1)[1].strip()]
+
 
 def parse_user_params(user_params):
     """
@@ -123,7 +126,7 @@ if __name__ == "__main__":
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
     parser.add_option("-q", "--quiet", dest="quiet", action="store_true", default=False, help="Don't report warnings")
     parser.add_option("-c", "--columns", dest="columns", action="store", default=None, help="Show only given columns")
-    parser.add_option(      "--exclude-cols", dest="exclude_columns", action="store", default=None, help="Exclude cols from output")
+    parser.add_option("--exclude-cols", dest="exclude_columns", action="store", default=None, help="Exclude cols from output")
     (options, args) = parser.parse_args()
 
     if len(args) < 1:
@@ -203,4 +206,3 @@ remain confidential, you can send them to ferry.boender@gmail.com instead.
 """
         sys.stderr.write(debug_txt)
         sys.exit(1)
-

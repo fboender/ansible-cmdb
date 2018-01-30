@@ -13,10 +13,13 @@ try:
 except ImportError as err:
     import yaml3 as yaml
 
+
 def default_ctor(loader, tag_suffix, node):
     return tag_suffix + ' ' + node.value
 
+
 yaml.add_multi_constructor('', default_ctor)
+
 
 class HostsParser(object):
     """
@@ -327,7 +330,7 @@ class HostsParser(object):
             # partially expanded host(s) gets added back to the todo list.
             while hosts_todo:
                 host = hosts_todo.pop(0)
-                if not '[' in host:
+                if '[' not in host:
                     hosts_done.append(host)
                     continue
 
@@ -394,7 +397,7 @@ class DynInvParser(object):
         """
         Get an existing host or otherwise initialize a new empty one.
         """
-        if not hostname in self.hosts:
+        if hostname not in self.hosts:
             self.hosts[hostname] = {
                 'groups': set(),
                 'hostvars': {}
