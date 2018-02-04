@@ -2,7 +2,7 @@ Ansible Configuration Management Database
 =========================================
 
 ![Status: Stable](https://img.shields.io/badge/status-stable-green.svg)
-![Build Status](http://git.electricmonk.nl/job/ansible-cmdb/shield)
+![Build Status](http://build.electricmonk.nl/job/ansible-cmdb/shield)
 ![Activity: Active development](https://img.shields.io/badge/activity-active%20development-green.svg)
 ![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)
 
