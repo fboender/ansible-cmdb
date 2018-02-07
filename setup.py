@@ -5,6 +5,9 @@ import re
 from distutils.core import setup
 from setuptools import find_packages
 
+def get_requirements():
+    with open('requirements.txt', 'r') as f:
+        return f.read().splitlines()
 
 def get_long_description():
     path = os.path.join(os.path.dirname(__file__), 'README.md')
@@ -48,12 +51,7 @@ setup(
                               strip='src',
                               prefix='lib/'),
     zip_safe=False,
-    install_requires=[
-        'mako',
-        'pyyaml',
-        'ushlex',
-        'jsonxs',
-    ],
+    install_requires=get_requirements(),
     scripts=[
         'src/ansible-cmdb',
     ],
