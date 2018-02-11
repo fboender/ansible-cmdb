@@ -115,17 +115,17 @@ release_wheel: release_check clean
 	echo `git rev-parse --abbrev-ref HEAD | tr "[:lower:]" "[:upper:]"` > src/ansiblecmdb/data/VERSION
 
 install:
-	mkdir -p /usr/local/lib/$(PROG)
-	mkdir -p /usr/local/man/man1
-	cp -a src/* /usr/local/lib/$(PROG)
-	cp -r lib/mako /usr/local/lib/$(PROG)
-	cp -r lib/yaml /usr/local/lib/$(PROG)
-	cp -r lib/ushlex.py /usr/local/lib/$(PROG)
-	cp -r lib/jsonxs.py /usr/local/lib/$(PROG)
-	cp LICENSE /usr/local/lib/$(PROG)
-	cp README.md /usr/local/lib/$(PROG)
-	gzip -9 -c contrib/ansible-cmdb.man.1 > /usr/local/man/man1/ansible-cmdb.man.1.gz
-	ln -s /usr/local/lib/ansible-cmdb/ansible-cmdb /usr/local/bin/ansible-cmdb
+	umask 0022 && mkdir -p /usr/local/lib/$(PROG)
+	umask 0022 && mkdir -p /usr/local/man/man1
+	umask 0022 && cp -a src/* /usr/local/lib/$(PROG)
+	umask 0022 && cp -r lib/mako /usr/local/lib/$(PROG)
+	umask 0022 && cp -r lib/yaml /usr/local/lib/$(PROG)
+	umask 0022 && cp -r lib/ushlex.py /usr/local/lib/$(PROG)
+	umask 0022 && cp -r lib/jsonxs.py /usr/local/lib/$(PROG)
+	umask 0022 && cp LICENSE /usr/local/lib/$(PROG)
+	umask 0022 && cp README.md /usr/local/lib/$(PROG)
+	umask 0022 && gzip -9 -c contrib/ansible-cmdb.man.1 > /usr/local/man/man1/ansible-cmdb.man.1.gz
+	umask 0022 && ln -s /usr/local/lib/ansible-cmdb/ansible-cmdb /usr/local/bin/ansible-cmdb
 
 uninstall:
 	rm -rf /usr/local/lib/$(PROG)
