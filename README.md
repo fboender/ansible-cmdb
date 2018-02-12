@@ -437,6 +437,13 @@ You can add custom facts (not to be confused with 'custom variables') to you
 hosts. These facts will be displayed in the `html_fancy` template by default
 under the 'Custom facts' header.
 
+**Note** that these are not the same as Host local facts. Host local facts are
+facts that Ansible reads from each of your host's `/etc/ansible/facts.d`
+directory. Those are also included in Ansible-cmdb's html_fancy templates, but
+under the "Host local facts" heading. The custom facts explained here are
+manually defined on the host where you run ansible-cmdb, and have little to do
+with Ansible itself.
+
 Let's say you want to add information about installed software to your facts.
 
 Create a directory for you custom facts:
