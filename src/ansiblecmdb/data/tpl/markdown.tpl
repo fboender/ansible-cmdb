@@ -92,7 +92,7 @@ ${"###"} Groups
 % endfor
 
 ${"###"} Custom variables
-% for var_name, var_value in host['hostvars'].items():
+% for var_name, var_value in host.get('hostvars', {}).items():
 * **${var_name}**: ${var_value}
 % endfor
 
