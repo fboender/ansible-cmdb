@@ -59,21 +59,31 @@
 ## Helper functions for dumping python datastructures
 ##
 
-<%def name="r_list(l)">
+<%def name="r_list(l, sort=False)">
+  <%
+    if sort is True:
+      l = sorted(l)
+  %>
   % for i in l:
     % if type(i) == list:
-      ${r_list(i)}
+      ${r_list(i, sort=sort)}
     % elif type(i) == dict:
-      ${r_dict(i)}
+      ${r_dict(i, sort=sort)}
     % else:
       ${i}
     % endif
   % endfor
 </%def>
 
-<%def name="r_dict(d)">
+<%def name="r_dict(d, sort=False)">
+  <%
+    keys = d.keys()
+    if sort is True:
+      keys = sorted(keys)
+  %>
   <table>
-    % for k, v in d.items():
+    % for k in keys:
+      <% v = d[k] %>
       <tr>
         <th>
             % if type(k) == "str":
@@ -84,9 +94,9 @@
         </th>
         <td>
             % if type(v) == list:
-              ${r_list(v)}
+              ${r_list(v, sort=sort)}
             % elif type(v) == dict:
-              ${r_dict(v)}
+              ${r_dict(v, sort=sort)}
             % else:
               ${v}
             % endif
@@ -687,18 +697,21 @@
     <div class="collapsable ${collapsed_class}">
     <p><b>Careful:</b> these variables may be overridden in various places by Ansible</p>
     <table>
-        % for var_name, var_value in host['hostvars'].items():
-          <tr>
-            <th>${var_name}</th>
-            <td>
-              % if type(var_value) == dict:
-                ${r_dict(var_value)}
-              % elif type(var_value) == list:
-                ${r_list(var_value)}
-              % else:
-                ${var_value}
-              % endif
-        % endfor
+      % for var_name in sorted(host.get('hostvars', {}).keys()):
+        <%
+        var_value = host['hostvars'][var_name]
+        %>
+        <tr>
+          <th>${var_name}</th>
+          <td>
+            % if type(var_value) == dict:
+              ${r_dict(var_value)}
+            % elif type(var_value) == list:
+              ${r_list(var_value)}
+            % else:
+              ${var_value}
+            % endif
+      % endfor
     </table>
     </div>
   % endif
@@ -708,7 +721,7 @@
   % if len(jsonxs(host, 'ansible_facts.ansible_local', default={}).items()) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Host local facts</h4>
     <div class="collapsable ${collapsed_class}">
-    ${r_dict(jsonxs(host,  'ansible_facts.ansible_local', default={}))}
+    ${r_dict(jsonxs(host, 'ansible_facts.ansible_local', default={}), sort=True)}
     </div>
   % endif
 </%def>
@@ -723,7 +736,7 @@
   % if len(facter_facts) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Facter facts</h4>
     <div class="collapsable ${collapsed_class}">
-    ${r_dict(facter_facts)}
+    ${r_dict(facter_facts, sort=True)}
     </div>
   % endif
 </%def>
@@ -732,7 +745,7 @@
   % if len(host.get('custom_facts', {}).items()) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Custom facts</h4>
     <div class="collapsable ${collapsed_class}">
-    ${r_dict(host.get('custom_facts', {}))}
+    ${r_dict(host.get('custom_facts', {}), sort=True)}
     </div>
   % endif
 </%def>
