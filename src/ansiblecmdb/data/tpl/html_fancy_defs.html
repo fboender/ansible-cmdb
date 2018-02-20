@@ -62,7 +62,11 @@
 <%def name="r_list(l, sort=False)">
   <%
     if sort is True:
-      l = sorted(l)
+      try:
+        l = sorted(l)
+      except TypeError:
+        # Can't sort contents of l
+        pass
   %>
   % for i in l:
     % if type(i) == list:
