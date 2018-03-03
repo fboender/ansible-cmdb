@@ -4,7 +4,6 @@ Maintainer: Ferry Boender <ferry.boender@gmail.com>
 Section: utils
 Priority: optional
 Architecture: all
-Depends: python (>= 2.7)
 Description: Generate host overview from Ansible 'setup' module output
  ansible-cmdb takes the output of Ansible's 'setup' module output (fact
  gathering) and transforms it into an host information overview. It supports
