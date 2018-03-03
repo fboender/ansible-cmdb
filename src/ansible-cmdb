@@ -9,6 +9,11 @@ PY_BIN=$(which python)
 if [ -z "$PY_BIN" ]; then
     PY_BIN=$(which python3)
 fi
+if [ -z "$PY_BIN" ]; then
+    echo "No python found. Aborting"
+    exit 1
+fi
+
 
 # Verify Python version
 PY_VMAJOR=$($PY_BIN -c "import sys; print(sys.version_info.major)")
