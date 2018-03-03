@@ -44,10 +44,7 @@ release_src: release_check clean doc
 	# Prepare source
 	mkdir $(PROG)-$(REL_VERSION)
 	cp -a src/* $(PROG)-$(REL_VERSION)/
-	cp -r lib/mako $(PROG)-$(REL_VERSION)/
-	cp -r lib/yaml $(PROG)-$(REL_VERSION)/
-	cp -r lib/ushlex.py $(PROG)-$(REL_VERSION)/
-	cp -r lib/jsonxs.py $(PROG)-$(REL_VERSION)/
+	cp -r lib/* $(PROG)-$(REL_VERSION)/
 	cp LICENSE $(PROG)-$(REL_VERSION)/
 	cp README.md $(PROG)-$(REL_VERSION)/
 	cp contrib/release_Makefile $(PROG)-$(REL_VERSION)/Makefile
@@ -63,8 +60,6 @@ release_src: release_check clean doc
 release_deb: release_check clean doc
 	mkdir -p rel_deb/usr/bin
 	mkdir -p rel_deb/usr/lib/${PROG}
-	mkdir -p rel_deb/usr/lib/${PROG}/mako
-	mkdir -p rel_deb/usr/lib/${PROG}/yaml
 	mkdir -p rel_deb/usr/share/doc/$(PROG)
 	mkdir -p rel_deb/usr/share/man/man1
 
@@ -72,10 +67,7 @@ release_deb: release_check clean doc
 	cp README.md rel_deb/usr/share/doc/$(PROG)/
 	cp README.html rel_deb/usr/share/doc/$(PROG)/
 	cp -r src/* rel_deb/usr/lib/${PROG}/
-	cp -r lib/mako rel_deb/usr/lib/${PROG}/
-	cp -r lib/yaml rel_deb/usr/lib/${PROG}/
-	cp -r lib/ushlex.py rel_deb/usr/lib/${PROG}/
-	cp -r lib/jsonxs.py rel_deb/usr/lib/${PROG}/
+	cp -r lib/* rel_deb/usr/lib/${PROG}/
 	ln -s ../lib/$(PROG)/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
 	cp -a contrib/debian/DEBIAN rel_deb/
 	cp contrib/debian/copyright rel_deb/usr/share/doc/$(PROG)/
@@ -118,10 +110,7 @@ install:
 	umask 0022 && mkdir -p /usr/local/lib/$(PROG)
 	umask 0022 && mkdir -p /usr/local/man/man1
 	umask 0022 && cp -a src/* /usr/local/lib/$(PROG)
-	umask 0022 && cp -r lib/mako /usr/local/lib/$(PROG)
-	umask 0022 && cp -r lib/yaml /usr/local/lib/$(PROG)
-	umask 0022 && cp -r lib/ushlex.py /usr/local/lib/$(PROG)
-	umask 0022 && cp -r lib/jsonxs.py /usr/local/lib/$(PROG)
+	umask 0022 && cp -r lib/* /usr/local/lib/$(PROG)
 	umask 0022 && cp LICENSE /usr/local/lib/$(PROG)
 	umask 0022 && cp README.md /usr/local/lib/$(PROG)
 	umask 0022 && gzip -9 -c contrib/ansible-cmdb.man.1 > /usr/local/man/man1/ansible-cmdb.man.1.gz
