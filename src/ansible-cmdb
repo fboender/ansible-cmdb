@@ -25,8 +25,10 @@ if [ -f "$BIN_DIR/ansible-cmdb.py" ]; then
     ANSIBLE_CMDB="$BIN_DIR/ansible-cmdb.py"
 elif [ -f "$BIN_DIR/../lib/ansible-cmdb/ansible-cmdb.py" ]; then
     ANSIBLE_CMDB="$BIN_DIR/../lib/ansible-cmdb/ansible-cmdb.py"
+elif [ -f "$BIN_DIR/../lib/ansiblecmdb/ansible-cmdb.py" ]; then
+    ANSIBLE_CMDB="$BIN_DIR/../lib/ansiblecmdb/ansible-cmdb.py"
 else
-    echo "Couldn't find $BIN_DIR/ansible-cmdb.py in . or $BIN_DIR/../lib/ansible-cmdb (cwd=$PWD)" >&2
+    echo "Couldn't find $BIN_DIR/ansible-cmdb.py in . or $BIN_DIR/../lib/ansible-cmdb/ or $BIN_DIR/../lib/ansiblecmdb/ (cwd=$PWD)" >&2
     exit 2
 fi
 
