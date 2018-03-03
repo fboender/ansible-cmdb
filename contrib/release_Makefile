@@ -14,5 +14,5 @@ install:
 
 uninstall:
 	rm -rf /usr/local/lib/${PROG}
-	rm /usr/local/bin/ansible-cmdb
-	rm /usr/local/share/man/man1/ansible-cmdb.*
+	rm -rf /usr/local/bin/ansible-cmdb
+	rm -rf /usr/local/share/man/man1/ansible-cmdb.*
