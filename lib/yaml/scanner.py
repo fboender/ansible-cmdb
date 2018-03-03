@@ -516,7 +516,7 @@ class Scanner(object):
         # Block context needs additional checks.
         if not self.flow_level:
 
-            # Are we allowed to start a key (not necessary a simple)?
+            # Are we allowed to start a key (not nessesary a simple)?
             if not self.allow_simple_key:
                 raise ScannerError(None, None,
                         "mapping keys are not allowed here",
@@ -564,7 +564,7 @@ class Scanner(object):
         else:
             
             # Block context needs additional checks.
-            # (Do we really need them? They will be caught by the parser
+            # (Do we really need them? They will be catched by the parser
             # anyway.)
             if not self.flow_level:
 
@@ -902,7 +902,7 @@ class Scanner(object):
         # The specification does not restrict characters for anchors and
         # aliases. This may lead to problems, for instance, the document:
         #   [ *alias, value ]
-        # can be interpreted in two ways, as
+        # can be interpteted in two ways, as
         #   [ "value" ]
         # and
         #   [ *alias , "value" ]
@@ -1272,7 +1272,7 @@ class Scanner(object):
     def scan_plain(self):
         # See the specification for details.
         # We add an additional restriction for the flow context:
-        #   plain scalars in the flow context cannot contain ',' or '?'.
+        #   plain scalars in the flow context cannot contain ',', ':' and '?'.
         # We also keep track of the `allow_simple_key` flag here.
         # Indentation rules are loosed for the flow context.
         chunks = []
@@ -1291,12 +1291,18 @@ class Scanner(object):
             while True:
                 ch = self.peek(length)
                 if ch in u'\0 \t\r\n\x85\u2028\u2029'   \
-                        or (ch == u':' and
-                                self.peek(length+1) in u'\0 \t\r\n\x85\u2028\u2029'
-                                      + (u',[]{}' if self.flow_level else u''))\
-                        or (self.flow_level and ch in u',?[]{}'):
+                        or (not self.flow_level and ch == u':' and
+                                self.peek(length+1) in u'\0 \t\r\n\x85\u2028\u2029') \
+                        or (self.flow_level and ch in u',:?[]{}'):
                     break
                 length += 1
+            # It's not clear what we should do with ':' in the flow context.
+            if (self.flow_level and ch == u':'
+                    and self.peek(length+1) not in u'\0 \t\r\n\x85\u2028\u2029,[]{}'):
+                self.forward(length)
+                raise ScannerError("while scanning a plain scalar", start_mark,
+                    "found unexpected ':'", self.get_mark(),
+                    "Please check http://pyyaml.org/wiki/YAMLColonInFlowContext for details.")
             if length == 0:
                 break
             self.allow_simple_key = False
