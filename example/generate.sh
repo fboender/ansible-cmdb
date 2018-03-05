@@ -7,9 +7,9 @@ SCRIPT_DIR=$(dirname $(readlink -f $0))
 cd $SCRIPT_DIR
 export PYTHONPATH=../lib
 
-##
-## Default example
-##
+#
+# Default example
+#
 
 # Python v2
 python2 ../src/ansible-cmdb.py -q -i hosts out > gen_html_fancy_2.html
