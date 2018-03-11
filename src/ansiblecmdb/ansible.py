@@ -185,12 +185,13 @@ class Ansible(object):
             invars = yaml.safe_load(f)
             f.close()
 
-            if hostname == "all":
-                # Hostname 'all' is special and applies to all hosts
-                for hostname in self.hosts_all():
-                    self.update_host(hostname, {'hostvars': invars}, overwrite=False)
-            else:
-                self.update_host(hostname, {'hostvars': invars}, overwrite=True)
+            if invars is not None:
+                if hostname == "all":
+                    # Hostname 'all' is special and applies to all hosts
+                    for hostname in self.hosts_all():
+                        self.update_host(hostname, {'hostvars': invars}, overwrite=False)
+                else:
+                    self.update_host(hostname, {'hostvars': invars}, overwrite=True)
         except Exception as err:
             self.log.warning("Yaml couldn't load '{0}'. Skipping. Error was: {1}".format(path, err))
 
