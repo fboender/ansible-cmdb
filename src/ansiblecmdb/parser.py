@@ -8,17 +8,7 @@ if sys.version_info[0] == 2:
     import ushlex as shlex
 else:
     import shlex
-try:
-    import yaml
-except ImportError as err:
-    import yaml3 as yaml
-
-
-def default_ctor(loader, tag_suffix, node):
-    return tag_suffix + ' ' + node.value
-
-
-yaml.add_multi_constructor('', default_ctor)
+from . import ihateyaml
 
 
 class HostsParser(object):
@@ -189,7 +179,7 @@ class HostsParser(object):
         k, v = line.strip().split('=', 1)
         if v.startswith('['):
             try:
-                list_res = yaml.safe_load(v)
+                list_res = ihateyaml.safe_load(v)
                 if isinstance(list_res[0], dict):
                     key_values = list_res[0]
                     return key_values
