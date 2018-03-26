@@ -106,13 +106,13 @@ Usage
 
 First, generate Ansible output for your hosts:
 
-    mkdir out
-    ansible -m setup --tree out/ all
+    ansible -m setup --tree outy/outsetup all  
+    ansible -m package_facts --tree outy/outpackages all
 
 Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
 overview page:
 
-    ansible-cmdb out/ > overview.html
+    ansible-cmdb outy/outsetup outy/outpackages > overview.html
 
 The default template is `html_fancy`, which uses jQuery. 
 
