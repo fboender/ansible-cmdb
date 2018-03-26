@@ -24,13 +24,10 @@
     {"title": "All IPv4",      "id": "all_ipv4",      "func": col_all_ip4,        "sType": "string", "visible": False},
     {"title": "All IPv6",      "id": "all_ipv6",      "func": col_all_ip6,        "sType": "string", "visible": False},
     {"title": "OS",            "id": "os",            "func": col_os,             "sType": "string", "visible": True},
-    {"title": "wget",          "id": "wget",          "func": col_wget,           "sType": "string", "visible": True},
-    {"title": "wget1",          "id": "wget1",          "func": col_wget1,           "sType": "string", "visible": True},
-    {"title": "wget2",          "id": "wget2",          "func": col_wget2,           "sType": "string", "visible": True},
-    {"title": "wget3",          "id": "wget3",          "func": col_wget3,           "sType": "string", "visible": True},
-    {"title": "wget4",          "id": "wget4",          "func": col_wget4,           "sType": "string", "visible": True},
-    {"title": "wget5",          "id": "wget5",          "func": col_wget5,           "sType": "string", "visible": True},
-    {"title": "Kernel",        "id": "kernel",        "func": col_kernel,         "sType": "string", "visible": False},
+    {"title": "Kernel",        "id": "kernel",        "func": col_kernel,         "sType": "string", "visible": True},
+    {"title": "Curl 64 bit",   "id": "curl",          "func": col_curl,           "sType": "string", "visible": True},
+    {"title": "Curl 32 bits",  "id": "curl1",         "func": col_curl1,          "sType": "string", "visible": True},
+    {"title": "Curl Debug",    "id": "curl2",         "func": col_curl2,          "sType": "string", "visible": False},
     {"title": "Arch",          "id": "arch",          "func": col_arch,           "sType": "string", "visible": False},
     {"title": "Virt",          "id": "virt",          "func": col_virt,           "sType": "string", "visible": True},
     {"title": "CPU type",      "id": "cpu_type",      "func": col_cpu_type,       "sType": "string", "visible": False},
@@ -529,6 +526,7 @@
   ${'<br>'.join(jsonxs(host, 'ansible_facts.ansible_all_ipv6_addresses', default=[]))}
 </%def>
 
+
 <%def name="col_os(host, **kwargs)">
   % if jsonxs(host, 'ansible_facts.ansible_distribution', default='') in ["OpenBSD"]:
     ${jsonxs(host, 'ansible_facts.ansible_distribution', default='')} ${jsonxs(host, 'ansible_facts.ansible_distribution_release', default='')}
@@ -537,32 +535,21 @@
   % endif
 </%def>
 
-<%def name="col_wget(host, **kwargs)">
-  ${jsonxs(host, 'ansible_facts.packages.wget.version', default='')}
-</%def>
-
-<%def name="col_wget1(host, **kwargs)">
-  ${jsonxs(host, 'ansible_facts.packages.wget', default='')}
-</%def>
-
-<%def name="col_wget2(host, **kwargs)">
-  ${jsonxs(host, 'packages.wget.version', default='')}
-</%def>
-
-<%def name="col_wget3(host, **kwargs)">
-  ${jsonxs(host, 'ansible_facts.wget.version', default='')}
-</%def>
-
-<%def name="col_wget4(host, **kwargs)">
-  ${jsonxs(host, 'ansible_facts.wget', default='')}
-</%def>
-
-<%def name="col_wget5(host, **kwargs)">
-  ${jsonxs(host, 'ansible_facts.ansible_kernel', default='')}
-</%def>
-
 <%def name="col_kernel(host, **kwargs)">
   ${jsonxs(host, 'ansible_facts.ansible_kernel', default='')}
+</%def>
+
+
+<%def name="col_curl(host, **kwargs)">
+  ${jsonxs(host, 'ansible_facts.packages.libcurl[0].version', default='')}
+</%def>
+
+<%def name="col_curl1(host, **kwargs)">
+${jsonxs(host, 'ansible_facts.packages.libcurl.[1].version', default='')}
+</%def>
+
+<%def name="col_curl2(host, **kwargs)">
+  ${jsonxs(host, 'ansible_facts.packages.libcurl', default='')}
 </%def>
 
 <%def name="col_arch(host, **kwargs)">
@@ -825,7 +812,6 @@
     <tr><th>Distribution</th><td>${jsonxs(host, 'ansible_facts.ansible_distribution',  default='')}</td></tr>
     <tr><th>Distribution version</th><td>${jsonxs(host, 'ansible_facts.ansible_distribution_version',  default='')}</td></tr>
     <tr><th>Distribution release</th><td>${jsonxs(host, 'ansible_facts.ansible_distribution_release',  default='')}</td></tr>
-    <tr><th>wget</th><td>${jsonxs(host, 'ansible_facts.packages.wget.version',  default='')}</td></tr>
     <tr><th>Kernel</th><td>${jsonxs(host, 'ansible_facts.ansible_kernel',  default='')}</td></tr>
     <tr><th>Userspace bits</th><td>${jsonxs(host, 'ansible_facts.ansible_userspace_bits',  default='')}</td></tr>
     <tr><th>Userspace_architecture</th><td>${jsonxs(host, 'ansible_facts.ansible_userspace_architecture',  default='')}</td></tr>
