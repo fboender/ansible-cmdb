@@ -247,16 +247,21 @@ away.
 
 It takes optional parameters:
 
-* `local_js=0|1`: Load resources from local disk (default=`0`). If set, will load resources from the local disk instead of over the network.
-* `collapsed=0|1`: Controls whether host information is collapsed by default or not. A value of `1` will collapse all host information by defaultcontrols whether host information is collapsed by default or not. A value of `1` will collapse all host information by default. (default='0')
+* `local_js=0|1`: Load resources from local disk (default=`0`). If set, will
+  load resources from the local disk instead of over the network.
+* `collapsed=0|1`: Controls whether host information is collapsed by default
+  or not. A value of `1` will collapse all host information by default
+  (default='0').
 * `host_details=0|1`: Render host details or not. (default=`1`)
-* `skip_empty=0|1`: Skip hosts for which no facts were gathered (unreachable, etc). (default=`0`).
+* `skip_empty=0|1`: Skip hosts for which no facts were gathered (unreachable,
+  etc). (default=`0`).
 
 **html_fancy_split**:
 
 This template is basically the same as the **html_fancy** template, but it
 generates a `cmdb/` directory with an `index.html` file and a separate html
-file for each host's details.
+file for each host's details. This is useful if you have a large amount of
+hosts and the html_fancy template is rendering too slow.
 
 Usage:
 
@@ -266,7 +271,8 @@ It accepts the same parameters as the `html_fancy` template.
 
 **sql**:
 
-The `sql` template generates an .sql file that can be loaded into an SQLite or MySQL database.
+The `sql` template generates an .sql file that can be loaded into an SQLite or
+MySQL database.
 
     $ ansible-cmdb -t sql -i hosts out > cmdb.sql
     $ echo "CREATE DATABASE ansiblecmdb" | mysql 
@@ -322,7 +328,7 @@ For example:
     zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  4g   2 
 
 For interactive templates (`html_fancy` and friends), the `--columns` option
-merely hides the columns by default. It doesn't remote them from the output,
+merely hides the columns by default. It doesn't remove them from the output,
 unlike the `csv` and other static templates. If you want to exclude columns
 from `html_fancy` and friends, use the `--exclude-cols` option. It works the
 same as `--columns`. For example:
