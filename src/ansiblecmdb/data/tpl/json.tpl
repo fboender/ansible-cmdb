@@ -7,5 +7,5 @@ class CustEncoder(json.JSONEncoder):
             return list(obj)
         return json.JSONEncoder.default(self, obj)
 
-print json.dumps(hosts, indent=2, cls=CustEncoder)
+print(json.dumps(hosts, indent=2, cls=CustEncoder))
 %>
