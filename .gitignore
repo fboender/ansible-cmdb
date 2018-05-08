@@ -12,3 +12,4 @@ dist/
 *.whl
 src/ansible_cmdb.egg-info/
 example/cmdb/
+cmdb.txt

@@ -60,8 +60,7 @@ All documentation can be viewed at [readthedocs.io](http://ansible-cmdb.readthed
 * [Contributing and development](http://ansible-cmdb.readthedocs.io/en/latest/dev/)
 
 
-License
--------
+
 
 Ansible-cmdb is licensed under the GPLv3:
 
