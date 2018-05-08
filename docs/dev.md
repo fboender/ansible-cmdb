@@ -1,7 +1,4 @@
-Ansible-cmdb development
-------------------------
-
-## Contributions
+# Contributions
 
 If you wish to contribute code, please consider the following:
 
@@ -9,15 +6,16 @@ If you wish to contribute code, please consider the following:
 * One logical change per merge request.
 * By putting in a merge request or putting code in comments, you automatically
   grant me permission to include this code in ansible-cmdb under the license
-  (GPLv3) that ansible-cmdb uses.
+  (GPLv3) that ansible-cmdb uses. The copyright for contributed code is
+  retained by the contributor.
 * Please don't be disappointed or angry if your contributions end up unused.
   It's not that they aren't appreciated, but I can be somewhat strict when it
-  comes to code quality, feature-creep, etc.
+  comes to code quality, feature creep, etc.
 
-When in doubt, just open a pull-request and post a comment on what you're
+When in doubt, just open a pull request and post a comment on what you're
 unclear of, and we'll figure it out.
 
-## Inner workings
+# Inner workings
 
 Here's a quick introduction on how ansible-cmdb works internally.
 
@@ -44,7 +42,7 @@ method. This method does a deep-update of a dictionary. This lets ansible-cmdb
 overlay information from the facts dir, extended / manual facts and hosts 
 inventory files.
 
-## Running from the git repo
+# Running from the git repo
 
 If you want to run ansible-cmdb directly from the Git repo:
 
@@ -52,9 +50,9 @@ If you want to run ansible-cmdb directly from the Git repo:
     $ export PYTHONPATH="$(readlink -f lib)"
     $ src/ansible-cmdb
 
-## Building
+# Building
 
-### Make targets
+## Make targets
 
 For building, `make` is used. Here are some useful targets:
 
@@ -62,7 +60,7 @@ For building, `make` is used. Here are some useful targets:
 * `make release`: build a release.
 * `make clean`: remove build and other artifacts.
 
-### Build packages and source-ball
+## Build packages and source-ball
 
 To build Debian, RedHat and source-packages for ansible-cmdb you'll need a
 Debian based operating system and you'll have to install the following
@@ -88,7 +86,7 @@ to build a test release, you can temporary stash your untracked changes:
 
     git stash -u
 
-### Testing
+# Testing
 
 Testing releases:
 
@@ -139,3 +137,32 @@ Installing from .rpm file:
     $ ansible-cmdb -p local_js=1 -i hosts out > ~/cmdb.html
     $ sudo yum uninstall ansible-cmdb
 
+
+# License
+
+Ansible-cmdb is licensed under the GPLv3:
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    For the full license, see the LICENSE file.
+
+# History
+
+Ansible-cmdb started as a short Python script, which I [blogged
+about](http://www.electricmonk.nl/log/2015/01/21/host-inventory-overview-using-ansibles-facts/).
+
+[Cris van Pelt](https://melkfl.es/) then took that and expanded it into a HTML
+page. Eventually I forked it to Github and made it public, adding features.
+[Many people collaborated](https://github.com/fboender/ansible-cmdb/graphs/contributors) to
+make Ansible-cmdb into what it is today.

@@ -4,12 +4,7 @@ import json
 import subprocess
 import codecs
 import logging
-try:
-    import yaml
-except ImportError:
-    import yaml3 as yaml
-
-
+from . import ihateyaml
 import ansiblecmdb.util as util
 import ansiblecmdb.parser as parser
 
@@ -182,17 +177,25 @@ class Ansible(object):
         try:
             self.log.debug("Reading host vars from {}".format(path))
             f = codecs.open(path, 'r', encoding='utf8')
-            invars = yaml.safe_load(f)
+            invars = ihateyaml.safe_load(f)
             f.close()
-
-            if hostname == "all":
-                # Hostname 'all' is special and applies to all hosts
-                for hostname in self.hosts_all():
-                    self.update_host(hostname, {'hostvars': invars}, overwrite=False)
-            else:
-                self.update_host(hostname, {'hostvars': invars}, overwrite=True)
         except Exception as err:
+            # Just catch everything because yaml...
             self.log.warning("Yaml couldn't load '{0}'. Skipping. Error was: {1}".format(path, err))
+            return
+
+        if invars is None:
+            # Empty file or whatever. This is *probably* a side-effect of our
+            # own yaml.SafeLoader implementation ('ihateyaml'), because this
+            # problem didn't exist before.
+            return
+
+        if hostname == "all":
+            # Hostname 'all' is special and applies to all hosts
+            for hostname in self.hosts_all():
+                self.update_host(hostname, {'hostvars': invars}, overwrite=False)
+        else:
+            self.update_host(hostname, {'hostvars': invars}, overwrite=True)
 
     def _parse_groupvar_dir(self, inventory_path):
         """
@@ -217,19 +220,13 @@ class Ansible(object):
                 # filename is the group name
                 groupname = strip_exts(filename, ('.yml', '.yaml', '.json'))
 
-                # Check for ansible-vault files, because they're valid yaml for
-                # some reason... (psst, the reason is that yaml sucks)
-                first_line = open(full_path, 'r').readline()
-                if first_line.startswith('$ANSIBLE_VAULT'):
-                    self.log.warning("Skipping encrypted vault file {0}".format(full_path))
-                    continue
-
                 try:
                     self.log.debug("Reading group vars from {}".format(full_path))
                     f = codecs.open(full_path, 'r', encoding='utf8')
-                    invars = yaml.safe_load(f)
+                    invars = ihateyaml.safe_load(f)
                     f.close()
                 except Exception as err:
+                    # Just catch everything because yaml...
                     self.log.warning("Yaml couldn't load '{0}' because '{1}'. Skipping".format(full_path, err))
                     continue  # Go to next file
 

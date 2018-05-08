@@ -3,8 +3,8 @@ import unittest
 import imp
 import os
 
-sys.path.insert(0, '../lib')
-sys.path.insert(0, '../src')
+sys.path.insert(0, os.path.realpath('../lib'))
+sys.path.insert(0, os.path.realpath('../src'))
 import ansiblecmdb
 
 

@@ -11,7 +11,7 @@ def is_executable(path):
 
 
 def deepupdate(target, src, overwrite=True):
-    """Deep update target dict with src
+    """Deep update target list, dict or set or other iterable with src
     For each k,v in src: if k doesn't exist in target, it is deep copied from
     src to target. Otherwise, if v is a list, target[k] is extended with
     src[k]. If v is a set, target[k] is updated with v, If v is a dict,
@@ -24,7 +24,6 @@ def deepupdate(target, src, overwrite=True):
     >>> print t
     {'name': 'Ferry', 'hobbies': ['programming', 'sci-fi', 'gaming']}
     """
-
     for k, v in src.items():
         if type(v) == list:
             if not k in target:

@@ -72,8 +72,7 @@ from jsonxs import jsonxs
   for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
     if i["mount"] == '/':
       try:
-        disk_free = i["size_total"] - i["size_available"]
-        return round(disk_free / 1073741824.0, 1)
+        return round(i["size_available"] / 1073741824.0, 1)
       except:
         return 0
       endtry
