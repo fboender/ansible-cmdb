@@ -1,0 +1,23 @@
+---
+# .. vim: foldmarker=[[[,]]]:foldmethod=marker
+
+- name: Save Ansible facts
+  hosts: [ 'all_managed_hosts' ]
+  become: False
+  gather_facts: False
+
+  tasks:
+
+    - name: Write Ansible facts to facts directory
+      command: ansible -m setup --tree {{ inventory_facts_path|d((inventory_dir | realpath) + "/../../facts") | quote }} {{ inventory_hostname }} --become
+      become: False
+      delegate_to: 'localhost'
+      changed_when: False
+
+    - name: Remove often changing facts to make facts deterministic and suitable to be put under version control
+      shell: jq '{{ inventory_facts_jq_filter|d("del(.ansible_facts.ansible_date_time, .ansible_facts.ansible_env.SUDO_COMMAND, .ansible_facts.ansible_uptime_seconds, .ansible_facts.ansible_memfree_mb, .ansible_facts.ansible_memory_mb, .ansible_facts.ansible_env.SSH_CLIENT, .ansible_facts.ansible_local.etckeeper.commit)") }}' --sort-keys {{ (inventory_hostname) | quote }} > {{ (inventory_hostname + ".tmp") | quote }} && mv {{ (inventory_hostname + ".tmp") | quote }} {{ (inventory_hostname) | quote }};
+      args:
+        chdir: '{{ inventory_facts_path|d((inventory_dir | realpath) + "/../../facts") }}'
+      become: False
+      delegate_to: 'localhost'
+      changed_when: False
