@@ -39,7 +39,12 @@ def deepupdate(target, src, overwrite=True):
             if not k in target:
                 target[k] = v.copy()
             elif overwrite is True:
-                target[k].update(v.copy())
+                if type(target[k]) == list:
+                    target[k].extend(v)
+                elif type(target[k]) == set:
+                    target[k].update(v)
+                else:
+                    raise TypeError("Cannot update {} with {}".format(type(target[k]), type(v)))
         else:
             if k not in target or overwrite is True:
                 target[k] = copy.copy(v)
