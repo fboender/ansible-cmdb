@@ -850,39 +850,40 @@
       </tr>
     </table>
   % endif
-  <table class="net_iface_details">
-    <tr>
-      <th>Interface details</th>
-      <td>
-        <%
-          ifaces = jsonxs(host, 'ansible_facts.ansible_interfaces', default=[])
-        %>
-        % if len(ifaces) > 0 and isinstance(ifaces[0], str):
-          ## Interfaces are strings and the interface details are found in
-          ## ansible_facts.ansible_{interfacename}
-          <table>
-            % for iface in sorted(ifaces):
-              <tr>
-                <th>${iface}</th>
-                <td>
-                  % try:
-                    ${r_dict(jsonxs(host, 'ansible_facts.ansible_%s' % (iface)))}
-                  % except KeyError:
-                    No information available
-                  % endtry
-                </td>
-              </tr>
+
+  <% ifaces = jsonxs(host, 'ansible_facts.ansible_interfaces', default=[]) %>
+  % if len(ifaces) > 0:
+    <table class="net_iface_details">
+      <tr>
+        <th>Interface details</th>
+        <td>
+          % if isinstance(ifaces[0], str):
+            ## Interfaces are strings and the interface details are found in
+            ## ansible_facts.ansible_{interfacename}
+            <table>
+              % for iface in sorted(ifaces):
+                <tr>
+                  <th>${iface}</th>
+                  <td>
+                    % try:
+                      ${r_dict(jsonxs(host, 'ansible_facts.ansible_%s' % (iface)))}
+                    % except KeyError:
+                      No information available
+                    % endtry
+                  </td>
+                </tr>
+              % endfor
+            </table>
+          % elif isinstance(ifaces[0], dict):
+            ## Interfaces are dicts, with the interface details already in it.
+            % for iface in ifaces:
+              ${r_dict(iface)}
             % endfor
-          </table>
-        % else:
-          ## Interfaces are dicts, with the interface details already in it.
-          % for iface in ifaces:
-            ${r_dict(iface)}
-          % endfor
-        % endif
-      </td>
-    </tr>
-  </table>
+          % endif
+        </td>
+      </tr>
+    </table>
+  % endif
   </div>
 </%def>
 
