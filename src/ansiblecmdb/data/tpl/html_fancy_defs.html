@@ -855,7 +855,12 @@
       <th>Interface details</th>
       <td>
         <table>
-            % for iface in sorted(jsonxs(host, 'ansible_facts.ansible_interfaces', default=[])):
+           <%
+             ifaces = jsonxs(host, 'ansible_facts.ansible_interfaces', default=[])
+             if len(ifaces) > 0 and isinstance(ifaces[0], str):
+               ifaces = sorted(ifaces)
+           %>
+            % for iface in ifaces:
               <tr>
                 <th>${iface}</th>
                 <td>

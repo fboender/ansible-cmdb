@@ -19,6 +19,24 @@
             "address": "10.0.0.3", 
             "interface": "eth0"
         },
+        "ansible_interfaces": [
+            {
+                "connection_name": "Ethernet",
+                "default_gateway": "172.1.1.1",
+                "dns_domain": "win1.dev.local",
+                "interface_index": 4,
+                "interface_name": "Intel(R) 82579LM Gigabit Network Connection",
+                "macaddress": "FF:B1:1C:FF:7D:23"
+            },
+            {
+                "connection_name": "VirtualBox Host-Only Network",
+                "default_gateway": null,
+                "dns_domain": null,
+                "interface_index": 3,
+                "interface_name": "VirtualBox Host-Only Ethernet Adapter",
+                "macaddress": "0A:00:27:00:00:03"
+            }
+        ],
         "ansible_all_ipv4_addresses": [
             "10.0.0.3"
         ],
