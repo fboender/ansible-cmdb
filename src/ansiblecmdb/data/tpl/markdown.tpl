@@ -148,13 +148,13 @@ ${"###"} Network
 % if len(ifaces) > 0:
   % if isinstance(ifaces[0], str):
     % for iface in sorted(ifaces):
-${"####"} AInterface: **${iface}**
+${"####"} Interface: **${iface}**
 
 ${r_dict(host['ansible_facts'].get('ansible_%s' % (iface), {}))}
     % endfor
   % elif isinstance(ifaces[0], dict):
     % for iface in ifaces:
-${"####"} BInterface: **${iface.get('interface_name', 'Unknown')}**
+${"####"} Interface: **${iface.get('interface_name', 'Unknown')}**
 
 ${r_dict(iface)}
 
