@@ -40,14 +40,8 @@ For **Debian / Ubuntu** systems:
 
     sudo dpkg -i ansible-cmdb*.deb
 
-For **Redhat / Centos** systems:
-
-    sudo yum --disablerepo=* install ansible-cmdb*.rpm
-
-For **Arch** systems:
-
-[aur/ansible-cmdb](https://aur.archlinux.org/packages/ansible-cmdb/), but it
-is out-of-date.
+Support for all other package managers (RPM, etc) has been dropped. Please use
+the `pip` method instead, or install from tar.gz.
 
 ### For other systems
 
@@ -66,5 +60,3 @@ Installation from **Git** repository:
     git clone git@github.com:fboender/ansible-cmdb.git
     cd ansible-cmdb
     sudo make install
-
-
