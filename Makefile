@@ -16,7 +16,6 @@ doc:
 
 clean:
 	rm -rf rel_deb
-	rm -f *.rpm
 	rm -f *.deb
 	rm -f *.tar.gz
 	rm -f *.zip
@@ -35,7 +34,7 @@ release_check:
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
 	echo "$(REL_VERSION)" > src/ansiblecmdb/data/VERSION
 
-release: release_check release_src release_deb release_rpm release_wheel
+release: release_check release_src release_deb release_wheel
 
 release_src: release_check clean doc
 	# Cleanup. Only on release, since REL_VERSION doesn't exist otherwise
@@ -86,18 +85,6 @@ release_deb: release_check clean doc
 	# Cleanup
 	rm -rf rel_deb
 	rm -rf $(PROG)-$(REL_VERSION)
-
-release_rpm: release_check clean release_deb
-	alien -r -g $(PROG)-$(REL_VERSION).deb
-	sed -i '\:%dir "/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	sed -i '\:%dir "/usr/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	sed -i '\:%dir "/usr/share/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	sed -i '\:%dir "/usr/share/doc/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	sed -i '\:%dir "/usr/share/man/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	sed -i '\:%dir "/usr/share/man/man1/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	sed -i '\:%dir "/usr/lib/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	sed -i '\:%dir "/usr/bin/":d' $(PROG)-$(REL_VERSION)/$(PROG)-$(REL_VERSION)-2.spec
-	cd $(PROG)-$(REL_VERSION) && rpmbuild --buildroot='$(shell readlink -f $(PROG)-$(REL_VERSION))/' -bb --target noarch '$(PROG)-$(REL_VERSION)-2.spec'
 
 release_wheel: release_check clean
 	echo "$(REL_VERSION)" > src/ansiblecmdb/data/VERSION
