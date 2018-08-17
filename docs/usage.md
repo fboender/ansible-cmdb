@@ -18,10 +18,27 @@ information for each host.
 
 You can now open `overview.html` in your browser to view the results.
 
+## Packages_facts html generation
+
+First, generate Ansible output for your hosts:
+
+    mkdir out
+    ansible -m setup --tree out/outsetup all
+    ansible -m package_facts --tree out/outpackages all
+
+Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
+overview page:
+
+    ansible-cmdb out/outsetup out/outpackages > overview.html
+
+You can now open `overview.html` in your browser to view the results, with the packages.
+We use the [package_facts module](https://docs.ansible.com/ansible/2.5/modules/package_facts_module.html) and the [setup module](https://docs.ansible.com/ansible/2.5/modules/setup_module.html)
+
+
 ## Full usage
 
     Usage: ansible-cmdb [option] <dir> > output.html
-    
+
     Options:
       --version             show program's version number and exit
       -h, --help            show this help message and exit
@@ -89,16 +106,16 @@ For example, let's say we have the following `hosts` file:
     [cust.megacorp]
     db1.dev.megacorp.com   dtap=dev  comment="Old database server"
     db2.dev.megacorp.com   dtap=dev  comment="New database server"
-    test.megacorp.com      dtap=test 
+    test.megacorp.com      dtap=test
     acc.megacorp.com       dtap=acc  comment="24/7 support"
     megacorp.com           dtap=prod comment="Hosting by Foo" ext_id="SRV_10029"
-    
+
     [os.redhat]
     megacorp.com
     acc.megacorp.com
     test.megacorp.com
     db2.dev.megacorp.com
-    
+
     [os.debian]
     db1.dev.megacorp.com
 
@@ -181,7 +198,7 @@ hosts and the html_fancy template is rendering too slow.
 
 Usage:
 
-    ansible-cmdb -t html_fancy_split -i hosts out/ 
+    ansible-cmdb -t html_fancy_split -i hosts out/
 
 It accepts the same parameters as the `html_fancy` template.
 
@@ -191,7 +208,7 @@ The `sql` template generates an .sql file that can be loaded into an SQLite or
 MySQL database.
 
     $ ansible-cmdb -t sql -i hosts out > cmdb.sql
-    $ echo "CREATE DATABASE ansiblecmdb" | mysql 
+    $ echo "CREATE DATABASE ansiblecmdb" | mysql
     $ mysql ansiblecmdb < cmdb.sql
 
 ## Fact caching
@@ -218,7 +235,7 @@ the root of the JSON.
 
 Some templates, such as txt_table and html_fancy,  support columns. If a
 template supports columns, you can use the `--columns` / `-c` command line
-option to specify which columns to show. 
+option to specify which columns to show.
 
 The `--columns` takes a comma-separated list of columns (no spaces!) which
 should be shown.  The columns must be specified by their `id` field. For
@@ -241,7 +258,7 @@ For example:
     win.dev.local           Windows 2012   10.0.0.3       4g   0  
     host5.example.com       Debian 6.0.10  192.168.57.1   1g   1  
     db03.prod.local         Debian 6.0.10  192.168.58.3   0g   1  
-    zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  4g   2 
+    zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  4g   2
 
 For interactive templates (`html_fancy` and friends), the `--columns` option
 merely hides the columns by default. It doesn't remove them from the output,
@@ -263,7 +280,7 @@ hosts.
 
 Extended facts are basically the same as normal Ansible fact files. When you
 specify multiple fact directories, Ansible-cmdb scans all of the in order and
-overlays the facts. 
+overlays the facts.
 
 Note that the host *must still* be present in your hosts file, or it will not
 generate anything.
@@ -321,29 +338,29 @@ Create a file in it for your windows host:
         "ansible_all_ipv4_addresses": [
           "10.10.0.2",
           "191.37.104.122"
-        ], 
+        ],
         "ansible_default_ipv4": {
           "address": "191.37.104.122"
-        }, 
+        },
         "ansible_devices": {
-        }, 
-        "ansible_distribution": "Windows", 
-        "ansible_distribution_major_version": "2008", 
-        "ansible_distribution_release": "", 
-        "ansible_distribution_version": "2008", 
-        "ansible_domain": "win.dev.local", 
-        "ansible_fips": false, 
-        "ansible_form_factor": "VPS", 
-        "ansible_fqdn": "win.dev.local", 
-        "ansible_hostname": "win", 
-        "ansible_machine": "x86_64", 
-        "ansible_nodename": "win.dev.local", 
-        "ansible_userspace_architecture": "x86_64", 
-        "ansible_userspace_bits": "64", 
-        "ansible_virtualization_role": "guest", 
-        "ansible_virtualization_type": "xen", 
+        },
+        "ansible_distribution": "Windows",
+        "ansible_distribution_major_version": "2008",
+        "ansible_distribution_release": "",
+        "ansible_distribution_version": "2008",
+        "ansible_domain": "win.dev.local",
+        "ansible_fips": false,
+        "ansible_form_factor": "VPS",
+        "ansible_fqdn": "win.dev.local",
+        "ansible_hostname": "win",
+        "ansible_machine": "x86_64",
+        "ansible_nodename": "win.dev.local",
+        "ansible_userspace_architecture": "x86_64",
+        "ansible_userspace_bits": "64",
+        "ansible_virtualization_role": "guest",
+        "ansible_virtualization_type": "xen",
         "module_setup": true
-      }, 
+      },
       "changed": false
     }
 
@@ -401,4 +418,3 @@ Generate the overview:
     ./ansible-cmdb out/ out_custom/ > overview.html
 
 The software items will be listed under the "*Custom facts*" heading.
-
