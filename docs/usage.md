@@ -7,6 +7,11 @@ First, generate Ansible output for your hosts:
     mkdir out
     ansible -m setup --tree out/ all
 
+In case you want to generate Ansible facts output in your existing
+playbooks, you can use/include the
+[save_ansible_facts.yml](https://github.com/fboender/ansible-cmdb/blob/master/example/playbooks/save_ansible_facts.yml)
+playbook which is provided in the examples.
+
 Next, call ansible-cmdb on the resulting `out/` directory to generate the CMDB
 overview page:
 
@@ -401,4 +406,3 @@ Generate the overview:
     ./ansible-cmdb out/ out_custom/ > overview.html
 
 The software items will be listed under the "*Custom facts*" heading.
-
