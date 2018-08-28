@@ -254,6 +254,9 @@ same as `--columns`. For example:
                  -i hosts \
                  facts/
 
+If you want to add custom columns, please refer to 'Custom templates' section.
+
+
 ## Extending facts
 
 You can specify multiple directories that need to be scanned for facts. This
@@ -402,3 +405,44 @@ Generate the overview:
 
 The software items will be listed under the "*Custom facts*" heading.
 
+## Custom templates
+
+If you want to add custom columns or other data to the output, you can create
+a custom template. Ansible-cmdb uses the [Mako templating
+engine](http://www.makotemplates.org/) to render output.
+
+For example, if you want to add a custom column to the `html_fancy` template:
+
+1. Make a copy of the default `html_fancy` template in a new dir. Here, we'll
+   use files from the ansible-cmdb git repository.
+
+        $ mkdir ~/mytemplate
+        $ cp ~/ansible-cmdb/src/ansiblecmdb/data/tpl/html_fancy.tpl ~/mytemplate/
+        $ cp ~/ansible-cmdb/src/ansiblecmdb/data/tpl/html_fancy_defs.html ~/mytemplate/
+
+1. Edit the `html_fancy_defs.html` file and add an entry to the `cols =`
+   section. In this example, we'll add a column for the "BIOS version".
+
+        <%
+          cols = [
+           ...
+           {"title": "Product Serial","id": "prodserial",    "func": col_prodserial,     "sType": "string", "visible": False},
+           {"title": "BIOS version",  "id": "bios_version",  "func": col_bios_version,   "sType": "string", "visible": True},
+         ]
+
+1. Now you need to implement the `col_biosversion` template function. In the
+   same `html_fancy_defs.html` file, search for the `## Column functions`
+   section. Add a column template function called `col_biosversion`:
+
+           <%def name="col_dtap(host, **kwargs)">
+             ${jsonxs(host, 'hostvars.dtap', default='')}
+           </%def>
+         
+        +  <%def name="col_bios_version(host, **kwargs)">
+        +    ${jsonxs(host, 'ansible_facts.ansible_bios_version', default='')}
+        +  </%def>
+
+1. Finally, render the custom template. For this to work, you **must be in
+   the same directory as the custom template!**.
+
+        ansible-cmdb/src/ansible-cmdb -t ./html_fancy -i ~/ansible/hosts ~/ansible/out/ > cmdb.html
