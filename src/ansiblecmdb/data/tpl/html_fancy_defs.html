@@ -800,7 +800,11 @@
     <tr><th>Userspace_architecture</th><td>${jsonxs(host, 'ansible_facts.ansible_userspace_architecture',  default='')}</td></tr>
     <tr><th>Date time</th><td>${jsonxs(host, 'ansible_facts.ansible_date_time.iso8601', default='')}</td></tr>
     <tr><th>Locale / Encoding</th><td>${jsonxs(host, 'ansible_facts.ansible_env.LC_ALL', default='Unknown')}</td></tr>
-    <tr><th>SELinux?</th><td>${jsonxs(host, 'ansible_facts.ansible_selinux', default='')}</td></tr>
+    % if type(jsonxs(host, 'ansible_facts.ansible_selinux', default=false)) == bool:
+        <tr><th>SELinux</th><td>${jsonxs(host, 'ansible_facts.ansible_selinux', default='Unknown')}</td></tr>
+    % else:
+        <tr><th>SELinux</th><td>${r_dict(jsonxs(host, 'ansible_facts.ansible_selinux', default={}), sort=True)}</td></tr>
+    % endif
     <tr><th>Package manager</th><td>${jsonxs(host, 'ansible_facts.ansible_pkg_mgr', default='')}</td></tr>
   </table>
   </div>
