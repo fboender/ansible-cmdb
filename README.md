@@ -49,6 +49,30 @@ Features
   new hosts.
 
 
+Getting started
+---------------
+
+Links to the full documentation can be found below, but here's a rough
+indication of how Ansible-cmdb works to give you an idea:
+
+1. Install Ansible-cmdb from [source, a release
+   package](https://github.com/fboender/ansible-cmdb/releases) or through pip: `pip
+   install ansible-cmdb`.
+
+1. Fetch your host's facts through ansible:
+
+        $ mkdir out
+        $ ansible -m setup --tree out/ all
+
+1. Generate the CMDB HTML with Ansible-cmdb:
+
+        $ ansible-cmdb out/ > overview.html
+
+1. Open `overview.html` in your browser.
+
+That's it! Please do read the full documentation on usage, as there are some
+caveats to how you can use the generated HTML.
+
 Documentation
 -------------
 
