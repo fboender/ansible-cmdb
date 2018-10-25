@@ -25,7 +25,8 @@ class Ansible(object):
     """
     The Ansible class is responsible for gathering host information.
     """
-    def __init__(self, fact_dirs, inventory_paths=None, fact_cache=False, debug=False):
+    def __init__(self, fact_dirs, inventory_paths=None, fact_cache=False,
+                 limit=None, debug=False):
         """
         `fact_dirs` is a list of paths to directories containing facts gathered
         by ansible's 'setup' module.
@@ -42,6 +43,7 @@ class Ansible(object):
         else:
             self.inventory_paths = inventory_paths
         self.fact_cache = fact_cache  # fact dirs are fact-caches
+        self.limit = self._parse_limit(limit)
         self.debug = debug
         self.hosts = {}
         self.log = logging.getLogger(__name__)
@@ -61,6 +63,28 @@ class Ansible(object):
         # Scan for group vars and apply them
         for inventory_path in self.inventory_paths:
             self._parse_groupvar_dir(inventory_path)
+
+    def _parse_limit(self, limit):
+        """
+        Parse a host / group limit in the form of a string (e.g.
+        'all:!cust.acme') into a dict of things to be included and things to be
+        excluded.
+        """
+        if limit is None:
+            return None
+
+        limit_parsed = {
+            "include": [],
+            "exclude": []
+        }
+        elems = limit.split(":")
+        for elem in elems:
+            if elem.startswith('!'):
+                limit_parsed['exclude'].append(elem[1:])
+            else:
+                limit_parsed['include'].append(elem)
+
+        return limit_parsed
 
     def _handle_inventory(self, inventory_path):
         """
@@ -326,9 +350,40 @@ class Ansible(object):
         """
         result = []
         for hostname, hostinfo in self.hosts.items():
-            if 'groups' in hostinfo:
+            if groupname == 'all':
+                result.append(hostname)
+            elif 'groups' in hostinfo:
                 if groupname in hostinfo['groups']:
                     result.append(hostname)
             else:
                 hostinfo['groups'] = [groupname]
         return result
+
+    def get_hosts(self):
+        """
+        Return a list of parsed hosts info, with the limit applied if required.
+        """
+        limited_hosts = {}
+        if self.limit is not None:
+            # Find hosts and groups of hosts to include
+            for include in self.limit['include']:
+                # Include whole group
+                for hostname in self.hosts_in_group(include):
+                    limited_hosts[hostname] = self.hosts[hostname]
+                # Include individual host
+                if include in self.hosts:
+                    limited_hosts[include] = self.hosts[include]
+            # Find hosts and groups of hosts to exclude
+            for exclude in self.limit["exclude"]:
+                # Exclude whole group
+                for hostname in self.hosts_in_group(exclude):
+                    if hostname in limited_hosts:
+                        limited_hosts.pop(hostname)
+                # Exclude individual host
+                if exclude in limited_hosts:
+                    limited_hosts.pop(exclude)
+
+            return limited_hosts
+        else:
+            # Return all hosts
+            return self.hosts

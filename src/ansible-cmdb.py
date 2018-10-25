@@ -126,6 +126,7 @@ if __name__ == "__main__":
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
     parser.add_option("-q", "--quiet", dest="quiet", action="store_true", default=False, help="Don't report warnings")
     parser.add_option("-c", "--columns", dest="columns", action="store", default=None, help="Show only given columns")
+    parser.add_option("-l", "--limit", dest="limit", action="store", default=None, help="Limit hosts to pattern")
     parser.add_option("--exclude-cols", dest="exclude_columns", action="store", default=None, help="Exclude cols from output")
     (options, args) = parser.parse_args()
 
@@ -163,7 +164,8 @@ if __name__ == "__main__":
     log.debug('inventory files = {0}'.format(hosts_files))
     log.debug('template params = {0}'.format(params))
 
-    ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache, debug=options.debug)
+    ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache,
+                                  limit=options.limit, debug=options.debug)
 
     # Render a template with the gathered host info
     renderer = render.Render(options.template, ['.', tpl_dir])
@@ -174,7 +176,7 @@ if __name__ == "__main__":
     # Make sure we always output in UTF-8, regardless of the user's locale /
     # terminal encoding. This is different in Python 2 and 3.
     try:
-        output = renderer.render(ansible.hosts, params)
+        output = renderer.render(ansible.get_hosts(), params)
         if output:
             if sys.version_info[0] == 3:
                 sys.stdout.buffer.write(output.lstrip())

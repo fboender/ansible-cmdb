@@ -21,7 +21,7 @@ You can now open `overview.html` in your browser to view the results.
 ## Full usage
 
     Usage: ansible-cmdb [option] <dir> > output.html
-    
+
     Options:
       --version             show program's version number and exit
       -h, --help            show this help message and exit
@@ -33,8 +33,11 @@ You can now open `overview.html` in your browser to view the results.
       -p PARAMS, --params=PARAMS
                             Params to send to template
       -d, --debug           Show debug output
+      -q, --quiet           Don't report warnings
       -c COLUMNS, --columns=COLUMNS
                             Show only given columns
+      -l LIMIT, --limit=LIMIT
+                            Limit hosts to pattern
       --exclude-cols=EXCLUDE_COLUMNS
                             Exclude cols from output
 
@@ -213,6 +216,22 @@ you specify. This means you can't mix fact-cache fact directories and normal
 `setup` fact directories. Also, if you wish to manually extend facts (see the
 `Extending` chapter), you must omit the `ansible_facts` key and put items in
 the root of the JSON.
+
+## Limiting hosts
+
+You can use the `-l` parameter to limit the hosts included in the output. This
+works basically the same as Ansible's limits. It supports the '`all`'
+construct, individual hosts, groups and inversion using `!`. In order for host
+limiting to work, you must point the `-i` param to your host inventory.
+
+Some examples:
+
+    # Include only hosts in the group 'cust.acme'
+    ansible-cmdb -i hosts -l 'cust.acme' out/ > cmdb.html
+
+    # Include all hosts except those in the group 'cust.acme', but include
+    # host 'foo.example.com'
+    ansible-cmdb -i hosts -l 'all:!cust.acme:foo.example.com' out/ > cmdb.html
 
 ## Columns
 
