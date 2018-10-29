@@ -6,6 +6,7 @@
 <%! import getpass %>
 <%! from ansiblecmdb.util import to_bool %>
 
+
 ##
 ## Column definitions
 ##
@@ -191,6 +192,7 @@
       #host_overview .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
       #host_overview tbody td.error a { color: #FF0000; }
       #host_overview span.usage_detail { color: #606060; }
+      #host_overview .error { color: #FF0000; }
 
       #hosts { margin-left: 32px; margin-bottom: 120px; }
       #hosts .toggle-collapse { cursor: pointer; }
@@ -470,11 +472,14 @@
 <%def name="col_name(host, **kwargs)">
   <%
   link_type = kwargs.get("link_type")
+  elem_class = ""
+  if "ansible_facts" not in host:
+    elem_class = "error"
   %>
   % if link_type == "anchor":
-    <a href="#${jsonxs(host, 'name')}">${jsonxs(host, "name")}</a>
+    <a href="#${jsonxs(host, 'name')}" class="${elem_class}">${jsonxs(host, "name")}</a>
   % elif link_type == "external":
-    <a href="${jsonxs(host, 'name')}.html">${jsonxs(host, 'name')}</a>
+    <a href="${jsonxs(host, 'name')}.html" class="${elem_class}">${jsonxs(host, 'name')}</a>
   % else:
     ${jsonxs(host, "name")}
   % endif
