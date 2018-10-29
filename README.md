@@ -37,7 +37,7 @@ Features
     * JSON (`--template json`), a dump of all facts in JSON format.
     * Markdown (`--template markdown`), useful for copy-pasting into Wiki's and
       such.
-    * Markdown Split ('--template markdown_split'), with each host's details
+    * Markdown Split (`--template markdown_split`), with each host's details
       in a seperate file (for large number of hosts).
     * SQL (`--template sql`), for importing host facts into a (My)SQL database.
     * Plain Text table (`--template txt_table`), for the console gurus.
