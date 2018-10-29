@@ -47,7 +47,7 @@
         col["visible"] = True
       else:
         col["visible"] = False
-  
+
   # Remove columns that should be excluded
   if cols_exclude is not None:
     cols = filter(lambda col: col["id"] not in cols_exclude, cols)
@@ -130,14 +130,14 @@
       dl, dt, dd, ol, ul, li,
       fieldset, form, label, legend,
       table, caption, tbody, tfoot, thead, tr, th, td,
-      article, aside, canvas, details, embed, 
-      figure, figcaption, footer, header, hgroup, 
+      article, aside, canvas, details, embed,
+      figure, figcaption, footer, header, hgroup,
       menu, nav, output, ruby, section, summary,
-      time, mark, audio, video { 
+      time, mark, audio, video {
         margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline;
       }
       /* HTML5 display-role reset for older browsers */
-      article, aside, details, figcaption, figure, 
+      article, aside, details, figcaption, figure,
       footer, header, hgroup, menu, nav, section { display: block; }
       body { line-height: 1; }
       ol, ul { list-style: none; }
@@ -145,13 +145,13 @@
       blockquote:before, blockquote:after,
       q:before, q:after { content: ''; content: none; }
       table { border-collapse: collapse; border-spacing: 0; }
-  
+
       /* ansible-cmdb */
       *, body { font-family: sans-serif; font-weight: lighter; }
       a { text-decoration: none; }
       b { font-weight: bold; }
       p { margin-bottom: 1em; }
-  
+
       header { position: fixed; top: 0px; left: 0px; right: 0px; background-color: #0071b8; overflow: auto; color: #E0E0E0; padding: 15px; z-index: 1000; }
       header h1 { font-size: x-large; float: left; line-height: 32px; font-weight: bold; }
       header #clear_settings { float: right; line-height: 32px; font-size: small; margin-left: 12px; }
@@ -160,17 +160,17 @@
       header #top { display: none; }
       header #top a { line-height: 32px; margin-left: 64px; color: #FFFFFF; border-bottom: 1px solid #909090; }
       header #generated .detail { font-weight: bold; }
-  
+
       footer { display: block; position: fixed; bottom: 0px; right: 0px; left: 0px; background-color: #d5d5d5; overflow: auto; color: #505050; padding: 4px; font-size: x-small; text-align: right; padding-right: 8px; }
       footer a { font-weight: bold; text-decoration: none; color: #202020; }
-  
+
       #col_toggles { margin: 32px; margin-top: 100px; }
       #col_toggles h2 { display: block; font-size: 1.4em; margin-bottom: 32px; color: #606060; }
       #col_toggle_buttons { margin-left: 32px; font-weight: normal; line-height: 40px; }
       #col_toggles a { line-height: 40px; }
       #col_toggles a { display: inline-block; background-color: #009688; line-height: 32px; padding: 0px 15px 0px 15px; margin-right: 6px; box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.35); color: #FFFFFF; }
       #col_toggles a.col-invisible { background-color: #B0B0B0; box-shadow: 0 0px 0px 0; }
-  
+
       #host_overview { margin: 32px; }
       #host_overview h2 { display: block; font-size: 1.4em; color: #606060; }
       #host_overview_tbl_wrapper{ margin-left: 16px; }
@@ -191,7 +191,7 @@
       #host_overview .prog_bar_used { display: block; height: 12px; background-color: #8F4040; }
       #host_overview tbody td.error a { color: #FF0000; }
       #host_overview span.usage_detail { color: #606060; }
-  
+
       #hosts { margin-left: 32px; margin-bottom: 120px; }
       #hosts .toggle-collapse { cursor: pointer; }
       #hosts a.toggle-all { margin-top: 20px; display: inline-block; color: #0080FF; }
@@ -371,7 +371,7 @@
         {
           "targets": [${loop.index}],
           "visible": ${str(col['visible']).lower()},
-          "sType": "${col['sType']}" 
+          "sType": "${col['sType']}"
         },
       % endfor
     ],
@@ -420,7 +420,7 @@
     columnVisibility[columnId] = column.visible();
     localStorage.setItem("columnVisibility", JSON.stringify(columnVisibility));
   });
-  
+
   // Open the Detailed host information when jumping to a host.
   $('#host_overview td a').on('click', function(e) {
     var hostId=$(this).attr('href').substr(1);
@@ -438,7 +438,7 @@
     $(this).toggleClass('uncollapsed');
     $(this).next().toggleClass('collapsed');
   });
-  
+
   // Toggle opening and closing all information for a host.
   $('a.toggle-all').on('click', function(e) {
     e.preventDefault();
@@ -565,7 +565,7 @@
 <%def name="col_mem_usage(host, **kwargs)">
   % try:
     <%
-    i = jsonxs(host, 'ansible_facts.ansible_memory_mb', default=0) 
+    i = jsonxs(host, 'ansible_facts.ansible_memory_mb', default=0)
     sort_used = '%f' % (float(jsonxs(i, "nocache.used", default=0)) / jsonxs(i, "real.total", default=0))
     used = float(i["nocache"]["used"]) / i["real"]["total"] * 100
     detail_used = round(jsonxs(i, "nocache.used", default=0) / 1024.0, 1)
@@ -643,7 +643,6 @@
       ${physdisk_name}: ${jsonxs(physdisk_info, 'size', default='')}<br />
     % endfor
   % except AttributeError:
-    
   % endtry
 </%def>
 
