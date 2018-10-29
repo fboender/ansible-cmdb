@@ -15,6 +15,7 @@ import optparse
 import sys
 import os
 import logging
+import json
 from mako import exceptions
 import ansiblecmdb
 import ansiblecmdb.util as util
@@ -92,6 +93,30 @@ def get_hosts_files(option):
                     return [line.split('=', 1)[1].strip()]
 
 
+def get_cust_cols(path):
+    """
+    Load custom column definitions.
+    """
+    required_keys = ["title", "id", "sType", "visible", "jsonxs"]
+
+    with open(path, 'r') as f:
+        try:
+            cust_cols = json.load(f)
+        except json.decoder.JSONDecodeError as err:
+            sys.stderr.write("Invalid custom columns json file: {}\n".format(path))
+            sys.stderr.write("{}\n".format(err.args[0]))
+            sys.exit(1)
+
+    # Validate
+    for col in cust_cols:
+        for required_key in required_keys:
+            if required_key not in col:
+                sys.stderr.write("Missing required key '{}' in custom "
+                                 "column {}\n".format(required_key, col))
+                sys.exit(1)
+
+    return cust_cols
+
 def parse_user_params(user_params):
     """
     Parse the user params (-p/--params) and them as a dict.
@@ -126,6 +151,7 @@ if __name__ == "__main__":
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False, help="Show debug output")
     parser.add_option("-q", "--quiet", dest="quiet", action="store_true", default=False, help="Don't report warnings")
     parser.add_option("-c", "--columns", dest="columns", action="store", default=None, help="Show only given columns")
+    parser.add_option("-C", "--cust-cols", dest="cust_cols", action="store", default=None, help="Path to a custom columns definition file")
     parser.add_option("-l", "--limit", dest="limit", action="store", default=None, help="Limit hosts to pattern")
     parser.add_option("--exclude-cols", dest="exclude_columns", action="store", default=None, help="Exclude cols from output")
     (options, args) = parser.parse_args()
@@ -142,6 +168,10 @@ if __name__ == "__main__":
 
     hosts_files = get_hosts_files(options.inventory)
 
+    cust_cols = []
+    if options.cust_cols is not None:
+        cust_cols = get_cust_cols(options.cust_cols)
+
     # Handle template params
     params = {
         'lib_dir': data_dir,  # Backwards compatibility for custom templates < ansible-cmdb v1.7
@@ -150,6 +180,7 @@ if __name__ == "__main__":
         'log': log,
         'columns': None,
         'exclude_columns': None,
+        'cust_cols': cust_cols
     }
     params.update(parse_user_params(options.params))
     if options.columns is not None:

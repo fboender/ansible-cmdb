@@ -13,6 +13,9 @@ skip_empty = to_bool(context.get('skip_empty', '0'))
 # Get column definitions from html_fancy_defs.html
 cols = var_cols(columns, exclude_columns)
 
+# Extend default columns with custom columns
+cols.extend(cust_cols)
+
 # Set the Javascript resource URL (local disk or CDN)
 if local_js is False:
   res_url = "https://cdn.datatables.net/1.10.2/"

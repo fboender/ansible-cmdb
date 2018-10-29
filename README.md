@@ -47,6 +47,7 @@ Features
 * Gathered host facts and manual custom facts.
 * Adding and extending facts of existing hosts and manually adding entirely
   new hosts.
+* Custom columns
 
 
 Getting started

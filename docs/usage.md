@@ -36,6 +36,8 @@ You can now open `overview.html` in your browser to view the results.
       -q, --quiet           Don't report warnings
       -c COLUMNS, --columns=COLUMNS
                             Show only given columns
+      -C CUST_COLS, --cust-cols=CUST_COLS
+                            Path to a custom columns definition file
       -l LIMIT, --limit=LIMIT
                             Limit hosts to pattern
       --exclude-cols=EXCLUDE_COLUMNS
@@ -92,7 +94,7 @@ For example, let's say we have the following `hosts` file:
     [cust.megacorp]
     db1.dev.megacorp.com   dtap=dev  comment="Old database server"
     db2.dev.megacorp.com   dtap=dev  comment="New database server"
-    test.megacorp.com      dtap=test 
+    test.megacorp.com      dtap=test
     acc.megacorp.com       dtap=acc  comment="24/7 support"
     megacorp.com           dtap=prod comment="Hosting by Foo" ext_id="SRV_10029"
     
@@ -273,7 +275,8 @@ same as `--columns`. For example:
                  -i hosts \
                  facts/
 
-If you want to add custom columns, please refer to 'Custom templates' section.
+If you want to add custom columns, please refer to [Custom
+columns](#custom-columns) section.
 
 
 ## Extending facts
@@ -285,7 +288,7 @@ hosts.
 
 Extended facts are basically the same as normal Ansible fact files. When you
 specify multiple fact directories, Ansible-cmdb scans all of the in order and
-overlays the facts. 
+overlays the facts.
 
 Note that the host *must still* be present in your hosts file, or it will not
 generate anything.
@@ -424,11 +427,73 @@ Generate the overview:
 
 The software items will be listed under the "*Custom facts*" heading.
 
+
+## Custom columns
+
+You can add custom columns to the host overview with the `-C` (`--cust-cols`)
+option. This allows you to specify
+[jsonxs](https://github.com/fboender/jsonxs) expressions to extract and
+display custom host facts. Such columns are fairly limited in what they can
+display. If you need a more powerful method of adding custom data to your
+CMDB, please refer to the [Custom templates](#custom-templates) section.
+
+Custom columns are currently only supported by the `html_fancy` and
+`html_fancy_split` templates!
+
+The `-C` option takes a parameter which is the path to a JSON file containing
+your custom column definitions. An example can be found in the
+`examples/cust_cols.json` file in the repo:
+
+    [
+        {
+            "title": "AppArmor",
+            "id": "apparmor",
+            "sType": "string",
+            "visible": true,
+            "jsonxs": "ansible_facts.ansible_apparmor.status"
+        },
+        {
+            "title": "Proc type",
+            "id": "proctype",
+            "sType": "string",
+            "visible": true,
+            "jsonxs": "ansible_facts.ansible_processor[2]"
+        }
+    ]
+
+This defines two new columns: 'AppArmor' and 'Proc type'. All keys are
+required.
+
+* `title` is what is displayed as the columns user-friendly title.
+* The `id` key must have a unique value, to differentiate between
+  columns.
+* The `sType` value determines how the values will be sorted in the host
+  overview. Possible values include `string` and `num`. `visible` determines
+  whether the column will be active (shown) by default.
+* The `jsonxs` expression points to an entry in the facts files for each host,
+  and determines what will be shown for the column's value for each host.
+  The easiest way to figure out a jsonxs expression is by opening one of the
+  gathered facts files in a json editor. Please see
+  [jsonxs](https://github.com/fboender/jsonxs) for info on how to write jsonxs
+  expressions.
+
+To use it:
+
+    ../ansible-cmdb/src/ansible-cmdb -C example/cust_cols.json -i example/hosts example/out/ > cmdb.html
+
+When opening the `cmdb.html` file in your browser, you may have to hit the
+'Clear settings' button in the top-right before the new columns show up or
+when you get strange behaviour.
+
+
 ## Custom templates
 
-If you want to add custom columns or other data to the output, you can create
-a custom template. Ansible-cmdb uses the [Mako templating
-engine](http://www.makotemplates.org/) to render output.
+Custom columns can be added with the `-C` param. See the [Custom
+columns](#custom-columns) section for more info. Custom columns are somewhat
+limited in the type of information they can display (basically only strings
+and numbers).  If you want to add more elaborate custom columns or other data
+to the output, you can create a custom template. Ansible-cmdb uses the [Mako
+templating engine](http://www.makotemplates.org/) to render output.
 
 For example, if you want to add a custom column to the `html_fancy` template:
 

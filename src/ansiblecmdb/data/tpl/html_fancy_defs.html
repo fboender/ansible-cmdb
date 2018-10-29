@@ -279,7 +279,11 @@
           % if skip_empty is False or 'ansible_facts' in host:
             <tr>\
               % for col in cols:
-                <td>${col["func"](host, **kwargs)}</td>\
+                % if "func" in col:
+                  <td>${col["func"](host, **kwargs)}</td>\
+                % elif "jsonxs" in col:
+                  <td>${col__cust(host, col=col, **kwargs)}</td>\
+                % endif
               % endfor
             </tr>
           % endif
@@ -468,6 +472,11 @@
 ## Each column function takes variable kwargs. These are not properly unpacked
 ## in the function scope in Mako for some reason, so if we need to use them, we
 ## need to do a `kwargs.get()`. I don't like Mako much.
+
+<%def name="col__cust(host, col, **kwargs)">
+  ## Special column function for custom columns that does a jsonxs lookup
+  ${jsonxs(host, col["jsonxs"], default='')}
+</%def>
 
 <%def name="col_name(host, **kwargs)">
   <%
