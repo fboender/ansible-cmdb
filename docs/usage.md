@@ -468,8 +468,8 @@ required.
 * The `id` key must have a unique value, to differentiate between
   columns.
 * The `sType` value determines how the values will be sorted in the host
-  overview. Possible values include `string` and `num`. `visible` determines
-  whether the column will be active (shown) by default.
+  overview. Possible values include `string` and `num`.
+* `visible` determines whether the column will be active (shown) by default.
 * The `jsonxs` expression points to an entry in the facts files for each host,
   and determines what will be shown for the column's value for each host.
   The easiest way to figure out a jsonxs expression is by opening one of the
