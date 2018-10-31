@@ -115,8 +115,9 @@ be required by for communicating with Foo company about hosting.
 These variables are included in the host overview table in the `html_fancy`
 templates.
 
-See http://docs.ansible.com/intro_inventory.html#host-variables for more
-information on host variables.
+See the official Ansible documentation on [Host
+variables](http://docs.ansible.com/intro_inventory.html#host-variables) for
+more information on host variables.
 
 
 ## Specifying templates
