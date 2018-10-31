@@ -196,7 +196,7 @@ The `sql` template generates an .sql file that can be loaded into an SQLite or
 MySQL database.
 
     $ ansible-cmdb -t sql -i hosts out > cmdb.sql
-    $ echo "CREATE DATABASE ansiblecmdb" | mysql 
+    $ echo "CREATE DATABASE ansiblecmdb" | mysql
     $ mysql ansiblecmdb < cmdb.sql
 
 ## Fact caching
@@ -432,54 +432,98 @@ The software items will be listed under the "*Custom facts*" heading.
 
 You can add custom columns to the host overview with the `-C` (`--cust-cols`)
 option. This allows you to specify
-[jsonxs](https://github.com/fboender/jsonxs) expressions to extract and
-display custom host facts. Such columns are fairly limited in what they can
-display. If you need a more powerful method of adding custom data to your
-CMDB, please refer to the [Custom templates](#custom-templates) section.
+[jsonxs](https://github.com/fboender/jsonxs) expressions or [Mako
+template](https://www.makotemplates.org/) fragments to extract and
+display custom host facts.
 
 Custom columns are currently only supported by the `html_fancy` and
-`html_fancy_split` templates!
+`html_fancy_split` templates.
 
-The `-C` option takes a parameter which is the path to a JSON file containing
-your custom column definitions. An example can be found in the
-`examples/cust_cols.json` file in the repo:
+The `-C` option takes a parameter which is the path to a file containing
+your custom column definitions. The file's syntax is Python (even though it
+looks like JSON). An example can be found in the
+`examples/cust_cols.conf` file in the repo:
 
     [
+        # Show whether AppArmor is enabled
         {
             "title": "AppArmor",
             "id": "apparmor",
             "sType": "string",
-            "visible": true,
+            "visible": False,
             "jsonxs": "ansible_facts.ansible_apparmor.status"
         },
+        # Show the nameservers configured on the host
         {
-            "title": "Proc type",
-            "id": "proctype",
+            "title": "Nameservers",
+            "id": "nameservers",
             "sType": "string",
-            "visible": true,
-            "jsonxs": "ansible_facts.ansible_processor[2]"
+            "visible": True,
+            "tpl": """
+              <ul>
+                <%
+                # Get ansible_facts.ansible_dns.nameservers
+                facts = host.get('ansible_facts', {})
+                dns = facts.get('ansible_dns', {})
+                nameservers = dns.get('nameservers', [])
+                %>
+                % for nameserver in nameservers:
+                  <li>${nameserver}</li>
+                % endfor
+              </ul>
+            """
+        },
+        # Show the nameservers configured on the host, but use jsonxs.
+        {
+            "title": "Nameservers2",
+            "id": "nameservers2",
+            "sType": "string",
+            "visible": True,
+            "tpl": """
+              <ul>
+                <%
+                # Get ansible_facts.ansible_dns.nameservers using jsonxs
+                nameservers = jsonxs(host, 'ansible_facts.ansible_dns.nameservers', default=[])
+                %>
+                % for nameserver in nameservers:
+                  <li>${nameserver}</li>
+                % endfor
+              </ul>
+            """
         }
     ]
 
-This defines two new columns: 'AppArmor' and 'Proc type'. All keys are
-required.
+This defines two new columns: 'AppArmor' and 'Nameservers'. Each column
+consist of the following key/values:
 
-* `title` is what is displayed as the columns user-friendly title.
-* The `id` key must have a unique value, to differentiate between
-  columns.
+* `title` is what is displayed as the columns user-friendly title. **Required**.
+* The `id` key must have a unique value, to differentiate between columns.
+  **Required**
 * The `sType` value determines how the values will be sorted in the host
-  overview. Possible values include `string` and `num`.
+  overview. Possible values include `string` and `num`. **Required**
 * `visible` determines whether the column will be active (shown) by default.
-* The `jsonxs` expression points to an entry in the facts files for each host,
-  and determines what will be shown for the column's value for each host.
-  The easiest way to figure out a jsonxs expression is by opening one of the
-  gathered facts files in a json editor. Please see
+  **Required**
+* The `jsonxs` expression, if specified points to an entry in the facts files
+  for each host, and determines what will be shown for the column's value for
+  each host.  The easiest way to figure out a jsonxs expression is by opening
+  one of the gathered facts files in a json editor. Please see
   [jsonxs](https://github.com/fboender/jsonxs) for info on how to write jsonxs
-  expressions.
+  expressions. **Optional**
+* The `tpl` expression, if specified, is a [Mako](http://www.makotemplates.org/)
+  template fragment. A single variable `host` is made available in this
+  template. Care must be taken when accessing host information. If one of the
+  hosts is missing the information you're trying to access, the template will
+  not render and ansible-cmdb will crash (usually with a 'KeyError' message).
+  You should always use the `get()` method and specify a default value. E.g.
+  `host.get('ansible_facts', {}).get('ansible_dns', {}).get('nameservers',
+  [])`. Alternatively (and recommended) is that you use `jsonxs` to access
+  your info (and specify `default=...`). See the example above. **Optional**
+
+Either `jsonxs` or `tpl` is required.
 
 To use it:
 
-    ../ansible-cmdb/src/ansible-cmdb -C example/cust_cols.json -i example/hosts example/out/ > cmdb.html
+    ansible-cmdb -C example/cust_cols.conf -i example/hosts example/out/ > cmdb.html
 
 When opening the `cmdb.html` file in your browser, you may have to hit the
 'Clear settings' button in the top-right before the new columns show up or
@@ -488,14 +532,13 @@ when you get strange behaviour.
 
 ## Custom templates
 
-Custom columns can be added with the `-C` param. See the [Custom
-columns](#custom-columns) section for more info. Custom columns are somewhat
-limited in the type of information they can display (basically only strings
-and numbers).  If you want to add more elaborate custom columns or other data
-to the output, you can create a custom template. Ansible-cmdb uses the [Mako
-templating engine](http://www.makotemplates.org/) to render output.
+It's possible to create custom templates to build completely different CMDBs
+or to enhance the existing ones. Ansible-cmdb uses the [Mako templating
+engine](http://www.makotemplates.org/) to render output.
 
-For example, if you want to add a custom column to the `html_fancy` template:
+For example, if you want to add a custom column to the `html_fancy` template
+(note that it's easier to just use the `--cust-cols` option. For more info see
+above):
 
 1. Make a copy of the default `html_fancy` template in a new dir. Here, we'll
    use files from the ansible-cmdb git repository.

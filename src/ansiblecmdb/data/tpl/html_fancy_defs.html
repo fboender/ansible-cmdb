@@ -5,6 +5,7 @@
 <%! import socket %>
 <%! import getpass %>
 <%! from ansiblecmdb.util import to_bool %>
+<%! from mako.template import Template %>
 
 
 ##
@@ -13,6 +14,10 @@
 
 <%def name="var_cols(cols_visible=None, cols_exclude=None)">
   <%
+  # These are the baked in columns. The user can also extend these columns
+  # through --cust-cols, in which case those columns are appended to this list
+  # (in the calling template file).
+
   cols = [
     {"title": "Name",          "id": "name",          "func": col_name,           "sType": "string", "visible": True},
     {"title": "Groups",        "id": "groups",        "func": col_groups,         "sType": "string", "visible": False},
@@ -282,7 +287,9 @@
                 % if "func" in col:
                   <td>${col["func"](host, **kwargs)}</td>\
                 % elif "jsonxs" in col:
-                  <td>${col__cust(host, col=col, **kwargs)}</td>\
+                  <td>${col__cust_jsonxs(host, col=col, **kwargs)}</td>\
+                % elif "tpl" in col:
+                  <td>${col__cust_tpl(host, col=col, **kwargs)}</td>\
                 % endif
               % endfor
             </tr>
@@ -473,9 +480,14 @@
 ## in the function scope in Mako for some reason, so if we need to use them, we
 ## need to do a `kwargs.get()`. I don't like Mako much.
 
-<%def name="col__cust(host, col, **kwargs)">
+<%def name="col__cust_jsonxs(host, col, **kwargs)">
   ## Special column function for custom columns that does a jsonxs lookup
   ${jsonxs(host, col["jsonxs"], default='')}
+</%def>
+
+<%def name="col__cust_tpl(host, col, **kwargs)">
+  ## Special column function for custom columns that renders a string template
+  ${Template(col["tpl"]).render(host=host, jsonxs=jsonxs)}
 </%def>
 
 <%def name="col_name(host, **kwargs)">

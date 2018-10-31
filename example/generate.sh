@@ -20,7 +20,7 @@ python2 ../src/ansible-cmdb.py -q -t markdown -i hosts out > gen_markdown_2.md
 python2 ../src/ansible-cmdb.py -q -t sql -i hosts out > gen_sql_2.md
 python2 ../src/ansible-cmdb.py -q -t html_fancy_split -i hosts out
 python2 ../src/ansible-cmdb.py -q -i hosts -f out_factcache > gen_fact_cache_2.html
-python2 ../src/ansible-cmdb.py -q -i hosts -C cust_cols.json out > gen_fact_cust_cols_2.html
+python2 ../src/ansible-cmdb.py -q -i hosts -C cust_cols.conf out > gen_fact_cust_cols_2.html
 
 
 # Python v3
@@ -32,4 +32,4 @@ python3 ../src/ansible-cmdb.py -q -t markdown -i hosts out > gen_markdown_3.md
 python3 ../src/ansible-cmdb.py -q -t sql -i hosts out > gen_sql_3.md
 python3 ../src/ansible-cmdb.py -q -t html_fancy_split -i hosts out
 python3 ../src/ansible-cmdb.py -q -i hosts -f out_factcache > gen_fact_cache_3.html
-python3 ../src/ansible-cmdb.py -q -i hosts -C cust_cols.json out > gen_fact_cust_cols_2.html
+python3 ../src/ansible-cmdb.py -q -i hosts -C cust_cols.conf out > gen_fact_cust_cols_2.html

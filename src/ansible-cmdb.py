@@ -15,7 +15,7 @@ import optparse
 import sys
 import os
 import logging
-import json
+import ast
 from mako import exceptions
 import ansiblecmdb
 import ansiblecmdb.util as util
@@ -97,14 +97,14 @@ def get_cust_cols(path):
     """
     Load custom column definitions.
     """
-    required_keys = ["title", "id", "sType", "visible", "jsonxs"]
+    required_keys = ["title", "id", "sType", "visible"]
 
     with open(path, 'r') as f:
         try:
-            cust_cols = json.load(f)
-        except json.decoder.JSONDecodeError as err:
-            sys.stderr.write("Invalid custom columns json file: {}\n".format(path))
-            sys.stderr.write("{}\n".format(err.args[0]))
+            cust_cols = ast.literal_eval(f.read())
+        except Exception as err:
+            sys.stderr.write("Invalid custom columns file: {}\n".format(path))
+            sys.stderr.write("{}\n".format(err))
             sys.exit(1)
 
     # Validate
@@ -114,6 +114,12 @@ def get_cust_cols(path):
                 sys.stderr.write("Missing required key '{}' in custom "
                                  "column {}\n".format(required_key, col))
                 sys.exit(1)
+            if "jsonxs" not in col and "tpl" not in col:
+                sys.stderr.write("You need to specify 'jsonxs' or 'tpl' "
+                                 "for custom column {}\n".format(col))
+                sys.exit(1)
+
+
 
     return cust_cols
 
