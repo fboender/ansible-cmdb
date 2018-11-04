@@ -224,8 +224,10 @@ the root of the JSON.
 
 You can use the `-l` parameter to limit the hosts included in the output. This
 works basically the same as Ansible's limits. It supports the '`all`'
-construct, individual hosts, groups and inversion using `!`. In order for host
-limiting to work, you must point the `-i` param to your host inventory.
+construct, individual hosts, groups and inversion using `!`. It does **not**
+currently support wildcards (e.g. `db*.example.com`) or host expansions (e.g.
+`db[0-3].example.com`) In order for host limiting to work, you must point the
+`-i` param to your host inventory.
 
 Some examples:
 
