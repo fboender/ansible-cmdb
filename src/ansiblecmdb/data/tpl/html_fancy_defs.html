@@ -46,13 +46,9 @@
     {"title": "Product Serial","id": "prodserial",    "func": col_prodserial,     "sType": "string", "visible": False},
   ]
 
-  # Enable columns specified with '--columns'
+  # Include only given columns if -c / --columns is given
   if cols_visible is not None:
-    for col in cols:
-      if col["id"] in cols_visible:
-        col["visible"] = True
-      else:
-        col["visible"] = False
+    cols = list(filter(lambda col: col["id"] in cols_visible, cols))
 
   # Remove columns that should be excluded if --exclude-cols is given
   if cols_exclude is not None:
