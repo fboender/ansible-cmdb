@@ -61,6 +61,18 @@ Params to send to the template.
 .BR \-c ", " \-\-columns =\fICOL[,COL]\fR
 Show only given columns
 
+.TP
+.BR \-C ", " \-\-cust\-cols =\fPATH\fR
+Add user-defined columns.
+
+.TP
+.BR \-l ", " \-\-limit =\fLIMIT\fR
+Limit the included hosts to pattern LIMIT
+
+.TP
+.BR \-\-exclude\-cols =\fEXCLUDE_COLUMNS\fR
+Exclude cols from output
+
 .SH EXAMPLES
 
 First, generate Ansible output for your hosts:
@@ -253,6 +265,9 @@ which should be shown. The columns must be specified by their id field. For
 information on what id fields are supported by a template, take a look in the
 template.  Usually it's the column title, but in lowercase and with spaces
 replaced by underscores.
+
+You can add custom columns with the \fB\-C\fR (\fB\-\-cust\-cols\fR) option.
+Please see the online user manual for more information.
 
 .SH EXTENDING
 

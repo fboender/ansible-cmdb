@@ -244,7 +244,7 @@ Some templates, such as txt_table and html_fancy,  support columns. If a
 template supports columns, you can use the `--columns` / `-c` command line
 option to specify which columns to show. 
 
-The `--columns` takes a comma-separated list of columns (no spaces!) which
+The `--columns` takes a comma separated list of columns (no spaces!) which
 should be shown.  The columns must be specified by their `id` field. For
 information on what `id` fields are supported by a template, take a look in the
 template. Usually it's the column title, but in lowercase and with spaces
@@ -267,11 +267,8 @@ For example:
     db03.prod.local         Debian 6.0.10  192.168.58.3   0g   1  
     zoltar.electricmonk.nl  Ubuntu 14.04   194.187.79.11  4g   2 
 
-For interactive templates (`html_fancy` and friends), the `--columns` option
-merely hides the columns by default. It doesn't remove them from the output,
-unlike the `csv` and other static templates. If you want to exclude columns
-from `html_fancy` and friends, use the `--exclude-cols` option. It works the
-same as `--columns`. For example:
+You can use the `--exclude-cols` option to exclude specific columns. It works
+the same as `--columns`. For example:
 
     ansible-cmdb -t html_fancy_split \
                  --exclude-cols mem_usage,swap_usage,disk_usage,physdisk_size \
