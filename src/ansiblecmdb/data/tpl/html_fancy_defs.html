@@ -54,9 +54,9 @@
       else:
         col["visible"] = False
 
-  # Remove columns that should be excluded
+  # Remove columns that should be excluded if --exclude-cols is given
   if cols_exclude is not None:
-    cols = filter(lambda col: col["id"] not in cols_exclude, cols)
+    cols = list(filter(lambda col: col["id"] not in cols_exclude, cols))
 
   return cols
   %>
