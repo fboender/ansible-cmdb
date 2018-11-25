@@ -57,7 +57,7 @@ If you want to run ansible-cmdb directly from the Git repo:
 Ansible-cmdb uses [sla (the Simple Little
 Automator)](https://github.com/fboender/sla) to do builds and run tests.
 
-You don't need to have `sla` installed`. You can run rules directly in your
+You don't need to have `sla` installed. You can run rules directly in your
 shell. For example, to run the `test` rule:
 
 	$ . build.sla && test
