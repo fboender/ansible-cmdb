@@ -59,4 +59,4 @@ Installation from **Git** repository:
 
     git clone git@github.com:fboender/ansible-cmdb.git
     cd ansible-cmdb
-    sudo make install
+	sudo bash -c ". build.sla && install"

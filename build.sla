@@ -1,0 +1,167 @@
+#
+# This is a script containing functions that are used as build rules. You can
+# use the Simple Little Automator (https://github.com/fboender/sla.git) to run
+# these rules, or you can run them directly in your shell:
+#
+#   $ bash -c ". build.sla && test"
+#
+
+PROG="ansible-cmdb"
+
+test () {
+    # Run tests
+    OLD_PWD="$(pwd)"
+	cd test && ./test.sh
+    cd "$OLD_PWD"
+	example/generate.sh
+}
+
+example () {
+    # Generate example cmdb
+	PYTHONPATH=lib src/ansible-cmdb -q -i example/hosts example/out example/out_custom > cmdb.html
+}
+
+doc () {
+    # Generate documentation
+	markdown_py README.md > README.html
+}
+
+clean () {
+    # Remove build artifacts and other trash
+	rm -rf rel_deb
+	rm -f README.html
+	find ./ -name "*.pyc" -delete
+	find ./ -name "__pycache__" -type d -delete
+	rm -f example/gen_*
+	rm -rf example/cmdb/
+	rm -rf build/
+	rm -rf dist/
+	rm -rf src/ansible_cmdb.egg-info/
+}
+
+_release_check() {
+    # Verify and prepare for release
+
+    # Only run this rule once
+    if [ -z "$RELEASE_CHECK_DONE" ]; then
+        RELEASE_CHECK_DONE=1
+
+        # Prepare project for release
+        clean
+        doc
+        mkdir dist
+
+        # Check that REL_VERSION is set
+        if [ ! -z "$1" ]; then
+            REL_VERSION="$1"
+            shift
+        else
+            echo "REL_VERSION not set. Aborting" >&2
+            exit 1
+        fi
+
+        echo "$REL_VERSION" > src/ansiblecmdb/data/VERSION
+    fi
+}
+
+release_src () {
+    # Create release package (source tar.gz)
+    _release_check "$*"
+
+	# Cleanup. Only on release, since REL_VERSION doesn't exist otherwise
+	rm -rf $PROG-$REL_VERSION
+
+	# Prepare source
+	mkdir $PROG-$REL_VERSION
+	cp -a src/* $PROG-$REL_VERSION/
+	cp -r lib/* $PROG-$REL_VERSION/
+	cp LICENSE $PROG-$REL_VERSION/
+	cp README.md $PROG-$REL_VERSION/
+	cp contrib/release_Makefile $PROG-$REL_VERSION/Makefile
+	cp contrib/ansible-cmdb.man.1 $PROG-$REL_VERSION/
+
+	# Bump version numbers
+	find $PROG-$REL_VERSION/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$REL_VERSION/g" 
+
+	# Create archives
+	zip -q -r dist/$PROG-$REL_VERSION.zip $PROG-$REL_VERSION
+	tar -czf dist/$PROG-$REL_VERSION.tar.gz  $PROG-$REL_VERSION
+
+    # Remove source dir
+    rm -rf $PROG-$REL_VERSION
+}
+
+release_deb () {
+    # Create release package (debian / ubuntu)
+    _release_check "$*"
+
+	mkdir -p rel_deb/usr/bin
+	mkdir -p rel_deb/usr/lib/${PROG}
+	mkdir -p rel_deb/usr/share/doc/$PROG
+	mkdir -p rel_deb/usr/share/man/man1
+
+	# Copy the source to the release directory structure.
+	cp README.md rel_deb/usr/share/doc/$PROG/
+	cp README.html rel_deb/usr/share/doc/$PROG/
+	cp -r src/* rel_deb/usr/lib/${PROG}/
+	cp -r lib/* rel_deb/usr/lib/${PROG}/
+	ln -s ../lib/$PROG/ansible-cmdb rel_deb/usr/bin/ansible-cmdb
+	cp -a contrib/debian/DEBIAN rel_deb/
+	cp contrib/debian/copyright rel_deb/usr/share/doc/$PROG/
+	cp contrib/debian/changelog rel_deb/usr/share/doc/$PROG/
+	gzip -9 rel_deb/usr/share/doc/$PROG/changelog
+	cp -a contrib/ansible-cmdb.man.1 rel_deb/usr/share/man/man1/ansible-cmdb.1
+	gzip -9 rel_deb/usr/share/man/man1/ansible-cmdb.1
+
+	# Bump version numbers
+	find rel_deb/ -type f -print0 | xargs -0 sed -i "s/%%MASTER%%/$REL_VERSION/g" 
+
+	# Create debian pacakge
+	fakeroot dpkg-deb --build rel_deb > /dev/null
+	mv rel_deb.deb dist/$PROG-$REL_VERSION.deb
+
+	# Cleanup
+	rm -rf rel_deb
+	rm -rf $PROG-$REL_VERSION
+}
+
+release_wheel () {
+    # Create release package (wheel)
+    _release_check "$*"
+
+	python setup.py -q bdist_wheel --universal
+	rm -rf build
+	echo `git rev-parse --abbrev-ref HEAD | tr "[:lower:]" "[:upper:]"` > src/ansiblecmdb/data/VERSION
+}
+
+release () {
+    # Create release packages
+    release_src "$*"
+    release_deb "$*"
+    release_wheel "$*"
+}
+
+install () {
+    # Install ansible-cmdb
+    PREFIX=${PREFIX:-/usr/local}
+	umask 0022 && mkdir -p $PREFIX/lib/$PROG
+	umask 0022 && mkdir -p $PREFIX/man/man1
+	umask 0022 && cp -a src/* $PREFIX/lib/$PROG
+	umask 0022 && cp -r lib/* $PREFIX/lib/$PROG
+	umask 0022 && cp LICENSE $PREFIX/lib/$PROG
+	umask 0022 && cp README.md $PREFIX/lib/$PROG
+	umask 0022 && gzip -9 -c contrib/ansible-cmdb.man.1 > $PREFIX/man/man1/ansible-cmdb.man.1.gz
+    if [ -f "$PREFIX/bin/ansible-cmdb" ]; then
+        rm "$PREFIX/bin/ansible-cmdb"
+    fi
+	umask 0022 && ln -s $PREFIX/lib/ansible-cmdb/ansible-cmdb $PREFIX/bin/ansible-cmdb
+    echo "Installed in $PREFIX/"
+}
+
+uninstall () {
+    # Uninstall ansible-cmdb
+    PREFIX=${PREFIX:-/usr/local}
+	rm -rf $PREFIX/lib/$PROG
+	rm -rf $PREFIX/man/man/ansible-cmdb*
+	rm -rf $PREFIX/bin/ansible-cmdb
+}

@@ -52,13 +52,32 @@ If you want to run ansible-cmdb directly from the Git repo:
 
 # Building
 
-## Make targets
+## Build system
 
-For building, `make` is used. Here are some useful targets:
+Ansible-cmdb uses [sla (the Simple Little
+Automator)](https://github.com/fboender/sla) to do builds and run tests.
 
-* `make test`: build some tests.
-* `make release`: build a release.
-* `make clean`: remove build and other artifacts.
+You don't need to have `sla` installed`. You can run rules directly in your
+shell. For example, to run the `test` rule:
+
+	$ . build.sla && test
+
+Sla makes everything much easier though.
+
+## Build targets
+
+The following build targets are available:
+
+- `test`: Run tests
+- `example`: Generate example cmdb
+- `doc`: Generate documentation
+- `clean`: Remove build artifacts and other trash
+- `release_src`: Create release package (source tar.gz)
+- `release_deb`: Create release package (debian / ubuntu)
+- `release_wheel`: Create release package (wheel)
+- `release`: Create release packages
+- `install`: Install ansible-cmdb
+- `uninstall`: Uninstall ansible-cmdb
 
 ## Build packages and source-ball
 
@@ -76,9 +95,9 @@ dependencies:
 
 You can then build the packages with
 
-    make release REL_VERSION=$VERSION
+	sla release <VERSION>
 
-where `$VERSION` is a (arbitrary) version number.
+where `VERSION` is a (arbitrary) version number.
 
 In order to build releases, your repository will have to be completely clean:
 everything must be commited and there must be no untracked files. If you want
