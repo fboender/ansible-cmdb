@@ -141,6 +141,12 @@ release () {
     release_wheel "$*"
 }
 
+pypi_upload () {
+    # Upload new release to PyPi
+    _release_check "$*"
+    python setup.py sdist upload
+}
+
 install () {
     # Install ansible-cmdb
     PREFIX=${PREFIX:-/usr/local}
