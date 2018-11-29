@@ -119,8 +119,6 @@ def get_cust_cols(path):
                                  "for custom column {}\n".format(col))
                 sys.exit(1)
 
-
-
     return cust_cols
 
 def parse_user_params(user_params):
