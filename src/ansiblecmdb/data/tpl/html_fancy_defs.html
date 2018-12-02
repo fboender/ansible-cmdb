@@ -199,6 +199,7 @@
       #hosts .toggle-collapse { cursor: pointer; }
       #hosts a.toggle-all { margin-top: 20px; display: inline-block; color: #0080FF; }
       #hosts a { color: #005c9d; }
+      #hosts p.desc { color: #303030; margin-bottom: 32px; max-width: 800px; }
       #hosts h3.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large; }
       #hosts h3.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟";  font-weight: 200; font-size: large;}
       #hosts h4.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large;}
@@ -721,6 +722,7 @@
   % if len(host.get('groups', [])) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Groups</h4>
     <div class="collapsable ${collapsed_class}">
+    <p class="desc">This host belongs to the following groups:</p>
     <ul>
       % for group in sorted(host.get('groups', [])):
         <li>${group}</li>
@@ -734,7 +736,9 @@
   % if len(host['hostvars']) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Custom variables</h4>
     <div class="collapsable ${collapsed_class}">
-    <p><b>Careful:</b> these variables may be overridden in various places by Ansible</p>
+    <p class="desc">These are a combination of group and host variables as read
+    from the inventory, that apply for this host. <b>Careful:</b> these
+    variables may be overridden in various places by Ansible</p>
     <table>
       % for var_name in sorted(host.get('hostvars', {}).keys()):
         <%
@@ -762,6 +766,8 @@
   % if len(jsonxs(host, 'ansible_facts.ansible_local', default={}).items()) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Host local facts</h4>
     <div class="collapsable ${collapsed_class}">
+    <p class="desc">These are variables read from the host's
+    <tt>/etc/ansible/facts.d</tt> directory.</p>
     ${r_dict(jsonxs(host, 'ansible_facts.ansible_local', default={}), sort=True)}
     </div>
   % endif
@@ -777,6 +783,7 @@
   % if len(facter_facts) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Facter facts</h4>
     <div class="collapsable ${collapsed_class}">
+    <p class="desc">These are host facts read from Puppetlabs' Facter.</p>
     ${r_dict(facter_facts, sort=True)}
     </div>
   % endif
@@ -786,6 +793,8 @@
   % if len(host.get('custom_facts', {}).items()) != 0:
     <h4 class="toggle-collapse ${collapsed_class}">Custom facts</h4>
     <div class="collapsable ${collapsed_class}">
+    <p class="desc">These are custom facts as defined on the machine where
+    Ansible-cmdb was executed.</p>
     ${r_dict(host.get('custom_facts', {}), sort=True)}
     </div>
   % endif
