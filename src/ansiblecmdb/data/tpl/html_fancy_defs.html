@@ -308,8 +308,14 @@
   </div>
 </%def>
 
-<%def name="html_host_detail(host, collapsed=False, skip_empty=False)">
+<%def name="html_host_detail(host, collapsed=False, skip_empty=False, is_split=False)">
   <%
+  # If this is the split view, we do not want to collapse the whole host, or no
+  # data will be shown.
+  collapsed_host_class = "uncollapsed"
+  if is_split is False and collapsed is True:
+    collapsed_host_class = "collapsed"
+    
   collapsed_class = "uncollapsed"
   collapse_toggle_text = "Close all"
   if collapsed is True:
@@ -318,8 +324,8 @@
   %>
   % if skip_empty is False or 'ansible_facts' in host:
     <a name="${host['name']}"></a>
-    <h3 class="toggle-collapse ${collapsed_class}" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
-    <div class="collapsable ${collapsed_class}">
+    <h3 class="toggle-collapse ${collapsed_host_class}" id="${host['name']}" data-host-name="${host['name']}">${host['name']}</h3>
+    <div class="collapsable ${collapsed_host_class}">
       <a class="toggle-all" href="">${collapse_toggle_text}</a>
       % if 'ansible_facts' not in host:
         <p>No host information collected</p>

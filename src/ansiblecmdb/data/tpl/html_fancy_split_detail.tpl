@@ -18,7 +18,7 @@ else:
 <% html_header(host['name'], local_js, res_url) %>
 <% html_header_bar(host['name']) %>
 <div id="hosts">
-  <% html_host_detail(host) %>
+  <% html_host_detail(host, collapsed=collapsed, skip_empty=skip_empty, is_split=True) %>
 </div>
 <% html_footer_bar(version) %>
 
