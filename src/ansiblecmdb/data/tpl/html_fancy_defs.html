@@ -203,11 +203,14 @@
       #hosts h3.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟";  font-weight: 200; font-size: large;}
       #hosts h4.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large;}
       #hosts h4.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟"; font-weight: 200; font-size: large;}
+      #hosts h5.collapsed::before { color: #505050; margin-right: 16px; content: "⊞";  font-weight: 200; font-size: large;}
+      #hosts h5.uncollapsed::before { color: #505050; margin-right: 16px; content: "⊟"; font-weight: 200; font-size: large;}
       #hosts div.collapsable { margin-left: 16px; }
       #hosts div.collapsed { display: none; }
       #hosts h3.uncollapsed { line-height: 1.5em; font-size: xx-large; border-bottom: 1px solid #D0D0D0; }
       #hosts h3.collapsed {  line-height: 1.5em; font-size: xx-large; }
       #hosts h4 { font-size: large; font-weight: bold; color: #404040; margin-top: 32px; margin-bottom: 32px; }
+      #hosts h5 { font-weight: bold; color: #404040; margin-top: 32px; margin-bottom: 32px; }
       #hosts th { text-align: left; color: #808080; padding-bottom: 10px; }
       #hosts td { padding-left: 16px; color: #303030; padding-bottom: 10px; }
       #hosts ul { list-style: square; margin-left: 48px; }
@@ -884,6 +887,8 @@
 
   <% ifaces = jsonxs(host, 'ansible_facts.ansible_interfaces', default=[]) %>
   % if len(ifaces) > 0:
+    <h5 class="toggle-collapse ${collapsed_class}">Interface details</h5>
+    <div class="collapsable ${collapsed_class}">
     <table class="net_iface_details">
       <tr>
         <th>Interface details</th>
@@ -914,6 +919,7 @@
         </td>
       </tr>
     </table>
+    </div>
   % endif
   </div>
 </%def>
