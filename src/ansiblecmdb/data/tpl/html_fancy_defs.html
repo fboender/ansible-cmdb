@@ -339,7 +339,7 @@
         <% host_groups(host, collapsed_class) %>
         <% host_custvars(host, collapsed_class) %>
         <% host_localfacts(host, collapsed_class) %>
-        <% host_factorfacts(host, collapsed_class) %>
+        <% host_facterfacts(host, collapsed_class) %>
         <% host_customfacts(host, collapsed_class) %>
         <% host_hardware(host, collapsed_class) %>
         <% host_os(host, collapsed_class) %>
@@ -764,7 +764,7 @@
   % endif
 </%def>
 
-<%def name="host_factorfacts(host, collapsed_class)">
+<%def name="host_facterfacts(host, collapsed_class)">
   <%
   facter_facts = {}
   for key, value in jsonxs(host, 'ansible_facts', default={}).items():
