@@ -30,7 +30,7 @@ find_py_bin () {
 
 # Find path to the real ansible-cmdb python script
 find_cmdb_bin () {
-    BIN_DIR=$(dirname $0)
+    BIN_DIR=$(dirname "$0")
     if [ -f "$BIN_DIR/ansible-cmdb.py" ]; then
         dbg "Trying ansible-cmdb bin: $BIN_DIR/ansible-cmdb.py"
         echo "$BIN_DIR/ansible-cmdb.py"
@@ -66,4 +66,4 @@ fi
 # Run it
 dbg "Using python bin $PY_BIN"
 dbg "Using ansible-cmdb bin $CMDB_BIN"
-$PY_BIN $CMDB_BIN "$@"
+"$PY_BIN" "$CMDB_BIN" "$@"
