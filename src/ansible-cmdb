@@ -53,7 +53,7 @@ fi
 
 PY_BIN="$(find_py_bin)"
 if [ -z "$PY_BIN" ]; then
-    echo "No suitable python version found (required v2.7 or highger). Aborting" >&2
+    echo "No suitable python version found (v2.7 or higher required). Aborting" >&2
     exit 1
 fi
 
