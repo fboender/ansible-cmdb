@@ -16,8 +16,8 @@ fi
 
 
 # Verify Python version
-PY_VMAJOR=$($PY_BIN -c "import sys; print(sys.version_info.major)")
-PY_VMINOR=$($PY_BIN -c "import sys; print(sys.version_info.minor)")
+PY_VMAJOR=$($PY_BIN -c "import sys; print(sys.version_info[0])")
+PY_VMINOR=$($PY_BIN -c "import sys; print(sys.version_info[1])")
 
 if [ "$PY_VMAJOR" -eq 2 -a "$PY_VMINOR" -lt 7 ]; then
     echo "Python v2.7 or v3.0 or higher is required" >&2
