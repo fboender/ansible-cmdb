@@ -1,5 +1,7 @@
 site_name: Ansible-CMDB
 theme: readthedocs
+markdown_extensions:
+    - admonition
 pages:
     - About: index.md
     - Installation: installation.md

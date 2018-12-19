@@ -12,6 +12,14 @@ overview page:
 
     ansible-cmdb out/ > overview.html
 
+!!! Note
+    `ansible-cmdb` is a shell wrapper script that tries its best to find the
+    correct Python binary to use and the proper location of the
+    `ansible-cmdb.py` script. If it fails to do so, you can manually specify
+    the path to the correct python interpreter and script. E.g.:
+
+        /opt/python3/bin/python /opt/ansible-cmdb/src/ansible-cmdb.py
+
 By default, the `html_fancy` template is used, which generates output
 containing an overview of all your hosts, with a section of detailed
 information for each host.
