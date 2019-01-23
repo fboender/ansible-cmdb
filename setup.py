@@ -42,18 +42,19 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     include_package_data=True,
-    data_files=\
+    data_files=
         get_data_files(
             'src/ansiblecmdb/data',
             strip='src',
             prefix='lib'
-        ) +
-        [['lib/ansiblecmdb/', ['src/ansible-cmdb.py']]],
+        ),
     zip_safe=False,
     install_requires=['mako', 'pyyaml', 'ushlex', 'jsonxs'],
-    scripts=[
-        'src/ansible-cmdb',
-    ],
+    entry_points={
+        'console_scripts': [
+            'ansible-cmdb = ansiblecmdb.cli:main',
+        ],
+    },
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',
