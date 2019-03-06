@@ -248,6 +248,11 @@ class HostsParser(object):
         """
         for entry in section['entries']:
             for hostname in self.expand_hostdef(entry['name']):
+                if hostname not in hosts:
+                    # Expanded host or child host or something else refers to a
+                    # host that isn't actually defined. Ansible skips this, so
+                    # we will too.
+                    continue
                 host = hosts[hostname]
                 for var_key, var_val in entry['hostvars'].items():
                     host['hostvars'][var_key] = var_val
