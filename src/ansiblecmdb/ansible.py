@@ -185,7 +185,8 @@ class Ansible(object):
                 # variables for the host.
                 for file_entry in os.listdir(full_path):
                     p = os.path.join(full_path, file_entry)
-                    self._parse_hostvar_file(hostname, p)
+                    if not os.path.isdir(p):
+                        self._parse_hostvar_file(hostname, p)
 
     def _parse_hostvar_file(self, hostname, path):
         """
