@@ -302,7 +302,7 @@
   </div>
 </%def>
 
-<%def name="html_host_details(hosts, collapsed=True, skip_empty=False)">
+<%def name="html_host_details(hosts, collapsed=False, skip_empty=False)">
   <div id="hosts">
     % for hostname, host in hosts.items():
       <%
@@ -313,7 +313,7 @@
   </div>
 </%def>
 
-<%def name="html_host_detail(host, collapsed=True, skip_empty=False, is_split=False)">
+<%def name="html_host_detail(host, collapsed=False, skip_empty=False, is_split=False)">
   <%
   # If this is the split view, we do not want to collapse the whole host, or no
   # data will be shown.
