@@ -44,6 +44,7 @@
     {"title": "Timestamp",     "id": "timestamp",     "func": col_gathered,       "sType": "string", "visible": False},
     {"title": "Product Name",  "id": "prodname",      "func": col_prodname,       "sType": "string", "visible": False},
     {"title": "Product Serial","id": "prodserial",    "func": col_prodserial,     "sType": "string", "visible": False},
+    {"title": "Uptime",        "id": "uptime",        "func": col_uptime,         "sType": "string", "visible": False},
   ]
 
   # Include only given columns if -c / --columns is given
@@ -301,7 +302,7 @@
   </div>
 </%def>
 
-<%def name="html_host_details(hosts, collapsed=False, skip_empty=False)">
+<%def name="html_host_details(hosts, collapsed=True, skip_empty=False)">
   <div id="hosts">
     % for hostname, host in hosts.items():
       <%
@@ -312,7 +313,7 @@
   </div>
 </%def>
 
-<%def name="html_host_detail(host, collapsed=False, skip_empty=False, is_split=False)">
+<%def name="html_host_detail(host, collapsed=True, skip_empty=False, is_split=False)">
   <%
   # If this is the split view, we do not want to collapse the whole host, or no
   # data will be shown.
@@ -700,6 +701,10 @@
 
 <%def name="col_prodserial(host, **kwargs)">
   ${jsonxs(host, 'ansible_facts.ansible_product_serial', default='')}
+</%def>
+
+<%def name="col_uptime(host, **kwargs)">
+  ${jsonxs(host, 'ansible_facts.facter_uptime', default='')}
 </%def>
 
 ##
