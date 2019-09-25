@@ -11,7 +11,12 @@ dbg () {
 
 # Find suitable python binary
 find_py_bin () {
-    which -a python | while read -r TRY_PY_BIN
+    if [ -x "$PY_BIN" ]; then
+        PY_OPTIONS="$PY_BIN\n$(which -a python python3)"
+    else
+        PY_OPTIONS="$(which -a python python3)"
+    fi
+    printf "$PY_OPTIONS" | while read -r TRY_PY_BIN
     do
         dbg "Trying python bin: $TRY_PY_BIN"
 
@@ -51,8 +56,8 @@ if [ "$1" = "-d" ] || [ "$1" = "--debug" ]; then
     DEBUG=1
 fi
 
-PY_BIN="$(find_py_bin)"
-if [ -z "$PY_BIN" ]; then
+PY_CHOICE="$(find_py_bin)"
+if [ -z "$PY_CHOICE" ]; then
     echo "No suitable python version found (v2.7 or higher required). Aborting" >&2
     exit 1
 fi
