@@ -132,6 +132,51 @@ class FactCacheTestCase(unittest.TestCase):
         self.assertIn('ansible_env', ansible_facts)
 
 
+class AnsibleHostsTestCase(unittest.TestCase):
+    """
+    Test that AnsibleHosts class required functionality
+    """
+    fact_dirs = ['f_ansiblehosts/out']
+    inventories = ['f_ansiblehosts/hosts']
+    ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
+
+    def testAnsibleHostsLen(self):
+        self.assertEqual(len(self.ansible.hosts), 10)
+
+    def testAnsibleHostsGetItem(self):
+        self.assertIn('web01.local', self.ansible.hosts)
+        self.assertTrue(self.ansible.hosts['web01.local'])
+        self.assertTrue(self.ansible.hosts.get('web01.local'))
+        self.assertFalse(self.ansible.hosts.get('nonexistent'))
+
+    def testAnsibleHostsIterable(self):
+        try:
+            iterator = iter(self.ansible.hosts.items())
+        except TypeError:
+            self.fail('AnsibleHosts object is not iterable')
+
+    def testAnsibleHostsSetItem(self):
+        self.ansible.hosts['newhost'] = dict(name='newhost', hostvars={})
+        self.assertIn('newhost', self.ansible.hosts)
+
+    def testAnsibleHostsUpdate(self):
+        update_value = dict( { 'hostvars': { 'department': 'finance' } } )
+        self.ansible.hosts.update_host('web01.local', update_value)
+        self.assertEqual(self.ansible.hosts['web01.local']['hostvars']['department'], 'finance')
+
+        # update dictionary method will reset the value
+        update_item = dict( { 'web01.local': { 'hostvars': { 'location': 'us-east' } } } )
+        self.ansible.hosts.update(update_item)
+        self.assertEqual(self.ansible.hosts['web01.local']['hostvars']['location'], 'us-east')
+        self.assertNotIn('department', self.ansible.hosts['web01.local']['hostvars'])
+
+        # update_host method will only update individual tree leaves
+        update_value = dict( { 'hostvars': { 'department': 'finance' } } )
+        self.ansible.hosts.update_host('web01.local', update_value)
+        self.assertEqual(self.ansible.hosts['web01.local']['hostvars']['department'], 'finance')
+        self.assertEqual(self.ansible.hosts['web01.local']['hostvars']['location'], 'us-east')
+
+
 if __name__ == '__main__':
     unittest.main(exit=True)
 

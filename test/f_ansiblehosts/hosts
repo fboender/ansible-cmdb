@@ -1,0 +1,14 @@
+[web]
+web01.local
+web02.local
+web03.local
+
+[db]
+db01.local
+db02.local
+db03.local
+
+[app]
+app01.local
+app02.local
+app03.local
