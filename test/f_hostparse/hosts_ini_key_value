@@ -1,0 +1,36 @@
+# -*-conf-*-
+
+# INI format key=value documentation from docs.ansible.com
+#
+# <quote>
+# Values passed in the INI format using the key=value syntax are
+# interpreted differently depending on where they are declared:
+#
+# When declared inline with the host, INI values are interpreted as
+# Python literal structures (strings, numbers, tuples, lists, dicts,
+# booleans, None). Host lines accept multiple key=value parameters per
+# line. Therefore they need a way to indicate that a space is part of
+# a value rather than a separator.
+#
+# When declared in a :vars section, INI values are interpreted as
+# strings. For example var=FALSE would create a string equal to
+# ‘FALSE’. Unlike host lines, :vars sections accept only a single
+# entry per line, so everything after the = must be the value for the
+# entry.</quote>
+
+[db]
+db.dev.local
+
+[db:vars]
+# This is a string valued variable that Ansible will automagically
+# convert to a list when used in some contexts.  It is *not* YAML and
+# the items must be quoted as it is interpreted as a Python literal.
+# The comment should be ignored.
+simple_list = ["item1", "item2"]  # list string
+
+# This is a string valued var that Ansible will automagically convert
+# to a dictionary when used in some contexts.  It is *not* YAML so the
+# items must be quoted as Ansible will ultimately try to interpret it
+# as a Python literal.  Extra spaces in the string should be
+# preserved, but Ansible strips leading and trailing spaces.
+simple_dict = {"k1": "v1",    'k2': 'v2'}  # dict string
