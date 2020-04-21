@@ -203,14 +203,8 @@ class HostsParser(object):
         """
         key_values = {}
         for token in tokens:
-            if token.startswith('#'):
-                # End parsing if we encounter a comment, which lasts
-                # until the end of the line.
-                break
-            else:
-                k, v = token.split('=', 1)
-                key = k.strip()
-                key_values[key] = v.strip()
+            k, v = token.split('=', 1)
+            key_values[k.strip()] = v.strip()
         return key_values
 
     def _get_distinct_hostnames(self):
