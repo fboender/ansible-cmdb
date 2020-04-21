@@ -20,6 +20,7 @@ inv = """\
     },
     "marietta": [ "host6.example.com" ],
     "5points": [ "host7.example.com" ],
+    "ungrouped": [ "moocow.example.com", "llama.example.com" ],
     "_meta" : {
         "hostvars": {
             "moocow.example.com": {
