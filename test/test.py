@@ -1,6 +1,6 @@
-import logging
 import sys
 import unittest
+import imp
 import os
 
 sys.path.insert(0, os.path.realpath('../lib'))
@@ -145,7 +145,6 @@ class FactCacheTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
     unittest.main(exit=True)
 
     try:
