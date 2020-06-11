@@ -2,7 +2,7 @@
 # .. vim: foldmarker=[[[,]]]:foldmethod=marker
 
 - name: Save Ansible facts
-  hosts: [ 'all_managed_hosts' ]
+  hosts: [ 'all' ]
   become: False
   gather_facts: False
 
