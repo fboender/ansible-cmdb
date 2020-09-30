@@ -25,7 +25,7 @@ from jsonxs import jsonxs
     return jsonxs(host, 'ansible_facts.ansible_distribution_version', default='')
   endif
 %></%def>
-<%def name="col_system(host)"><%
+<%def name="col_system_type(host)"><%
   return jsonxs(host, 'ansible_facts.ansible_system', default='')
 %></%def>
 <%def name="col_kernel(host)"><%
@@ -87,7 +87,7 @@ CREATE TABLE hosts (
     main_ip VARCHAR(15),
     os_name VARCHAR(80),
     os_version VARCHAR(40),
-    system VARCHAR(40),
+    system_type VARCHAR(40),
     kernel VARCHAR(40),
     arch_hardware VARCHAR(12),
     arch_userspace VARCHAR(12),
@@ -107,7 +107,7 @@ CREATE TABLE hosts (
         main_ip,
         os_name,
         os_version,
-        system,
+        system_type,
         kernel,
         arch_hardware,
         arch_userspace,
@@ -124,7 +124,7 @@ CREATE TABLE hosts (
         "${col_main_ip(host)}",
         "${col_os_name(host)}",
         "${col_os_version(host)}",
-        "${col_system(host)}",
+        "${col_system_type(host)}",
         "${col_kernel(host)}",
         "${col_arch_hardware(host)}",
         "${col_arch_userspace(host)}",
