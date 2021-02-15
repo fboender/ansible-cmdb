@@ -31,7 +31,7 @@ if sys.argv[-1] == 'publish':
 setup(
     name='ansible-cmdb',
     version=get_version(),
-    license='MIT',
+    license='GPLv3',
     description='Generate host overview from ansible fact gathering output',
     long_description=get_long_description(),
     url='https://github.com/fboender/ansible-cmdb',
