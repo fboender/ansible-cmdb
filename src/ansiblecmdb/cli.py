@@ -139,7 +139,7 @@ def parse_user_params(user_params):
         return {}
 
 
-if __name__ == "__main__":
+def main():
     log = get_logger()
     data_dir = get_data_dir()
     tpl_dir = os.path.join(data_dir, 'tpl')
@@ -243,3 +243,6 @@ remain confidential, you can send them to ferry.boender@gmail.com instead.
 """
         sys.stderr.write(debug_txt)
         sys.exit(1)
+
+if __name__ == "__main__":
+    main()
