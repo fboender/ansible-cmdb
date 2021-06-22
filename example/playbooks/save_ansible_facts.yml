@@ -8,6 +8,13 @@
 
   tasks:
 
+    - name: Ensure local facts directory exists
+      file:
+        state: 'directory'
+        path: '{{ inventory_facts_path|d((inventory_dir | realpath) + "/../../facts") }}'
+      become: False
+      delegate_to: 'localhost'
+
     - name: Write Ansible facts to facts directory
       command: ansible -m setup --tree {{ inventory_facts_path|d((inventory_dir | realpath) + "/../../facts") | quote }} {{ inventory_hostname }} --become
       become: False
