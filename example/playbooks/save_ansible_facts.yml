@@ -17,6 +17,8 @@
 
     - name: Write Ansible facts to facts directory
       command: ansible -m setup --tree {{ inventory_facts_path|d((inventory_dir | realpath) + "/../../facts") | quote }} {{ inventory_hostname }} --become
+      args:
+        chdir: '{{ ((inventory_dir|realpath) + "/../..") | quote }}'
       become: False
       delegate_to: 'localhost'
       changed_when: False
