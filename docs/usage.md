@@ -630,4 +630,20 @@ above):
 1. Finally, render the custom template. For this to work, you **must be in
    the same directory as the custom template!**.
 
-        ansible-cmdb/src/ansible-cmdb -t ./html_fancy -i ~/ansible/hosts ~/ansible/out/ > cmdb.html
+        $ ansible-cmdb/src/ansible-cmdb -t ./html_fancy -i ~/ansible/hosts ~/ansible/out/ > cmdb.html
+
+If you want to modify the `html_fancy_split` template, you'll need to copy a
+few more files:
+
+    ansible-cmdb (master) $ mkdir ~/mytemplate
+    ansible-cmdb (master) $ cp src/ansiblecmdb/data/tpl/html_fancy_defs.html ~/mytemplate/
+    ansible-cmdb (master) $ cp src/ansiblecmdb/data/tpl/html_fancy_split_detail.tpl ~/mytemplate/
+    ansible-cmdb (master) $ cp src/ansiblecmdb/data/tpl/html_fancy_split_overview.tpl ~/mytemplate/
+    ansible-cmdb (master) $ cp src/ansiblecmdb/data/tpl/html_fancy_split.py ~/mytemplate/
+
+This template is a bit special, as it's not a `.tpl`, but a Python script. You
+can use it by pointing the `-t` param to that script:
+
+        $ cd ~/mytemplate
+        $ ansible-cmdb -t ./html_fancy_split.py -i ~/ansible/hosts ~/ansible/out/
+
