@@ -529,7 +529,57 @@ consist of the following key/values:
 
 Either `jsonxs` or `tpl` is required.
 
-To use it:
+Column sorting is handled by the [DataTables](https://datatables.net/)
+Javascript library. Care must be taken for columns with the `num` sorting
+type (sType). If any non-number chars (`[0-9]`) appear in the column value,
+sorting will break.
+
+If you wish to sort on a different value than what is displayed to the user,
+you can use the `string` sType in combination with a hidden field at the start
+of the column value. Note that `string` sorting is peculiar in that "100" is
+considered smaller than "20", since "1" is smaller than "2". You can correct
+this by putting string-sortable values in the hidden field. For example, you
+could zero-pad the value on the left side:
+
+    sort_uptime = "{0:012d}".format(uptime)
+
+Or you can map the values to a fixed float range from 0.0 to 1.0. A full
+example of a hidden sort helper that shows a human-friendly uptime but also
+allows sorting (thank you Kariton; see issue
+https://github.com/fboender/ansible-cmdb/issues/235):
+
+
+    {
+        "title": "Uptime",
+        "id": "uptime",
+        "sType": "string",
+        "visible": False,
+        "tpl": """
+          <%
+          def ConvertSectoDay(n):
+              weeks = n // (7 * 24 * 3600 )
+              n = n % (7 * 24 * 3600)
+              days = n // (24 * 3600)
+              n = n % (24 * 3600)
+              hours = n // 3600
+              n %= 3600
+              minutes = n // 60
+              n %= 60
+              seconds = n
+
+              return("%d Weeks, %d Days, %d Hours, %d Minutes, %d Seconds" % (weeks, days, hours, minutes, seconds))
+
+          num_uptime = int(jsonxs(host, 'ansible_facts.ansible_uptime_seconds', default=0))
+          sort_uptime = "{0:012d}".format(num_uptime)
+          uptime = ConvertSectoDay(int(jsonxs(host, 'ansible_facts.ansible_uptime_seconds', default=0)))
+          %>
+          ## hidden sort helper
+          <span style="display:none">${sort_uptime}</span>
+          <span>${uptime}</span>
+        """
+    },
+
+To use your custom column file:
 
     ansible-cmdb -C example/cust_cols.conf -i example/hosts example/out/ > cmdb.html
 
