@@ -25,7 +25,7 @@ def render(hosts, vars={}, tpl_dirs=[]):
 
     # Render host details
     template = lookup.get_template('markdown_split_detail.tpl')
-    for hostname, host in hosts.items():
+    for hostname, host in sorted(hosts.items()):
         out_file = os.path.join('cmdb', '{0}.md'.format(hostname))
         output = template.render(hostname=hostname, host=host, **vars).lstrip().decode('utf8')
         with codecs.open(out_file, 'w', encoding='utf8') as f:

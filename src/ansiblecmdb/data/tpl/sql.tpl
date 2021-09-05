@@ -100,7 +100,7 @@ CREATE TABLE hosts (
     disk_free FLOAT
 );
 
-% for hostname, host in hosts.items():
+% for hostname, host in sorted(hosts.items()):
     INSERT INTO hosts (
         name,
         fqdn,

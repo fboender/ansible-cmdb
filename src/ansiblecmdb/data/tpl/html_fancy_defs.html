@@ -279,7 +279,7 @@
         </tr>
       </thead>
       <tbody>
-        % for hostname, host in hosts.items():
+        % for hostname, host in sorted(hosts.items()):
           <% log.debug(u"Rendering host overview for {0}".format(hostname)) %>
           % if skip_empty is False or 'ansible_facts' in host:
             <tr>\

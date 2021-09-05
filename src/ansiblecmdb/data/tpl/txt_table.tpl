@@ -57,7 +57,7 @@ for col in get_cols():
 sys.stdout.write('\n')
 
 # Print out columns
-for hostname, host in hosts.items():
+for hostname, host in sorted(hosts.items()):
   if 'ansible_facts' not in host:
     log.warning(u'{0}: No info collected.'.format(hostname))
   else:
