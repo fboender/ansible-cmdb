@@ -5,6 +5,14 @@ from mako.lookup import TemplateLookup
 
 
 class Render:
+    """
+    Wrapper class to facilitate rendering.
+
+    This is mostly a helper class for finding template locations and
+    initializing Mako properly. It can also call executable "templates" (python
+    scripts) for rendering.
+
+    """
     def __init__(self, tpl, tpl_dirs):
         self.tpl = tpl
         self.tpl_dirs = tpl_dirs
