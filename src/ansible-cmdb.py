@@ -121,6 +121,7 @@ def get_cust_cols(path):
 
     return cust_cols
 
+
 def parse_user_params(user_params):
     """
     Parse the user params (-p/--params) and them as a dict.
