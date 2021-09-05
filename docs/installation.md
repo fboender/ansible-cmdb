@@ -57,6 +57,6 @@ For **Other** systems:
 
 Installation from **Git** repository:
 
-    git clone git@github.com:fboender/ansible-cmdb.git
+    git clone https://github.com/fboender/ansible-cmdb.git
     cd ansible-cmdb
 	sudo bash -c ". build.sla && install"
