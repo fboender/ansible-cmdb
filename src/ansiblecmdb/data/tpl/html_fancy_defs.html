@@ -221,11 +221,11 @@
     </style>
     <!-- DataTables assets -->
     % if local_js is False:
-      <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     % else:
-      <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery-1.10.2.min.js"></script>
+      <script src="${res_url}/js/jquery-1.10.2.min.js"></script>
     % endif
-    <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery.dataTables.js"></script>
+    <script src="${res_url}/js/jquery.dataTables.js"></script>
   </head>
   <body>
 </%def>
