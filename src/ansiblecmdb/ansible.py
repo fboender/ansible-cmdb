@@ -7,6 +7,7 @@ import logging
 from . import ihateyaml
 import ansiblecmdb.util as util
 import ansiblecmdb.parser as parser
+from ansiblecmdb.ansiblehosts import AnsibleHosts
 
 
 def strip_exts(s, exts):
@@ -43,9 +44,9 @@ class Ansible(object):
         else:
             self.inventory_paths = inventory_paths
         self.fact_cache = fact_cache  # fact dirs are fact-caches
-        self.limit = self._parse_limit(limit)
         self.debug = debug
-        self.hosts = {}
+        self.hosts = AnsibleHosts()
+        self.hosts.setLimit(limit)
         self.log = logging.getLogger(__name__)
 
         # Process facts gathered by Ansible's setup module of fact caching.
@@ -63,28 +64,6 @@ class Ansible(object):
         # Scan for group vars and apply them
         for inventory_path in self.inventory_paths:
             self._parse_groupvar_dir(inventory_path)
-
-    def _parse_limit(self, limit):
-        """
-        Parse a host / group limit in the form of a string (e.g.
-        'all:!cust.acme') into a dict of things to be included and things to be
-        excluded.
-        """
-        if limit is None:
-            return None
-
-        limit_parsed = {
-            "include": [],
-            "exclude": []
-        }
-        elems = limit.split(":")
-        for elem in elems:
-            if elem.startswith('!'):
-                limit_parsed['exclude'].append(elem[1:])
-            else:
-                limit_parsed['include'].append(elem)
-
-        return limit_parsed
 
     def _handle_inventory(self, inventory_path):
         """
@@ -326,65 +305,25 @@ class Ansible(object):
 
     def update_host(self, hostname, key_values, overwrite=True):
         """
-        Update a hosts information. This is called by various collectors such
-        as the ansible setup module output and the hosts parser to add
-        informatio to a host. It does some deep inspection to make sure nested
-        information can be updated.
+        Let hosts object update itself
         """
-        default_empty_host = {
-            'name': hostname,
-            'hostvars': {},
-        }
-        host_info = self.hosts.get(hostname, default_empty_host)
-        util.deepupdate(host_info, key_values, overwrite=overwrite)
-        self.hosts[hostname] = host_info
+        self.hosts.update_host(hostname, key_values, overwrite)
 
     def hosts_all(self):
         """
-        Return a list of all hostnames.
+        Let the hosts object return all a list of all hostnames 
         """
-        return [hostname for hostname, hostinfo in self.hosts.items()]
+        return self.hosts.hosts_all() 
 
     def hosts_in_group(self, groupname):
         """
-        Return a list of hostnames that are in a group.
+        Let the hosts object return a list of hostnames that are in a group.
         """
-        result = []
-        for hostname, hostinfo in self.hosts.items():
-            if groupname == 'all':
-                result.append(hostname)
-            elif 'groups' in hostinfo:
-                if groupname in hostinfo['groups']:
-                    result.append(hostname)
-            else:
-                hostinfo['groups'] = [groupname]
-        return result
+        return self.hosts.hosts_in_group(groupname)
 
     def get_hosts(self):
         """
         Return a list of parsed hosts info, with the limit applied if required.
+        Limits are applied at runtime on the host object level so just return the object
         """
-        limited_hosts = {}
-        if self.limit is not None:
-            # Find hosts and groups of hosts to include
-            for include in self.limit['include']:
-                # Include whole group
-                for hostname in self.hosts_in_group(include):
-                    limited_hosts[hostname] = self.hosts[hostname]
-                # Include individual host
-                if include in self.hosts:
-                    limited_hosts[include] = self.hosts[include]
-            # Find hosts and groups of hosts to exclude
-            for exclude in self.limit["exclude"]:
-                # Exclude whole group
-                for hostname in self.hosts_in_group(exclude):
-                    if hostname in limited_hosts:
-                        limited_hosts.pop(hostname)
-                # Exclude individual host
-                if exclude in limited_hosts:
-                    limited_hosts.pop(exclude)
-
-            return limited_hosts
-        else:
-            # Return all hosts
-            return self.hosts
+        return self.hosts
