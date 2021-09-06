@@ -69,6 +69,18 @@ class HostParseTestCase(unittest.TestCase):
         self.assertIn('web02.dev.local', ansible.hosts)
         self.assertIn('fe03.dev02.local', ansible.hosts)
 
+    def testIniKeyValueParse(self):
+        """
+        Verify that key=value is parsed correctly in inventory ini files.
+        """
+        fact_dirs = ['f_hostparse/out']
+        inventories = ['f_hostparse/hosts_ini_key_value']
+        ansible = ansiblecmdb.Ansible(fact_dirs, inventories)
+        host_vars = ansible.hosts['db.dev.local']['hostvars']
+        self.assertEqual(host_vars['simple_list'], '["item1", "item2"]')
+        self.assertEqual(host_vars['simple_dict'],
+                         '''{"k1": "v1",    'k2': 'v2'}''')
+
 
 class InventoryTestCase(unittest.TestCase):
     def testHostsDir(self):

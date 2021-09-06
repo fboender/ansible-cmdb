@@ -143,53 +143,53 @@ class HostsParser(object):
         Returns:
             (None, {'purpose': 'web'})
 
-        Undocumented feature:
+        In :vars sections everything to the right of key=value is a string.
+        Comments are removed and leading and trailing spaces are stripped.
             [prod:vars]
-            json_like_vars=[{'name': 'htpasswd_auth'}]
+            json_like_vars = [{'name': 'htpasswd_auth'}]
         Returns:
-            (None, {'name': 'htpasswd_auth'})
+            (None, "[{'name': 'htpasswd_auth'}]")
         """
-
-        name = None
-        key_values = {}
+        line = self.remove_comment_from_line(line)
 
         if type == 'vars':
-            key_values = self._parse_line_vars(line)
-        else:
-            tokens = shlex.split(line.strip())
-            name = tokens.pop(0)
-            try:
-                key_values = self._parse_vars(tokens)
-            except ValueError:
-                self.log.warning("Unsupported vars syntax. Skipping line: {0}".format(line))
-                return (name, {})
-        return (name, key_values)
+            k, v = line.split('=', 1)
+            return None, {k.strip(): v.strip()}
 
-    def _parse_line_vars(self, line):
+        tokens = shlex.split(line)
+        name = tokens.pop(0)
+        try:
+            key_values = self._parse_vars(tokens)
+        except ValueError:
+            self.log.warning("Unsupported vars syntax. Skipping line: {0}", line)
+            return name, {}
+
+        return name, key_values
+
+    # Lightly adapted from https://stackoverflow.com/questions/2319019/using-regex-to-remove-comments-from-source-files
+    def remove_comment_from_line(self, line):
         """
-        Parse a line in a [XXXXX:vars] section.
+        Return the string obtained by removing any # comment from the line,
+        respecting quoted strings.
         """
-        key_values = {}
+        # I don't think this is actually completely correct as quoted
+        # backslashes will probably cause trouble -- consider what
+        # might happen with multiple \', \" and \\ in a line, but it
+        # might be close enough for government work.
+        pattern = r'''(".*?"|'.*?')|(#.*)'''
+        # first group captures quoted strings (double or single)
+        # second group captures comments
+        regex = re.compile(pattern)
 
-        # Undocumented feature allows json in vars sections like so:
-        #   [prod:vars]
-        #   json_like_vars=[{'name': 'htpasswd_auth'}]
-        # We'll try this first. If it fails, we'll fall back to normal var
-        # lines. Since it's undocumented, we just assume some things.
-        k, v = line.strip().split('=', 1)
-        if v.startswith('['):
-            try:
-                list_res = ihateyaml.safe_load(v)
-                if isinstance(list_res[0], dict):
-                    key_values = list_res[0]
-                    return key_values
-            except ValueError:
-                pass
+        def _replacer(match):
+            # if we captured a comment in group 2, remove it
+            # otherwise return the captured quoted string in group 1
+            if match.group(2) is not None:
+                return ''
+            else:
+                return match.group(1)
 
-        # Guess it's not YAML. Parse as normal host variables
-        tokens = shlex.split(line.strip())
-        key_values = self._parse_vars(tokens)
-        return key_values
+        return regex.sub(_replacer, line)
 
     def _parse_vars(self, tokens):
         """
@@ -203,14 +203,8 @@ class HostsParser(object):
         """
         key_values = {}
         for token in tokens:
-            if token.startswith('#'):
-                # End parsing if we encounter a comment, which lasts
-                # until the end of the line.
-                break
-            else:
-                k, v = token.split('=', 1)
-                key = k.strip()
-                key_values[key] = v.strip()
+            k, v = token.split('=', 1)
+            key_values[k.strip()] = v.strip()
         return key_values
 
     def _get_distinct_hostnames(self):
