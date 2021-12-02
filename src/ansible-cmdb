@@ -11,7 +11,7 @@ dbg () {
 
 # Find suitable python binary
 find_py_bin () {
-    which -a python | while read -r TRY_PY_BIN
+    which -a python3 python2 python | while read -r TRY_PY_BIN
     do
         dbg "Trying python bin: $TRY_PY_BIN"
 
