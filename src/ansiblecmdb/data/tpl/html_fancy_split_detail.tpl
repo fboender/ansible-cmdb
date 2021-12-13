@@ -12,8 +12,8 @@ collapsed = to_bool(context.get('collapsed', '0'))
 # Set the Javascript resource URL (local disk or CDN)
 if local_js is False:
   res_url = os.getenv('STATIC_ROOT_URL', "./")
-  jquery_res_uri = os.getenv('STATIC_ROOT_URL', "js/jquery-1.10.2.min.js")
-  dataTable_res_uri = os.getenv('STATIC_ROOT_URL', "js/jquery.dataTables.js")
+  jquery_res_uri = os.getenv('JQUERY_RES_URI', "js/jquery-1.10.2.min.js")
+  dataTable_res_uri = os.getenv('DATATABLE_RES_URI', "js/jquery.dataTables.js")
 else:
   res_url = "."
   jquery_res_uri = "js/jquery-1.10.2.min.js"
