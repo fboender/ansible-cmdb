@@ -34,7 +34,7 @@ if host_details is False:
   link_type = "none"
 %>
 
-<% html_header("Ansible Overview", local_js, res_url) %>
+<% html_header("Ansible Overview", local_js, res_url, jquery_res_uri, dataTable_res_uri) %>
 <% html_header_bar("Host overview") %>
 <% html_col_toggles(cols) %>
 <% html_host_overview(cols, hosts, skip_empty=skip_empty, link_type=link_type) %>
