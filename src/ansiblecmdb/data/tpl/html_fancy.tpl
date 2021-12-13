@@ -1,5 +1,6 @@
 ## -*- coding: utf-8 -*-
 <%! from ansiblecmdb.util import to_bool %>
+<%! import os %>
 
 <%namespace name="defs" file="/html_fancy_defs.html" import="*" />
 
