@@ -274,52 +274,69 @@
   <div id="host_overview">
     <h2>Host overview</h2>
     <div id="host_overview_tbl_wrapper">
-      <button type="button" onclick="exportTableToCSV('servers.csv')">Download CSV</button>
+      <button type="button" onclick="tableToCSV()">download CSV</button>
 
       <!-- javaScript to change table to csv file   DOWN-->
       <script type="text/javascript">
-      function downloadCSV(csv, filename) {
-          var csvFile;
-          var downloadLink;
-
-          // CSV file
-          csvFile = new Blob([csv], {type: "text/csv"});
-
-          // Download link
-          downloadLink = document.createElement("a");
-
-          // File name
-          downloadLink.download = filename;
-
-          // Create a link to the file
-          downloadLink.href = window.URL.createObjectURL(csvFile);
-
-          // Hide download link
-          downloadLink.style.display = "none";
-
-          // Add the link to DOM
-          document.body.appendChild(downloadLink);
-
-          // Click download link
-          downloadLink.click();
-      }
+        function tableToCSV() {
  
-      function exportTableToCSV(filename) {
-          var csv = [];
-          var rows = document.querySelectorAll("table tr");
-          
-          for (var i = 0; i < rows.length; i++) {
-              var row = [], cols = rows[i].querySelectorAll("td, th");
-              
-              for (var j = 0; j < cols.length; j++) 
-                  row.push(cols[j].innerText);
-              
-              csv.push(row.join(","));        
-          }
-
-          // Download CSV file
-          downloadCSV(csv.join("\n"), filename);
-      }
+            // Variable to store the final csv data
+            var csv_data = [];
+ 
+            // Get each row data
+            var rows = document.getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+ 
+                // Get each column data
+                var cols = rows[i].querySelectorAll('td,th');
+ 
+                // Stores each csv row data
+                var csvrow = [];
+                for (var j = 0; j < cols.length; j++) {
+ 
+                    // Get the text data of each cell
+                    // of a row and push it to csvrow
+                    csvrow.push(cols[j].innerHTML);
+                }
+ 
+                // Combine each column value with comma
+                csv_data.push(csvrow.join(","));
+            }
+ 
+            // Combine each row data with new line character
+            csv_data = csv_data.join('\n');
+ 
+            // Call this function to download csv file 
+            downloadCSVFile(csv_data);
+ 
+        }
+ 
+        function downloadCSVFile(csv_data) {
+ 
+            // Create CSV file object and feed
+            // our csv_data into it
+            CSVFile = new Blob([csv_data], {
+                type: "text/csv"
+            });
+ 
+            // Create to temporary link to initiate
+            // download process
+            var temp_link = document.createElement('a');
+ 
+            // Download csv file
+            temp_link.download = "GfG.csv";
+            var url = window.URL.createObjectURL(CSVFile);
+            temp_link.href = url;
+ 
+            // This link should not be displayed
+            temp_link.style.display = "none";
+            document.body.appendChild(temp_link);
+ 
+            // Automatically click the link to
+            // trigger download
+            temp_link.click();
+            document.body.removeChild(temp_link);
+        }
       </script>
       <!-- javaScript to change table to csv file  UP-->
 
