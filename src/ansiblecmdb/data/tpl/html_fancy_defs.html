@@ -235,7 +235,7 @@
 
 <%def name="html_header_bar(title)">
   <header>
-    <h1>${title}</h1>
+    <h1><a href="/">${title}</a></h1>
     <span id="top"><a href="#">Back to top</a></span>
     <span id="clear_settings"><a href="javascript:window.localStorage.clear('columnVisibility'); location.reload();" title="If things are acting weird, press this button">Clear settings</a></span> 
     <span id="generated">Generated on <span class="detail">${datetime.datetime.now().strftime('%c')}</span> by <span class="detail">${getpass.getuser()}</span> @ <span class="detail">${socket.getfqdn()}</span></span>
@@ -274,6 +274,73 @@
   <div id="host_overview">
     <h2>Host overview</h2>
     <div id="host_overview_tbl_wrapper">
+      <button type="button" onclick="tableToCSV()">download CSV</button>
+
+      <!-- javaScript to change table to csv file   DOWN-->
+      <script type="text/javascript">
+        function tableToCSV() {
+ 
+            // Variable to store the final csv data
+            var csv_data = [];
+ 
+            // Get each row data
+            var rows = document.getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+ 
+                // Get each column data
+                var cols = rows[i].querySelectorAll('td,th');
+ 
+                // Stores each csv row data
+                var csvrow = [];
+                for (var j = 0; j < cols.length; j++) {
+ 
+                    // Get the text data of each cell
+                    // of a row and push it to csvrow
+                    csvrow.push(cols[j].innerHTML);
+                }
+ 
+                // Combine each column value with comma
+                csv_data.push(csvrow.join(","));
+            }
+ 
+            // Combine each row data with new line character
+            csv_data = csv_data.join('\n');
+ 
+            // Call this function to download csv file 
+            downloadCSVFile(csv_data);
+ 
+        }
+ 
+        function downloadCSVFile(csv_data) {
+ 
+            // Create CSV file object and feed
+            // our csv_data into it
+            CSVFile = new Blob([csv_data], {
+                type: "text/csv"
+            });
+ 
+            // Create to temporary link to initiate
+            // download process
+            var temp_link = document.createElement('a');
+ 
+            // Download csv file
+            temp_link.download = "GfG.csv";
+            var url = window.URL.createObjectURL(CSVFile);
+            temp_link.href = url;
+ 
+            // This link should not be displayed
+            temp_link.style.display = "none";
+            document.body.appendChild(temp_link);
+ 
+            // Automatically click the link to
+            // trigger download
+            temp_link.click();
+            document.body.removeChild(temp_link);
+        }
+      </script>
+      <!-- javaScript to change table to csv file  UP-->
+
+
       <table id="host_overview_tbl" class="demo display dataTable compact">
       <thead>
         <tr>
@@ -482,6 +549,8 @@
     }
   });
 </%def>
+
+
 
 ##
 ## Column functions
