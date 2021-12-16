@@ -220,6 +220,10 @@
       #hosts table.net_overview td, #hosts table.net_overview th { text-align: left; padding: 0px 0px 8px 16px; margin: 0px; }
       #hosts table.net_overview { margin: 16px 0px 16px 0px; }
       #hosts .error { color: #FF0000; }
+
+      /* my Custom CSS */
+      td { line-height: 1.4; }
+
     </style>
     <!-- DataTables assets -->
     % if local_js is False:
@@ -487,6 +491,18 @@
   });
 </%def>
 
+/* 
+function getQueryParams(qs) {
+    qs = qs.split('+').join(' ');
+    var params = {},
+      tokens,
+      re = /[?&]?([^=]+)=([^&]*)/g;
+    while (tokens = re.exec(qs)) {
+      params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+    return params;
+  }
+*/
 
 // export csv button on click
 <%def name="js_export_to_csv()">
