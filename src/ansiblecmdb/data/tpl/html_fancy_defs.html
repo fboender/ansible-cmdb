@@ -493,19 +493,12 @@
   function downloadCSV(csv, filename) {
     var csvFile;
     var downloadLink;
-    // CSV file
     csvFile = new Blob([csv], {type: "text/csv"});
-    // Download link
     downloadLink = document.createElement("a");
-    // File name
     downloadLink.download = filename;
-    // Create a link to the file
     downloadLink.href = window.URL.createObjectURL(csvFile);
-    // Hide download link
     downloadLink.style.display = "none";
-    // Add the link to DOM
     document.body.appendChild(downloadLink);
-    // Click download link
     downloadLink.click();
   }
 
@@ -518,8 +511,6 @@
             row.push(cols[j].innerText);
         csv.push(row.join(","));        
     }
-
-    // Download CSV file
     downloadCSV(csv.join("\n"), filename);
   }
 
@@ -625,7 +616,7 @@
 <%def name="col_cpu_type(host, **kwargs)">
   <% cpu_type = jsonxs(host, 'ansible_facts.ansible_processor', default=0)%>
   % if isinstance(cpu_type, list) and len(cpu_type) > 0:
-    <a href="http://www.cpubenchmark.net/cpu.php?cpu=${ cpu_type[-1] }">${ cpu_type[-1] }</a>
+    <span>${ cpu_type[-1] }</span>
   % endif
 </%def>
 
@@ -859,7 +850,7 @@
     <tr><th>Virtualization role</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_role',  default='')}</td></tr>
     <tr><th>Virtualization type</th><td>${jsonxs(host, 'ansible_facts.ansible_virtualization_type',  default='')}</td></tr>
     <tr><th>Machine</th><td>${jsonxs(host, 'ansible_facts.ansible_machine',  default='')}</td></tr>
-    <tr><th>Processor type</th><td><a href="http://www.cpubenchmark.net/cpu.php?cpu=${jsonxs(host, 'ansible_facts.ansible_processor[-1]',  default='')}">${jsonxs(host, 'ansible_facts.ansible_processor[-1]',  default='')}</a></td></tr>
+    <tr><th>Processor type</th><td>${jsonxs(host, 'ansible_facts.ansible_processor[-1]',  default='')}</td></tr>
     <tr><th>Processor count</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_count',  default='')}</td></tr>
     <tr><th>Processor cores</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_cores',  default='')}</td></tr>
     <tr><th>Processor threads per core</th><td>${jsonxs(host, 'ansible_facts.ansible_processor_threads_per_core',  default='')}</td></tr>
