@@ -294,14 +294,14 @@
         % for hostname, host in sorted(hosts.items()):
           <% log.debug(u"Rendering host overview for {0}".format(hostname)) %>
           % if skip_empty is False or 'ansible_facts' in host:
-            <tr>\
+            <tr>
               % for col in cols:
                 % if "func" in col:
-                  <td>${col["func"](host, **kwargs)}</td>\
+                  <td>${col["func"](host, **kwargs)}</td>
                 % elif "jsonxs" in col:
-                  <td>${col__cust_jsonxs(host, col=col, **kwargs)}</td>\
+                  <td>${col__cust_jsonxs(host, col=col, **kwargs)}</td>
                 % elif "tpl" in col:
-                  <td>${col__cust_tpl(host, col=col, **kwargs)}</td>\
+                  <td>${col__cust_tpl(host, col=col, **kwargs)}</td>
                 % endif
               % endfor
             </tr>
@@ -523,13 +523,22 @@ function getQueryParams(qs) {
     var rows = document.querySelectorAll("table tr");
     for (var i = 0; i < rows.length; i++) {
         var row = [], cols = rows[i].querySelectorAll("td, th");
-        for (var j = 0; j < cols.length; j++) 
-            row.push(cols[j].innerText);
+        for (var j = 0; j < cols.length; j++) {
+            var concatenate_lines = '';
+            var lines = cols[j].querySelectorAll("ul li");
+            if(lines.length > 1){
+                for (var k = 0; k < lines.length; k++)
+                    concatenate_lines += ' ' + lines[k].innerText + ';';
+            } else{
+                concatenate_lines += ' ' + cols[j].innerText;
+            }
+            row.push(concatenate_lines);
+        }
         csv.push(row.join(","));        
     }
     downloadCSV(csv.join("\n"), filename);
   }
-
+  
 </%def>
 
 
@@ -558,16 +567,16 @@ function getQueryParams(qs) {
     elem_class = "error"
   %>
   % if link_type == "anchor":
-    <a href="#${jsonxs(host, 'name')}" class="${elem_class}">${jsonxs(host, "name")}</a>
+    <span><a href="#${jsonxs(host, 'name')}" class="${elem_class}">${jsonxs(host, "name")}</a></span>
   % elif link_type == "external":
-    <a href="${jsonxs(host, 'name')}.html" class="${elem_class}">${jsonxs(host, 'name')}</a>
+    <span><a href="${jsonxs(host, 'name')}.html" class="${elem_class}">${jsonxs(host, 'name')}</a></span>
   % else:
     ${jsonxs(host, "name")}
   % endif
 </%def>
 
 <%def name="col_dtap(host, **kwargs)">
-  ${jsonxs(host, 'hostvars.dtap', default='')}
+  <span>${jsonxs(host, 'hostvars.dtap', default='')}</span>
 </%def>
 
 <%def name="col_groups(host, **kwargs)">
