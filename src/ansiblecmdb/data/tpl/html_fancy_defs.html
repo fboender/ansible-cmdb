@@ -150,7 +150,8 @@
       table { border-collapse: collapse; border-spacing: 0; }
 
       /* ansible-cmdb */
-      *, body { font-family: sans-serif; font-weight: lighter; }
+      /* *, body { font-family: sans-serif; font-weight: lighter; } */
+      *, body { font-family: 'Brush Script MT', cursive; font-weight: lighter; }
       a { text-decoration: none; }
       b { font-weight: bold; }
       p { margin-bottom: 1em; }
@@ -246,6 +247,7 @@
 <%def name="html_footer_bar(version)">
   <footer>
     <p>Edited by <a href="https://github.com/miladpav/ansible-cmdb">ansible-cmdb</a> v${version} &dash; &copy; Milad PourAllahverdi 2021</p>
+    <p>Main Project <a href="https://github.com/fboender/ansible-cmdb">ansible-cmdb</a>&dash; &copy; Ferry Boender 2017</p>
   </footer>
 </%def>
 
@@ -583,7 +585,7 @@
     else:
       default_ipv4 = jsonxs(host, 'ansible_facts.ansible_default_ipv4.address', default='')
   %>
-  ${default_ipv4}
+  <span>${default_ipv4.strip()}</span>
 </%def>
 
 <%def name="col_all_ip4(host, **kwargs)">
