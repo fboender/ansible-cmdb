@@ -538,7 +538,7 @@ function getQueryParams(qs) {
     }
     downloadCSV(csv.join("\n"), filename);
   }
-  
+
 </%def>
 
 
@@ -702,6 +702,7 @@ function getQueryParams(qs) {
 </%def>
 
 <%def name="col_disk_usage(host, **kwargs)">
+  <ul>
   % for i in jsonxs(host, 'ansible_facts.ansible_mounts', default=[]):
     % try:
       <%
@@ -717,12 +718,14 @@ function getQueryParams(qs) {
           detail_total = 0
       %>
       ## hidden sort helper
-      <span style="display:none">${sort_used}</span>
-      <div class="bar">
-        <span class="prog_bar_full" style="width:100px">
-          <span class="prog_bar_used" style="width:${used}px"></span>
-        </span> ${i['mount']} <span class="usage_detail">(${detail_used} / ${detail_total} GiB)</span>
-      </div>
+      <li>
+        <span style="display:none">${sort_used}</span>
+        <div class="bar">
+          <span class="prog_bar_full" style="width:100px">
+            <span class="prog_bar_used" style="width:${used}px"></span>
+          </span> ${i['mount']} <span class="usage_detail">(${detail_used} / ${detail_total} GiB)</span>
+        </div>
+      </li>
     % except:
       n/a
       <%
@@ -730,13 +733,16 @@ function getQueryParams(qs) {
       %>
     % endtry
   % endfor
+  </ul>
 </%def>
 
 <%def name="col_physdisk_sizes(host, **kwargs)">
   % try:
+    <ul>
     % for physdisk_name, physdisk_info in jsonxs(host, 'ansible_facts.ansible_devices', default={}).items():
-      ${physdisk_name}: ${jsonxs(physdisk_info, 'size', default='')}<br />
+      <li>${physdisk_name}: ${jsonxs(physdisk_info, 'size', default='')}</li>
     % endfor
+    </ul>
   % except AttributeError:
   % endtry
 </%def>
