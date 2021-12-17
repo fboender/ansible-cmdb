@@ -611,7 +611,11 @@ function getQueryParams(qs) {
     else:
       ipv4_addresses = jsonxs(host, 'ansible_facts.ansible_all_ipv4_addresses', default=[])
   %>
-  ${'<br>'.join(ipv4_addresses)}
+  <ul>
+  % for address in ipv4_addresses:
+    <li>${address}</li>
+  % endfor
+  </ul>
 </%def>
 
 <%def name="col_all_ip6(host, **kwargs)">
