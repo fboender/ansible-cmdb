@@ -43,7 +43,12 @@ $(document).ready( function () {
   <% js_init_host_overview(cols) %>
   <% js_ev_collapse() %>
 });
-<% loading_on_page() %>
 <% js_export_to_csv() %>
+  //paste this code under the head tag or in a separate js file.
+  // Wait for window load
+  $(window).load(function() {
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");;
+  });
 </script>
 <% html_footer() %>
