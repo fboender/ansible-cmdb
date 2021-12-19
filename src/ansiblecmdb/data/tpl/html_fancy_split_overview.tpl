@@ -43,6 +43,7 @@ $(document).ready( function () {
   <% js_init_host_overview(cols) %>
   <% js_ev_collapse() %>
 });
+<% loading_on_page() %>
 <% js_export_to_csv() %>
 </script>
 <% html_footer() %>

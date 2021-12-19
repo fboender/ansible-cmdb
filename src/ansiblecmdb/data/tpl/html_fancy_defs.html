@@ -221,21 +221,37 @@
       #hosts .error { color: #FF0000; }
 
       /* my Custom CSS */
+      /* Paste this css to your style sheet file or under head tag */
+      /* This only works with JavaScript,
+      if it's not present, don't show loader */
+      .no-js #loader { display: none;  }
+      .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+      .se-pre-con {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url(${res_url}/images/Loading.gif) center no-repeat #fff;
+      }
+      
       td { line-height: 1.4; }
+      
+      <link rel="stylesheet" href="${res_url}/js/jquery.dataTables.css">
 
     </style>
     <!-- DataTables assets -->
     % if local_js is False:
       <script type="text/javascript" charset="utf8" src="${res_url}/${jquery_res_uri}"></script>
-      {# <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery-1.10.2.min.js"></script> #}
     % else:
       <script type="text/javascript" charset="utf8" src="${res_url}/${jquery_res_uri}"></script>
-      {# <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery-1.10.2.min.js"></script> #}
     % endif
     <script type="text/javascript" charset="utf8" src="${res_url}/${dataTable_res_uri}"></script>
-    {# <script type="text/javascript" charset="utf8" src="${res_url}/js/jquery.dataTables.js"></script> #}
+    <script type="text/javascript" charset="utf8" src="${res_url}/js/modernizr.js"></script>
   </head>
-  <body>  
+  <body>
+    <div class="se-pre-con"></div>
 </%def>
 
 <%def name="html_header_bar(title)">
@@ -490,18 +506,6 @@
   });
 </%def>
 
-/* 
-function getQueryParams(qs) {
-    qs = qs.split('+').join(' ');
-    var params = {},
-      tokens,
-      re = /[?&]?([^=]+)=([^&]*)/g;
-    while (tokens = re.exec(qs)) {
-      params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-    }
-    return params;
-  }
-*/
 
 // export csv button on click
 <%def name="js_export_to_csv()">
@@ -539,6 +543,15 @@ function getQueryParams(qs) {
   }
 
 </%def>
+
+<%def name="loading_on_page()">
+  //paste this code under the head tag or in a separate js file.
+  // Wait for window load
+  $(window).load(function() {
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");;
+  });
+<%def>
 
 
 ##
