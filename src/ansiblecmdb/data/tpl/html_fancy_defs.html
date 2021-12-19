@@ -151,7 +151,6 @@
 
       /* ansible-cmdb */
       *, body { font-family: sans-serif; font-weight: lighter; }
-      /* *, body { font-family: 'Brush Script MT', cursive; font-weight: lighter; } */
       a { text-decoration: none; }
       b { font-weight: bold; }
       p { margin-bottom: 1em; }
@@ -569,7 +568,7 @@ function getQueryParams(qs) {
   % if link_type == "anchor":
     <span><a href="#${jsonxs(host, 'name')}" class="${elem_class}">${jsonxs(host, "name")}</a></span>
   % elif link_type == "external":
-    <span><a href="${jsonxs(host, 'name')}.html" class="${elem_class}">${jsonxs(host, 'name')}</a></span>
+    <span><a href="/cmdb/${jsonxs(host, 'name')}.html" class="${elem_class}">${jsonxs(host, 'name')}</a></span>
   % else:
     ${jsonxs(host, "name")}
   % endif
