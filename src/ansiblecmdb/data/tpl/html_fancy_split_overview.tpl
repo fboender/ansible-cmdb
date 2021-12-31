@@ -1,5 +1,6 @@
 ## -*- coding: utf-8 -*-
 <%! from ansiblecmdb.util import to_bool %>
+<%! import os %>
 
 <%namespace name="defs" file="/html_fancy_defs.html" import="*" />
 
@@ -18,9 +19,13 @@ cols.extend(cust_cols)
 
 # Set the Javascript resource URL (local disk or CDN)
 if local_js is False:
-  res_url = "https://cdn.datatables.net/1.10.2/"
+  res_url = os.getenv('STATIC_ROOT_URL', ".")
+  jquery_res_uri = os.getenv('JQUERY_RES_URI', "js/jquery-1.10.2.min.js")
+  dataTable_res_uri = os.getenv('DATATABLE_RES_URI', "js/jquery.dataTables.js")
 else:
-  res_url = "file://" + data_dir + "/static/"
+  res_url = "."
+  jquery_res_uri = "js/jquery-1.10.2.min.js"
+  dataTable_res_uri = "js/jquery.dataTables.js"
 
 # Set the link type for the host overview table's 'host' column (the link that
 # takes you to the host details).
@@ -29,7 +34,7 @@ if host_details is False:
   link_type = "none"
 %>
 
-<% html_header("Ansible Overview", local_js, res_url) %>
+<% html_header("Ansible Overview", local_js, res_url, jquery_res_uri, dataTable_res_uri) %>
 <% html_header_bar("Host overview") %>
 <% html_col_toggles(cols) %>
 <% html_host_overview(cols, hosts, skip_empty=skip_empty, link_type=link_type) %>
@@ -38,5 +43,12 @@ $(document).ready( function () {
   <% js_init_host_overview(cols) %>
   <% js_ev_collapse() %>
 });
+<% js_export_to_csv() %>
+  //paste this code under the head tag or in a separate js file.
+  // Wait for window load
+  $(window).load(function() {
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");;
+  });
 </script>
 <% html_footer() %>
