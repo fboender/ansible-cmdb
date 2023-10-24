@@ -40,6 +40,7 @@ setup(
     install_requires=['mako', 'pyyaml', 'ushlex', 'jsonxs'],
     scripts=[
         'src/ansible-cmdb',
+        'src/ansible-cmdb.py'
     ],
 
     classifiers=[
