@@ -1,25 +1,12 @@
 #!/usr/bin/env python
 import os
 import sys
-import re
-from distutils.core import setup
-from setuptools import find_packages
+from setuptools import setup, find_namespace_packages
 
 def get_long_description():
     path = os.path.join(os.path.dirname(__file__), 'README.md')
     with open(path) as f:
         return f.read()
-
-def get_version():
-    return open('src/ansiblecmdb/data/VERSION', 'r').read().strip()
-
-def get_data_files(path, strip='', prefix=''):
-    data_files = []
-    for dirpath, dirnames, filenames in os.walk(path):
-        files = [os.path.join(dirpath, filename) for filename in filenames]
-        data_files.append( [prefix + dirpath[len(strip):], files] )
-    return data_files
-
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -30,7 +17,8 @@ if sys.argv[-1] == 'publish':
 
 setup(
     name='ansible-cmdb',
-    version=get_version(),
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     license='GPLv3',
     description='Generate host overview from ansible fact gathering output',
     long_description=get_long_description(),
@@ -40,19 +28,19 @@ setup(
     author_email='ferry.boender@electricmonk.nl',
 
     package_dir={'': 'src'},
-    packages=find_packages('src'),
+    packages=find_namespace_packages('src'),
+    package_data={
+        'ansiblecmdb.data': ['*.*'],
+        'ansiblecmdb.data.static.images': ['*.*'],
+        'ansiblecmdb.data.static.js': ['*.*'],
+        'ansiblecmdb.data.tpl': ['*.*']
+    },
     include_package_data=True,
-    data_files=\
-        get_data_files(
-            'src/ansiblecmdb/data',
-            strip='src',
-            prefix='lib'
-        ) +
-        [['lib/ansiblecmdb/', ['src/ansible-cmdb.py']]],
     zip_safe=False,
     install_requires=['mako', 'pyyaml', 'ushlex', 'jsonxs'],
     scripts=[
         'src/ansible-cmdb',
+        'src/ansible-cmdb.py'
     ],
 
     classifiers=[
