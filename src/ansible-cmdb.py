@@ -20,6 +20,11 @@ from mako import exceptions
 import ansiblecmdb
 import ansiblecmdb.util as util
 import ansiblecmdb.render as render
+try:
+    from importlib.metadata import version
+except ImportError:
+    # Backport for Python < 3.8
+    from importlib_metadata import version
 
 
 # Verify Python version
@@ -145,7 +150,7 @@ if __name__ == "__main__":
     data_dir = get_data_dir()
     tpl_dir = os.path.join(data_dir, 'tpl')
     static_dir = os.path.join(data_dir, 'static')
-    version = open(os.path.join(data_dir, 'VERSION')).read().strip()
+    version = version("ansible-cmdb")
 
     parser = optparse.OptionParser(version="%prog v{0}".format(version))
     parser.set_usage(os.path.basename(sys.argv[0]) + " [option] <dir> > output.html")
